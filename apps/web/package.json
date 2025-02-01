@@ -1,0 +1,40 @@
+{
+  "name": "web",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vinxi dev --host",
+    "build": "vinxi build",
+    "start": "vinxi start",
+    "version": "vinxi version"
+  },
+  "dependencies": {
+    "@solid-primitives/intersection-observer": "^2.1.6",
+    "@solid-primitives/resize-observer": "^2.0.26",
+    "@solidjs/meta": "^0.29.4",
+    "@solidjs/router": "^0.15.1",
+    "@solidjs/start": "^1.0.10",
+    "classix": "^2.2.0",
+    "gsap": "npm:@gsap/shockingly@^3.12.7",
+    "lenis": "^1.1.18",
+    "lil-gui": "^0.20.0",
+    "solid-js": "^1.9.3",
+    "three": "^0.171.0",
+    "troika-three-text": "^0.52.2",
+    "troika-three-utils": "^0.52.0",
+    "vinxi": "^0.5.1",
+    "vite-plugin-glsl": "^1.3.1",
+    "vite-plugin-solid-svg": "^0.8.1"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.6.9",
+    "tailwindcss": "^3.4.16"
+  }
+}

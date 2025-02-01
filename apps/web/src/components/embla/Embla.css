@@ -1,0 +1,19 @@
+.embla {
+  overflow: hidden;
+}
+
+.embla__container {
+  display: flex;
+}
+
+.embla__container:hover {
+  cursor: grab;
+}
+
+.embla__container:active {
+  cursor: grabbing;
+}
+
+.embla__container > * {
+  min-width: 0;
+}

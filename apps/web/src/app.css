@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  overscroll-behavior: none;
+  /* touch-action: none; */
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+}
+
+html,
+body,
+p,
+h1,
+h2,
+h3,
+h4 {
+  user-select: none; /* supported by Chrome and Opera */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+/* basic fluid type */
+
+[data-selectable] {
+  user-select: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+* {
+  @apply box-border;
+}
+
+html {
+  --fluid-width: 1920;
+  font-size: clamp(12px, calc(((22 / var(--fluid-width)) * 100) * 1vw), 16px);
+}
+
+body {
+  @apply font-sans text-base text-white bg-black;
+}
+
+.flex-center {
+  @apply flex items-center justify-center;
+}
+
+.contain {
+  @apply mx-auto;
+  max-width: var(--max-w);
+}
+
+@layer components {
+  main {
+    @apply: min-h-screen;
+  }
+}

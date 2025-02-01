@@ -1,0 +1,7 @@
+/* [data-split] > * {
+  outline: 3px solid blue;
+}
+
+[data-split] > * > div {
+  outline: 1px solid red;
+} */

@@ -1,0 +1,52 @@
+/* -- corner borders */
+[corner-border] {
+  --border-size: 10px;
+  --border-color: #fff;
+
+  position: relative;
+}
+
+[corner-border]::before,
+[corner-border]::after {
+  content: "";
+  position: absolute;
+  width: var(--border-size); /* Width of the corner lines */
+  height: var(--border-size); /* Height of the corner lines */
+  border-color: var(--border-color); /* Color of the border */
+  border-style: solid;
+}
+
+[corner-border]::before {
+  top: 0;
+  left: 0;
+  border-width: 1px 0 0 1px;
+}
+
+[corner-border]::after {
+  bottom: 0;
+  right: 0;
+  border-width: 0 1px 1px 0;
+}
+
+/* Additional pseudo-elements for the other two corners */
+[corner-border] > ::before,
+[corner-border] > ::after {
+  content: "";
+  position: absolute;
+  width: var(--border-size);
+  height: var(--border-size);
+  border-color: var(--border-color);
+  border-style: solid;
+}
+
+[corner-border] > ::before {
+  top: 0;
+  right: 0;
+  border-width: 1px 1px 0 0;
+}
+
+[corner-border] > ::after {
+  bottom: 0;
+  left: 0;
+  border-width: 0 0 1px 1px;
+}

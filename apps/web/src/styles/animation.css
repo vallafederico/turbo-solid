@@ -1,0 +1,82 @@
+:root {
+  /* easings */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  --expo-out: cubic-bezier(0.19, 1, 0.22, 1);
+  --expo-in: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  --expo-in-out: cubic-bezier(1, 0, 0, 1);
+
+  /* durations */
+  --duration-short: 800ms;
+  --duration-medium: 1s;
+  --duration-long: 1.3s;
+  --duration-back: 400ms;
+}
+
+/* ----- Animations */
+
+/* HOVER-UNDERLINE */
+/* 
+  <p use:animateAlpha animate-hover="underline" 
+    style="--underline-color: #f00; --spacing: .2rem; --height: 1px">
+    Anything in here
+  </p>
+*/
+
+[animate-hover="underline"] {
+  --underline-color: #fff;
+  --spacing: 0.1rem;
+  --height: 1px;
+
+  position: relative;
+  cursor: pointer;
+}
+
+[animate-hover="underline"]::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--height);
+  background-color: var(--underline-color);
+  transform: scaleX(0) translateY(var(--spacing));
+
+  transform-origin: left;
+  transition: transform var(--duration-back) var(--ease-out);
+}
+
+[animate-hover="underline"]:hover::before {
+  transform: scaleX(1) translateY(var(--spacing));
+  transition: transform var(--duration-short) var(--ease-out);
+}
+
+[animate-hover="underline"] {
+  --underline-color: #fff;
+  --spacing: 0.2rem;
+  --height: 1px;
+
+  position: relative;
+  cursor: pointer;
+}
+
+[animate-hover="underline"]::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: var(--height);
+  background-color: var(--underline-color);
+  transform: scaleX(0) translateY(var(--spacing));
+
+  transform-origin: left;
+  transition: transform var(--duration-back) var(--ease-out);
+}
+
+[animate-hover="underline"]:hover::before {
+  transform: scaleX(1) translateY(var(--spacing));
+  transition: transform var(--duration-short) var(--ease-out);
+}

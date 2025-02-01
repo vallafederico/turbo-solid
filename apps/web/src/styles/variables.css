@@ -1,0 +1,46 @@
+:root {
+  /* general */
+
+  --gx: clamp(1rem, 3vw, 10rem);
+  --gy: 5vh;
+  --max-w: 1920px;
+
+  /* spacing */
+  --xs: 4px;
+  --sm: 2rem;
+  --md: 4rem;
+  --lg: 8rem;
+  --xl: 16rem;
+  --xxl: 32rem;
+
+  /* text */
+  --text-base: 1rem;
+  --text-xs: 0.6rem;
+  --text-sm: 0.8rem;
+  --text-md: 1.2rem;
+  --text-lg: 1.8rem;
+  --text-xl: 2.4rem;
+  --text-xxl: 3rem;
+
+  /* colors */
+  /* ... */
+}
+
+/* breakpoints 
+   screens: {
+      'sm': '640px',
+      // => @media (min-width: 640px) { ... }
+
+      'md': '768px',
+      // => @media (min-width: 768px) { ... }
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1280px',
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': '1536px',
+      // => @media (min-width: 1536px) { ... }
+    }
+*/

@@ -1,0 +1,88 @@
+/* ---- Screen Reader Utils */
+
+[sr-only]:not(:focus):not(:active) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---- Input Fields States */
+
+.input-field {
+  transition: all 0.3s ease;
+}
+
+.input-field:hover {
+  border-color: #999;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+.input-field:disabled {
+  background-color: #f8f8f8;
+  border-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.input-field:read-only {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+  color: #666;
+}
+
+.input-field:valid {
+  border-color: #28a745;
+}
+
+.input-field:invalid {
+  border-color: #dc3545;
+}
+
+.input-field::placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.input-field::-webkit-input-placeholder {
+  color: #999;
+}
+
+.input-field:-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+.input-field::-moz-placeholder {
+  color: #999;
+  opacity: 1;
+}
+
+/* Internet Explorer 10+ */
+.input-field:-ms-input-placeholder {
+  color: #999;
+}
+
+/* Microsoft Edge */
+.input-field::-ms-input-placeholder {
+  color: #999;
+}
+
+/* Autofill styles */
+.input-field:-webkit-autofill,
+.input-field:-webkit-autofill:hover,
+.input-field:-webkit-autofill:focus {
+  -webkit-text-fill-color: #333;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+  transition: background-color 5000s ease-in-out 0s;
+}

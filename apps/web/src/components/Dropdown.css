@@ -1,0 +1,38 @@
+[data-dropdown="wrapper"] {
+  --duration: 0.4s;
+  --ease: ease-out;
+}
+
+[data-dropdown="wrapper"] input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+
+[data-dropdown="content"] {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--duration) var(--ease);
+}
+
+[data-dropdown="content"] > div {
+  overflow: hidden;
+}
+
+/* functionality */
+[data-dropdown="wrapper"]:has(input:checked) [data-dropdown="content"] {
+  grid-template-rows: 1fr;
+}
+
+/* animation */
+[data-dropdown="wrapper"] [data-dropdown="icon"] > * {
+  transform: rotate(0deg);
+  transition: transform var(--duration) var(--ease);
+}
+
+[data-dropdown="wrapper"]:has(input:checked) [data-dropdown="icon"] > * {
+  transform: rotate(180deg);
+}
