@@ -6,7 +6,6 @@ import { Gl } from "./gl/gl";
 // (*) restructure in a smarter way
 export class Scroll {
   static subscribers = [];
-  static wrapper;
 
   static {
     if (isClient) {
@@ -15,9 +14,6 @@ export class Scroll {
   }
 
   // attach scroll to wrapper
-  static set wrapper(el) {
-    this.wrapper = el;
-  }
 
   static subscribe(sub, id) {
     if (!this.subscribers.find(({ id: _id }) => _id === id))
