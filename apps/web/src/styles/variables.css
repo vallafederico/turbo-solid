@@ -2,7 +2,6 @@
   /* general */
 
   --gx: 2rem;
-
   --gy: 5vh;
 
   --max-w: 1920px;
@@ -56,6 +55,6 @@
   :root {
     --gx: 1rem;
     --gutter: 0.5rem;
-    --columns: 4;
+    --columns: 6;
   }
 }

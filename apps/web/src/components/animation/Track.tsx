@@ -41,6 +41,7 @@ export default function Track({
       {
         top: "center",
         bottom: "center",
+        // lerp: 0.1,
       },
     );
   };

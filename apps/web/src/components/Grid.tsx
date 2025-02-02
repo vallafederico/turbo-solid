@@ -38,7 +38,6 @@ export default function Grid({}) {
 
     if (e.key === "G") {
       setVisible(!visible());
-      // set to localstorage
       localStorage.setItem("grid", visible().toString());
     }
   };
