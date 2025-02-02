@@ -3,6 +3,7 @@ import {
   MdError,
   MdHome,
   MdLocalAirport,
+  MdPages,
   MdPeople,
   MdSearch,
   MdSettings,
@@ -41,6 +42,7 @@ export const structure = (S: StructureBuilder, context: StructureContext) => {
     .items([
       // folder('Pages', MdPages, [
       singlePage('Home', 'home', MdHome),
+      pageList('Pages', 'page', MdPages),
       div(),
       singlePage('SEO', 'settings.seo', MdSearch),
 
