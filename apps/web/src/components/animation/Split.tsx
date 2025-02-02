@@ -18,7 +18,10 @@ export default function Split({
 
   onMount(() => {
     if (!item) return;
-    splitText = new SplitText(item, { type: type });
+    splitText = new SplitText(item, {
+      type: "words," + type,
+      wordsClass: "split-w",
+    });
     let animateIn: GSAPAnimation;
 
     gsap.set(item, {
@@ -65,11 +68,7 @@ export default function Split({
   });
 
   return (
-    <div
-      data-split
-      class={cx("invisible overflow-hidden", className)}
-      ref={item}
-    >
+    <div data-split class={cx("invisible", className)} ref={item}>
       {children}
     </div>
   );

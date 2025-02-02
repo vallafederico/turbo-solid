@@ -15,16 +15,15 @@
   --duration-back: 400ms;
 }
 
+/* ----- Utilities */
+/* Split Text */
+.split-w {
+  overflow: hidden;
+}
+
 /* ----- Animations */
 
 /* HOVER-UNDERLINE */
-/* 
-  <p use:animateAlpha animate-hover="underline" 
-    style="--underline-color: #f00; --spacing: .2rem; --height: 1px">
-    Anything in here
-  </p>
-*/
-
 [animate-hover="underline"] {
   --underline-color: #fff;
   --spacing: 0.1rem;
