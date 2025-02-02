@@ -10,11 +10,13 @@
       ) /
       var(--grid-columns)
   );
+
+  /* (*) FIND A CLAMPING VALUE TO AUTOMATICALLY HANDLE LARGER THAN POSSIBLE GRIDS ON */
+  /* --clamping: */
 }
 
 @theme {
   /* SPACING */
-
   --spacing-grid-1: calc(var(--grid-column-width) * 1 + var(--grid-gutter) * 1);
   --spacing-grid-2: calc(var(--grid-column-width) * 2 + var(--grid-gutter) * 2);
   --spacing-grid-3: calc(var(--grid-column-width) * 3 + var(--grid-gutter) * 3);
@@ -35,7 +37,9 @@
   );
 
   /* SIZES */
-  --size-grids-1: calc(var(--grid-column-width) * 1 + var(--grid-gutter) * 0);
+  --spacing-grids-1: calc(
+    var(--grid-column-width) * 1 + var(--grid-gutter) * 0
+  );
   --spacing-grids-2: calc(
     var(--grid-column-width) * 2 + var(--grid-gutter) * 1
   );
@@ -45,26 +49,25 @@
   --spacing-grids-4: calc(
     var(--grid-column-width) * 4 + var(--grid-gutter) * 3
   );
-  --size-grids-5: calc(var(--grid-column-width) * 5 + var(--grid-gutter) * 4);
-  --size-grids-6: calc(var(--grid-column-width) * 6 + var(--grid-gutter) * 5);
-  --size-grids-7: calc(var(--grid-column-width) * 7 + var(--grid-gutter) * 6);
-  --size-grids-8: calc(var(--grid-column-width) * 8 + var(--grid-gutter) * 7);
-  --size-grids-9: calc(var(--grid-column-width) * 9 + var(--grid-gutter) * 8);
-  --size-grids-10: calc(var(--grid-column-width) * 10 + var(--grid-gutter) * 9);
-  --size-grids-11: calc(
+  --spacing-grids-5: calc(
+    var(--grid-column-width) * 5 + var(--grid-gutter) * 4
+  );
+  --spacing-grids-6: calc(
+    var(--grid-column-width) * 6 + var(--grid-gutter) * 5
+  );
+  --spacing-grids-7: calc(
+    var(--grid-column-width) * 7 + var(--grid-gutter) * 6
+  );
+  --spacing-grids-8: calc(
+    var(--grid-column-width) * 8 + var(--grid-gutter) * 7
+  );
+  --spacing-grids-9: calc(
+    var(--grid-column-width) * 9 + var(--grid-gutter) * 8
+  );
+  --spacing-grids-10: calc(
+    var(--grid-column-width) * 10 + var(--grid-gutter) * 9
+  );
+  --spacing-grids-11: calc(
     var(--grid-column-width) * 11 + var(--grid-gutter) * 10
   );
 }
-
-/* Responsive variants */
-/* @media (min-width: 768px) {
-  :root {
-    --grid-gutter: var(--spacing-gutter);
-  }
-}
-
-@media (min-width: 1024px) {
-  :root {
-    --grid-gutter: var(--spacing-gutter);
-  }
-} */

@@ -55,7 +55,7 @@
 @media (max-width: 768px) {
   :root {
     --gx: 1rem;
-    --gutter: 0.1rem;
+    --gutter: 0.5rem;
     --columns: 4;
   }
 }
