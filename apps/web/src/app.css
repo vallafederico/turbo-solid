@@ -9,6 +9,8 @@
 
 @import "tailwindcss";
 
+@import "./styles/grid.css";
+
 @theme {
   --font-*: initial;
   --font-sans: soh, sans-serif;
@@ -49,7 +51,8 @@
   --spacing-xl: var(--xl);
   --spacing-xxl: var(--xxl);
   --spacing-navh: var(--navh);
-  --spacing-gutter: 1rem;
+
+  --spacing-gutter: var(--gutter);
 
   --aspect-5\/7: 5/7;
 }

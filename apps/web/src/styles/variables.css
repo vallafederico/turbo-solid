@@ -1,9 +1,13 @@
 :root {
   /* general */
 
-  --gx: clamp(1rem, 3vw, 10rem);
+  --gx: 2rem;
+
   --gy: 5vh;
+
   --max-w: 1920px;
+  --gutter: 1rem;
+  --columns: 12;
 
   /* spacing */
   --xs: 4px;
@@ -47,3 +51,11 @@
       // => @media (min-width: 1536px) { ... }
     }
 */
+
+@media (max-width: 768px) {
+  :root {
+    --gx: 1rem;
+    --gutter: 0.1rem;
+    --columns: 4;
+  }
+}
