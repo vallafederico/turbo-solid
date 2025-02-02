@@ -4,13 +4,17 @@ import { onIntersect, onPageLeave } from "~/animation/";
 export const animateAlpha = (self: HTMLElement) => {
   let viewAnimation: GSAPAnimation;
 
+  gsap.set(self, {
+    autoAlpha: 0,
+  });
+
   onIntersect(self, {
     onEnter: () => {
       viewAnimation = gsap.to(self, {
         autoAlpha: 1,
         duration: A.page.in.duration * 0.6,
         ease: "linear",
-        delay: 0.3,
+        delay: 0.1,
       });
     },
     onLeave: () => {
