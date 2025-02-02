@@ -1,12 +1,76 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "./styles/variables.css";
+@import "./styles/typography.css";
+
+@import "./styles/animation.css";
+@import "./styles/accessibility.css";
+@import "./styles/utils.css";
+
+@import "./styles/main.css";
+
+@import "tailwindcss";
+
+@theme {
+  --font-*: initial;
+  --font-sans: soh, sans-serif;
+
+  --text-base-0: var(--text-base);
+  --text-base-1: 1.2;
+  --text-base-length: 2;
+
+  --text-xs-0: var(--text-xs);
+  --text-xs-1: 1.2;
+  --text-xs-length: 2;
+
+  --text-sm-0: var(--text-sm);
+  --text-sm-1: 1.2;
+  --text-sm-length: 2;
+
+  --text-md-0: var(--text-md);
+  --text-md-1: 1.2;
+  --text-md-length: 2;
+
+  --text-lg-0: var(--text-lg);
+  --text-lg-1: 1;
+  --text-lg-length: 2;
+
+  --text-xl-0: var(--text-xl);
+  --text-xl-1: 1;
+  --text-xl-length: 2;
+
+  --text-xxl-0: var(--text-xxl);
+  --text-xxl-1: 0.9;
+  --text-xxl-length: 2;
+
+  --spacing-gx: var(--gx);
+  --spacing-gy: var(--gy);
+  --spacing-sm: var(--sm);
+  --spacing-md: var(--md);
+  --spacing-lg: var(--lg);
+  --spacing-xl: var(--xl);
+  --spacing-xxl: var(--xxl);
+  --spacing-navh: var(--navh);
+  --spacing-gutter: 1rem;
+
+  --aspect-5\/7: 5/7;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
 
 html,
 body {
   overscroll-behavior: none;
-  /* touch-action: none; */
-
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-smooth: never;
@@ -26,8 +90,6 @@ h4 {
   -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
-/* basic fluid type */
-
 [data-selectable] {
   user-select: text;
   -webkit-user-select: text;
@@ -36,30 +98,39 @@ h4 {
   -ms-user-select: text;
 }
 
-* {
-  @apply box-border;
+/* make images not draggable */
+img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
 }
 
+/* basic fluid type */
 html {
   --fluid-width: 1920;
   font-size: clamp(12px, calc(((22 / var(--fluid-width)) * 100) * 1vw), 16px);
 }
 
+/* main styles */
 body {
   @apply font-sans text-base text-white bg-black;
 }
 
-.flex-center {
-  @apply flex items-center justify-center;
+main {
+  min-height: 100svh;
 }
 
-.contain {
-  @apply mx-auto;
-  max-width: var(--max-w);
-}
+/* utilities */
+@layer utilities {
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-@layer components {
-  main {
-    @apply: min-h-screen;
+  .contain {
+    @apply mx-auto;
+    max-width: var(--max-w);
   }
 }
