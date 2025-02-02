@@ -1,5 +1,0 @@
-strict-store-pkg-content-check=false
-//npm.greensock.com/:_authToken=AUTH_TOKEN
-@gsap:registry=https://npm.greensock.com
-
-# auto-install-peers=true
