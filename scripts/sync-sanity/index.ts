@@ -1,2 +1,2 @@
-console.log("Sanity sync open 2");
+console.log("SANITY SYNC WATCHING");
 // (*) watch sanity schemas and create components with same title in apps/web/components

@@ -19,13 +19,13 @@ async function convertImage(imagePath: string) {
     const webpStats = await stat(webpPath).catch(() => null);
     if (!webpStats) {
       await sharp(imagePath).webp({ quality: QUALITY }).toFile(webpPath);
-      console.log(`Converted to WebP: ${webpPath}`);
+      console.log(`WebP > ${filename.split("/").pop()}`);
     }
 
     const avifStats = await stat(avifPath).catch(() => null);
     if (!avifStats) {
       await sharp(imagePath).avif({ quality: QUALITY }).toFile(avifPath);
-      console.log(`Converted to AVIF: ${avifPath}`);
+      console.log(`AVIF > ${filename.split("/").pop()}`);
     }
   } catch (error) {
     console.error(`Error converting ${imagePath}:`, error);
@@ -53,13 +53,13 @@ for (const entrypoint of ENTRYPOINTS) {
   processDirectory(publicPath);
 
   // Watch for changes in each directory
-  console.log(`\nWatching ${publicPath} for changes...`);
+  console.log(`IMAGE OPTIM WATCHING > ${publicPath.split("/").pop()}`);
   watch(publicPath, { recursive: true }, async (eventType, filename) => {
     if (!filename) return;
     const filePath = join(publicPath, filename);
     const ext = extname(filename).toLowerCase();
     if (IMAGE_EXTENSIONS.includes(ext)) {
-      console.log(`\nProcessing changed image: ${filename}`);
+      // console.log(`\nProcessing changed image: ${filename}`);
       await convertImage(filePath);
     }
   });
