@@ -1,7 +1,6 @@
 import { Scene as S } from "three";
 import { Gl } from "./gl";
 import { Quad } from "./quad";
-import { Text } from "./text";
 import { Instance } from "./instance";
 import { loadAssets } from "./utils/loader";
 import { Model } from "./model";
