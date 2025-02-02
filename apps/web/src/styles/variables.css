@@ -13,6 +13,9 @@
   --xl: 16rem;
   --xxl: 32rem;
 
+  /* nav */
+  --navh: 6rem;
+
   /* text */
   --text-base: 1rem;
   --text-xs: 0.6rem;

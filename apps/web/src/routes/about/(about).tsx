@@ -8,7 +8,7 @@ export default function About() {
   setLocationCallback();
 
   return (
-    <main class="min-h-[100vh]">
+    <main class="pt-navh min-h-[100vh]">
       <Title>About</Title>
 
       <Section class="px-gx">

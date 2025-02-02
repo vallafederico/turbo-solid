@@ -30,6 +30,8 @@ export default {
         xl: "var(--xl)",
         xxl: "var(--xxl)",
 
+        navh: "var(--navh)",
+
         ...grid,
       },
       aspectRatio: {
