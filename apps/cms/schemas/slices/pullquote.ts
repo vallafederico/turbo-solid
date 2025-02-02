@@ -10,6 +10,20 @@ export default {
       type: 'text',
       rows: 4,
     },
+    {
+      name: 'thingy',
+      type: 'object',
+      fields: [
+        {
+          name: 'name',
+          type: 'string',
+        },
+        {
+          name: 'age',
+          type: 'number',
+        },
+      ],
+    },
   ],
   preview: {
     prepare() {

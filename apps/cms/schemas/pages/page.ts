@@ -1,9 +1,7 @@
 import createPage from '../../utils/createPage'
 
 export default createPage({
-  title: 'Home',
-  slug: false,
-  seo: true,
+  name: 'page',
+  title: 'Page',
   slices: true,
-  name: 'home',
 })

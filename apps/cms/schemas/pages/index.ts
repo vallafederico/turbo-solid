@@ -1,4 +1,4 @@
+import home from './home'
+import page from './page'
 
-import home from "./home";
-
-export default [home]
+export default [home, page]
