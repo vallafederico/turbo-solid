@@ -1,4 +1,5 @@
 import {MdFormatQuote} from 'react-icons/md'
+import {createPreview} from '../../utils/preview'
 
 export default {
   name: 'pullquote',
@@ -25,11 +26,5 @@ export default {
       ],
     },
   ],
-  preview: {
-    prepare() {
-      return {
-        title: 'Pullquote',
-      }
-    },
-  },
+  preview: createPreview('{Pullquote}'),
 }

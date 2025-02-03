@@ -5,7 +5,7 @@ export default defineCliConfig({
     projectId: '6mav93fo',
     dataset: 'production',
   },
-  studioHost: 'starter',
+  studioHost: 'internetthings-starter',
   /**
    * Enable auto-updates for studios.
    * Learn more at https://www.sanity.io/docs/cli#auto-updates

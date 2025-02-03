@@ -7,7 +7,7 @@ import {structure} from './desk/structure'
 import {simplerColorInput} from 'sanity-plugin-simpler-color-input'
 
 export default defineConfig({
-  name: 'starter',
+  name: 'internetthings-starter',
   title: 'Starter',
 
   projectId: '6mav93fo',
