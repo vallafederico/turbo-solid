@@ -3,9 +3,14 @@ import { animateAlpha } from "~/animation/alpha";
 import Section from "~/components/Section";
 import GridExample from "~/components/GridExample";
 import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { useWindowResize } from "~/hooks/useWindowResize";
 
 export default function About() {
   setLocationCallback();
+
+  useWindowResize(({ height, width }) => {
+    console.log("hello!", height, width);
+  });
 
   return (
     <main class="pt-navh min-h-[100vh]">

@@ -27,11 +27,6 @@ export class DomQuad extends Mesh {
     super();
     this.item = item;
     this.#resize();
-
-    // (*) [BETTER] find a better solution to account for page transition
-    setTimeout(() => {
-      this.#resize();
-    }, 50);
   }
 
   #resize() {

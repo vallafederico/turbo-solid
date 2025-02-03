@@ -22,6 +22,7 @@ async function animateOutAndTransition(
 
   await Promise.all(outTransitions.elements.map(async (fn) => await fn()));
   await navigate(el.pathname);
+  Scroll.lenis?.scrollTo(0, { immediate: true });
   Scroll.lenis?.resize();
 
   reset();
