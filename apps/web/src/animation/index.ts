@@ -1,5 +1,6 @@
 import { setCtrlTransition } from "~/stores/controllerStore";
 import { createStore } from "solid-js/store";
+import { Scroll } from "~/app/scroll";
 
 /** animations */
 import { globalOut } from "./global";
@@ -19,10 +20,10 @@ async function animateOutAndTransition(
   if (location.pathname === to) return;
   setCtrlTransition(to);
 
-  // (*) you might want to play those ONLY if in view
-
   await Promise.all(outTransitions.elements.map(async (fn) => await fn()));
-  navigate(el.pathname);
+  await navigate(el.pathname);
+  Scroll.lenis?.resize();
+
   reset();
 }
 

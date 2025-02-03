@@ -25,9 +25,9 @@ export default function App() {
           <Nav />
           <Grid />
 
-          {/* <div data-main> */}
-          <Suspense>{props.children}</Suspense>
-          {/* </div> */}
+          <div data-scroll>
+            <Suspense>{props.children}</Suspense>
+          </div>
           <Canvas />
         </MetaProvider>
       )}
