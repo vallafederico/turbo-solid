@@ -5,10 +5,12 @@ import {schemaTypes} from './schemas'
 import {media} from 'sanity-plugin-media'
 import {structure} from './desk/structure'
 import {simplerColorInput} from 'sanity-plugin-simpler-color-input'
+import Logo from './components/Logo'
 
 export default defineConfig({
   name: 'internetthings-starter',
   title: 'Starter',
+  icon: Logo,
 
   projectId: '6mav93fo',
   dataset: 'production',
