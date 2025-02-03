@@ -23,6 +23,10 @@ export default {
           name: 'age',
           type: 'number',
         },
+        {
+          name: 'age2',
+          type: 'number',
+        },
       ],
     },
   ],

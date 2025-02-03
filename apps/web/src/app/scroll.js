@@ -28,7 +28,9 @@ export class Scroll {
 
   static init() {
     this.y = window.scrollY || 0;
-    this.lenis = new Lenis();
+    this.lenis = new Lenis({
+      wrapper: document.querySelector("[data-scroll]"),
+    });
 
     gsap.ticker.add((time) => this.lenis.raf(time * 1000));
 

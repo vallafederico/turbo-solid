@@ -10,7 +10,7 @@
     "typescript": "^5.0.0"
   },
   "scripts": {
-    "dev": "bun run --watch optimise-images.ts"
+    "dev": "bun run --watch index.ts"
   },
   "dependencies": {
     "sharp": "^0.33.5"

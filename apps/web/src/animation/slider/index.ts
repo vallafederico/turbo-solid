@@ -4,9 +4,20 @@ import { viewport } from "~/stores/viewportStore";
 import { SliderApi } from "~/animation/slider/lib";
 
 export const styles = {
-  wrapper: " flex min-h-[50vh] w-[50vw] max-w-[50vw] border border-dotted ",
-  children: " relative min-w-[35vw] shrink-0 border border-red-500 border-box ",
+  wrapper: " flex min-h-[50vh] w-[50vw] max-w-[50vw]  ",
+  children: " relative min-w-[35vw] shrink-0  ",
 };
+
+// (*) SLIDER PARAMS
+/*
+- props for mobile enable / disable
+- props for snapping / no snapping
+- props for infinite / no infinite
+- props for parallax / no parallax
+- props for settling amount
+- props for bouncy
+- props for lerp
+*/
 
 export const useSlider = (
   self: HTMLDivElement,

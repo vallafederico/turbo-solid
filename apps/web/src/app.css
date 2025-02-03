@@ -137,3 +137,23 @@ main {
     max-width: var(--max-w);
   }
 }
+
+html,
+body,
+#app {
+  height: 100%;
+  overflow: hidden;
+}
+
+[data-scroll] {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}

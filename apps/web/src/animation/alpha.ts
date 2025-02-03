@@ -24,7 +24,7 @@ export const animateAlpha = (self: HTMLElement) => {
   });
 
   onPageLeave(self, async () => {
-    gsap.to(self, {
+    await gsap.to(self, {
       autoAlpha: 0,
       duration: A.page.out.duration,
       ease: A.page.out.ease,
