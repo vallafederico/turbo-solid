@@ -125,7 +125,8 @@ export default function Data() {
     <Data dataFunc={getContent}>
       {({ hello, user, age }) => (
         <main class="min-h-[100vh] pt-20">
-          <Title>{hello}</Title>
+          <Title>{hello}</Title> // SWAP THIS FOR <META> component
+
           <Section class="px-gx">
             <div>The next bit is data</div>
             <div>{hello}</div>
@@ -150,5 +151,15 @@ const Data = ({ dataFunc, children }) => {
     </Show>
   );
 };
+
+const PageData = ({name, dataFunc}) => {
+
+
+  return (
+  <Data dataFunc={getContent}>
+  ...
+  </Data>
+  )
+}
 
 */
