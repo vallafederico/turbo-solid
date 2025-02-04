@@ -24,10 +24,10 @@ const NAV_LINKS = [
     to: "/webgl",
     text: "WebGl",
   },
-  // {
-  //   to: "/data-loading",
-  //   text: "Data",
-  // },
+  {
+    to: "/data-loading",
+    text: "Data",
+  },
   // {
   //   to: "/protected",
   //   text: "Protected",
