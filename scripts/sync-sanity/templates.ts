@@ -1,3 +1,5 @@
+import { getTypeForField } from "./utils/getTypeForField";
+
 export const TEMPLATES = {
   slice: (name: string) => {
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
@@ -18,13 +20,13 @@ export default {
 }`;
   },
 
-  component: (name: string, fields: string[]) => {
+  component: (name: string, fields: Field[]) => {
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
     return `interface ${capitalizedName}Props {
-    ${fields.map((field) => `${field}: string`).join(";\n    ")};
+    ${fields.map((field) => `${field.name}: ${getTypeForField(field.type)}`).join(";\n    ")};
 }
 
-export default function ${capitalizedName}({ ${fields.join(", ")} }: ${capitalizedName}Props) {
+export default function ${capitalizedName}({ ${fields.map((f) => f.name).join(", ")} }: ${capitalizedName}Props) {
   return (
     <div>
       <h2>${capitalizedName} Slice</h2>
@@ -33,13 +35,13 @@ export default function ${capitalizedName}({ ${fields.join(", ")} }: ${capitaliz
 }`;
   },
 
-  componentUpdate: (name: string, fields: string[]) => {
+  componentUpdate: (name: string, fields: Field[]) => {
     const capitalizedName = name.charAt(0).toUpperCase() + name.slice(1);
     return {
       interface: `interface ${capitalizedName}Props {
-    ${fields.map((field) => `${field}: string`).join(";\n    ")};
+    ${fields.map((field) => `${field.name}: ${getTypeForField(field.type)}`).join(";\n    ")};
 }`,
-      props: `function ${capitalizedName}({ ${fields.join(", ")} }`,
+      props: `function ${capitalizedName}({ ${fields.map((f) => f.name).join(", ")} }`,
     };
   },
 };
