@@ -36,7 +36,8 @@ export default function Split({
       await gsap.to(splitText.chars, {
         yPercent: 100,
         ease: "expo.out",
-        duration: 0.3,
+        duration: 0.4,
+        // delay: 2,
       });
     });
 

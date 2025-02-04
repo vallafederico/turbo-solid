@@ -10,6 +10,8 @@ export function onPageLeave(element: HTMLElement, fn: Callback) {
   const vo = createVisibilityObserver({ threshold: 0 });
   const visible = vo(element);
 
+  console.log(visible());
+
   const wrappedFn = () => {
     if (visible()) {
       return fn();

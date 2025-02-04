@@ -21,11 +21,10 @@ async function animateOutAndTransition(
   setCtrlTransition(to);
 
   await Promise.all(outTransitions.elements.map(async (fn) => await fn()));
+  reset();
   await navigate(el.pathname);
   Scroll.lenis?.scrollTo(0, { immediate: true });
   Scroll.lenis?.resize();
-
-  reset();
 }
 
 function reset() {
