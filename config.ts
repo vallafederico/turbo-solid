@@ -6,3 +6,9 @@
 //   apiVersion: process.env.SANITY_API_VERSION,
 //   useCdn: false,
 // };
+
+/* Scripts */
+
+export const SANITY_SYNC_ROUTES = ["/images/*"];
+export const IMAGE_OPTIMIZATION_ENABLED = true;
+export const IMAGE_OPTIMIZATION_PATHS = ["/images/*"];
