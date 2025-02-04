@@ -1,14 +1,21 @@
 import { setCtrlTransition } from "~/stores/controllerStore";
-import { createStore } from "solid-js/store";
 import { Scroll } from "~/app/scroll";
 
 /** animations */
 import { globalOut } from "./global";
 
-/** page/router controllers */
-const [outTransitions, setOutTransition] = createStore({
-  elements: [globalOut],
-});
+/* setup */
+let outTransitions = [] as (() => any)[];
+
+const setOutTransition = (fn: () => any) => {
+  outTransitions.push(fn);
+};
+
+function reset() {
+  outTransitions.length = 0;
+  outTransitions = [];
+  outTransitions.push(globalOut);
+}
 
 /** -- page transitions */
 async function animateOutAndTransition(
@@ -20,17 +27,11 @@ async function animateOutAndTransition(
   if (location.pathname === to) return;
   setCtrlTransition(to);
 
-  await Promise.all(outTransitions.elements.map(async (fn) => await fn()));
+  await Promise.all(outTransitions.map(async (fn) => await fn()));
   reset();
   await navigate(el.pathname);
   Scroll.lenis?.scrollTo(0, { immediate: true });
   Scroll.lenis?.resize();
-}
-
-function reset() {
-  setOutTransition({
-    elements: [globalOut],
-  });
 }
 
 /** exports */
