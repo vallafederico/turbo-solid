@@ -11,7 +11,6 @@ export default defineConfig({
   name: 'internetthings-starter',
   title: 'Starter',
   icon: Logo,
-
   projectId: '6mav93fo',
   dataset: 'production',
 
