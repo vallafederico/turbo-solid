@@ -24,7 +24,7 @@ const getContent = query(async () => {
   "use server";
 
   console.log("loading...");
-  await Promise.all([wait(1.5), wait(0.5)]);
+  await Promise.all([wait(1.2), wait(0.5)]);
 
   return {
     hello: "world",
@@ -36,130 +36,69 @@ const getContent = query(async () => {
 }, "loadeddata");
 
 export const route = {
-  preload: async ({ location, params }: RouteSectionProps) => {
-    return await getContent();
-  },
+  preload: () => getContent(),
 };
 
 export default function Data(props: RouteSectionProps) {
   setLocationCallback();
 
-  const loadeddata = createAsync(() => getContent());
-
-  createEffect(() => {
-    console.log("data", loadeddata());
-  });
-
   return (
     <main class="min-h-[100vh] pt-20">
-      {/* <Suspense> */}
-      <Title>{loadeddata()?.title}</Title>
-      {/* </Suspense> */}
+      {/* <Title>{loadeddata()?.title}</Title> */}
 
-      <div class="px-gx">
-        {/* suspense */}
-        <h2 class="py-4">Using Suspense</h2>
-        <Suspense fallback={<div>Loading...</div>}>
-          <p>{loadeddata()?.hello}</p>
-          <pre>{JSON.stringify(loadeddata(), null, 2)}</pre>
-        </Suspense>
-
-        {/* show */}
-        <h2 class="py-4">Using Show</h2>
-        <Show when={loadeddata()} fallback={<div>waiting</div>}>
+      <div class="px-gx flex flex-col gap-[2rem]">
+        <ShowQuery query={getContent}>
           {(data) => {
-            const { hello, more } = data();
-            // console.log(data());
-
+            console.log("data:show", data, performance.now());
             return (
-              <Section class="">
-                <div>{hello}</div>
-                <pre>{JSON.stringify(loadeddata(), null, 2)}</pre>
-              </Section>
+              <>
+                <h2>Show</h2>
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+                <div>{data.more.data}</div>
+              </>
             );
           }}
-        </Show>
+        </ShowQuery>
+
+        <SuspenseQuery query={getContent}>
+          {(data) => {
+            console.log("data:suspense", data, performance.now());
+            return (
+              <>
+                <h2>Suspense</h2>
+                <pre>{JSON.stringify(data, null, 2)}</pre>
+                {/* (MINIMAL ~ 50ms) performance gain with horrible tradeoff */}
+                <div>{data?.more?.data}</div>
+              </>
+            );
+          }}
+        </SuspenseQuery>
       </div>
+      <div class="px-gx"></div>
     </main>
   );
 }
 
-/*
-
-export default function Data() {
-  setLocationCallback();
-
-  const loadeddata = createAsync(() => getContent());
-  
-  createEffect(() => {
-    console.log("data", loadeddata());
-  });
-
-  return (
-    <Show when={loadeddata()}>
-      {(data) => {
-        const { hello } = data();
-
-        return (
-          <main class="min-h-[100vh] pt-20">
-            <Title>{hello}</Title>
-            <Section class="px-gx">
-              <div>The next bit is data</div>
-              <div>{hello}</div>
-            </Section>
-          </main>
-        );
-      }}
-    </Show>
-  );
-}
-  
-*/
-
-/*
-
-export default function Data() {
-  setLocationCallback();
-
-  return (
-    <Data dataFunc={getContent}>
-      {({ hello, user, age }) => (
-        <main class="min-h-[100vh] pt-20">
-          <Title>{hello}</Title> // SWAP THIS FOR <META> component
-
-          <Section class="px-gx">
-            <div>The next bit is data</div>
-            <div>{hello}</div>
-            <div>{user}</div>
-            <div>{age}</div>
-          </Section>
-        </main>
-      )}
-    </Data>
-  );
-}
-
-const Data = ({ dataFunc, children }) => {
-  const data = createAsync(() => dataFunc());
-
-  return (
-    <Show when={data()}>
-      {(loadedData) => {
-        const props = loadedData();
-        return children(props);
-      }}
-    </Show>
-  );
+// with suspense
+const SuspenseQuery = ({
+  query,
+  children,
+}: {
+  query: () => Promise<any>;
+  children: (data: any) => any;
+}) => {
+  const data = createAsync(() => query());
+  return <Suspense>{children(data())}</Suspense>;
 };
 
-const PageData = ({name, dataFunc}) => {
-
-
-  return (
-  <Data dataFunc={getContent}>
-  ...
-  </Data>
-  )
-}
-
-*/
+// with show
+const ShowQuery = ({
+  query,
+  children,
+}: {
+  query: () => Promise<any>;
+  children: (data: any) => any;
+}) => {
+  const data = createAsync(() => query());
+  return <Show when={data()}>{children(data())}</Show>;
+};

@@ -37,7 +37,7 @@ export default defineConfig({
   server: {
     prerender: {
       routes: ["/"],
-      // crawlLinks: true, /* prerenders all */
+      crawlLinks: true /* prerenders all */,
     },
   },
   vite: {

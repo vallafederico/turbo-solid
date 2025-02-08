@@ -1,16 +1,23 @@
 # Stuffs
 
+## Web
+
+## CMS
+
+- [ ] add Vercel deploy
+- [ ] add guides
+
 ## Packages
 
-- Sanity Solid
-- Ecommerce Package (Shopify Utils)
-- Solid Hooks (?)
-- localisation
+- [ ] Sanity Solid
+- [ ] Ecommerce Package (Shopify Utils)
+- [ ] Solid Hooks (?)
+- [ ] localisation
 
 ## Scripts
 
-- sanity importers
-- sanity/web sync
+- [ ] sanity importers
+- [ ] sanity/web sync
 
 ---
 

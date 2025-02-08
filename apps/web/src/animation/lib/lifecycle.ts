@@ -10,14 +10,9 @@ export function onPageLeave(element: HTMLElement, fn: Callback) {
   const vo = createVisibilityObserver({ threshold: 0 });
   const visible = vo(element);
 
-  const wrappedFn = () => {
-    if (visible()) {
-      return fn();
-    }
-    return Promise.resolve();
-  };
+  const wrappedFn = () => (visible() ? fn() : Promise.resolve());
 
-  setOutTransition("elements", [...outTransitions.elements, wrappedFn]);
+  setOutTransition(wrappedFn);
 }
 
 export function onIntersect(
