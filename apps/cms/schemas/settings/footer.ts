@@ -1,5 +1,5 @@
 export default {
-  name: 'settings.header',
+  name: 'settings.footer',
   type: 'document',
   fields: [
     {

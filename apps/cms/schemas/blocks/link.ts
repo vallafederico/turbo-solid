@@ -54,11 +54,11 @@ export default {
       description: 'Must start with https://',
       hidden: ({parent}) => parent?.linkType === 'internal',
     },
-    // {
-    //   name: 'page',
-    //   type: 'reference',
-    //   to: [...allPages],
-    //   hidden: ({parent}) => parent?.linkType !== 'internal',
-    // },
+    {
+      name: 'page',
+      type: 'reference',
+      to: [...allPages],
+      hidden: ({parent}) => parent?.linkType !== 'internal',
+    },
   ],
 }

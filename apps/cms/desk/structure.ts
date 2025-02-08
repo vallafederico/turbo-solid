@@ -13,7 +13,7 @@ import type {IconType} from 'react-icons/lib'
 import {IoMdAirplane} from 'react-icons/io'
 import type {StructureBuilder, StructureContext} from 'sanity/structure'
 import {TbBuildingAirport} from 'react-icons/tb'
-
+import {RiLayoutTop2Line, RiLayoutBottom2Line} from 'react-icons/ri'
 export const structure = (S: StructureBuilder, context: StructureContext) => {
   const pageList = (title: string, schema: string, icon?: IconType) => {
     return S.listItem()
@@ -46,9 +46,9 @@ export const structure = (S: StructureBuilder, context: StructureContext) => {
       div(),
       singlePage('SEO', 'settings.seo', MdSearch),
 
-      // folder('Global Settings', MdSettings, [
-      // 	// singlePage('Header', 'settings.header', RiLayoutTop2Line),
-      // 	// singlePage('Footer', 'settings.footer', RiLayoutBottom2Line),
-      // ]),
+      folder('Global Layout', MdSettings, [
+        singlePage('Header', 'settings.header', RiLayoutTop2Line),
+        singlePage('Footer', 'settings.footer', RiLayoutBottom2Line),
+      ]),
     ])
 }
