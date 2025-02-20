@@ -6,4 +6,5 @@
 # Tailwind
 - grid systems are cool
 
-# 
+# Formatters & Linters
+- these should be dev-chosen and local to their machine 

@@ -1,6 +1,6 @@
 import {pageDefaultsGroups, pageDefaultsSeo} from './_pageDefaults'
 import {HiDocumentText} from 'react-icons/hi'
-import { IconType } from 'react-icons/lib'
+import {IconType} from 'react-icons/lib'
 import {FieldDefinition, FormFieldGroup} from 'sanity'
 import {SlugInput} from 'sanity-plugin-prefixed-slug'
 
@@ -44,17 +44,29 @@ const defaultOptions = {
   icon: HiDocumentText,
 }
 
-export const createPage = (opts:PageAttributes) => {
-
-  const options = { ...defaultOptions, ...opts }
+export const createPage = (opts: PageAttributes) => {
+  const options = {...defaultOptions, ...opts}
   const allFields = []
-  const { title, name, seo, slug, prefix, icon, body, fields = [], preview, groups, orderings, slices } = options
+  const {
+    title,
+    name,
+    seo,
+    slug,
+    prefix,
+    icon,
+    body,
+    fields = [],
+    preview,
+    groups,
+    orderings,
+    slices,
+  } = options
 
   if (body) {
     allFields.push({
       name: 'body',
       group: 'content',
-      type: 'blockContent',
+      type: 'body',
     })
   }
 
@@ -62,19 +74,8 @@ export const createPage = (opts:PageAttributes) => {
     allFields.push(...pageDefaultsSeo)
   }
 
-  if (title) {
-    allFields.unshift({
-      name: 'title',
-      initialValue: prefix ? '' : title,
-      type: 'string',
-      group: 'content',
-      validation: (Rule) => Rule.required(),
-      title: 'Page Title',
-    })
-  }
-
   if (slug && !prefix) {
-    allFields.push({
+    allFields.unshift({
       name: 'slug',
       description: 'Click generate to build a URL for this page.',
       title: 'Slug',
@@ -91,13 +92,23 @@ export const createPage = (opts:PageAttributes) => {
       validation: (Rule) => Rule.required().error('This page needs a slug'),
     })
   }
+  if (title) {
+    allFields.unshift({
+      name: 'title',
+      initialValue: prefix ? '' : title,
+      type: 'string',
+      group: 'content',
+      validation: (Rule) => Rule.required(),
+      title: 'Page Title',
+    })
+  }
 
   if (slices) {
     allFields.push({
       name: 'slices',
       title: 'Slices',
       group: 'content',
-      type: typeof slices === 'string' ? slices :  'pageSlices',
+      type: typeof slices === 'string' ? slices : 'pageSlices',
     })
   }
 
@@ -106,23 +117,26 @@ export const createPage = (opts:PageAttributes) => {
     title,
     name,
     icon,
-    groups: [...pageDefaultsGroups, ...(groups || [])].sort((a, b) => a.title.localeCompare(b.title)),
+    groups: [...pageDefaultsGroups, ...(groups || [])].sort((a, b) =>
+      a.title.localeCompare(b.title),
+    ),
     fields: addDefaultGroups([...allFields, ...fields]),
     preview: preview || {
       select: {
-      title: 'title',
-      slug: 'slug',
+        title: 'title',
+        slug: 'slug',
+      },
+      prepare(select) {
+        const {title, slug} = select
+        return {
+          title,
+          subtitle: slug && prefix && (slug.fullUrl || slug.current || ''),
+          icon,
+        }
+      },
     },
-    prepare(select) {
-      const {title, slug} = select
-      return {
-        title,
-        subtitle: slug && prefix && (slug.fullUrl || slug.current || ''),
-        icon
-      }
-    }},
-    orderings
-  }  
+    orderings,
+  }
 
   return page
 }

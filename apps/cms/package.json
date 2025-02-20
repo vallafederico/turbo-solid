@@ -1,5 +1,5 @@
 {
-  "name": "supersonic",
+  "name": "cms",
   "private": true,
   "version": "1.0.0",
   "main": "package.json",
@@ -17,25 +17,25 @@
   "dependencies": {
     "@q42/sanity-plugin-user-guide": "^1.0.1",
     "@sanity/table": "^1.1.3",
-    "@sanity/ui": "^2.11.7",
-    "@sanity/vision": "^3.68.3",
-    "@sanity/visual-editing": "^2.12.10",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-icons": "^5.4.0",
-    "sanity": "^3.68.3",
+    "@sanity/ui": "^2.14.0",
+    "@sanity/vision": "^3.76.1",
+    "@sanity/visual-editing": "^2.13.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-icons": "^5.5.0",
+    "sanity": "^3.76.1",
     "sanity-plugin-media": "^2.3.2",
     "sanity-plugin-note-field": "^2.0.2",
     "sanity-plugin-prefixed-slug": "^2.0.0",
     "sanity-plugin-vercel-deploy": "^3.3.4",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.15"
   },
   "devDependencies": {
     "@sanity/eslint-config-studio": "^5.0.1",
-    "@types/react": "^18.0.25",
-    "eslint": "^9.9.0",
-    "prettier": "^3.0.2",
-    "typescript": "^5.1.6"
+    "@types/react": "^18.3.18",
+    "eslint": "^9.20.1",
+    "prettier": "^3.5.1",
+    "typescript": "^5.7.3"
   },
   "prettier": {
     "semi": false,
