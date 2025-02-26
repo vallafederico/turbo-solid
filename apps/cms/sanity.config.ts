@@ -7,14 +7,11 @@ import {structure} from './desk/structure'
 import {simplerColorInput} from 'sanity-plugin-simpler-color-input'
 import Logo from './components/Logo'
 
+import {SANITY} from '../../config'
+
 export default defineConfig({
-  name: 'internetthings-starter',
-  title: 'Starter',
+  ...SANITY,
   icon: Logo,
-
-  projectId: '6mav93fo',
-  dataset: 'production',
-
   plugins: [
     structureTool({structure}),
     visionTool(),

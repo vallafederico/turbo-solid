@@ -1,3 +1,4 @@
+import { SANITY_SYNC } from "../../config";
 import { watch } from "fs";
 import { join } from "path";
 import { readFile, writeFile, access, mkdir } from "fs/promises";
@@ -7,61 +8,47 @@ import { parseSchemaFields } from "./utils/parseSchema";
 import { updateComponentProps } from "./utils/updateComponent";
 
 /* -- TODOS
-- [x] import and update in index.ts
-- [x] delete index.ts
-
-- [x] create component in apps/web
-- [x] sync on chanhge component props and type
-- [ ] move to web/apps
-
+- [ ]  watch /pages directory
+- [ ]  if new file created
 */
 
 /////////////////////////////// config
 
-import { SANITY_SYNC_ENABLED, SANITY_SYNC_FOLDERS } from "../../config";
-
-if (!SANITY_SYNC_ENABLED) {
+if (!SANITY_SYNC.enabled) {
   console.log("␖ SANITY SYNC DISABLED");
   process.exit(0);
 }
 
 console.log("␖ SANITY SYNC WATCHING");
 
-const FILES = SANITY_SYNC_FOLDERS.map((folder) => ({
-  entry: `../../${folder.entry}`,
-  target: `../../${folder.target}`,
-}));
+const ENTRY = {
+  entry: "../../apps/cms/schemas/slices",
+  target: "../.." + SANITY_SYNC.slicesTarget,
+};
 
 /////////////////////////////// run
 
 const processedFiles = new Set<string>();
 
-// Watch each entry point
-for (const { entry, target } of FILES) {
-  const path = join(process.cwd(), entry);
-  const files = watch(
-    path,
-    { recursive: true },
-    async (eventType, filename) => {
-      if (!filename || filename === "index.ts") return;
-      const filePath = join(process.cwd(), entry, filename);
+const path = join(process.cwd(), ENTRY.entry);
+watch(path, { recursive: true }, async (eventType, filename) => {
+  if (!filename || filename === "index.ts") return;
+  const filePath = join(process.cwd(), ENTRY.entry, filename);
 
-      try {
-        await access(filePath);
-        if (eventType === "rename" && !processedFiles.has(filename)) {
-          await handleNewFile(filePath, filename, target, entry);
-        } else if (processedFiles.has(filename)) {
-          await handleModifiedFile(filePath, target);
-        }
-        processedFiles.add(filename);
-      } catch {
-        processedFiles.delete(filename);
-        await handleDeletedFile(filename, entry);
-        console.log(`File deleted: ${filename.split("/").pop()}`);
-      }
+  try {
+    await access(filePath);
+    if (eventType === "rename" && !processedFiles.has(filename)) {
+      await handleNewFile(filePath, filename, ENTRY.target, ENTRY.entry);
+    } else if (processedFiles.has(filename)) {
+      await handleModifiedFile(filePath, ENTRY.target);
     }
-  );
-}
+    processedFiles.add(filename);
+  } catch {
+    processedFiles.delete(filename);
+    await handleDeletedFile(filename, ENTRY.entry);
+    console.log(`File deleted: ${filename.split("/").pop()}`);
+  }
+});
 
 const handleNewFile = async (
   filePath: string,

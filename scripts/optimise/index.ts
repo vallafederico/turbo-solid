@@ -1,2 +1,2 @@
 import "./optimise-images";
-// import "./optimise-fonts";
+import "./optimise-fonts";
