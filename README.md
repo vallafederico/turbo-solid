@@ -50,3 +50,7 @@ export default function SliceName({
 - Auto fill files if you create it inside /slices or inside /pages
 
 ---
+
+### Components
+
+- [ ] rework slider with smooothy

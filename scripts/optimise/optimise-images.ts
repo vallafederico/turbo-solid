@@ -1,14 +1,16 @@
+import { OPTIMISE } from "../../config";
 import { readdir, stat } from "node:fs/promises";
 import { join, extname } from "node:path";
 import { watch } from "fs";
 import sharp from "sharp";
 
-const ENTRYPOINTS = [
-  "../../apps/web/public",
-  // Add more paths here as needed
-];
-const IMAGE_EXTENSIONS = [".png", ".jpg", ".jpeg"];
-const QUALITY = 80;
+const { quality, extensions, paths, enabled } = OPTIMISE.images;
+
+if (!enabled) {
+  process.exit(0);
+}
+
+const ENTRYPOINTS = paths.map((path) => `../..${path}`);
 
 async function convertImage(imagePath: string) {
   try {
@@ -18,13 +20,13 @@ async function convertImage(imagePath: string) {
 
     const webpStats = await stat(webpPath).catch(() => null);
     if (!webpStats) {
-      await sharp(imagePath).webp({ quality: QUALITY }).toFile(webpPath);
+      await sharp(imagePath).webp({ quality }).toFile(webpPath);
       console.log(`WebP > ${filename.split("/").pop()}`);
     }
 
     const avifStats = await stat(avifPath).catch(() => null);
     if (!avifStats) {
-      await sharp(imagePath).avif({ quality: QUALITY }).toFile(avifPath);
+      await sharp(imagePath).avif({ quality }).toFile(avifPath);
       console.log(`AVIF > ${filename.split("/").pop()}`);
     }
   } catch (error) {
@@ -38,7 +40,7 @@ async function processDirectory(directory: string) {
     for (const file of files) {
       const filePath = join(directory, file);
       const ext = extname(file).toLowerCase();
-      if (IMAGE_EXTENSIONS.includes(ext)) {
+      if (extensions.includes(ext)) {
         await convertImage(filePath);
       }
     }
@@ -58,7 +60,7 @@ for (const entrypoint of ENTRYPOINTS) {
     if (!filename) return;
     const filePath = join(publicPath, filename);
     const ext = extname(filename).toLowerCase();
-    if (IMAGE_EXTENSIONS.includes(ext)) {
+    if (extensions.includes(ext)) {
       // console.log(`\nProcessing changed image: ${filename}`);
       await convertImage(filePath);
     }

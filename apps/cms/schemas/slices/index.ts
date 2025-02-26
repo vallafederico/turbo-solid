@@ -1,8 +1,7 @@
-// append
 import pullquote from './pullquote'
+import richText from './richText'
 
 import {createSliceSet} from '../../utils/create'
-import richText from './richText'
 
 const globalPageSlices = [pullquote, richText] as any[]
 
