@@ -3,7 +3,6 @@ import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
 import { Show, Suspense } from "solid-js";
 
-import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 import { animateAlpha } from "~/animation/alpha.js";
 
 import { createAsync, query, type RouteSectionProps } from "@solidjs/router";
@@ -40,10 +39,8 @@ export const route = {
 };
 
 export default function Data(props: RouteSectionProps) {
-  setLocationCallback();
-
   return (
-    <main class="min-h-[100vh] pt-20">
+    <div class="min-h-[100vh] pt-20">
       {/* <Title>{loadeddata()?.title}</Title> */}
 
       <div class="px-gx flex flex-col gap-[2rem]">
@@ -75,7 +72,7 @@ export default function Data(props: RouteSectionProps) {
         </SuspenseQuery>
       </div>
       <div class="px-gx"></div>
-    </main>
+    </div>
   );
 }
 

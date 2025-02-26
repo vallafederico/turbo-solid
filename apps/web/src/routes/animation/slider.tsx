@@ -5,13 +5,9 @@ import Aa from "~/components/Aa";
 
 import { animateAlpha } from "~/animation/alpha";
 
-import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
-
 export default function SliderPage() {
-  setLocationCallback();
-
   return (
-    <main class="min-h-[100vh] py-20">
+    <div class="min-h-[100vh] py-20">
       <Title>About</Title>
 
       <Section class="px-gx">
@@ -24,6 +20,6 @@ export default function SliderPage() {
       >
         <Slider class="h-[70vh]" />
       </div>
-    </main>
+    </div>
   );
 }

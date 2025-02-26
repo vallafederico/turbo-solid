@@ -1,10 +1,10 @@
 import gsap from "~/app/gsap";
 
-export const globalOut = async () =>
-  await gsap.to("main", {
+export const globalOut = () =>
+  gsap.to(document.querySelector("main").children[0], {
     autoAlpha: 0,
     ease: "expo.out",
-    duration: 0.2,
-    // delay: 0.3,
-    delay: 0.8,
+    duration: 0.4,
+    delay: 0.3,
+    // delay: 0.8,
   });

@@ -1,5 +1,5 @@
 import Aa from "./Aa";
-import SocialSprite from "~/components/svg/socialSprite.svg?component-solid";
+// import SocialSprite from "~/components/svg/socialSprite.svg?component-solid";
 import { RollingText } from "./animation/RollingText";
 import { For } from "solid-js";
 

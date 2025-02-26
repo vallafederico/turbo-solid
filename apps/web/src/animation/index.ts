@@ -1,7 +1,4 @@
-import { setCtrlTransition } from "~/lib/stores/controllerStore";
 import { Scroll } from "~/app/scroll";
-
-/** animations */
 import { globalOut } from "./global";
 
 /* setup */
@@ -17,7 +14,8 @@ function reset() {
   outTransitions.push(globalOut);
 }
 
-/** -- page transitions */
+/* -- page transitions */
+
 async function animateOutAndTransition(
   to: string,
   el: HTMLAnchorElement,
@@ -25,16 +23,19 @@ async function animateOutAndTransition(
   location: any,
 ) {
   if (location.pathname === to) return;
-  setCtrlTransition(to);
 
   await Promise.all(outTransitions.map(async (fn) => await fn()));
+
   reset();
+
   await navigate(el.pathname);
+
   Scroll.lenis?.scrollTo(0, { immediate: true });
   Scroll.lenis?.resize();
 }
 
 /** exports */
 export { animateOutAndTransition, setOutTransition, outTransitions };
+
 export { onPageLeave, onIntersect } from "./lib/lifecycle";
 export { onScroll, onTrack } from "./lib/scrolling";
