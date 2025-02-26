@@ -1,7 +1,7 @@
 // import { createEffect } from "solid-js";
 // import { ctrl } from "../stores/controllerStore";
 import { useLocation } from "@solidjs/router";
-import { setCtrlPage } from "../stores/controllerStore";
+import { setCtrlPage } from "~/lib/stores/controllerStore";
 
 export const useLocationCallback = () => {
   // createEffect(() => {

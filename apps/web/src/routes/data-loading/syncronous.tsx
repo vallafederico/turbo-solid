@@ -3,7 +3,7 @@ import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
 import { Show } from "solid-js";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 import { animateAlpha } from "~/animation/alpha.js";
 
 import { createAsync } from "@solidjs/router";

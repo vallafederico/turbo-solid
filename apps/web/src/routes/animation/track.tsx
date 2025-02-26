@@ -5,7 +5,7 @@ import Track from "~/components/animation/Track";
 
 import { animateAlpha } from "~/animation/alpha";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 
 export default function TrackPage() {
   setLocationCallback();

@@ -1,5 +1,5 @@
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
-import { isClient } from "~/utils/isClient";
+import { isClient } from "~/lib/utils/isClient";
 
 function getGridValues() {
   const computed = getComputedStyle(document.documentElement);

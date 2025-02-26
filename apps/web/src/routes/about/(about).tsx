@@ -2,8 +2,8 @@ import { Title } from "@solidjs/meta";
 import { animateAlpha } from "~/animation/alpha";
 import Section from "~/components/Section";
 import GridExample from "~/components/GridExample";
-import { setLocationCallback } from "~/hooks/useLocationCallback";
-import { useWindowResize } from "~/hooks/useWindowResize";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
+import { useWindowResize } from "~/lib/hooks/useWindowResize";
 
 export default function About() {
   setLocationCallback();

@@ -1,5 +1,5 @@
 import { Title } from "@solidjs/meta";
-import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 
 import Section from "~/components/Section";
 import Aa from "~/components/Aa";
@@ -25,7 +25,7 @@ export default function SplitTextPage() {
           <p class="">Split me</p>
         </Split>
       </div>
-      <div class="flex-center max-w-screen min-h-[100vh] py-20">
+      <div class="flex-center min-h-[100vh] max-w-screen py-20">
         <Split class="text-[2rem]">
           <p class="">Cool text here</p>
         </Split>

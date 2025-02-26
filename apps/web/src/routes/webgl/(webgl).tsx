@@ -1,7 +1,7 @@
 import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 
 import DomGroupElement from "~/app/gl/domGroup/DomGroupElement";
 import DomQuadElement from "~/app/gl/domQuad/DomQuadElement";

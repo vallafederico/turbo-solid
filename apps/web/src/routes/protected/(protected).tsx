@@ -3,7 +3,7 @@ import Counter from "~/components/Counter";
 import Section from "~/components/Section";
 import Aa from "~/components/Aa";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 import { animateAlpha } from "~/animation/alpha.js";
 import Track from "@components/animation/Track";
 import { createAsync, useNavigate } from "@solidjs/router";
@@ -17,7 +17,7 @@ import {
   parseCookiesClient,
   removeCookieClient,
   setCookieClient,
-} from "~/utils/cookies";
+} from "~/lib/utils/cookies";
 
 export default function Protected() {
   setLocationCallback();

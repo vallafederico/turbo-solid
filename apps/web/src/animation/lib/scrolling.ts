@@ -6,12 +6,11 @@ import {
   createUniqueId,
   createSignal,
 } from "solid-js";
-import { clientRect } from "~/utils/clientRect";
-import { clamp, map, lerp as lerpFunc } from "~/utils/math";
+import { clientRect } from "~/lib/utils/clientRect";
+import { clamp, map, lerp as lerpFunc } from "~/lib/utils/math";
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
-import { viewport } from "~/stores/viewportStore";
-import { useWindowResize } from "~/hooks/useWindowResize";
-
+import { viewport } from "~/lib/stores/viewportStore";
+import { useWindowResize } from "~/lib/hooks/useWindowResize";
 interface ScrollEvent {
   velocity: number;
   scroll: number;

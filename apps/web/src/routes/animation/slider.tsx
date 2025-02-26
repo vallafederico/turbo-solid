@@ -5,7 +5,7 @@ import Aa from "~/components/Aa";
 
 import { animateAlpha } from "~/animation/alpha";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 
 export default function SliderPage() {
   setLocationCallback();

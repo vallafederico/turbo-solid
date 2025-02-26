@@ -1,5 +1,5 @@
 import { Title } from "@solidjs/meta";
-import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 
 import Section from "~/components/Section";
 import Aa from "~/components/Aa";

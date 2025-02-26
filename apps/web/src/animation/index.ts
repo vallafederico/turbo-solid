@@ -1,4 +1,4 @@
-import { setCtrlTransition } from "~/stores/controllerStore";
+import { setCtrlTransition } from "~/lib/stores/controllerStore";
 import { Scroll } from "~/app/scroll";
 
 /** animations */

@@ -1,4 +1,4 @@
-import { isClient } from "~/utils/isClient";
+import { isClient } from "~/lib/utils/isClient";
 
 function isMobile() {
   if (!isClient) return false;

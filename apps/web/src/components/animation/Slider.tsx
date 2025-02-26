@@ -1,7 +1,7 @@
 import cx from "classix";
 import { createSignal } from "solid-js";
 import { useSlider, styles } from "~/animation/slider";
-import { useWindowResize } from "~/hooks/useWindowResize";
+import { useWindowResize } from "~/lib/hooks/useWindowResize";
 
 export default function Slider({
   class: className = "",

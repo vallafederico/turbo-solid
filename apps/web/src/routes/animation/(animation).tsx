@@ -4,7 +4,7 @@ import Aa from "~/components/Aa";
 
 import { animateAlpha } from "~/animation/alpha";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
+import { setLocationCallback } from "~/lib/hooks/useLocationCallback";
 
 export default function Animation() {
   setLocationCallback();
@@ -13,7 +13,7 @@ export default function Animation() {
     <main class="min-h-[100vh] py-20">
       <Title>About</Title>
       <Section class="">
-        <div use:animateAlpha class="flex flex-col items-start gap-4 px-gx">
+        <div use:animateAlpha class="px-gx flex flex-col items-start gap-4">
           <h2>Animation </h2>
           <ul class="mt-6 flex flex-col items-start gap-3">
             <li>
