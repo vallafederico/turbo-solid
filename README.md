@@ -48,3 +48,5 @@ export default function SliceName({
 - if it's a page, create a new page + sanity query with the corresponding name
 
 - Auto fill files if you create it inside /slices or inside /pages
+
+---
