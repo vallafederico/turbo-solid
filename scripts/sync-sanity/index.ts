@@ -6,8 +6,6 @@ import { TEMPLATES } from "./templates";
 import { parseSchemaFields } from "./utils/parseSchema";
 import { updateComponentProps } from "./utils/updateComponent";
 
-console.log("SANITY SYNC WATCHING ...");
-
 /* -- TODOS
 - [x] import and update in index.ts
 - [x] delete index.ts
@@ -18,17 +16,28 @@ console.log("SANITY SYNC WATCHING ...");
 
 */
 
-const FILES = [
-  {
-    entry: "../../apps/cms/schemas/slices",
-    destination: "../../apps/cms/schemas/components",
-  },
-];
+/////////////////////////////// config
+
+import { SANITY_SYNC_ENABLED, SANITY_SYNC_FOLDERS } from "../../config";
+
+if (!SANITY_SYNC_ENABLED) {
+  console.log("␖ SANITY SYNC DISABLED");
+  process.exit(0);
+}
+
+console.log("␖ SANITY SYNC WATCHING");
+
+const FILES = SANITY_SYNC_FOLDERS.map((folder) => ({
+  entry: `../../${folder.entry}`,
+  target: `../../${folder.target}`,
+}));
+
+/////////////////////////////// run
 
 const processedFiles = new Set<string>();
 
 // Watch each entry point
-for (const { entry, destination } of FILES) {
+for (const { entry, target } of FILES) {
   const path = join(process.cwd(), entry);
   const files = watch(
     path,
@@ -40,9 +49,9 @@ for (const { entry, destination } of FILES) {
       try {
         await access(filePath);
         if (eventType === "rename" && !processedFiles.has(filename)) {
-          await handleNewFile(filePath, filename, destination, entry);
+          await handleNewFile(filePath, filename, target, entry);
         } else if (processedFiles.has(filename)) {
-          await handleModifiedFile(filePath, destination);
+          await handleModifiedFile(filePath, target);
         }
         processedFiles.add(filename);
       } catch {
