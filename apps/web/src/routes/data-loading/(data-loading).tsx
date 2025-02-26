@@ -1,12 +1,8 @@
 import { Title } from "@solidjs/meta";
-
-import Section from "~/components/Section";
 import { Show, Suspense } from "solid-js";
 
 import { animateAlpha } from "~/animation/alpha.js";
-
 import { createAsync, query, type RouteSectionProps } from "@solidjs/router";
-import { createEffect } from "solid-js";
 
 // (*) how does this work?
 // https://github.com/solidjs/solid-start/blob/179500ffd6855f7248de7aa6f3672dc2bac773f2/examples/hackernews/src/routes/stories/%5Bid%5D.tsx
