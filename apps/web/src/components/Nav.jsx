@@ -1,7 +1,9 @@
 import Aa from "./Aa";
+import { For } from "solid-js";
+
 // import SocialSprite from "~/components/svg/socialSprite.svg?component-solid";
 import { RollingText } from "./animation/RollingText";
-import { For } from "solid-js";
+import MobileMenu from "./MobileMenu";
 
 const NAV_LINKS = [
   // {
@@ -41,8 +43,8 @@ export const Nav = () => {
         <p>LOGO</p>
       </Aa>
 
-      {/* desktoip menu */}
-      <ul class="flex justify-between">
+      {/* desktop menu */}
+      <ul class="hidden justify-between md:flex">
         <For each={NAV_LINKS}>
           {({ to, text }) => (
             <li>
@@ -53,6 +55,13 @@ export const Nav = () => {
           )}
         </For>
       </ul>
+
+      {/* mobile menu */}
+      <MobileMenu>
+        <ul>
+          <For each={NAV_LINKS}>{({ to, text }) => <li>{text}</li>}</For>
+        </ul>
+      </MobileMenu>
     </nav>
   );
 };
