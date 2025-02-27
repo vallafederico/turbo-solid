@@ -1,6 +1,6 @@
 [data-dropdown="wrapper"] {
   --duration: 0.4s;
-  --ease: ease-out;
+  --ease: var(--expo-out);
   --offset: 500%;
 }
 
