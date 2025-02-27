@@ -12,7 +12,7 @@ export const SANITY = {
 export const OPTIMISE = {
   /* image optimiser */
   images: {
-    enabled: false, // enable image optimization
+    enabled: true, // enable image optimization
     paths: ["/apps/web/public"], // paths to watch for changes
     extensions: [".png", ".jpg", ".jpeg"], // extensions to convert
     quality: 80, // quality of the converted images
