@@ -3,6 +3,8 @@ import Core from "smooothy";
 import { onMount, onCleanup } from "solid-js";
 import { Raf } from "~/app/raf";
 
+// https://github.com/vallafederico/smooothy
+
 export const useSlider = (
   config = {
     infinite: true,
@@ -47,7 +49,7 @@ export default function Slider({
   children?: any;
   rest?: { [key: string]: any };
 } = {}) {
-  const { ref, slider } = useSlider();
+  const { ref } = useSlider();
 
   return (
     <div ref={ref} class={cx(className)} {...rest}>
