@@ -1,5 +1,7 @@
 # Stuffs
 
+CHECK ROBOTS TXT
+
 ## Web
 
 ### Components
@@ -13,6 +15,7 @@
 - [ ] add Vercel deploy (@nathan)
 - [ ] add guides (@nathan)
 - [ ] forms (@nathan)
+- [ ] seo fields (@nathan)
 
 ### Packages
 
@@ -31,3 +34,11 @@
 
 - [ ] sanity importers
 - [ ] sanity/web sync
+
+---
+
+home
+about
+contact
+projects
+pages [...]

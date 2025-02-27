@@ -2,6 +2,8 @@ import "./app.css";
 import { MetaProvider, Title } from "@solidjs/meta";
 import { Router, useBeforeLeave } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
+import { getRequestEvent } from "solid-js/web";
+
 import { Suspense } from "solid-js";
 import { useViewport } from "~/lib/hooks/useViewport";
 
@@ -41,7 +43,7 @@ export default function App() {
 
 // ////////////////
 
-const GlobalLayout = ({ children }: { children: any }) => {
+const GlobalLayout = ({ children, ...props }: { children: any }) => {
   // useBeforeLeave(({ from, to }) => {
   //   console.log(from.pathname, to);
   // });
