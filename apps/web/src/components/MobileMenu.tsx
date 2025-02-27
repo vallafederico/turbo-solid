@@ -10,7 +10,7 @@ const closeOnLeave = (self: HTMLInputElement) => {
 
 export default function MobileMenu({ children }: { children: any }) {
   return (
-    <div data-dropdown="wrapper" class="md:hidden">
+    <div data-dropdown="wrapper" class="pointer-events-auto md:hidden">
       {/* icon */}
       <button class="relative z-20 aspect-square size-[2rem]">
         <div

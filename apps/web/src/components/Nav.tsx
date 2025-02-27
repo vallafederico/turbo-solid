@@ -38,13 +38,13 @@ const NAV_LINKS = [
 
 export const Nav = () => {
   return (
-    <nav class="px-gx fixed top-0 left-0 z-100 flex w-screen items-center justify-between py-6">
+    <nav class="px-gx pointer-events-none fixed top-0 left-0 z-100 flex w-screen items-center justify-between py-6">
       <Aa class="z-20" to="/">
         <p>LOGO</p>
       </Aa>
 
       {/* desktop menu */}
-      <ul class="hidden justify-between md:flex">
+      <ul class="pointer-events-auto hidden justify-between md:flex">
         <For each={NAV_LINKS}>
           {({ to, text }) => (
             <li>
