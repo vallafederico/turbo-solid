@@ -41,6 +41,6 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: plugins,
+    plugins,
   },
 });
