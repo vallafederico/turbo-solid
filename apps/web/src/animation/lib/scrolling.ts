@@ -104,7 +104,7 @@ export function onTrack(
     );
 
     if (lerp !== false) {
-      lerped = lerpFunc(lerped, val, lerp);
+      lerped = lerpFunc(lerped, val, lerp); // (*) SWAP TO DAMP < framerate independent
       val = lerped;
     }
 
