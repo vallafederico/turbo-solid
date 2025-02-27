@@ -9,15 +9,15 @@ export const useSlider = (
   config = {
     infinite: true,
     snap: true,
+    onSlideChange: (index: number) => {
+      // console.log(index);
+    },
   },
 ) => {
   let sliderRef: HTMLDivElement;
   let slider: any;
   let raf: () => void;
-
-  const setSliderRef = (el: HTMLDivElement) => {
-    sliderRef = el;
-  };
+  const setSliderRef = (el: HTMLDivElement) => (sliderRef = el);
 
   onMount(() => {
     if (!sliderRef) return;
