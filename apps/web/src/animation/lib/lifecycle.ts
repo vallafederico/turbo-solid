@@ -6,7 +6,7 @@ type Callback =
   | ((duration?: number) => void)
   | (() => Promise<gsap.core.Omit<gsap.core.Tween, "then">>);
 
-export function onPageLeave(element: HTMLElement, fn: Callback) {
+export function onPageLeave(element?: HTMLElement, fn?: Callback) {
   const vo = createVisibilityObserver({ threshold: 0 });
   const visible = vo(element);
 

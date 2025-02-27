@@ -39,7 +39,7 @@ const NAV_LINKS = [
 export const Nav = () => {
   return (
     <nav class="px-gx fixed top-0 left-0 z-100 flex w-screen items-center justify-between py-6">
-      <Aa to="/">
+      <Aa class="z-20" to="/">
         <p>LOGO</p>
       </Aa>
 
@@ -58,10 +58,18 @@ export const Nav = () => {
 
       {/* mobile menu */}
       <MobileMenu>
-        <ul>
-          <For each={NAV_LINKS}>{({ to, text }) => <li>{text}</li>}</For>
+        <ul class="flex flex-col gap-4">
+          <For each={NAV_LINKS}>
+            {({ to, text }) => (
+              <li>
+                <Aa to={to}>{text}</Aa>
+              </li>
+            )}
+          </For>
         </ul>
       </MobileMenu>
     </nav>
   );
 };
+
+//
