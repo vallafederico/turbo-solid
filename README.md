@@ -21,6 +21,7 @@ CHECK ROBOTS TXT
   - [ ] robots.txt
   - [ ] ...
 - [ ] FUCKING HELL CLEAN UP THE CONFIGURATION ISSUE SIN SANITY BITCH
+- [ ] remove schdules and clean up bar
 
 ### Packages
 

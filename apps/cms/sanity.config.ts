@@ -17,15 +17,11 @@ export default defineConfig({
   icon: Logo,
   plugins: [
     structureTool({structure}),
-    visionTool(),
     noteField(),
-    vercelDeployTool(),
+    media(),
     userGuidePlugin({userGuideStructure}),
-    media({
-      creditLine: {
-        enabled: true,
-      },
-    }),
+    visionTool(),
+    vercelDeployTool(),
   ],
   schema: {
     types: schemaTypes,
