@@ -1,6 +1,6 @@
 import { writeFile, readFile, mkdir } from "fs/promises";
 import { join } from "path";
-import { PAGE_TEMPLATES } from "./templates/pages";
+import { PAGE_TEMPLATES } from "./src/templates/pages";
 
 type NewPageHandler = (params: {
   filePath: string;

@@ -1,11 +1,13 @@
 import { SANITY_SYNC } from "../../config";
 import { createWatcher } from "./src/utils/watcher";
+
 import {
   handleNewFile,
   handleModifiedFile,
   handleDeletedFile,
 } from "./src/slices";
-import { handleNewPage, handleDeletedPage } from "./src/pages";
+
+import { handleNewPage, handleDeletedPage } from "./pages";
 
 /////////////////////////////// config
 
