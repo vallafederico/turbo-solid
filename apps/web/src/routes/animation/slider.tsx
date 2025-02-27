@@ -2,6 +2,7 @@ import { Title } from "@solidjs/meta";
 import Slider from "~/components/animation/Slider";
 import Section from "~/components/Section";
 import Aa from "~/components/Aa";
+import { For } from "solid-js";
 
 import { animateAlpha } from "~/animation/alpha";
 
@@ -18,7 +19,17 @@ export default function SliderPage() {
         use:animateAlpha
         class="flex-center max-w-screen overflow-clip py-20"
       >
-        <Slider class="h-[70vh]" />
+        <Slider class="flex h-[70vh] w-full pl-[calc(50vw-15vw)]">
+          <For each={Array.from({ length: 10 }, (v, i) => i)}>
+            {(item) => (
+              <div class="w-[35vw] shrink-0 p-2">
+                <div class="flex-center size-full outline outline-gray-700">
+                  {item}
+                </div>
+              </div>
+            )}
+          </For>
+        </Slider>
       </div>
     </div>
   );

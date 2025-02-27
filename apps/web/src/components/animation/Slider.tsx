@@ -1,60 +1,55 @@
 import cx from "classix";
-import { createSignal } from "solid-js";
-import { useSlider, styles } from "~/animation/slider";
-import { useWindowResize } from "~/lib/hooks/useWindowResize";
+import Core from "smooothy";
+import { onMount, onCleanup } from "solid-js";
+import { Raf } from "~/app/raf";
+
+export const useSlider = (
+  config = {
+    infinite: true,
+    snap: true,
+  },
+) => {
+  let sliderRef: HTMLDivElement;
+  let slider: any;
+  let raf: () => void;
+
+  const setSliderRef = (el: HTMLDivElement) => {
+    sliderRef = el;
+  };
+
+  onMount(() => {
+    if (!sliderRef) return;
+
+    slider = new Core(sliderRef, {
+      ...config,
+    });
+
+    raf = Raf.subscribe(() => {
+      slider.update();
+    });
+  });
+
+  onCleanup(() => {
+    if (!slider) return;
+    slider.destroy();
+    raf();
+  });
+
+  return { slider, ref: setSliderRef };
+};
 
 export default function Slider({
-  class: className = "",
-  childClass = "",
+  class: className,
   children,
 }: {
   class?: string;
-  childClass?: string;
   children?: any;
 } = {}) {
-  const animate = (self: HTMLDivElement) => {
-    /** initialise with params */
-    let [enable, setEnable] = createSignal(true);
-    let [mode, setMode] = createSignal(false);
-
-    useSlider(self, {
-      onSlideChange: (i: number) => {
-        // console.log("slidechanged", i);
-      },
-      onSlideSettle: (i: number) => {
-        // console.log("slideSettled", i);
-      },
-      enable,
-      mode,
-    });
-
-    /** initialise with defaults */
-    // useSlider(self);
-
-    setTimeout(() => {
-      setMode(true);
-    }, 3000);
-
-    useWindowResize(({ width }) => {
-      if (width < 800) {
-        setEnable(false);
-      } else {
-        setEnable(true);
-      }
-    });
-  };
-
-  const arr = Array.from({ length: 10 }, (v, i) => i);
+  const { ref, slider } = useSlider();
 
   return (
-    <div use:animate class={cx(className, styles.wrapper)}>
-      {children
-        ? children
-        : arr.map((item) => (
-            <div class={cx(childClass, styles.children, "outline-1")}>
-              {item}
-            </div>
-          ))}
+    <div ref={ref} class={cx(className)}>
+      {children}
     </div>
   );
 }

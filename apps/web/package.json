@@ -19,6 +19,7 @@
     "gsap": "npm:@gsap/shockingly@^3.12.7",
     "lenis": "^1.1.18",
     "lil-gui": "^0.20.0",
+    "smooothy": "^0.0.4",
     "solid-js": "^1.9.3",
     "three": "^0.171.0",
     "vinxi": "^0.5.1",
