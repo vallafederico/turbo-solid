@@ -41,14 +41,16 @@ export const useSlider = (
 export default function Slider({
   class: className,
   children,
+  ...rest
 }: {
   class?: string;
   children?: any;
+  rest?: { [key: string]: any };
 } = {}) {
   const { ref, slider } = useSlider();
 
   return (
-    <div ref={ref} class={cx(className)}>
+    <div ref={ref} class={cx(className)} {...rest}>
       {children}
     </div>
   );

@@ -19,10 +19,13 @@ export default function SliderPage() {
         use:animateAlpha
         class="flex-center max-w-screen overflow-clip py-20"
       >
-        <Slider class="flex h-[70vh] w-full pl-[calc(50vw-15vw)]">
+        <Slider
+          style="--slide: 35vw"
+          class="flex h-[70vh] w-full pl-[calc(50vw-calc(var(--slide)/2))]"
+        >
           <For each={Array.from({ length: 10 }, (v, i) => i)}>
             {(item) => (
-              <div class="w-[35vw] shrink-0 p-2">
+              <div class="w-[var(--slide)] shrink-0 p-2">
                 <div class="flex-center size-full outline outline-gray-700">
                   {item}
                 </div>
