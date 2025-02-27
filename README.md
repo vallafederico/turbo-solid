@@ -37,6 +37,10 @@ CHECK ROBOTS TXT
 - [ ] localisation (eventually)
 - [ ] get vercel analytics into sanity dashboard
 - [ ] CWV
+- [ ] Migration tools
+  - [ ] push jsonnd to sanity
+  - [ ] format from wordpress
+  - [ ] format from webflow
 
 ### Scripts
 
