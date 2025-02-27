@@ -25,7 +25,7 @@ CHECK ROBOTS TXT
 
 ### Packages
 
-- [ ] SIETAMP GENERATOR
+- [x] SIETAMP GENERATOR
 - [ ] Sanity Solid (@nathan)
   - [ ] finish sanity setup
   - [ ] add component for data fetching
