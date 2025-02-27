@@ -12,7 +12,7 @@ export const structure = (S: StructureBuilder, context: StructureContext) => {
     .items([
       // folder('Pages', MdPages, [
       singlePage('Home', 'home', MdHome),
-      // singlePage('About', 'page', MdHome),
+      singlePage('About', 'about', MdHome),
       pageList('Pages', 'page', MdPages),
       div(),
       singlePage('SEO', 'settings.seo', MdSearch),

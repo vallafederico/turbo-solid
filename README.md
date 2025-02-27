@@ -12,10 +12,15 @@ CHECK ROBOTS TXT
 
 ## CMS
 
-- [ ] add Vercel deploy (@nathan)
+- [x] add Vercel deploy (@nathan)
 - [ ] add guides (@nathan)
 - [ ] forms (@nathan)
 - [ ] seo fields (@nathan)
+  - [ ] schema markup
+  - [ ] canonical
+  - [ ] robots.txt
+  - [ ] ...
+- [ ] FUCKING HELL CLEAN UP THE CONFIGURATION ISSUE SIN SANITY BITCH
 
 ### Packages
 
@@ -29,6 +34,8 @@ CHECK ROBOTS TXT
 
 - [ ] Ecommerce Package (Shopify Utils) (eventually)
 - [ ] localisation (eventually)
+- [ ] get vercel analytics into sanity dashboard
+- [ ] CWV
 
 ### Scripts
 
@@ -37,8 +44,23 @@ CHECK ROBOTS TXT
 
 ---
 
-home
-about
-contact
-projects
-pages [...]
+## Desk Structure @nathan
+
+- home
+- pages [...]
+
+--
+
+- Gloabl SEO
+
+- Global Layout
+
+- Socials
+
+- Settings
+  -- API keys
+  -- mailchimp
+
+...
+
+-
