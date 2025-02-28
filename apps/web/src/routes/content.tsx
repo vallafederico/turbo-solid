@@ -26,7 +26,9 @@ export default function Content() {
         return (
           <div use:animateAlpha>
             <PageSlices slices={data.slices} sliceList={SLICE_LIST} />
-            <SanityFormFields fields={data.form} fieldList={fieldList} />
+            <form class="flex flex-col gap-4 [&>input]:w-full [&>label]:flex [&>label]:flex-col [&>label]:gap-1">
+              <SanityFormFields fields={data.form} fieldList={fieldList} />
+            </form>
           </div>
         );
       }}
