@@ -16,8 +16,8 @@ export default createPage({
           name: 'textInput',
         },
         {
-          type: 'textarea',
-          name: 'textarea',
+          type: 'textareaInput',
+          name: 'textareaInput',
         },
         {
           type: 'selectInput',

@@ -2,7 +2,7 @@ import {MdTextFormat} from 'react-icons/md'
 import {FIELD_PREVIEW, DEFAULT_FORM_FIELDS, PLACEHOLDER_FIELD} from './field-defaults'
 
 export default {
-  name: 'textarea',
+  name: 'textareaInput',
   icon: MdTextFormat,
   title: 'Textarea (Mulitline Text)',
   type: 'object',

@@ -6,6 +6,7 @@ import {
   SanityFormFields,
   TextInput,
   SelectInput,
+  TextareaInput,
 } from "@local/sanity";
 import { createAsync } from "@solidjs/router";
 import { animateAlpha } from "~/animation/alpha";
@@ -16,6 +17,7 @@ export default function Content() {
   const fieldList = {
     textInput: TextInput,
     selectInput: SelectInput,
+    textareaInput: TextareaInput,
   };
 
   return (
