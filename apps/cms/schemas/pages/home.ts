@@ -6,4 +6,24 @@ export default createPage({
   seo: true,
   slices: true,
   name: 'home',
+  fields: [
+    {
+      name: 'form',
+      type: 'array',
+      of: [
+        {
+          type: 'textInput',
+          name: 'textInput',
+        },
+        {
+          type: 'textarea',
+          name: 'textarea',
+        },
+        {
+          type: 'selectInput',
+          name: 'selectInput',
+        },
+      ],
+    },
+  ],
 })

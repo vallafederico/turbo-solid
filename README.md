@@ -21,15 +21,15 @@ CHECK ROBOTS TXT
   - [ ] robots.txt
   - [ ] ...
 - [ ] FUCKING HELL CLEAN UP THE CONFIGURATION ISSUE SIN SANITY BITCH
-- [ ] remove schdules and clean up bar
+- [x] remove schdules and clean up bar
 
 ### Packages
 
 - [x] SIETAMP GENERATOR
-- [ ] Sanity Solid (@nathan)
-  - [ ] finish sanity setup
-  - [ ] add component for data fetching
-  - [ ] do the <Slices>
+- [x] Sanity Solid (@nathan)
+  - [x] finish sanity setup
+  - [x] add component for data fetching
+  - [x] do the <Slices>
 
 #### Future
 

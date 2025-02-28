@@ -1,4 +1,5 @@
 import type { SanityImageAssetDocument } from '@sanity/client'
+import { JSX } from 'solid-js'
 
 export type SanityImageProps = {
 	src: SanityImageAssetDocument
@@ -30,4 +31,11 @@ export type SanityLinkProps = {
     noFollow?: boolean
     noReferrer?: boolean
   }
+}
+
+export type BaseInputProps = {
+  label: string
+  placeholder: string
+  required: boolean
+  class?: string
 }
