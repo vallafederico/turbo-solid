@@ -12,8 +12,8 @@ export default {
         {title: 'Microhead', value: 'h4'},
       ],
       lists: [
-        {title: '', value: 'bullet'},
-        {title: '', value: 'number'},
+        {title: 'Bullets', value: 'bullet'},
+        {title: 'Numbers', value: 'number'},
       ],
       marks: {
         annotations: [
