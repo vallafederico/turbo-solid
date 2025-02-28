@@ -1,4 +1,6 @@
-import { SLICE_LIST } from "~/components/slices";
+```jsx
+/* routes/whatever.tsx  */
+import { SLICE_LIST } from "~/components/slices"; // import slice list
 
 import {
   SanityPage,
@@ -12,14 +14,20 @@ import {
 import { createAsync } from "@solidjs/router";
 import { animateAlpha } from "~/animation/alpha";
 
-export default function Content() {
-  const fetcher = createAsync(() => getDocumentByType("home"));
+const getContent = async () => {
+  "use server";
+  const data = await getDocumentByType("home");
+  return data;
+};
 
-  const fieldList = {
-    textInput: TextInput,
-    selectInput: SelectInput,
-    textareaInput: TextareaInput,
-  };
+export default function Content() {
+  const fetcher = createAsync(() => getContent());
+
+  //   const fieldList = {
+  //     textInput: TextInput,
+  //     selectInput: SelectInput,
+  //     textareaInput: TextareaInput,
+  //   };
 
   return (
     <SanityPage fetcher={fetcher}>
@@ -42,3 +50,4 @@ export default function Content() {
     </SanityPage>
   );
 }
+```
