@@ -1,21 +1,4 @@
-import { SanityDocumentStub } from "@sanity/client"
-
-interface SanityLinkProps {
-  url: string
-  label: string
-  linkType: 'internal' | 'external'
-  page?: {
-    _type: string
-    slug: {
-      current: string
-      fullUrl?: string
-    }
-  }
-  advanced?: {
-    noFollow?: boolean
-    noReferrer?: boolean
-  }
-}
+import type { SanityLinkProps } from '../types'
 
 export const sanityLink = (props: SanityLinkProps) => { 
   const { url, label, linkType, page, advanced } = props

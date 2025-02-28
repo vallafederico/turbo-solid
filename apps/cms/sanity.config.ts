@@ -12,17 +12,25 @@ import {userGuideStructure} from './guides/userGuideStructure'
 
 import {SANITY} from '../../config'
 
+const sharedConfig = [
+  structureTool({
+    name: 'studio',
+    title: 'Studio',
+    structure,
+  }),
+  media(),
+  noteField(),
+  userGuidePlugin({userGuideStructure}),
+  vercelDeployTool(),
+]
+
+const devConfig = [visionTool()]
+
 export default defineConfig({
   ...SANITY,
+  scheduledPublishing: {enabled: false}, // enable if client pays for this feature
   icon: Logo,
-  plugins: [
-    structureTool({structure}),
-    noteField(),
-    media(),
-    userGuidePlugin({userGuideStructure}),
-    visionTool(),
-    vercelDeployTool(),
-  ],
+  plugins: [...sharedConfig, ...(import.meta.env.DEV === 'development' ? devConfig : [])],
   schema: {
     types: schemaTypes,
   },
