@@ -1,7 +1,7 @@
 import { Group } from "three";
 import { Resizer } from "../resizer";
 import { Scroll } from "../../scroll";
-import { clientRectGl } from "~/utils/clientRect";
+import { clientRectGl } from "~/lib/utils/clientRect";
 import { Gl } from "../gl";
 
 export class DomGroup extends Group {

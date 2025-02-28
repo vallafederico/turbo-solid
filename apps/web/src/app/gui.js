@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { isClient } from "~/utils/isClient";
+import { isClient } from "~/lib/utils/isClient";
 
 const guiKey = "GUI_STATE";
 

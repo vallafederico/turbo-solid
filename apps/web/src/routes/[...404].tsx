@@ -4,7 +4,7 @@ import Aa from "~/components/Aa";
 
 export default function NotFound() {
   return (
-    <main class="flex-center h-screen">
+    <div class="flex-center h-screen">
       <Title>Not Found</Title>
       <HttpStatusCode code={404} />
 
@@ -13,6 +13,6 @@ export default function NotFound() {
 
         <Aa to="/">Back to website</Aa>
       </div>
-    </main>
+    </div>
   );
 }

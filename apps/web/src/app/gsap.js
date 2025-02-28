@@ -1,4 +1,4 @@
-import { isClient } from "../utils/isClient";
+import { isClient } from "../lib/utils/isClient";
 import gsap from "gsap";
 import SplitText from "gsap/dist/SplitText";
 

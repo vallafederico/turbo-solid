@@ -1,6 +1,15 @@
 import { defineConfig } from "@solidjs/start/config";
 import solidSvg from "vite-plugin-solid-svg";
 import glsl from "vite-plugin-glsl";
+import { solidStartSiteMapPlugin } from "solid-start-sitemap";
+
+const sitemap = solidStartSiteMapPlugin({
+  hostname: "https://example.com",
+  replaceRouteParams: {
+    ":postId": [1, 2, 3],
+  },
+  limit: 5000,
+});
 
 const plugins = [
   glsl({
@@ -31,6 +40,8 @@ const plugins = [
     //   },
     // },
   }),
+
+  sitemap,
 ];
 
 export default defineConfig({
@@ -41,6 +52,6 @@ export default defineConfig({
     },
   },
   vite: {
-    plugins: plugins,
+    plugins,
   },
 });

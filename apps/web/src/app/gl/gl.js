@@ -3,7 +3,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import gsap from "../gsap";
 
 import { Gui } from "~/app/gui";
-import { lerp } from "~/utils/math";
+import { lerp } from "~/lib/utils/math";
 import { useMouseSpeed } from "./utils/mouseSpeed";
 
 import { Scene } from "./scene";

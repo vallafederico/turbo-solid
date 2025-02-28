@@ -3,7 +3,6 @@ import Counter from "~/components/Counter";
 import Section from "~/components/Section";
 import Aa from "~/components/Aa";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
 import { animateAlpha } from "~/animation/alpha.js";
 import Track from "@components/animation/Track";
 import { createAsync, useNavigate } from "@solidjs/router";
@@ -17,10 +16,9 @@ import {
   parseCookiesClient,
   removeCookieClient,
   setCookieClient,
-} from "~/utils/cookies";
+} from "~/lib/utils/cookies";
 
 export default function Protected() {
-  setLocationCallback();
   const navigate = useNavigate();
 
   const logIn = () => {
@@ -36,7 +34,7 @@ export default function Protected() {
   };
 
   return (
-    <main class="min-h-[100vh] pt-20">
+    <div class="min-h-[100vh] pt-20">
       <Section class="px-gx">
         <div>Protected</div>
 
@@ -48,6 +46,6 @@ export default function Protected() {
 
         <a href="/protected/test2">To protected Page</a>
       </Section>
-    </main>
+    </div>
   );
 }

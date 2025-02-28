@@ -1,20 +1,18 @@
 import "./app.css";
-
 import { MetaProvider, Title } from "@solidjs/meta";
-import { Router } from "@solidjs/router";
+import { Router, useBeforeLeave } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
+import { getRequestEvent } from "solid-js/web";
+
 import { Suspense } from "solid-js";
-import { useViewport } from "./hooks/useViewport";
-// import { Scroll } from "./app/scroll";
+import { useViewport } from "~/lib/hooks/useViewport";
 
-import { Nav } from "./components/Nav";
-import Grid from "./components/Grid";
+import { Nav } from "~/components/Nav";
+import Grid from "~/components/Grid";
 
-import { useLocationCallback } from "./hooks/useLocationCallback";
-import Canvas from "./components/Canvas";
+import Canvas from "~/components/Canvas";
 
 export default function App() {
-  useLocationCallback();
   useViewport();
 
   return (
@@ -22,12 +20,16 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
+
           <Nav />
           <Grid />
 
-          <div data-scroll>
-            <Suspense>{props.children}</Suspense>
-          </div>
+          <main data-scroll>
+            <Suspense>
+              <GlobalLayout>{props.children}</GlobalLayout>
+            </Suspense>
+          </main>
+
           <Canvas />
         </MetaProvider>
       )}
@@ -38,3 +40,13 @@ export default function App() {
     </Router>
   );
 }
+
+// ////////////////
+
+const GlobalLayout = ({ children, ...props }: { children: any }) => {
+  // useBeforeLeave(({ from, to }) => {
+  //   console.log(from.pathname, to);
+  // });
+
+  return <>{children}</>;
+};

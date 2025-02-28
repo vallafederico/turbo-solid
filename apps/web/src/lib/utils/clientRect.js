@@ -1,6 +1,6 @@
 import { Gl } from "~/app/gl/gl";
-import { Scroll } from "../app/scroll";
-import { viewport } from "~/stores/viewportStore";
+import { Scroll } from "../../app/scroll";
+import { viewport } from "~/lib/stores/viewportStore";
 
 export const clientRect = (element) => {
   const bounds = element.getBoundingClientRect();

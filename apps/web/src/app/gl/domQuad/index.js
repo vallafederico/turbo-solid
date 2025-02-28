@@ -1,7 +1,7 @@
 import { Mesh, PlaneGeometry, RawShaderMaterial, DoubleSide } from "three";
 import { Resizer } from "../resizer";
 import { Scroll } from "../../scroll";
-import { clientRectGl } from "~/utils/clientRect";
+import { clientRectGl } from "~/lib/utils/clientRect";
 import { Gl } from "../gl";
 
 import vertexShader from "./vertex.vert";

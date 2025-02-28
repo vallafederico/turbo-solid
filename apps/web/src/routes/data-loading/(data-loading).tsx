@@ -1,13 +1,8 @@
 import { Title } from "@solidjs/meta";
-
-import Section from "~/components/Section";
 import { Show, Suspense } from "solid-js";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
 import { animateAlpha } from "~/animation/alpha.js";
-
 import { createAsync, query, type RouteSectionProps } from "@solidjs/router";
-import { createEffect } from "solid-js";
 
 // (*) how does this work?
 // https://github.com/solidjs/solid-start/blob/179500ffd6855f7248de7aa6f3672dc2bac773f2/examples/hackernews/src/routes/stories/%5Bid%5D.tsx
@@ -40,10 +35,8 @@ export const route = {
 };
 
 export default function Data(props: RouteSectionProps) {
-  setLocationCallback();
-
   return (
-    <main class="min-h-[100vh] pt-20">
+    <div class="min-h-[100vh] pt-20">
       {/* <Title>{loadeddata()?.title}</Title> */}
 
       <div class="px-gx flex flex-col gap-[2rem]">
@@ -75,7 +68,7 @@ export default function Data(props: RouteSectionProps) {
         </SuspenseQuery>
       </div>
       <div class="px-gx"></div>
-    </main>
+    </div>
   );
 }
 

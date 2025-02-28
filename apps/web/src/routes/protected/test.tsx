@@ -3,7 +3,6 @@ import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
 import Aa from "~/components/Aa";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
 import { animateAlpha } from "~/animation/alpha.js";
 
 import { createAsync, redirect } from "@solidjs/router";
@@ -41,7 +40,6 @@ const getData = cache(async () => {
 }, "test");
 
 export default function Test() {
-  setLocationCallback();
   const data = createAsync(async () => await getData());
 
   createEffect(() => {
@@ -52,7 +50,7 @@ export default function Test() {
     <>
       <Show when={data()}>
         <Title>Protected: {data()?.hello}</Title>
-        <main class="min-h-[100vh] pt-20">
+        <div class="min-h-[100vh] pt-20">
           <Section class="px-gx">
             <div>baseline test1 route</div>
             <div>{data().hello}</div>
@@ -62,7 +60,7 @@ export default function Test() {
               <Aa to="/protected/">back</Aa>
             </div>
           </Section>
-        </main>
+        </div>
       </Show>
     </>
   );

@@ -1,5 +1,5 @@
 import { createEffect, onCleanup, onMount } from "solid-js";
-import { isClient } from "~/utils/isClient";
+import { isClient } from "~/lib/utils/isClient";
 
 type ResizeCallback = (params: { width: number; height: number }) => void;
 let subs: ResizeCallback[] = [];

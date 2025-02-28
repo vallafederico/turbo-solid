@@ -3,7 +3,6 @@ import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
 import { Show } from "solid-js";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
 import { animateAlpha } from "~/animation/alpha.js";
 
 import { createAsync } from "@solidjs/router";
@@ -34,12 +33,10 @@ export const route = {
 };
 
 export default function Data() {
-  setLocationCallback();
-
   const [loadeddata] = createResource(() => getContent());
 
   return (
-    <main class="min-h-[100vh] pt-20">
+    <div class="min-h-[100vh] pt-20">
       {/* <Title>{loadeddata().hello}</Title> */}
       <Section class="px-gx">
         <div>The next bit is data</div>
@@ -47,6 +44,6 @@ export default function Data() {
           <div>{loadeddata().hello}</div>
         </Show>
       </Section>
-    </main>
+    </div>
   );
 }

@@ -5,7 +5,7 @@ import { Instance } from "./instance";
 import { loadAssets } from "./utils/loader";
 import { Model } from "./model";
 import { GpuInstance } from "./gpuInstance";
-import { setWebgl } from "~/stores/webglStore";
+import { setWebgl } from "~/lib/stores/webglStore";
 
 // import { Node } from "./quadNode";
 

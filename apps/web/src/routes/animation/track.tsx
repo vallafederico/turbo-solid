@@ -5,13 +5,9 @@ import Track from "~/components/animation/Track";
 
 import { animateAlpha } from "~/animation/alpha";
 
-import { setLocationCallback } from "~/hooks/useLocationCallback";
-
 export default function TrackPage() {
-  setLocationCallback();
-
   return (
-    <main class="min-h-[100vh] py-20">
+    <div class="min-h-[100vh] py-20">
       <Title>Track</Title>
 
       <Section class="px-gx">
@@ -26,6 +22,6 @@ export default function TrackPage() {
           <Track class="">hello</Track>
         </Section>
       </div>
-    </main>
+    </div>
   );
 }

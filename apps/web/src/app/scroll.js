@@ -1,6 +1,6 @@
 import Lenis from "lenis";
 import gsap from "./gsap";
-import { isClient } from "../utils/isClient";
+import { isClient } from "../lib/utils/isClient";
 import { Gl } from "./gl/gl";
 
 // (*) restructure in a smarter way

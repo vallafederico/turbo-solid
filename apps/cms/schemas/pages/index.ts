@@ -1,5 +1,5 @@
 import home from './home'
 import page from './page'
-import article from './article'
+import about from './about'
 
-export default [home, page, article]
+export default [home, page, about]

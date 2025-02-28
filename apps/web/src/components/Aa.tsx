@@ -8,11 +8,13 @@ export default function Aa({
   children,
   to,
   class: className,
+  callback,
   ...rest
 }: {
   children: any;
   to: string;
   class?: string;
+  callback?: (e: any) => void;
 }) {
   let el!: HTMLAnchorElement;
   const navigate = useNavigate();
@@ -20,6 +22,7 @@ export default function Aa({
 
   const handleClick = async (e: any) => {
     e.preventDefault();
+    if (callback) callback(e);
     await animateOutAndTransition(to, el, navigate, location);
   };
 

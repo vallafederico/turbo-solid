@@ -21,6 +21,8 @@
       "@gl/*": ["./src/gl/*"],
       "@components/*": ["./src/components/*"],
       "@app/*": ["./src/app/*"],
+      "@lib/*": ["./src/lib/*"],
+      "@hooks/*": ["./src/lib/hooks/*"],
       "~/*": ["./src/*"]
     }
   }

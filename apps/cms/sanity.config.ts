@@ -10,24 +10,18 @@ import {userGuidePlugin} from '@q42/sanity-plugin-user-guide'
 import {vercelDeployTool} from 'sanity-plugin-vercel-deploy'
 import {userGuideStructure} from './guides/userGuideStructure'
 
-export default defineConfig({
-  name: 'internetthings-starter',
-  title: 'Starter',
-  icon: Logo,
-  projectId: '6mav93fo',
-  dataset: 'production',
+import {SANITY} from '../../config'
 
+export default defineConfig({
+  ...SANITY,
+  icon: Logo,
   plugins: [
     structureTool({structure}),
-    visionTool(),
     noteField(),
-    vercelDeployTool(),
+    media(),
     userGuidePlugin({userGuideStructure}),
-    media({
-      creditLine: {
-        enabled: true,
-      },
-    }),
+    visionTool(),
+    vercelDeployTool(),
   ],
   schema: {
     types: schemaTypes,
