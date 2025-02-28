@@ -9,7 +9,6 @@ export type SanityImageProps = {
 	class?: string
 }
 
-
 export type SanityDocumentGetterOptions  = {
 	filter?: string | null
 	extraQuery?: string | null
@@ -18,16 +17,14 @@ export type SanityDocumentGetterOptions  = {
 	}
 }
 
-export type SanityLinkProps {
+export type SanityLinkProps = {
   url: string
   label: string
-  linkType: 'internal' | 'external'
-  page?: {
-    _type: string
-    slug: {
-      current: string
-      fullUrl?: string
-    }
+  linkType: "internal" | "external"
+  slug: {
+    current: string
+    fullUrl?: string
+    docType: string
   }
   advanced?: {
     noFollow?: boolean

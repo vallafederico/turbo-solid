@@ -29,6 +29,7 @@ export default function Aa({
   return (
     <A
       ref={el}
+      data-anchor="animated"
       onClick={handleClick}
       href={to}
       class={className ? className + " inline-block" : "inline-block"}

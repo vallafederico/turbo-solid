@@ -5,7 +5,6 @@ import {CgExternal} from 'react-icons/cg'
 import styles from './MediaSelector/mediaSelector.module.css'
 import {useCallback, useEffect, useState} from 'react'
 
-
 export default function LinkTypeSelector(props) {
   const [tabOptions, setTabOptions] = useState([])
   const {

@@ -1,6 +1,11 @@
 import sanityClient from '../client'
 import { WalkBuilder, deepCopy } from 'walkjs'
 
+const leadingSlash = (str: string) => {
+	if (!str || typeof str !== 'string') return str
+	return str?.startsWith('/') ? str : `/${str}`
+}
+
 const resolveLinks = async (inputData: any, maxDepth = 5) => {
 	const store = new Map()
 
@@ -8,20 +13,25 @@ const resolveLinks = async (inputData: any, maxDepth = 5) => {
 		const doc = store.get(id)
 		// accounts for objects named "link" AND the custom linkType selector that has the page object in it
 		if (['link'].includes(node.key) || ['page'].includes(node.key)) {
+			const isExternal = node.parent?.val?.linkType === 'external'
+			const isHomepage = doc._type === 'home' || doc._type === 'homepage'
 			const values = {
-				slug:
-					doc._type === 'home'
-						? { _type: 'slug', current: '/' }
-						: {
-								_type: 'slug',
-								current:
-									'/' +
-									(doc.slug?.current
-										? doc.slug.fullUrl || doc.slug.current
-										: `${doc._type}`),
-							},
+				// ...node.val,
 				label: node.parent?.val?.label,
-				docType: doc._type,
+				linkType: node.parent?.val?.linkType,
+
+
+			}
+
+			if (isExternal) {
+				values.url = node.parent?.val?.url
+			} else {
+				values.slug = {
+					current: leadingSlash(isHomepage ? '/' : doc.slug?.current),
+					fullUrl: leadingSlash(isHomepage ? '/' : doc.slug?.fullUrl),
+					docType: doc._type,
+					// ...doc, // adding this resolves ALL content for the referenced page, responses are too large
+				}
 			}
 
 			const _key = node.val._key || node.parent.val._key || doc._key

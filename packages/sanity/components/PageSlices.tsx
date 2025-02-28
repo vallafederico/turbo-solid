@@ -1,7 +1,10 @@
-import type { Component } from "solid-js"
+import type { Component, JSX } from "solid-js"
 import { Dynamic, For} from 'solid-js/web'
 
-type SliceList = Record<string, Component>
+type SliceList = {
+  [key: string]: Component<any>
+}
+
 
 export default function PageSlices({ slices, sliceList }: { slices: any[], sliceList: SliceList }) {
   return (

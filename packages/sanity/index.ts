@@ -3,7 +3,7 @@ export * from './types'
 // Utils
 export * from './utils/query'
 export * from './utils/assets'
-
+export * from './utils/link'
 
 // Client
 export { default as sanityClient } from './client'
@@ -11,3 +11,5 @@ export { default as sanityClient } from './client'
 // Components
 export { default as SanityPage } from './components/SanityPage'
 export { default as SanityMeta } from './components/SanityMeta'
+export { default as PageSlices } from './components/PageSlices'
+export { default as SanityLink } from './components/SanityLink'

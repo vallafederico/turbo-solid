@@ -52,6 +52,7 @@ export default function LinkOptions(props) {
       <TabList space={2}>
         {options.map((option, index) => (
           <Tab
+            defaultChecked={props?.value?.linkType === option.value}
             // tone={props?.value?.linkType === option.value ? 'primary' : 'default'}
             selected={props?.value?.linkType === option.value}
             onClick={() => handleTypeSelect(option.value)}

@@ -30,6 +30,10 @@ const NAV_LINKS = [
     to: "/data-loading",
     text: "Data",
   },
+  {
+    to: "/content",
+    text: "CMS Content",
+  },
   // {
   //   to: "/protected",
   //   text: "Protected",

@@ -12,7 +12,7 @@ export const getDocumentByType= async (
 	options?: SanityDocumentGetterOptions,
 ) => {
 	const { filter = '', extraQuery = '{...}', params = {} } = options || {}
-	const q = `*[_type == "${documentType}" ${filter || ''}]${extraQuery || '{...}'}`
+	const q = `*[_type == "${documentType}" ${filter || ''}][0]${extraQuery || '{...}'}`
 
 	const getter = async () => {
 		const data = await sanityClient.fetch(q, params)
@@ -31,7 +31,7 @@ export const getDocumentBySlug = (
 ) => {
 
 	const { filter = '', extraQuery = '[0]{...}', params = {} } = options || {}
-	const q = `*[_type == "${documentType}" && slug.current == "${slug}" ${filter || ''}]${extraQuery}`
+	const q = `*[_type == "${documentType}" && slug.current == "${slug}" ${filter || ''}][0]${extraQuery}`
 
 
 	const getter = async () => {
