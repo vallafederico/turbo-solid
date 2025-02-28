@@ -1,7 +1,7 @@
-import {getExtension, getImageDimensions} from '@sanity/asset-utils'
+import {AiFillRobot} from 'react-icons/ai'
 
 export default {
-  name: 'settings.seo',
+  name: 'seo',
   title: 'SEO',
   type: 'document',
   groups: [
@@ -59,6 +59,58 @@ export default {
       description:
         'Displayed when the site link is posted on social media, defaults to a screenshot of the homepage.',
       type: 'imageAlt',
+    },
+    {
+      name: 'robots',
+      title: 'Robots',
+      type: 'array',
+      group: 'meta',
+      description:
+        'Optional, if you want to specify specific rules for different user agents. This defaults to allowing access to all routes.',
+      of: [
+        {
+          type: 'object',
+          icon: AiFillRobot,
+          preview: {
+            select: {
+              userAgent: 'userAgent',
+              allow: 'allow',
+              disallow: 'disallow',
+            },
+            prepare({userAgent, allow, disallow}) {
+              return {
+                title: 'Agent: ' + (userAgent || ''),
+                subtitle: `Allow: ${allow}, Disallow: ${disallow}`,
+              }
+            },
+          },
+          fields: [
+            {
+              name: 'userAgent',
+              type: 'string',
+              options: {
+                list: [
+                  {title: 'All', value: '*'},
+                  {title: 'Googlebot', value: 'googlebot'},
+                  {title: 'Bingbot', value: 'bingbot'},
+                  {title: 'Baiduspider', value: 'baiduspider'},
+                  {title: 'Yandexbot', value: 'yandexbot'},
+                ],
+              },
+            },
+            {
+              name: 'allow',
+              title: 'Allow',
+              type: 'string',
+            },
+            {
+              name: 'disallow',
+              title: 'Disallow',
+              type: 'string',
+            },
+          ],
+        },
+      ],
     },
   ],
   preview: {

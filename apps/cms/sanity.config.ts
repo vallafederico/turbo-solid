@@ -30,7 +30,7 @@ export default defineConfig({
   ...SANITY,
   scheduledPublishing: {enabled: false}, // enable if client pays for this feature
   icon: Logo,
-  plugins: [...sharedConfig, ...(import.meta.env.DEV === 'development' ? devConfig : [])],
+  plugins: [...sharedConfig, ...(import.meta.env.DEV ? devConfig : [])],
   schema: {
     types: schemaTypes,
   },

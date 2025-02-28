@@ -20,7 +20,7 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
-          <Link rel="robots" href="/robots" />
+          <Link rel="robots" type="text/plain" href="/api/robots.txt" />
 
           <Nav />
           <Grid />

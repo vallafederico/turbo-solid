@@ -17,7 +17,7 @@ CHECK ROBOTS TXT
 - [x] forms (@nathan)
 - [ ] seo fields (@nathan)
   - [ ] schema markup
-  - [ ] canonical
+  - [x] canonical
   - [ ] robots.txt
   - [ ] ...
 - [ ] FUCKING HELL CLEAN UP THE CONFIGURATION ISSUE SIN SANITY BITCH
@@ -49,23 +49,5 @@ CHECK ROBOTS TXT
 
 ---
 
-## Desk Structure @nathan
-
-- home
-- pages [...]
-
---
-
-- Gloabl SEO
-
-- Global Layout
-
-- Socials
-
-- Settings
-  -- API keys
-  -- mailchimp
-
-...
 
 -

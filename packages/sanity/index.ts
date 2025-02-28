@@ -5,6 +5,8 @@ export * from './utils/query'
 export * from './utils/assets'
 export * from './utils/link'
 
+export * from './robots/sanity-robots-generator'
+
 // Client
 export { default as sanityClient } from './client'
 
@@ -20,3 +22,4 @@ export { default as SanityComponents } from './components/SanityComponents'
 export { default as TextInput } from './components/forms/TextInput'
 export { default as SelectInput } from './components/forms/SelectInput'
 export { default as TextareaInput } from './components/forms/TextareaInput'
+
