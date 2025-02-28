@@ -43,7 +43,7 @@ CHECK ROBOTS TXT
 
 ### Scripts
 
-- [ ] sanity importers
+- [ ] sanity importers << eventually
 - [ ] sanity/web sync
 
 ---
