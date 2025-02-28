@@ -2,9 +2,8 @@ import "./app.css";
 import { Link, MetaProvider, Title } from "@solidjs/meta";
 import { Router, useBeforeLeave } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-import { getRequestEvent } from "solid-js/web";
 
-import { onMount, Suspense } from "solid-js";
+import { Suspense } from "solid-js";
 import { useViewport } from "~/lib/hooks/useViewport";
 
 import { Nav } from "~/components/Nav";
