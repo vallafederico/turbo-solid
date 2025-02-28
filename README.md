@@ -18,8 +18,7 @@ CHECK ROBOTS TXT
 - [ ] seo fields (@nathan)
   - [ ] schema markup
   - [x] canonical
-  - [ ] robots.txt
-  - [ ] ...
+  - [x] robots.txt
 - [ ] FUCKING HELL CLEAN UP THE CONFIGURATION ISSUE SIN SANITY BITCH
 - [x] remove schdules and clean up bar
 
