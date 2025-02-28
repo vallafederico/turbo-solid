@@ -1,4 +1,3 @@
-
 export default {
   name: 'blockContent',
   title: 'Content',
@@ -17,6 +16,25 @@ export default {
         {title: '', value: 'number'},
       ],
       marks: {
+        annotations: [
+          {
+            name: 'link',
+            title: 'Link',
+            type: 'object',
+
+            fields: [
+              {
+                name: 'url',
+                type: 'string',
+              },
+              {
+                name: 'noFollow',
+                title: 'No Follow',
+                type: 'boolean',
+              },
+            ],
+          },
+        ],
         decorators: [
           {
             title: 'Italics',

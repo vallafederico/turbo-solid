@@ -9,11 +9,14 @@ export * from './utils/link'
 export { default as sanityClient } from './client'
 
 // Components
+export { default as PortableText } from './components/PortableText'
 export { default as SanityPage } from './components/SanityPage'
 export { default as SanityMeta } from './components/SanityMeta'
-export { default as PageSlices } from './components/PageSlices'
+
 export { default as SanityLink } from './components/SanityLink'
-export { default as SanityFormFields } from './components/forms/SanityFormFields'
+
+export { default as SanityComponents } from './components/SanityComponents'
+// Sanity forms
 export { default as TextInput } from './components/forms/TextInput'
 export { default as SelectInput } from './components/forms/SelectInput'
 export { default as TextareaInput } from './components/forms/TextareaInput'

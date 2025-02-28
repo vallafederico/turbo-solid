@@ -1,5 +1,5 @@
 import "./app.css";
-import { MetaProvider, Title } from "@solidjs/meta";
+import { Link, MetaProvider, Title } from "@solidjs/meta";
 import { Router, useBeforeLeave } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { getRequestEvent } from "solid-js/web";
@@ -20,6 +20,7 @@ export default function App() {
       root={(props) => (
         <MetaProvider>
           <Title>SolidStart - Basic</Title>
+          <Link rel="robots" href="/robots" />
 
           <Nav />
           <Grid />
@@ -29,7 +30,6 @@ export default function App() {
               <GlobalLayout>{props.children}</GlobalLayout>
             </Suspense>
           </main>
-
           <Canvas />
         </MetaProvider>
       )}

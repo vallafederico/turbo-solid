@@ -14,7 +14,7 @@ CHECK ROBOTS TXT
 
 - [x] add Vercel deploy (@nathan)
 - [ ] add guides (@nathan)
-- [ ] forms (@nathan)
+- [x] forms (@nathan)
 - [ ] seo fields (@nathan)
   - [ ] schema markup
   - [ ] canonical

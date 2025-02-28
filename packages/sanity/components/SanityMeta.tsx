@@ -27,6 +27,7 @@ export default function SanityMetatags({
 			<Meta property="twitter:description" content={description} />
 
 			<Link rel="icon" href="/favicon.ico" />
+	
 
 			{/* <Meta property="twitter:image" content={image} /> */}
 		</>

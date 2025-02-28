@@ -7,6 +7,7 @@ import {
   TextInput,
   SelectInput,
   TextareaInput,
+  SanityComponents,
 } from "@local/sanity";
 import { createAsync } from "@solidjs/router";
 import { animateAlpha } from "~/animation/alpha";
@@ -20,14 +21,22 @@ export default function Content() {
     textareaInput: TextareaInput,
   };
 
+
+  
   return (
     <SanityPage fetcher={fetcher}>
       {(data) => {
         return (
           <div use:animateAlpha>
-            <PageSlices slices={data.slices} sliceList={SLICE_LIST} />
+            <SanityComponents
+              components={data.slices}
+              componentList={SLICE_LIST}
+            />
             <form class="flex flex-col gap-4 [&>input]:w-full [&>label]:flex [&>label]:flex-col [&>label]:gap-1">
-              <SanityFormFields fields={data.form} fieldList={fieldList} />
+              <SanityComponents
+                components={data.form}
+                componentList={fieldList}
+              />
             </form>
           </div>
         );

@@ -151,6 +151,9 @@ importers:
 
   packages/sanity:
     dependencies:
+      '@portabletext/solid':
+        specifier: ^1.0.7
+        version: 1.0.7(solid-js@1.9.4)
       '@sanity/client':
         specifier: ^6.27.2
         version: 6.28.0(debug@4.4.0)
@@ -181,7 +184,7 @@ importers:
     devDependencies:
       '@types/bun':
         specifier: latest
-        version: 1.2.2
+        version: 1.2.4
       bun:
         specifier: ^1.2.2
         version: 1.2.2
@@ -194,7 +197,7 @@ importers:
     devDependencies:
       '@types/bun':
         specifier: latest
-        version: 1.2.2
+        version: 1.2.4
 
 packages:
 
@@ -1952,6 +1955,11 @@ packages:
     peerDependencies:
       react: ^17 || ^18 || >=19.0.0-0
 
+  '@portabletext/solid@1.0.7':
+    resolution: {integrity: sha512-irFqLD6lszR90s7odFX3deUjSV3cKeTC3FTbnvkczT7YRcBWKRH6WjHsOvbP5/o5ixBPG7RlfZ34ZvwVVytHFg==}
+    peerDependencies:
+      solid-js: ^1.6.0
+
   '@portabletext/to-html@2.0.14':
     resolution: {integrity: sha512-wW2et59PoOT/mc56C4U3z+DKAx1yjieN/gp2q9szTfTwusMpb6mclR9+EPIfGrcQWdwGn6PEN7nxVFXnqlZ/0A==}
     engines: {node: ^14.13.1 || >=16.0.0}
@@ -2688,8 +2696,8 @@ packages:
   '@types/braces@3.0.5':
     resolution: {integrity: sha512-SQFof9H+LXeWNz8wDe7oN5zu7ket0qwMu5vZubW4GCJ8Kkeh6nBWUz87+KTz/G3Kqsrp0j/W253XJb3KMEeg3w==}
 
-  '@types/bun@1.2.2':
-    resolution: {integrity: sha512-tr74gdku+AEDN5ergNiBnplr7hpDp3V1h7fqI2GcR/rsUaM39jpSeKH0TFibRvU0KwniRx5POgaYnaXbk0hU+w==}
+  '@types/bun@1.2.4':
+    resolution: {integrity: sha512-QtuV5OMR8/rdKJs213iwXDpfVvnskPXY/S0ZiFbsTjQZycuqPbMW8Gf/XhLfwE5njW8sxI2WjISURXPlHypMFA==}
 
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
@@ -3239,11 +3247,12 @@ packages:
   builtins@1.0.3:
     resolution: {integrity: sha512-uYBjakWipfaO/bXI7E8rq6kpwHRZK5cNYrUv2OzZSI/FvmdMyXJ2tG9dKcjEC5YHmHpUAwsargWIZNWdxb/bnQ==}
 
-  bun-types@1.2.2:
-    resolution: {integrity: sha512-RCbMH5elr9gjgDGDhkTTugA21XtJAy/9jkKe/G3WR2q17VPGhcquf9Sir6uay9iW+7P/BV0CAHA1XlHXMAVKHg==}
+  bun-types@1.2.4:
+    resolution: {integrity: sha512-nDPymR207ZZEoWD4AavvEaa/KZe/qlrbMSchqpQwovPZCKc7pwMoENjEtHgMKaAjJhy+x6vfqSBA1QU3bJgs0Q==}
 
   bun@1.2.2:
     resolution: {integrity: sha512-RUc8uVVTw8WoASUzXaEQJR1s7mnwoHm3P871qBUIqSaoOpuwcU+bSVX151/xoqDwnyv38SjOX7yQ3oO0IeT73g==}
+    cpu: [arm64, x64, aarch64]
     os: [darwin, linux, win32]
     hasBin: true
 
@@ -9575,6 +9584,12 @@ snapshots:
       '@portabletext/types': 2.0.13
       react: 18.3.1
 
+  '@portabletext/solid@1.0.7(solid-js@1.9.4)':
+    dependencies:
+      '@portabletext/toolkit': 2.0.17
+      '@portabletext/types': 2.0.13
+      solid-js: 1.9.4
+
   '@portabletext/to-html@2.0.14':
     dependencies:
       '@portabletext/toolkit': 2.0.17
@@ -10559,9 +10574,9 @@ snapshots:
 
   '@types/braces@3.0.5': {}
 
-  '@types/bun@1.2.2':
+  '@types/bun@1.2.4':
     dependencies:
-      bun-types: 1.2.2
+      bun-types: 1.2.4
 
   '@types/debug@4.1.12':
     dependencies:
@@ -10683,7 +10698,7 @@ snapshots:
 
   '@types/ws@8.5.14':
     dependencies:
-      '@types/node': 22.13.0
+      '@types/node': 22.13.4
 
   '@typescript-eslint/eslint-plugin@8.24.1(@typescript-eslint/parser@8.24.1(eslint@9.20.1(jiti@2.4.2))(typescript@5.7.3))(eslint@9.20.1(jiti@2.4.2))(typescript@5.7.3)':
     dependencies:
@@ -11238,9 +11253,9 @@ snapshots:
 
   builtins@1.0.3: {}
 
-  bun-types@1.2.2:
+  bun-types@1.2.4:
     dependencies:
-      '@types/node': 22.13.0
+      '@types/node': 22.13.4
       '@types/ws': 8.5.14
 
   bun@1.2.2:
