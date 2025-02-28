@@ -4,7 +4,7 @@ import { Router, useBeforeLeave } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { getRequestEvent } from "solid-js/web";
 
-import { Suspense } from "solid-js";
+import { onMount, Suspense } from "solid-js";
 import { useViewport } from "~/lib/hooks/useViewport";
 
 import { Nav } from "~/components/Nav";
@@ -25,11 +25,10 @@ export default function App() {
           <Nav />
           <Grid />
 
-          <main data-scroll>
-            <Suspense>
-              <GlobalLayout>{props.children}</GlobalLayout>
-            </Suspense>
-          </main>
+          <Suspense>
+            <GlobalLayout>{props.children}</GlobalLayout>
+          </Suspense>
+
           <Canvas />
         </MetaProvider>
       )}
@@ -48,5 +47,5 @@ const GlobalLayout = ({ children, ...props }: { children: any }) => {
   //   console.log(from.pathname, to);
   // });
 
-  return <>{children}</>;
+  return <main>{children}</main>;
 };

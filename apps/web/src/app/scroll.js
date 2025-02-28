@@ -29,16 +29,25 @@ export class Scroll {
   static init() {
     this.y = window.scrollY || 0;
     this.lenis = new Lenis({
-      wrapper: document.querySelector("[data-scroll]"),
+      wrapper: document.querySelector("#app"),
+      autoResize: false,
     });
 
-    gsap.ticker.add((time) => this.lenis.raf(time * 1000));
+    this.handleResize();
 
     this.lenis.on("scroll", ({ velocity, scroll, direction, progress }) => {
       this.y = scroll;
 
       this.onScroll({ velocity, scroll, direction, progress });
     });
+
+    gsap.ticker.add((time) => this.lenis.raf(time * 1000));
+  }
+
+  static handleResize() {
+    new ResizeObserver((entries) => {
+      this.lenis.resize();
+    }).observe(document.querySelector("main"));
   }
 
   static get scrollEventData() {

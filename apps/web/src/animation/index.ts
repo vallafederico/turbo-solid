@@ -31,7 +31,7 @@ async function animateOutAndTransition(
   await navigate(el.pathname);
 
   Scroll.lenis?.scrollTo(0, { immediate: true });
-  Scroll.lenis?.resize();
+  // Scroll.lenis?.resize();
 }
 
 /** exports */

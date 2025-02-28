@@ -3,8 +3,8 @@ import { SanityLink, sanityLink } from "@local/sanity";
 import { animateAlpha } from "~/animation/alpha";
 
 interface HeaderProps {
-    text: string /* autogen */;
-    link: any /* autogen */
+  text: string /* autogen */;
+  link: any /* autogen */;
 }
 
 export default function Header({ text, link }: HeaderProps) {
