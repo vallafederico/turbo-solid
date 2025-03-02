@@ -117,21 +117,12 @@ importers:
       solid-js:
         specifier: ^1.9.3
         version: 1.9.4
-      solid-start-sitemap:
-        specifier: ^0.2.2
-        version: 0.2.2(solid-js@1.9.4)(vinxi@0.5.1(@types/node@22.13.4)(db0@0.2.3)(ioredis@5.4.2)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(typescript@5.7.3)(yaml@2.7.0))
       three:
         specifier: ^0.171.0
         version: 0.171.0
       vinxi:
         specifier: ^0.5.1
         version: 0.5.1(@types/node@22.13.4)(db0@0.2.3)(ioredis@5.4.2)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(typescript@5.7.3)(yaml@2.7.0)
-      vite-plugin-glsl:
-        specifier: ^1.3.1
-        version: 1.3.1(rollup@4.34.8)(vite@6.1.1(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(yaml@2.7.0))
-      vite-plugin-solid-svg:
-        specifier: ^0.8.1
-        version: 0.8.1(solid-js@1.9.4)(vite@6.1.1(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(yaml@2.7.0))
     devDependencies:
       '@tailwindcss/postcss':
         specifier: ^4.0.0
@@ -145,9 +136,18 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.6.11
         version: 0.6.11(prettier-plugin-astro@0.14.1)(prettier@3.4.2)
+      solid-start-sitemap:
+        specifier: ^0.2.2
+        version: 0.2.2(solid-js@1.9.4)(vinxi@0.5.1(@types/node@22.13.4)(db0@0.2.3)(ioredis@5.4.2)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(typescript@5.7.3)(yaml@2.7.0))
       tailwindcss:
         specifier: ^4.0.0
         version: 4.0.3
+      vite-plugin-glsl:
+        specifier: ^1.3.1
+        version: 1.3.1(rollup@4.34.8)(vite@6.1.1(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(yaml@2.7.0))
+      vite-plugin-solid-svg:
+        specifier: ^0.8.1
+        version: 0.8.1(solid-js@1.9.4)(vite@6.1.1(@types/node@22.13.4)(jiti@2.4.2)(lightningcss@1.29.1)(terser@5.37.0)(yaml@2.7.0))
 
   packages/sanity:
     dependencies:
@@ -6530,6 +6530,7 @@ packages:
   sanity@3.76.1:
     resolution: {integrity: sha512-68aIdN67zepCFXjC8x8yIIbZrtMWl0FgnMYuwiE6FWNC+FcJjUtEY+/k0Qa8xbjoTHBGP/XjKGDF50FGH06Brw==}
     engines: {node: '>=18'}
+    deprecated: This version is using an experimental version of the Sanity HTTP API and we strongly recommend upgrading to latest
     hasBin: true
     peerDependencies:
       react: ^18 || ^19.0.0
@@ -6661,7 +6662,7 @@ packages:
 
   shikiji@0.9.19:
     resolution: {integrity: sha512-Kw2NHWktdcdypCj1GkKpXH4o6Vxz8B8TykPlPuLHOGSV8VkhoCLcFOH4k19K4LXAQYRQmxg+0X/eM+m2sLhAkg==}
-    deprecated: Deprecated, use shiki instead
+    deprecated: Shikiji is merged back to Shiki v1.0, please migrate over to get the latest updates
 
   side-channel-list@1.0.0:
     resolution: {integrity: sha512-FCLHtRD/gnpCiCHEiJLOwdmFP+wzCmDEkc9y7NsYxeF4u7Btsn1ZuwgwJGxImImHicJArLP4R0yX4c2KCrMrTA==}

@@ -22,11 +22,8 @@
     "lil-gui": "^0.20.0",
     "smooothy": "^0.0.4",
     "solid-js": "^1.9.3",
-    "solid-start-sitemap": "^0.2.2",
     "three": "^0.171.0",
-    "vinxi": "^0.5.1",
-    "vite-plugin-glsl": "^1.3.1",
-    "vite-plugin-solid-svg": "^0.8.1"
+    "vinxi": "^0.5.1"
   },
   "engines": {
     "node": ">=18"
@@ -36,6 +33,9 @@
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
-    "tailwindcss": "^4.0.0"
+    "tailwindcss": "^4.0.0",
+    "vite-plugin-glsl": "^1.3.1",
+    "vite-plugin-solid-svg": "^0.8.1",
+    "solid-start-sitemap": "^0.2.2"
   }
 }
