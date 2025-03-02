@@ -1,7 +1,5 @@
 import { Title } from "@solidjs/meta";
-
 import Section from "~/components/Section";
-
 import { animateAlpha } from "~/animation/alpha.js";
 
 export default function Home() {

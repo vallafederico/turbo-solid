@@ -31,13 +31,9 @@ const NAV_LINKS = [
     text: "Data",
   },
   {
-    to: "/content",
+    to: "/cms",
     text: "CMS Content",
   },
-  // {
-  //   to: "/protected",
-  //   text: "Protected",
-  // },
 ];
 
 export const Nav = () => {
