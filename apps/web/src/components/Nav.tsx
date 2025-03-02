@@ -11,27 +11,27 @@ const NAV_LINKS = [
   //   text: "Index",
   // },
   {
-    to: "/about",
+    to: "/_/about",
     text: "About",
   },
   {
-    to: "/animation",
+    to: "/_/animation",
     text: "Animation",
   },
   {
-    to: "/components",
+    to: "/_/components",
     text: "Components",
   },
   {
-    to: "/webgl",
+    to: "/_/webgl",
     text: "WebGl",
   },
   {
-    to: "/data-loading",
+    to: "/_/data-loading",
     text: "Data",
   },
   {
-    to: "/content",
+    to: "/_/content",
     text: "CMS Content",
   },
   // {
