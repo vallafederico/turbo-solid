@@ -19,7 +19,7 @@ export const structure: StructureResolver = (
       div(),
       pageList('Pages', 'page', MdPages),
       div(),
-      singlePage('Socials', 'settings.socials', AiOutlineFileSearch),
+      pageList('Socials', 'socials', AiOutlineFileSearch),
       div(),
       singlePage('Global SEO', 'seo', AiOutlineFileSearch),
       folder('Global Layout', MdSettings, [

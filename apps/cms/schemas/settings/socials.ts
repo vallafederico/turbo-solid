@@ -1,6 +1,9 @@
+import {createPreview} from '../../utils/preview'
+
 export default {
   name: 'socials',
   title: 'Socials',
+  preview: createPreview('name', 'url', 'icon'),
   type: 'document',
   fields: [
     {
