@@ -19,7 +19,7 @@ CHECK ROBOTS TXT
   - [ ] schema markup
   - [x] canonical
   - [x] robots.txt
-- [ ] FUCKING HELL CLEAN UP THE CONFIGURATION ISSUE SIN SANITY BITCH
+- [x] FUCKING HELL CLEAN UP THE CONFIGURATION ISSUE SIN SANITY BITCH
 - [x] remove schdules and clean up bar
 
 ### Packages
