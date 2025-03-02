@@ -11,11 +11,7 @@ interface FormSliceProps {
   textareaInput: any /* autogen */;
 }
 
-export default function FormSlice({
-  text,
-  fields,
-  textareaInput,
-}: FormSliceProps) {
+export default function FormSlice({ text, fields }: FormSliceProps) {
   const fieldList = {
     textInput: TextInput,
     selectInput: SelectInput,
