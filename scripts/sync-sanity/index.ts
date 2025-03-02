@@ -7,7 +7,7 @@ import {
   handleDeletedFile,
 } from "./src/slices";
 
-import { handleNewPage, handleDeletedPage } from "./pages";
+import { handleNewPage, handleDeletedPage } from "./src/pages";
 
 /////////////////////////////// config
 

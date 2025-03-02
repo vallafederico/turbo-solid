@@ -47,15 +47,51 @@ export const handleNewFile = async (
       await updateComponentProps(componentPath, fields);
       console.log(`Created/updated component file: ${componentPath}`);
 
-      // Update index.ts
+      // Create or update target folder index.ts
+      const targetIndexPath = join(componentDir, "index.ts");
+      let targetIndexContent = "";
+
+      try {
+        targetIndexContent = await readFile(targetIndexPath, {
+          encoding: "utf-8",
+        });
+      } catch (error) {
+        // File doesn't exist, create new content
+        targetIndexContent = "export const SLICE_LIST = {};\n";
+      }
+
+      // Add import if it doesn't exist
+      const importStatement = `import ${capitalizedName} from "./${capitalizedName}";`;
+      if (!targetIndexContent.includes(importStatement)) {
+        targetIndexContent = `${importStatement}\n${targetIndexContent}`;
+      }
+
+      // Update or add to SLICE_LIST
+      if (targetIndexContent.includes("export const SLICE_LIST")) {
+        // If SLICE_LIST exists, add new entry if not present
+        if (!targetIndexContent.includes(`${sliceName}: ${capitalizedName}`)) {
+          targetIndexContent = targetIndexContent.replace(
+            /export const SLICE_LIST = {/,
+            `export const SLICE_LIST = {\n  ${sliceName}: ${capitalizedName},`
+          );
+        }
+      } else {
+        // Create new SLICE_LIST
+        targetIndexContent += `\nexport const SLICE_LIST = {\n  ${sliceName}: ${capitalizedName},\n};\n`;
+      }
+
+      await writeFile(targetIndexPath, targetIndexContent);
+      console.log(`Updated target index.ts with ${sliceName}`);
+
+      // Update main index.ts
       const indexPath = join(process.cwd(), entry, "index.ts");
       let indexContent = await readFile(indexPath, { encoding: "utf-8" });
 
       // Add import
-      const importStatement = `import ${sliceName} from './${sliceName}'`;
+      const mainImportStatement = `import ${sliceName} from './${sliceName}'`;
       indexContent = indexContent.replace(
         /^(import.*\n)*/,
-        `$&${importStatement}\n`
+        `$&${mainImportStatement}\n`
       );
 
       // Add to array
