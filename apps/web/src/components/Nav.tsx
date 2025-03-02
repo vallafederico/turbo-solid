@@ -1,15 +1,9 @@
 import Aa from "./Aa";
 import { For } from "solid-js";
-
-// import SocialSprite from "~/components/svg/socialSprite.svg?component-solid";
 import { RollingText } from "./animation/RollingText";
 import MobileMenu from "./MobileMenu";
 
 const NAV_LINKS = [
-  // {
-  //   to: "/",
-  //   text: "Index",
-  // },
   {
     to: "/_/about",
     text: "About",
@@ -34,10 +28,6 @@ const NAV_LINKS = [
     to: "/_/content",
     text: "CMS Content",
   },
-  // {
-  //   to: "/protected",
-  //   text: "Protected",
-  // },
 ];
 
 export const Nav = () => {
