@@ -1,6 +1,6 @@
 import { PortableText } from "@local/sanity";
 
-export default function RichText({ body }: { body: any }) {
+export default function RichText({ text }: { body: any }) {
   const components = {
     marks: {
       link: ({ value }: { value: any }) => {

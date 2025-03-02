@@ -7,8 +7,7 @@ import {
 
 interface FormSliceProps {
   text: string /* autogen */;
-  fields: any /* autogen */;
-  textareaInput: any /* autogen */;
+  fields: any[];
 }
 
 export default function FormSlice({ text, fields }: FormSliceProps) {
