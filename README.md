@@ -3,6 +3,14 @@
 CHECK ROBOTS TXT
 
 ## Web
+- [ ] Add examples to frontend
+  - [ ] CMS Dynamic pages /article/(slug)
+  - [ ] CMS SEO on all pages
+  - [ ] CMS form fields example /forms
+  - [ ] CMS Slices example /slices
+  - [ ] /content needs tabs like animation and components
+- [ ] Accordions with summary and details
+
 
 ### Components
 
