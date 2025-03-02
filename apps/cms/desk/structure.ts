@@ -3,6 +3,7 @@ import type {StructureBuilder, StructureResolver, StructureResolverContext} from
 import {MdArticle, MdHome, MdPages, MdSearch, MdSettings} from 'react-icons/md'
 import {RiLayoutTop2Line, RiLayoutBottom2Line} from 'react-icons/ri'
 import {AiOutlineFileSearch} from 'react-icons/ai'
+import { IoShareSocial } from 'react-icons/io5'
 
 export const structure: StructureResolver = (
   S: StructureBuilder,
@@ -19,7 +20,7 @@ export const structure: StructureResolver = (
       div(),
       pageList('Pages', 'page', MdPages),
       div(),
-      pageList('Socials', 'socials', AiOutlineFileSearch),
+      pageList('Socials', 'socials', IoShareSocial),
       div(),
       singlePage('Global SEO', 'seo', AiOutlineFileSearch),
       folder('Global Layout', MdSettings, [
