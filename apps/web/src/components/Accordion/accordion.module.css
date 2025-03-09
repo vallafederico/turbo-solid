@@ -1,6 +1,6 @@
 .accordion {
   --duration: 0.4s;
-  /* DO NOT USE content: ""; Safari does not support it pre 18TP */
+
   & summary::marker{
     color: transparent;
     font-size: 0rem;
@@ -34,5 +34,4 @@
   & [data-accordion="content"]{
     overflow: hidden;
   }
-
 }

@@ -8,6 +8,7 @@ import Accordion from "~/components/Accordion/Accordion";
 import { For } from "solid-js";
 
 export default function DropdownPage() {
+  
   const content = [
     {
       title: "Dropdown 1",
@@ -25,9 +26,9 @@ export default function DropdownPage() {
 
       <div class="w-grids-3 mx-auto flex flex-col items-center gap-2">
         <For each={content}>
-          {(item) => (
+          {(item, i) => (
             <Accordion
-              headingClass="w-fullrounded-md p-3"
+              headingClass="w-full rounded-md p-3"
               class="w-full rounded-md border border-gray-800"
               title={item.title}
               name="dropdown"

@@ -1,13 +1,13 @@
-@import "./styles/variables.css";
-@import "./styles/typography.css";
+@import "./variables.css";
+@import "./typography.css";
 
 @import "tailwindcss";
-@import "./styles/animation.css";
-@import "./styles/accessibility.css";
-@import "./styles/utils.css";
-@import "./styles/main.css";
-@import "./styles/tailwind.css";
-@import "./styles/grid.css";
+@import "./animation.css";
+@import "./accessibility.css";
+@import "./utils.css";
+@import "./main.css";
+@import "./tailwind.css";
+@import "./grid.css";
 
 * {
   box-sizing: border-box;

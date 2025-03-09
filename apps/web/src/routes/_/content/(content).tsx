@@ -11,10 +11,7 @@ export default function Content() {
   return (
     <div class="pt-20" use:animateAlpha>
       <Title>CMS Content</Title>
-      {/* <SanityComponents
-                components={data.slices}
-                componentList={SLICE_LIST}
-              /> */}
+
       <div use:animateAlpha class="px-gx flex flex-col items-start gap-4">
         <h2>CMS Content</h2>
         <ul class="mt-6 flex flex-col items-start gap-3">

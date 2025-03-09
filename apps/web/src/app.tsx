@@ -1,4 +1,4 @@
-import "./app.css";
+import "./styles/app.css";
 import { Link, MetaProvider, Title } from "@solidjs/meta";
 import { Router, useBeforeLeave } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
