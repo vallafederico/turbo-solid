@@ -62,6 +62,8 @@ export const createPage = (opts: PageAttributes) => {
     slices,
   } = options
 
+  console.log(options)
+
   if (body) {
     allFields.push({
       name: 'body',
@@ -74,7 +76,26 @@ export const createPage = (opts: PageAttributes) => {
     allFields.push(...pageDefaultsSeo)
   }
 
-  if (slug && !prefix) {
+  // if (slug && !prefix) {
+  //   allFields.unshift({
+  //     name: 'slug',
+  //     description: 'Click generate to build a URL for this page.',
+  //     title: 'Slug',
+  //     type: 'slug',
+  //     initialValue: slugify(title),
+  //     components: {
+  //       input: prefix ? SlugInput : undefined,
+  //     },
+  //     options: {
+  //       source: 'title',
+  //       urlPrefix: `${prefix || slugify(title)}/`,
+  //       storeFullUrl: true,
+  //     },
+  //     validation: (Rule) => Rule.required().error('This page needs a slug'),
+  //   })
+  // }
+
+  if (slug !== false) {
     allFields.unshift({
       name: 'slug',
       description: 'Click generate to build a URL for this page.',
@@ -92,6 +113,7 @@ export const createPage = (opts: PageAttributes) => {
       validation: (Rule) => Rule.required().error('This page needs a slug'),
     })
   }
+
   if (title) {
     allFields.unshift({
       name: 'title',

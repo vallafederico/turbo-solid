@@ -5,13 +5,7 @@ export default createPage({
   name: 'article',
   icon: MdArticle,
   title: 'Article',
+  prefix: 'article',
   slices: false,
   body: true,
-  fields: [
-    {
-      name: 'link',
-      title: 'Link',
-      type: 'link',
-    },
-  ],
 })

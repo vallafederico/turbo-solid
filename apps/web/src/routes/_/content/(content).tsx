@@ -21,7 +21,7 @@ export default function Content() {
             </Aa>
           </li>
           <li>
-            <Aa animate-hover="underline" to="/_/content/article/1">
+            <Aa animate-hover="underline" to="/_/content/article/test">
               Article
             </Aa>
           </li>
