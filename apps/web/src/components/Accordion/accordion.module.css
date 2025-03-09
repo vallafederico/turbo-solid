@@ -1,0 +1,38 @@
+.accordion {
+  --duration: 0.4s;
+  /* DO NOT USE content: ""; Safari does not support it pre 18TP */
+  & summary::marker{
+    color: transparent;
+    font-size: 0rem;
+  }
+
+  & summary {
+    position: relative;
+    cursor: pointer;
+  }
+
+  &::details-content{
+    content-visibility: visible;
+  }
+
+  &[open] [data-accordion="panel"]{
+    grid-template-rows: 1fr;
+  }
+
+  & [data-accordion="panel"]{
+    display: grid;
+    transition: grid-template-rows var(--duration) ease-out, content-visibility var(--duration) ease-out;
+    grid-template-rows: 0fr;
+  }
+
+  & [data-accordion="icon"]{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  & [data-accordion="content"]{
+    overflow: hidden;
+  }
+
+}
