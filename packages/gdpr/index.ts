@@ -1,0 +1,1 @@
+export { default as CookieConsentBox } from "./src/components/CookieConsentBox";

@@ -1,50 +1,50 @@
-import "./app.css";
-import { Link, MetaProvider, Title } from "@solidjs/meta";
-import { Router, useBeforeLeave } from "@solidjs/router";
-import { FileRoutes } from "@solidjs/start/router";
+import './app.css'
+import { Link, MetaProvider, Title } from '@solidjs/meta'
+import { Router, useBeforeLeave } from '@solidjs/router'
+import { FileRoutes } from '@solidjs/start/router'
 
-import { Suspense } from "solid-js";
-import { useViewport } from "~/lib/hooks/useViewport";
+import { Suspense } from 'solid-js'
+import { useViewport } from '~/lib/hooks/useViewport'
 
-import { Nav } from "~/components/Nav";
-import Grid from "~/components/Grid";
+import { Nav } from '~/components/Nav'
+import Grid from '~/components/Grid'
 
-import Canvas from "~/components/Canvas";
+import Canvas from '~/components/Canvas'
 
 export default function App() {
-  useViewport();
+	useViewport()
 
-  return (
-    <Router
-      root={(props) => (
-        <MetaProvider>
-          <Title>SolidStart - Basic</Title>
-          <Link rel="robots" type="text/plain" href="/api/robots.txt" />
+	return (
+		<Router
+			root={(props) => (
+				<MetaProvider>
+					<Title>SolidStart - Basic</Title>
+					<Link rel="robots" type="text/plain" href="/api/robots.txt" />
 
-          <Nav />
-          <Grid />
+					<Nav />
+					<Grid />
 
-          <Suspense>
-            <GlobalLayout>{props.children}</GlobalLayout>
-          </Suspense>
+					<Suspense>
+						<GlobalLayout>{props.children}</GlobalLayout>
+					</Suspense>
 
-          <Canvas />
-        </MetaProvider>
-      )}
-    >
-      <Suspense fallback={<div>loading things</div>}>
-        <FileRoutes />
-      </Suspense>
-    </Router>
-  );
+					<Canvas />
+				</MetaProvider>
+			)}
+		>
+			<Suspense fallback={<div>loading things</div>}>
+				<FileRoutes />
+			</Suspense>
+		</Router>
+	)
 }
 
 // ////////////////
 
 const GlobalLayout = ({ children, ...props }: { children: any }) => {
-  // useBeforeLeave(({ from, to }) => {
-  //   console.log(from.pathname, to);
-  // });
+	// useBeforeLeave(({ from, to }) => {
+	//   console.log(from.pathname, to);
+	// });
 
-  return <main>{children}</main>;
-};
+	return <main>{children}</main>
+}

@@ -1,0 +1,8 @@
+{
+	"name": "@local/gdpr",
+	"type": "module",
+	"main": "./index.ts",
+	"dependencies": {
+    "solid-js": "^1.9.4"
+	}
+}
