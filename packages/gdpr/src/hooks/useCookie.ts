@@ -19,7 +19,7 @@ export default function useCookie() {
    * - getCookie() retrieves the current cookie value
    * - setCookie(value, expiration?) sets the cookie value and optional expiration
    */
-  const setCookie = (name: string, value: string | number | boolean | undefined, expiration?: number) => {
+  const setCookie = (name: string, value: string | number | boolean, expiration?: number) => {
     if(value){
       // Max expiration of 12 months enforced in Luxembourg as of 2024, no other countries have this law as of Q1 2025
       const maxExpiration = 365 * 24 * 60 * 60 * 1000 // 12 months in milliseconds

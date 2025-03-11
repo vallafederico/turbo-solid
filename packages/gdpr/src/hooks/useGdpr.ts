@@ -15,41 +15,43 @@ export default function useGdpr({
 }: GdprHookProps) {
   const [cookie, setCookie] = useCookie()
 
-  let consent_stats = undefined
-  let consent_marketing = undefined
-  let consent_preferences = undefined
+  // Consent is always false unless set by the user
+  let statistics = false
+  let marketing = false
+  let preferences = false
 
   // const consent_marketing = cookie('content_marketing')
   // const consent_preferences = cookie('content_preferences')
 
   // Load consent from cookies, if any
   onMount(() => {
-    consent_stats = cookie('content_statistics')
-    consent_marketing = cookie('content_marketing')
-    consent_preferences = cookie('content_preferences')
-
+    statistics = cookie('content_statistics')
+    marketing = cookie('content_marketing')
+    preferences = cookie('content_preferences')
   })
 
   const setConsent = (consent: ConsentType | 'all', value: boolean) => {
     switch(consent) {
       case 'statistics':
         setCookie('content_statistics', Boolean(value))
-        break
+        statistics = value
       case 'marketing':
         setCookie('content_marketing', Boolean(value))
-        break
+        marketing = value
       case 'preferences':
         setCookie('content_preferences', Boolean(value))
-        break
+        preferences = value
       case 'all':
         setCookie('content_statistics', Boolean(value))
         setCookie('content_marketing', Boolean(value))
         setCookie('content_preferences', Boolean(value))
-        break
+        statistics = value
+        marketing = value
+        preferences = value
     }
   }
 
-  return [{statistics: consent_stats, marketing: consent_marketing, preferences: consent_preferences}, setConsent]
+  return [{statistics, marketing, preferences}, setConsent]
 
   // createEffect(() => {
   //   onConsentChange({...gdprStore})
