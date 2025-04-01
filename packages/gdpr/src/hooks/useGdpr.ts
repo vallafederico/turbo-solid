@@ -20,9 +20,6 @@ export default function useGdpr({
   let marketing = false
   let preferences = false
 
-  // const consent_marketing = cookie('content_marketing')
-  // const consent_preferences = cookie('content_preferences')
-
   // Load consent from cookies, if any
   onMount(() => {
     statistics = cookie('content_statistics')
@@ -31,6 +28,11 @@ export default function useGdpr({
   })
 
   const setConsent = (consent: ConsentType | 'all', value: boolean) => {
+    onConsentChange({
+      statistics: value,
+      marketing: value,
+      preferences: value
+    })
     switch(consent) {
       case 'statistics':
         setCookie('content_statistics', Boolean(value))

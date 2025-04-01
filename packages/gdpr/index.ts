@@ -1,1 +1,2 @@
-export { default as CookieConsentBox } from "./src/components/CookieConsentBox";
+export { default as useGdpr } from "./src/hooks/useGdpr";
+export { default as useCookie } from "./src/hooks/useCookie";

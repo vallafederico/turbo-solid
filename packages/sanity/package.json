@@ -5,10 +5,17 @@
 	"dependencies": {
 		"@portabletext/solid": "^1.0.7",
 		"@sanity/client": "^6.27.2",
+		"@sanity/core-loader": "latest",
 		"@sanity/image-url": "^1.1.0",
 		"@solidjs/meta": "^0.29.4",
 		"@solidjs/router": "^0.15.3",
+		"fast-deep-equal": "3.1.3",
 		"solid-js": "^1.9.4",
 		"walkjs": "^6.0.1"
+	},
+	"devDependencies": {
+		"@sanity/pkg-utils": "latest",
+		"@sanity/preview-url-secret": "^2.1.6",
+		"@sanity/visual-editing": "latest"
 	}
 }

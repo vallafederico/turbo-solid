@@ -1,69 +1,91 @@
-import Aa from "./Aa";
-import { For } from "solid-js";
-import { RollingText } from "./animation/RollingText";
-import MobileMenu from "./MobileMenu";
+import Aa from './Aa'
+import { For } from 'solid-js'
+import { RollingText } from './animation/RollingText'
+import MobileMenu from './MobileMenu'
 
 const NAV_LINKS = [
-  {
-    to: "/_/about",
-    text: "About",
-  },
-  {
-    to: "/_/animation",
-    text: "Animation",
-  },
-  {
-    to: "/_/components",
-    text: "Components",
-  },
-  {
-    to: "/_/webgl",
-    text: "WebGl",
-  },
-  {
-    to: "/_/data-loading",
-    text: "Data",
-  },
-  {
-    to: "/_/content",
-    text: "CMS Content",
-  },
-];
+	{
+		to: '/_/about',
+		text: 'About',
+	},
+	{
+		to: '/_/animation',
+		text: 'Animation',
+	},
+	{
+		to: '/_/components',
+		text: 'Components',
+	},
+	{
+		to: '/_/webgl',
+		text: 'WebGl',
+	},
+	{
+		to: '/_/data-loading',
+		text: 'Data',
+	},
+	{
+		to: '/_/content',
+		text: 'CMS Content',
+	},
+]
 
 export const Nav = () => {
-  return (
-    <nav class="px-gx pointer-events-none fixed top-0 left-0 z-100 flex w-screen items-center justify-between py-6">
-      <Aa aria-label="homepage" class="pointer-events-auto z-20" to="/">
-        <p>LOGO</p>
-      </Aa>
+	return (
+		<nav class="px-gx pointer-events-none fixed top-0 left-0 z-100 flex w-screen items-center justify-between py-6">
+			<Aa aria-label="homepage" class="pointer-events-auto z-20" to="/">
+				<p>LOGO</p>
+			</Aa>
 
-      {/* desktop menu */}
-      <ul class="pointer-events-auto hidden justify-between md:flex">
-        <For each={NAV_LINKS}>
-          {({ to, text }) => (
-            <li>
-              <Aa to={to}>
-                <RollingText class="px-3">{text}</RollingText>
-              </Aa>
-            </li>
-          )}
-        </For>
-      </ul>
+			<button
+				class="pointer-events-auto z-20 px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors mr-4"
+				onClick={(e) => {
+					fetch('/api/preview-enable', {
+						method: 'GET',
+					})
+						.then((response) => {
+							console.log(response)
+							if (response.ok) {
+								// window.location.reload()
+							} else {
+								console.error('Failed to enable preview mode')
+							}
+						})
+						.catch((error) => {
+							console.error('Error enabling preview mode:', error)
+						})
+				}}
+			>
+				Enable Preview
+			</button>
 
-      {/* mobile menu */}
-      <MobileMenu>
-        <ul class="flex flex-col gap-4">
-          <For each={NAV_LINKS}>
-            {({ to, text }) => (
-              <li>
-                <Aa to={to}>{text}</Aa>
-              </li>
-            )}
-          </For>
-        </ul>
-      </MobileMenu>
-    </nav>
-  );
-};
+			{/* desktop menu */}
+			<ul class="pointer-events-auto hidden justify-between md:flex">
+				<For each={NAV_LINKS}>
+					{({ to, text }) => (
+						<li>
+							<Aa to={to}>
+								<RollingText class="px-3">{text}</RollingText>
+							</Aa>
+						</li>
+					)}
+				</For>
+			</ul>
+
+			{/* mobile menu */}
+			<MobileMenu>
+				<ul class="flex flex-col gap-4">
+					<For each={NAV_LINKS}>
+						{({ to, text }) => (
+							<li>
+								<Aa to={to}>{text}</Aa>
+							</li>
+						)}
+					</For>
+				</ul>
+			</MobileMenu>
+		</nav>
+	)
+}
 
 //

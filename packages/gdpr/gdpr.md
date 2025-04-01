@@ -15,18 +15,9 @@ import {useGdpr} from '@local/gdpr'
 import { For } from "solid-js"
 
 export function ConsentBanner() {
-  const [consent, setConsent] = useGdpr({
-    statistics: false,
-    marketing: false, 
-    preferences: false,
-    onConsentChange: (consent) => {
-      console.log('Consent changed:', consent)
-    }
-  })
+  const [consent, setConsent] = useGdpr()
 
   const options = ['statistics', 'marketing', 'preferences']
-
-
 
   return (
     <div>
@@ -48,8 +39,10 @@ export function ConsentBanner() {
 
   )
 }
-
 ```
+
+## Notes
+- `consent` is NOT reactive.
 
 ## Extra: Cookie Types
 

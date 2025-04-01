@@ -8,4 +8,5 @@ const sanityClient = createClient({
 	...SANITY
 })
 
+
 export default sanityClient

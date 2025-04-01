@@ -4,5 +4,4 @@ export type Consent = {
   preferences: boolean
 }
 
-
 export type ConsentType = 'statistics' | 'marketing' | 'preferences'
