@@ -40,3 +40,6 @@ yarn-error.log*
 
 
 .npmrc
+
+#linters
+biome.json
