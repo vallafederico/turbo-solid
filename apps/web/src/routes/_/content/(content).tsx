@@ -19,12 +19,15 @@ export default function Content() {
     <SanityPage fetcher={fetcher}>
       {(data) => {
         return (
-          <div use:animateAlpha>
-            <SanityComponents
-              components={data.slices}
-              componentList={SLICE_LIST}
-            />
-          </div>
+          <>
+            <div use:animateAlpha>
+              <SanityComponents
+                components={data.slices}
+                componentList={SLICE_LIST}
+              />
+            </div>
+            <div class="h-[300svh]"></div>
+          </>
         );
       }}
     </SanityPage>

@@ -6,11 +6,10 @@ import {
 } from "@local/sanity";
 
 interface FormSliceProps {
-  text: string /* autogen */;
-  fields: any[];
+    text: string /* autogen */
 }
 
-export default function FormSlice({ text, fields }: FormSliceProps) {
+export default function FormSlice({ text }: FormSliceProps) {
   const fieldList = {
     textInput: TextInput,
     selectInput: SelectInput,

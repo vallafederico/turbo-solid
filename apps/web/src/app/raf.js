@@ -1,10 +1,11 @@
 import gsap from "./gsap";
+import { isClient } from "../lib/utils/isClient";
 
 // raf
 export class Raf {
   static subscribers = [];
   static {
-    if (typeof window !== "undefined") {
+    if (isClient) {
       this.init();
     }
   }
