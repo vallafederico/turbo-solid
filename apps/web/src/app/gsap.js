@@ -1,6 +1,6 @@
 import { isServer } from "solid-js/web";
 import gsap from "gsap";
-import SplitText from "gsap/dist/SplitText";
+import { SplitText } from "gsap/dist/SplitText";
 
 const def = {
   duration: 1.2,
