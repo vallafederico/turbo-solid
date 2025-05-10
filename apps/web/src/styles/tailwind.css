@@ -1,0 +1,86 @@
+
+
+@theme {
+
+  /* easings */
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  --expo-out: cubic-bezier(0.19, 1, 0.22, 1);
+  --expo-in: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  --expo-in-out: cubic-bezier(1, 0, 0, 1);
+
+  --duration-short: 800ms;
+  --duration-medium: 1s;
+  --duration-long: 1.3s;
+  --duration-back: 400ms;
+
+  --font-*: initial;
+  --font-sans: soh, sans-serif;
+
+  --text-base-0: var(--text-base);
+  --text-base-1: 1.2;
+  --text-base-length: 2;
+
+  --text-xs-0: var(--text-xs);
+  --text-xs-1: 1.2;
+  --text-xs-length: 2;
+
+  --text-sm-0: var(--text-sm);
+  --text-sm-1: 1.2;
+  --text-sm-length: 2;
+
+  --text-md-0: var(--text-md);
+  --text-md-1: 1.2;
+  --text-md-length: 2;
+
+  --text-lg-0: var(--text-lg);
+  --text-lg-1: 1;
+  --text-lg-length: 2;
+
+  --text-xl-0: var(--text-xl);
+  --text-xl-1: 1;
+  --text-xl-length: 2;
+
+  --text-xxl-0: var(--text-xxl);
+  --text-xxl-1: 0.9;
+  --text-xxl-length: 2;
+
+  --spacing-gx: var(--gx);
+  --spacing-gy: var(--gy);
+  --spacing-sm: var(--sm);
+  --spacing-md: var(--md);
+  --spacing-lg: var(--lg);
+  --spacing-xl: var(--xl);
+  --spacing-xxl: var(--xxl);
+  --spacing-navh: var(--navh);
+
+  --spacing-gutter: var(--gutter);
+
+  --aspect-5\/7: 5/7;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+/* utilities */
+@layer utilities {
+  .flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .contain {
+    @apply mx-auto;
+    max-width: var(--max-w);
+  }
+}

@@ -20,9 +20,10 @@ export default function RichText({ text }: { body: any }) {
       },
     },
   };
-  // if (body) {
-  //   return <PortableText value={body} />;
-  // }
 
-  return <div>RichText</div>;
+  return (
+    <div class="w-grids-6 mx-auto">
+      <PortableText value={text} components={components} />
+    </div>
+  );
 }

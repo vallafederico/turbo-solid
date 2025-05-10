@@ -1,29 +1,27 @@
+// app.config.ts
 import { defineConfig } from "@solidjs/start/config";
 import solidSvg from "vite-plugin-solid-svg";
 import glsl from "vite-plugin-glsl";
 import { solidStartSiteMapPlugin } from "solid-start-sitemap";
-
-const sitemap = solidStartSiteMapPlugin({
+var sitemap = solidStartSiteMapPlugin({
   hostname: "https://example.com",
   replaceRouteParams: {
-    ":postId": [1, 2, 3],
+    ":postId": [1, 2, 3]
   },
-  limit: 5000,
+  limit: 5e3
 });
-
-const plugins = [
+var plugins = [
   glsl({
     include: ["**/*.glsl", "**/*.vert", "**/*.frag"],
-    exclude: undefined,
+    exclude: void 0,
     warnDuplicatedImports: true,
     defaultExtension: "glsl",
-    minify: false,
+    minify: import.meta.env.PROD,
     watch: true,
-    root: "/",
+    root: "/"
   }),
-
   solidSvg({
-    defaultAsComponent: true,
+    defaultAsComponent: true
     // svgo: {
     //   enabled: false,
     //   svgoConfig: {
@@ -40,18 +38,19 @@ const plugins = [
     //   },
     // },
   }),
-
-  sitemap,
+  sitemap
 ];
-
-export default defineConfig({
+var app_config_default = defineConfig({
   server: {
     prerender: {
       // routes: ["/"],
-      crawlLinks: true /* prerenders all */,
-    },
+      crawlLinks: true
+    }
   },
   vite: {
-    plugins,
-  },
+    plugins
+  }
 });
+export {
+  app_config_default as default
+};

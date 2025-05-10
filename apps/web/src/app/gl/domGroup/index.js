@@ -1,12 +1,12 @@
 import { Group } from "three";
-import { Resizer } from "../resizer";
-import { Scroll } from "../../scroll";
+import { Resizer } from "~/app/resizer";
+import { Scroll } from "~/app/scroll";
 import { clientRectGl } from "~/lib/utils/clientRect";
-import { Gl } from "../gl";
+import { Gl } from "~/app/gl/gl";
 
 export class DomGroup extends Group {
   // inView = true;
-  #id = Resizer.subscribe(this.#resize.bind(this));
+  #resizeUnsub = Resizer.add(this.#resize.bind(this));
   #scrollUnsub = Scroll.subscribe(this.#scroll.bind(this), Symbol("node"));
 
   #ctrl = {
@@ -44,7 +44,7 @@ export class DomGroup extends Group {
   }
 
   dispose() {
-    Resizer.unsubscribe(this.#id);
+    this.#resizeUnsub();
     this.#scrollUnsub();
     this.parent.remove(this);
   }

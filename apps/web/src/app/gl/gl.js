@@ -5,12 +5,13 @@ import gsap from "../gsap";
 import { Gui } from "~/app/gui";
 import { lerp } from "~/lib/utils/math";
 import { useMouseSpeed } from "./utils/mouseSpeed";
+import { isServer } from "solid-js/web";
 
 import { Scene } from "./scene";
 import { Post } from "./post/post";
 import { ScreenEffect } from "./screenEffect";
-import { Scroll } from "../scroll";
-import { Resizer } from "./resizer";
+import { Scroll } from "~/app/scroll";
+import { Resizer } from "~/app/resizer";
 
 export const params = {
   clearColor: [1, 0, 0, 1],
@@ -62,8 +63,10 @@ export class Gl {
     );
 
     this.camera.position.set(0, 0, 2);
-    this.controls = new OrbitControls(this.camera, document.body);
-    this.controls.enabled = false;
+    if (!isServer) {
+      this.controls = new OrbitControls(this.camera, document.body);
+      this.controls.enabled = false;
+    }
 
     this.init();
     this.resize();
@@ -73,9 +76,9 @@ export class Gl {
   static _evt() {
     return [
       handleMouseMove(document.body, this.onMouseMove.bind(this)),
-      Scroll.subscribe(this.onScroll.bind(this), "gl"),
+      Scroll.add(this.onScroll.bind(this)),
       manager(this),
-      Resizer.subscribe(this.resize.bind(this)),
+      Resizer.add(this.resize.bind(this)),
     ];
   }
 
@@ -144,7 +147,6 @@ export class Gl {
   static destroy() {
     this.renderer.dispose();
     this.scene.dispose();
-
     this.vp.container.removeChild(this.renderer.domElement);
     this.evt.forEach((e) => e());
   }

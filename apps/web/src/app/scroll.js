@@ -1,56 +1,48 @@
 import Lenis from "lenis";
 import gsap from "./gsap";
-import { isClient } from "../lib/utils/isClient";
+import { isServer } from "solid-js/web";
+import { Subscribable } from "./subscribable";
 import { Gl } from "./gl/gl";
 
-// (*) restructure in a smarter way
-export class Scroll {
-  static subscribers = [];
+export const scroll = (el) => {
+  Scroll.handleResize(el);
+};
 
-  static {
-    if (isClient) {
+///////////////////////////////
+
+class _Scroll extends Subscribable {
+  previousHeight = 0;
+  subscribers = [];
+
+  constructor() {
+    super();
+
+    if (!isServer) {
       this.init();
     }
   }
 
-  // attach scroll to wrapper
-
-  static subscribe(sub, id) {
-    if (!this.subscribers.find(({ id: _id }) => _id === id))
-      this.subscribers.push({ sub, id });
-
-    return () => this.unsubscribe(id);
-  }
-
-  static unsubscribe(id) {
-    this.subscribers = this.subscribers.filter(({ id: _id }) => _id !== id);
-  }
-
-  static init() {
+  init() {
     this.y = window.scrollY || 0;
     this.lenis = new Lenis({
       wrapper: document.querySelector("#app"),
       autoResize: false,
     });
 
-    this.handleResize();
-
-    this.lenis.on("scroll", ({ velocity, scroll, direction, progress }) => {
-      this.y = scroll;
-
-      this.onScroll({ velocity, scroll, direction, progress });
-    });
-
+    this.lenis.on("scroll", this.onScroll.bind(this));
     gsap.ticker.add((time) => this.lenis.raf(time * 1000));
   }
 
-  static handleResize() {
-    new ResizeObserver((entries) => {
-      this.lenis.resize();
-    }).observe(document.querySelector("main"));
+  handleResize(item) {
+    new ResizeObserver(([entry]) => {
+      if (entry.contentRect.height !== this.previousHeight) {
+        this.lenis.resize();
+        this.previousHeight = entry.contentRect.height;
+      }
+    }).observe(item);
   }
 
-  static get scrollEventData() {
+  get scrollEventData() {
     return {
       velocity: this.lenis.velocity,
       scroll: this.lenis.scroll,
@@ -59,21 +51,24 @@ export class Scroll {
     };
   }
 
-  static onScroll({ velocity, scroll, direction, progress }) {
+  onScroll({ velocity, scroll, direction, progress }) {
+    this.y = scroll;
     let glScroll = scroll;
 
     if (Gl && Gl.vp) {
       glScroll = scroll * Gl.vp.px;
     }
 
-    this.subscribers.forEach(({ sub }) => {
-      sub({ velocity, scroll, direction, progress, glScroll });
-    });
+    this.notify({ velocity, scroll, direction, progress, glScroll });
   }
 
-  static to(params) {
+  to(params) {
     this.lenis.scrollTo(params);
+  }
+
+  destroy() {
+    this.lenis.destroy();
   }
 }
 
-// Scroll.init();
+export const Scroll = new _Scroll();

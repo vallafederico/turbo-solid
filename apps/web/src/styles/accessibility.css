@@ -12,6 +12,10 @@
   border-width: 0;
 }
 
+:root{
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* ---- Input Fields States */
 
 .input-field {

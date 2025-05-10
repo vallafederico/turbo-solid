@@ -71,9 +71,4 @@
   --spacing-grids-11: calc(
     var(--grid-column-width) * 11 + var(--grid-gutter) * 10
   );
-
-
-
-
-
 }

@@ -1,29 +1,29 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
-    "allowJs": true,
-    "strict": true,
-    "noEmit": true,
-    "types": [
-      "vinxi/types/client",
-      "vite-plugin-glsl/ext",
-      "vite-plugin-solid-svg/types-component-solid"
-    ],
-    "isolatedModules": true,
-    "baseUrl": "./",
-    "paths": {
-      "@gl/*": ["./src/gl/*"],
-      "@components/*": ["./src/components/*"],
-      "@app/*": ["./src/app/*"],
-      "@lib/*": ["./src/lib/*"],
-      "@hooks/*": ["./src/lib/hooks/*"],
-      "~/*": ["./src/*"]
-    }
-  }
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"allowJs": true,
+		"strict": true,
+		"noEmit": true,
+		"types": [
+			"vinxi/types/client",
+			"vite-plugin-glsl/ext",
+			"vite-plugin-solid-svg/types-component-solid"
+		],
+		"isolatedModules": true,
+		"baseUrl": "./",
+		"paths": {
+			"@gl/*": ["./src/gl/*"],
+			"@components/*": ["./src/components/*"],
+			"@app/*": ["./src/app/*"],
+			"@lib/*": ["./src/lib/*"],
+			"@hooks/*": ["./src/lib/hooks/*"],
+			"~/*": ["./src/*"]
+		}
+	}
 }
