@@ -1,30 +1,22 @@
 import Lenis from "lenis";
 import gsap from "./gsap";
 import { isServer } from "solid-js/web";
+import { Subscribable } from "./gl/subscribable";
 import { Gl } from "./gl/gl";
 
-export class Scroll {
-  static previousHeight = 0;
-  static subscribers = [];
+class _Scroll extends Subscribable {
+  previousHeight = 0;
+  subscribers = [];
 
-  static {
+  constructor() {
+    super();
+
     if (!isServer) {
       this.init();
     }
   }
 
-  static subscribe(sub, id) {
-    if (!this.subscribers.find(({ id: _id }) => _id === id))
-      this.subscribers.push({ sub, id });
-
-    return () => this.unsubscribe(id);
-  }
-
-  static unsubscribe(id) {
-    this.subscribers = this.subscribers.filter(({ id: _id }) => _id !== id);
-  }
-
-  static init() {
+  init() {
     this.y = window.scrollY || 0;
     this.lenis = new Lenis({
       wrapper: document.querySelector("#app"),
@@ -36,7 +28,7 @@ export class Scroll {
     gsap.ticker.add((time) => this.lenis.raf(time * 1000));
   }
 
-  static handleResize() {
+  handleResize() {
     new ResizeObserver(([entry]) => {
       if (entry.contentRect.height !== this.previousHeight) {
         this.lenis.resize();
@@ -45,7 +37,7 @@ export class Scroll {
     }).observe(document.querySelector("main"));
   }
 
-  static get scrollEventData() {
+  get scrollEventData() {
     return {
       velocity: this.lenis.velocity,
       scroll: this.lenis.scroll,
@@ -54,7 +46,7 @@ export class Scroll {
     };
   }
 
-  static onScroll({ velocity, scroll, direction, progress }) {
+  onScroll({ velocity, scroll, direction, progress }) {
     this.y = scroll;
     let glScroll = scroll;
 
@@ -62,12 +54,12 @@ export class Scroll {
       glScroll = scroll * Gl.vp.px;
     }
 
-    this.subscribers.forEach(({ sub }) => {
-      sub({ velocity, scroll, direction, progress, glScroll });
-    });
+    this.notify({ velocity, scroll, direction, progress, glScroll });
   }
 
-  static to(params) {
+  to(params) {
     this.lenis.scrollTo(params);
   }
 }
+
+export const Scroll = new _Scroll();

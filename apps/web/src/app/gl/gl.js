@@ -73,7 +73,7 @@ export class Gl {
   static _evt() {
     return [
       handleMouseMove(document.body, this.onMouseMove.bind(this)),
-      Scroll.subscribe(this.onScroll.bind(this), "gl"),
+      Scroll.add(this.onScroll.bind(this)),
       manager(this),
       Resizer.subscribe(this.resize.bind(this)),
     ];
@@ -142,11 +142,10 @@ export class Gl {
   }
 
   static destroy() {
-    this.renderer.dispose();
-    this.scene.dispose();
-
-    this.vp.container.removeChild(this.renderer.domElement);
-    this.evt.forEach((e) => e());
+    // this.renderer.dispose();
+    // this.scene.dispose();
+    // this.vp.container.removeChild(this.renderer.domElement);
+    // this.evt.forEach((e) => e());
   }
 
   static get viewSize() {

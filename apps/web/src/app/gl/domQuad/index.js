@@ -13,7 +13,7 @@ const res = 1;
 export class DomQuad extends Mesh {
   // inView = true;
   #id = Resizer.subscribe(this.#resize.bind(this));
-  #scrollUnsub = Scroll.subscribe(this.#scroll.bind(this), Symbol("node"));
+  #scrollUnsub = Scroll.add(this.#scroll.bind(this));
 
   geometry = new PlaneGeometry(size, size, res, res);
   material = new Material();
