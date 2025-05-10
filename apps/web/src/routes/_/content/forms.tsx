@@ -9,7 +9,6 @@ import { animateAlpha } from "~/animation/alpha";
 import { SanityPage } from "@local/sanity";
 import { createAsync } from "@solidjs/router";
 import { SLICE_LIST } from "@components/slices";
-// import { SLICE_LIST } from "@components/slices";
 
 export default function Forms() {
 	const fetcher = createAsync(() => getDocumentByType("home"));
