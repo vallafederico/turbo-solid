@@ -1,10 +1,11 @@
 import { WebGLRenderer, PerspectiveCamera } from "three";
-// import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import gsap from "../gsap";
 
 import { Gui } from "~/app/gui";
 import { lerp } from "~/lib/utils/math";
 import { useMouseSpeed } from "./utils/mouseSpeed";
+import { isServer } from "solid-js/web";
 
 import { Scene } from "./scene";
 import { Post } from "./post/post";
@@ -62,8 +63,10 @@ export class Gl {
     );
 
     this.camera.position.set(0, 0, 2);
-    // // this.controls = new OrbitControls(this.camera, document.body);
-    // this.controls.enabled = false;
+    if (!isServer) {
+      this.controls = new OrbitControls(this.camera, document.body);
+      this.controls.enabled = false;
+    }
 
     this.init();
     this.resize();
@@ -97,7 +100,7 @@ export class Gl {
     this.mouse.ey = lerp(this.mouse.ey, this.mouse.y, 0.1);
     this.mouse.espeed = lerp(this.mouse.espeed, this.mouse.speed, 0.1);
 
-    // this.controls?.update();
+    this.controls?.update();
     this.screen?.render(this.time);
     this.scene?.render(this.time);
 
@@ -184,7 +187,7 @@ function manager(ctrl) {
     if (e.key === " ") {
       ctrl.paused = !ctrl.paused;
     } else if (e.key === "o") {
-      // ctrl.controls.enabled = !ctrl.controls.enabled;
+      ctrl.controls.enabled = !ctrl.controls.enabled;
     } else if (e.key === "g") {
       Gui.show();
     } else if (e.key === "p") {
