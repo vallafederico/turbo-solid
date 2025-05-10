@@ -3,13 +3,14 @@ import { Link, MetaProvider, Title } from "@solidjs/meta";
 import { Router, useBeforeLeave } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 
-import { Suspense } from "solid-js";
+import { onCleanup, onMount, Suspense } from "solid-js";
 import { useViewport } from "~/lib/hooks/useViewport";
 
 import { Nav } from "~/components/Nav";
 import Grid from "~/components/Grid";
 
 import Canvas from "~/components/Canvas";
+import { scroll } from "~/app/scroll";
 
 export default function App() {
   useViewport();
@@ -46,5 +47,5 @@ const GlobalLayout = ({ children, ...props }: { children: any }) => {
   //   console.log(from.pathname, to);
   // });
 
-  return <main>{children}</main>;
+  return <main use:scroll>{children}</main>;
 };

@@ -4,6 +4,12 @@ import { isServer } from "solid-js/web";
 import { Subscribable } from "./subscribable";
 import { Gl } from "./gl/gl";
 
+export const scroll = (el) => {
+  Scroll.handleResize(el);
+};
+
+///////////////////////////////
+
 class _Scroll extends Subscribable {
   previousHeight = 0;
   subscribers = [];
@@ -23,18 +29,17 @@ class _Scroll extends Subscribable {
       autoResize: false,
     });
 
-    this.handleResize();
     this.lenis.on("scroll", this.onScroll.bind(this));
     gsap.ticker.add((time) => this.lenis.raf(time * 1000));
   }
 
-  handleResize() {
+  handleResize(item) {
     new ResizeObserver(([entry]) => {
       if (entry.contentRect.height !== this.previousHeight) {
         this.lenis.resize();
         this.previousHeight = entry.contentRect.height;
       }
-    }).observe(document.querySelector("main"));
+    }).observe(item);
   }
 
   get scrollEventData() {
@@ -59,6 +64,10 @@ class _Scroll extends Subscribable {
 
   to(params) {
     this.lenis.scrollTo(params);
+  }
+
+  destroy() {
+    this.lenis.destroy();
   }
 }
 

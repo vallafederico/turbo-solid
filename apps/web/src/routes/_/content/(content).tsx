@@ -26,7 +26,7 @@ export default function Content() {
                 componentList={SLICE_LIST}
               />
             </div>
-            <div class="h-[300svh]"></div>
+            <div class="h-[300svh] border-b"></div>
           </>
         );
       }}
