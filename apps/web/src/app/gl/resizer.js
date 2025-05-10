@@ -1,7 +1,7 @@
-import { isClient } from "~/lib/utils/isClient";
+import { isServer } from "solid-js/web";
 
 function isMobile() {
-  if (!isClient) return false;
+  if (isServer) return false;
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
     navigator.userAgent,
   );
@@ -12,8 +12,7 @@ export class Resizer {
   static isMobile = isMobile();
 
   static {
-    if (isClient) {
-      // console.log("resizer init");
+    if (!isServer) {
       this.observer = new ResizeObserver((entry) => this.onResize(entry));
       this.observer.observe(document.body);
     }

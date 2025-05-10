@@ -1,11 +1,11 @@
 import gsap from "./gsap";
-import { isClient } from "../lib/utils/isClient";
+import { isServer } from "solid-js/web";
 
 // raf
 export class Raf {
   static subscribers = [];
   static {
-    if (isClient) {
+    if (!isServer) {
       this.init();
     }
   }

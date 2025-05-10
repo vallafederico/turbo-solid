@@ -1,19 +1,17 @@
 import Lenis from "lenis";
 import gsap from "./gsap";
-import { isClient } from "../lib/utils/isClient";
+import { isServer } from "solid-js/web";
 import { Gl } from "./gl/gl";
 
-// (*) restructure in a smarter way
 export class Scroll {
+  static previousHeight = 0;
   static subscribers = [];
 
   static {
-    if (isClient) {
+    if (!isServer) {
       this.init();
     }
   }
-
-  // attach scroll to wrapper
 
   static subscribe(sub, id) {
     if (!this.subscribers.find(({ id: _id }) => _id === id))
@@ -34,19 +32,16 @@ export class Scroll {
     });
 
     this.handleResize();
-
-    this.lenis.on("scroll", ({ velocity, scroll, direction, progress }) => {
-      this.y = scroll;
-
-      this.onScroll({ velocity, scroll, direction, progress });
-    });
-
+    this.lenis.on("scroll", this.onScroll.bind(this));
     gsap.ticker.add((time) => this.lenis.raf(time * 1000));
   }
 
   static handleResize() {
-    new ResizeObserver((entries) => {
-      this.lenis.resize();
+    new ResizeObserver(([entry]) => {
+      if (entry.contentRect.height !== this.previousHeight) {
+        this.lenis.resize();
+        this.previousHeight = entry.contentRect.height;
+      }
     }).observe(document.querySelector("main"));
   }
 
@@ -60,6 +55,7 @@ export class Scroll {
   }
 
   static onScroll({ velocity, scroll, direction, progress }) {
+    this.y = scroll;
     let glScroll = scroll;
 
     if (Gl && Gl.vp) {
@@ -75,5 +71,3 @@ export class Scroll {
     this.lenis.scrollTo(params);
   }
 }
-
-// Scroll.init();
