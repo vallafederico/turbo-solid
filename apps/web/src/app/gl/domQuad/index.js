@@ -12,7 +12,7 @@ const res = 1;
 
 export class DomQuad extends Mesh {
   // inView = true;
-  #id = Resizer.subscribe(this.#resize.bind(this));
+  #resizeUnsub = Resizer.add(this.#resize.bind(this));
   #scrollUnsub = Scroll.add(this.#scroll.bind(this));
 
   geometry = new PlaneGeometry(size, size, res, res);
@@ -52,7 +52,7 @@ export class DomQuad extends Mesh {
   }
 
   dispose() {
-    Resizer.unsubscribe(this.#id);
+    this.#resizeUnsub();
     this.#scrollUnsub();
     this.parent.remove(this);
     this.geometry.dispose();

@@ -6,7 +6,7 @@ import { Gl } from "../gl";
 
 export class DomGroup extends Group {
   // inView = true;
-  #id = Resizer.subscribe(this.#resize.bind(this));
+  #resizeUnsub = Resizer.add(this.#resize.bind(this));
   #scrollUnsub = Scroll.subscribe(this.#scroll.bind(this), Symbol("node"));
 
   #ctrl = {
@@ -44,7 +44,7 @@ export class DomGroup extends Group {
   }
 
   dispose() {
-    Resizer.unsubscribe(this.#id);
+    this.#resizeUnsub();
     this.#scrollUnsub();
     this.parent.remove(this);
   }

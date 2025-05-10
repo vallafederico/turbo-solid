@@ -75,7 +75,7 @@ export class Gl {
       handleMouseMove(document.body, this.onMouseMove.bind(this)),
       Scroll.add(this.onScroll.bind(this)),
       manager(this),
-      Resizer.subscribe(this.resize.bind(this)),
+      Resizer.add(this.resize.bind(this)),
     ];
   }
 

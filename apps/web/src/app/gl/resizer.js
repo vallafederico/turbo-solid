@@ -1,4 +1,5 @@
 import { isServer } from "solid-js/web";
+import { Subscribable } from "./subscribable";
 
 function isMobile() {
   if (isServer) return false;
@@ -7,34 +8,27 @@ function isMobile() {
   );
 }
 
-export class Resizer {
-  static subscribers = [];
-  static isMobile = isMobile();
+//////////////////////////////////////////
+export class _Resizer extends Subscribable {
+  subscribers = [];
+  isMobile = isMobile();
 
-  static {
+  constructor() {
+    super();
     if (!isServer) {
       this.observer = new ResizeObserver((entry) => this.onResize(entry));
       this.observer.observe(document.body);
     }
   }
 
-  static onResize(entry) {
+  onResize(entry) {
     this.isMobile = isMobile();
-    this.subscribers.forEach((sub) => sub.cb(entry[0].contentRect));
-
-    // console.log("resized", this.isMobile);
+    this.notify(entry[0].contentRect);
   }
 
-  static dispose() {
+  dispose() {
     this.observer.disconnect();
   }
-
-  static subscribe(cb, id = Symbol()) {
-    this.subscribers.push({ cb, id });
-    return this.unsubscribe.bind(this, id);
-  }
-
-  static unsubscribe(id) {
-    this.subscribers = this.subscribers.filter((sub) => sub.id !== id);
-  }
 }
+
+export const Resizer = new _Resizer();
