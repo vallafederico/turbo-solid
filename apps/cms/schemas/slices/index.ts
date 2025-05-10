@@ -1,8 +1,9 @@
 import richText from './richText'
 import header from './header'
 import {createSliceSet} from '../../utils/create'
+import richText from './richText'
 
-const globalPageSlices = [richText, header] as any[]
+const globalPageSlices = [richText, header, richText] as any[]
 
 const slices = createSliceSet({
   name: 'pageSlices',
