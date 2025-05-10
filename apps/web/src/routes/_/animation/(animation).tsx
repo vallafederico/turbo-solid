@@ -10,7 +10,7 @@ export default function Animation() {
       <Title>About</Title>
       <Section class="">
         <div use:animateAlpha class="px-gx flex flex-col items-start gap-4">
-          <h2>Animation </h2>
+          <h2>Animation</h2>
           <ul class="mt-6 flex flex-col items-start gap-3">
             <li>
               <Aa animate-hover="underline" to="/_/animation/slider">

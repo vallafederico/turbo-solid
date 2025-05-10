@@ -1,32 +1,34 @@
-import { SLICE_LIST } from "~/components/slices";
-
-import {
-  SanityPage,
-  getDocumentByType,
-  TextInput,
-  SelectInput,
-  TextareaInput,
-  SanityComponents,
-} from "@local/sanity";
-
-import { createAsync } from "@solidjs/router";
 import { animateAlpha } from "~/animation/alpha";
+import Aa from "~/components/Aa";
+import { Title } from "@solidjs/meta";
+import { SanityComponents, SanityPage } from "@local/sanity";
+import { SLICE_LIST } from "@components/slices/index";
 
 export default function Content() {
-  const fetcher = createAsync(() => getDocumentByType("home"));
+	return (
+		<div class="pt-20" use:animateAlpha>
+			<Title>CMS Content</Title>
 
-  return (
-    <SanityPage fetcher={fetcher}>
-      {(data) => {
-        return (
-          <div use:animateAlpha>
-            <SanityComponents
-              components={data.slices}
-              componentList={SLICE_LIST}
-            />
-          </div>
-        );
-      }}
-    </SanityPage>
-  );
+			<div class="px-gx flex flex-col items-start gap-4">
+				<h2>CMS Content</h2>
+				<ul class="mt-6 flex flex-col items-start gap-3">
+					<li>
+						<Aa animate-hover="underline" to="/_/content/forms">
+							Forms
+						</Aa>
+					</li>
+					<li>
+						<Aa animate-hover="underline" to="/_/content/article/test">
+							Article
+						</Aa>
+					</li>
+					<li>
+						<Aa animate-hover="underline" to="/_/content/slices">
+							Slices
+						</Aa>
+					</li>
+				</ul>
+			</div>
+		</div>
+	);
 }

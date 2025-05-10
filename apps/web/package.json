@@ -10,14 +10,14 @@
     "version": "vinxi version"
   },
   "dependencies": {
+    "@local/sanity": "workspace:*",
     "@solid-primitives/intersection-observer": "^2.1.6",
     "@solid-primitives/resize-observer": "^2.0.26",
-    "@local/sanity": "workspace:*",
     "@solidjs/meta": "^0.29.4",
     "@solidjs/router": "^0.15.1",
     "@solidjs/start": "^1.0.10",
     "classix": "^2.2.0",
-    "gsap": "npm:@gsap/shockingly@^3.12.7",
+    "gsap": "^3.13.0",
     "lenis": "^1.1.18",
     "lil-gui": "^0.20.0",
     "smooothy": "^0.0.4",
@@ -33,9 +33,9 @@
     "postcss": "^8.4.49",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
+    "solid-start-sitemap": "^0.2.2",
     "tailwindcss": "^4.0.0",
     "vite-plugin-glsl": "^1.3.1",
-    "vite-plugin-solid-svg": "^0.8.1",
-    "solid-start-sitemap": "^0.2.2"
+    "vite-plugin-solid-svg": "^0.8.1"
   }
 }

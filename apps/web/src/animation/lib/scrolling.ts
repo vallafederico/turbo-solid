@@ -1,16 +1,16 @@
-import { Scroll } from "~/app/scroll";
-import { Raf } from "~/app/raf";
 import {
   createEffect,
   onCleanup,
   createUniqueId,
   createSignal,
 } from "solid-js";
+import { Scroll } from "~/app/scroll";
+import { Raf } from "~/app/raf";
 import { clientRect } from "~/lib/utils/clientRect";
 import { clamp, map, lerp as lerpFunc } from "~/lib/utils/math";
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
 import { viewport } from "~/lib/stores/viewportStore";
-import { useWindowResize } from "~/lib/hooks/useWindowResize";
+
 interface ScrollEvent {
   velocity: number;
   scroll: number;
@@ -23,11 +23,11 @@ export function onScroll(fn: Function) {
   const id = createUniqueId();
 
   createEffect(() => {
-    Scroll.subscribe((value: ScrollEvent) => fn(value), id);
+    Scroll.add((value: ScrollEvent) => fn(value), 0);
   });
 
   onCleanup(() => {
-    Scroll.unsubscribe(id);
+    Scroll.remove(id);
   });
 }
 
@@ -79,7 +79,6 @@ export function onTrack(
     lerp?: number | false;
   } = {},
 ): void {
-  const id = createUniqueId();
   const subscriber = lerp === false ? Scroll : Raf;
   const vo = createVisibilityObserver({ threshold: 0 });
   const visible = vo(track);
@@ -111,16 +110,17 @@ export function onTrack(
     fn(val, scroll);
   };
 
+  let remove: Function | null = null;
   createEffect(() => {
-    subscriber.subscribe(() => {
+    remove = subscriber.add(() => {
       if (!visible()) return;
       execute(Scroll.scrollEventData);
-    }, id);
+    });
 
     execute();
   });
 
   onCleanup(() => {
-    subscriber.unsubscribe(id);
+    if (remove) remove();
   });
 }

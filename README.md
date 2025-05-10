@@ -2,6 +2,7 @@
 
 CHECK ROBOTS TXT
 
+
 ## Web
 - [ ] Add examples to frontend
   - [ ] CMS Dynamic pages /article/(slug)
@@ -12,8 +13,10 @@ CHECK ROBOTS TXT
 - [ ] Accordions with summary and details
 
 
-### Components
+### Lenis/Scroll
+- [ ] Add resize subscriber for lenis so we can tie it to webgl
 
+### Components
 - [x] rework slider with smooothy
 
 ---

@@ -1,6 +1,6 @@
 import { PortableText } from "@local/sanity";
 
-export default function RichText({ body }: { body: any }) {
+export default function RichText({ text }: { body: any }) {
   const components = {
     marks: {
       link: ({ value }: { value: any }) => {
@@ -20,9 +20,10 @@ export default function RichText({ body }: { body: any }) {
       },
     },
   };
-  // if (body) {
-  //   return <PortableText value={body} />;
-  // }
 
-  return <div>RichText</div>;
+  return (
+    <div class="w-grids-6 mx-auto">
+      <PortableText value={text} components={components} />
+    </div>
+  );
 }

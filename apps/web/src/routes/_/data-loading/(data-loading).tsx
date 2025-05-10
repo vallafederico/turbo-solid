@@ -44,11 +44,11 @@ export default function Data(props: RouteSectionProps) {
           {(data) => {
             console.log("data:show", data, performance.now());
             return (
-              <>
+              <div class="flex h-[120svh] flex-col justify-center">
                 <h2>Show</h2>
                 <pre>{JSON.stringify(data, null, 2)}</pre>
                 <div>{data.more.data}</div>
-              </>
+              </div>
             );
           }}
         </ShowQuery>
@@ -57,12 +57,12 @@ export default function Data(props: RouteSectionProps) {
           {(data) => {
             console.log("data:suspense", data, performance.now());
             return (
-              <>
+              <div class="flex h-[120svh] flex-col justify-center">
                 <h2>Suspense</h2>
                 <pre>{JSON.stringify(data, null, 2)}</pre>
                 {/* (MINIMAL ~ 50ms) performance gain with horrible tradeoff */}
                 <div>{data?.more?.data}</div>
-              </>
+              </div>
             );
           }}
         </SuspenseQuery>

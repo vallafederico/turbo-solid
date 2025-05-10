@@ -12,12 +12,13 @@ interface SanityPageProps {
 export default function SanityPage({
   children,
   fetcher = () => {},
-  class: className,
+  class: className = '',
 }: SanityPageProps) {
   return (
     <div class={`min-h-screen ${className}`}>
       <Show when={fetcher()}>
-        {/* <SanityMeta title={data.title} /> */}
+        
+        <SanityMeta title={fetcher().title} {...fetcher().meta} />
         {children(fetcher())}
       </Show>
     </div>

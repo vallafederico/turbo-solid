@@ -1,6 +1,5 @@
 import Section from "~/components/Section";
 import { animateAlpha } from "~/animation/alpha";
-import { onMount } from "solid-js";
 
 export default function GridExample() {
   return (

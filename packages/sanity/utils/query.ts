@@ -30,8 +30,9 @@ export const getDocumentBySlug = (
 	options?: SanityDocumentGetterOptions,
 ) => {
 
+
 	const { filter = '', extraQuery = '[0]{...}', params = {} } = options || {}
-	const q = `*[_type == "${documentType}" && slug.current == "${slug}" ${filter || ''}][0]${extraQuery}`
+	const q = `*[_type == "${documentType}" && slug.current == "${slug}" ${filter || ''}]${extraQuery}`
 
 
 	const getter = async () => {

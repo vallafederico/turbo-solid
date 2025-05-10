@@ -1,10 +1,10 @@
 import GUI from "lil-gui";
-import { isClient } from "~/lib/utils/isClient";
+import { isServer } from "solid-js/web";
 
 const guiKey = "GUI_STATE";
 
 let g;
-if (isClient) {
+if (!isServer) {
   g = new GUI();
   g.close();
 }
@@ -36,7 +36,7 @@ const createObservableObject = (obj) => {
   return new Proxy(obj, {
     set(target, prop, value) {
       target[prop] = value;
-      if (isClient) {
+      if (!isServer) {
         add(target, prop, value);
       }
       return true;
@@ -46,7 +46,7 @@ const createObservableObject = (obj) => {
 
 /* ---  add utils */
 function add(target, prop, value, addTo = g) {
-  if (!isClient) return;
+  if (isServer) return;
 
   switch (typeof value) {
     case "number":
@@ -91,7 +91,7 @@ function addObject(target, prop, value) {
 /* ---  general controllers */
 let { guiHidden } = config;
 
-if (isClient) {
+if (!isServer) {
   if (guiHidden) g.hide();
 }
 
@@ -99,7 +99,7 @@ if (isClient) {
 export const Gui = createObservableObject({});
 
 Gui.show = () => {
-  if (!isClient) return;
+  if (isServer) return;
 
   if (guiHidden) {
     g.show();

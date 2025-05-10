@@ -11,6 +11,7 @@ import {vercelDeployTool} from 'sanity-plugin-vercel-deploy'
 import {userGuideStructure} from './guides/userGuideStructure'
 
 import {SANITY} from '../../config'
+import {presentationTool} from 'sanity/presentation'
 
 const sharedConfig = [
   structureTool({
@@ -22,6 +23,15 @@ const sharedConfig = [
   noteField(),
   userGuidePlugin({userGuideStructure}),
   vercelDeployTool(),
+  presentationTool({
+    previewUrl: {
+      origin: 'https://localhost:3000',
+      previewMode: {
+        enable: '/api/preview-enable',
+        disable: '/api/draft-mode/disable',
+      },
+    },
+  }),
 ]
 
 const devConfig = [visionTool()]

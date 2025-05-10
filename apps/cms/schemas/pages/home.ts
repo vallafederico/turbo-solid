@@ -6,5 +6,4 @@ export default createPage({
   seo: true,
   slices: true,
   name: 'home',
-  fields: [],
 })

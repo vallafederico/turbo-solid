@@ -1,4 +1,6 @@
 packages:
-  - "apps/*"
-  - "packages/*"
-  - "scripts/*"
+  - apps/*
+  - packages/*
+  - scripts/*
+ignoredBuiltDependencies:
+  - bun

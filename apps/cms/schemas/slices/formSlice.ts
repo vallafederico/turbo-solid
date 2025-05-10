@@ -1,33 +1,15 @@
 import {createPreview} from '../../utils/preview'
 
 export default {
-  name: 'formSlice',
-  icon: null,
-  type: 'object',
-  fields: [
-    {
-      name: 'text',
-      type: 'text',
-      rows: 1,
-    },
-    {
-      name: 'fields',
-      type: 'array',
-      of: [
+    name: 'formSlice',
+    icon: null,
+    type: 'object',
+    fields: [
         {
-          type: 'textInput',
-          name: 'textInput',
+        name: 'text',
+        type: 'text',
+        rows: 1,
         },
-        {
-          type: 'textareaInput',
-          name: 'textareaInput',
-        },
-        {
-          type: 'selectInput',
-          name: 'selectInput',
-        },
-      ],
-    },
-  ],
-  preview: createPreview('{FormSlice}'),
+    ],
+    preview: createPreview('{FormSlice}'),
 }
