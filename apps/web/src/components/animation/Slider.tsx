@@ -26,7 +26,7 @@ export const useSlider = (
       ...config,
     });
 
-    raf = Raf.subscribe(() => {
+    raf = Raf.add(() => {
       slider.update();
     });
   });

@@ -1,6 +1,15 @@
 import gsap, { A } from "~/app/gsap";
 import { onIntersect, onPageLeave } from "~/animation/";
 
+declare module "solid-js" {
+  namespace JSX {
+    interface Directives {
+      webgl: [() => any, (v: any) => any];
+      animateAlpha: boolean;
+    }
+  }
+}
+
 export const animateAlpha = (self: HTMLElement) => {
   let viewAnimation: GSAPAnimation;
 

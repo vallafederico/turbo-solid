@@ -43,3 +43,6 @@ yarn-error.log*
 
 # Linting and formatting configs, should be machine-based not in the repo
 biome.json
+
+#linters
+biome.json

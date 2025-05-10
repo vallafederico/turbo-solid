@@ -1,5 +1,5 @@
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
-import { isClient } from "~/lib/utils/isClient";
+import { isServer } from "solid-js/web";
 
 function getGridValues() {
   const computed = getComputedStyle(document.documentElement);
@@ -20,7 +20,7 @@ export default function Grid({}) {
 
   onMount(() => {
     handleResize();
-    if (isClient) window.addEventListener("resize", handleResize);
+    if (!isServer) window.addEventListener("resize", handleResize);
 
     // get from localstorage
     const grid = localStorage.getItem("grid");
@@ -28,7 +28,7 @@ export default function Grid({}) {
   });
 
   onCleanup(() => {
-    if (isClient) window.removeEventListener("resize", handleResize);
+    if (!isServer) window.removeEventListener("resize", handleResize);
   });
 
   const [visible, setVisible] = createSignal(false);
