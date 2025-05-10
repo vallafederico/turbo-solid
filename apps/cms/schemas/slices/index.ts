@@ -1,7 +1,7 @@
-import richText from "./richText";
-import header from "./header";
-import formSlice from "./formSlice";
-import { createSliceSet } from "../../utils/create";
+import richText from './richText'
+import header from './header'
+import formSlice from './formSlice'
+import { createSliceSet } from '../../utils/create'
 
 const globalPageSlices = [
 	richText,
@@ -9,12 +9,12 @@ const globalPageSlices = [
 	formSlice,
 	richText,
 	formSlice,
-] as any[];
+] as any[]
 
 const slices = createSliceSet({
-	name: "pageSlices",
-	title: "Page Slices",
+	name: 'pageSlices',
+	title: 'Page Slices',
 	slices: globalPageSlices,
-});
+})
 
-export default [slices, ...globalPageSlices];
+export default [slices, ...globalPageSlices]
