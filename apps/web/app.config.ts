@@ -17,7 +17,7 @@ const plugins = [
     exclude: undefined,
     warnDuplicatedImports: true,
     defaultExtension: "glsl",
-    compress: false,
+    minify: import.meta.env.PROD,
     watch: true,
     root: "/",
   }),
@@ -47,7 +47,7 @@ const plugins = [
 export default defineConfig({
   server: {
     prerender: {
-      routes: ["/"],
+      // routes: ["/"],
       crawlLinks: true /* prerenders all */,
     },
   },
