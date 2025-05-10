@@ -1,16 +1,16 @@
-import { Scroll } from "~/app/scroll";
-import { Raf } from "~/app/raf";
 import {
   createEffect,
   onCleanup,
   createUniqueId,
   createSignal,
 } from "solid-js";
+import { Scroll } from "~/app/scroll";
+import { Raf } from "~/app/raf";
 import { clientRect } from "~/lib/utils/clientRect";
 import { clamp, map, lerp as lerpFunc } from "~/lib/utils/math";
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
 import { viewport } from "~/lib/stores/viewportStore";
-import { useWindowResize } from "~/lib/hooks/useWindowResize";
+
 interface ScrollEvent {
   velocity: number;
   scroll: number;
@@ -79,8 +79,6 @@ export function onTrack(
     lerp?: number | false;
   } = {},
 ): void {
-  // const id = createUniqueId();
-  console.log(Scroll, Raf);
   const subscriber = lerp === false ? Scroll : Raf;
   const vo = createVisibilityObserver({ threshold: 0 });
   const visible = vo(track);
