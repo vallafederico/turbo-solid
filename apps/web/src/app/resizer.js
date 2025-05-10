@@ -1,5 +1,5 @@
 import { isServer } from "solid-js/web";
-import { Subscribable } from "./subscribable";
+import { Subscribable } from "~/app/subscribable";
 
 function isMobile() {
   if (isServer) return false;

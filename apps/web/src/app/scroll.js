@@ -1,7 +1,7 @@
 import Lenis from "lenis";
 import gsap from "./gsap";
 import { isServer } from "solid-js/web";
-import { Subscribable } from "./gl/subscribable";
+import { Subscribable } from "./subscribable";
 import { Gl } from "./gl/gl";
 
 class _Scroll extends Subscribable {

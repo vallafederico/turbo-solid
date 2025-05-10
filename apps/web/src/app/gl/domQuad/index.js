@@ -1,8 +1,8 @@
 import { Mesh, PlaneGeometry, RawShaderMaterial, DoubleSide } from "three";
-import { Resizer } from "../resizer";
-import { Scroll } from "../../scroll";
+import { Resizer } from "~/app/resizer";
+import { Scroll } from "~/app/scroll";
 import { clientRectGl } from "~/lib/utils/clientRect";
-import { Gl } from "../gl";
+import { Gl } from "~/app/gl/gl";
 
 import vertexShader from "./vertex.vert";
 import fragmentShader from "./fragment.frag";

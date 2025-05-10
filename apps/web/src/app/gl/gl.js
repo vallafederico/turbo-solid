@@ -9,8 +9,8 @@ import { useMouseSpeed } from "./utils/mouseSpeed";
 import { Scene } from "./scene";
 import { Post } from "./post/post";
 import { ScreenEffect } from "./screenEffect";
-import { Scroll } from "../scroll";
-import { Resizer } from "./resizer";
+import { Scroll } from "~/app/scroll";
+import { Resizer } from "~/app/resizer";
 
 export const params = {
   clearColor: [1, 0, 0, 1],

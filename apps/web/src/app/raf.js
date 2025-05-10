@@ -1,6 +1,6 @@
 import gsap from "./gsap";
 import { isServer } from "solid-js/web";
-import { Subscribable } from "./gl/subscribable";
+import { Subscribable } from "./subscribable";
 
 class _Raf extends Subscribable {
   subscribers = [];
