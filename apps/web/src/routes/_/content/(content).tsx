@@ -2,48 +2,33 @@ import { animateAlpha } from "~/animation/alpha";
 import Aa from "~/components/Aa";
 import { Title } from "@solidjs/meta";
 import { SanityComponents, SanityPage } from "@local/sanity";
-import { SLICE_LIST } from "@components/slices";
+import { SLICE_LIST } from "@components/slices/index";
 
 export default function Content() {
 	return (
-		<SanityPage fetcher={fetcher}>
-			{(data) => {
-				return (
-					<>
-						<div use:animateAlpha>
-							<SanityComponents
-								components={data.slices}
-								componentList={SLICE_LIST}
-							/>
-						</div>
-						<div class="h-[300svh] border-b" />
-						<div class="pt-20" use:animateAlpha>
-							<Title>CMS Content</Title>
+		<div class="pt-20" use:animateAlpha>
+			<Title>CMS Content</Title>
 
-							<div class="px-gx flex flex-col items-start gap-4">
-								<h2>CMS Content</h2>
-								<ul class="mt-6 flex flex-col items-start gap-3">
-									<li>
-										<Aa animate-hover="underline" to="/_/content/forms">
-											Forms
-										</Aa>
-									</li>
-									<li>
-										<Aa animate-hover="underline" to="/_/content/article/test">
-											Article
-										</Aa>
-									</li>
-									<li>
-										<Aa animate-hover="underline" to="/_/content/slices">
-											Slices
-										</Aa>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</>
-				);
-			}}
-		</SanityPage>
+			<div class="px-gx flex flex-col items-start gap-4">
+				<h2>CMS Content</h2>
+				<ul class="mt-6 flex flex-col items-start gap-3">
+					<li>
+						<Aa animate-hover="underline" to="/_/content/forms">
+							Forms
+						</Aa>
+					</li>
+					<li>
+						<Aa animate-hover="underline" to="/_/content/article/test">
+							Article
+						</Aa>
+					</li>
+					<li>
+						<Aa animate-hover="underline" to="/_/content/slices">
+							Slices
+						</Aa>
+					</li>
+				</ul>
+			</div>
+		</div>
 	);
 }
