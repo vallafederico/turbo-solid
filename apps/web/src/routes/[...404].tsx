@@ -11,7 +11,7 @@ export default function NotFound() {
       <div class="flex flex-col gap-2">
         <h1>Page not found</h1>
 
-        <Aa to="/">Back to website</Aa>
+        <Aa href="/">Back to website</Aa>
       </div>
     </div>
   );

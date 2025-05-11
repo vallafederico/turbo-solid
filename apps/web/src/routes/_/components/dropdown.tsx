@@ -13,7 +13,7 @@ export default function SplitTextPage() {
 
       <div use:animateAlpha>
         <Section class="px-gx">
-          <Aa to="/components">Back</Aa>
+          <Aa href="/components">Back</Aa>
         </Section>
       </div>
 

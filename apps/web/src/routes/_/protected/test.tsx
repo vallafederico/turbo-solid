@@ -55,9 +55,9 @@ export default function Test() {
             <div>baseline test1 route</div>
             <div>{data().hello}</div>
 
-            <Aa to="/protected/test2">to 2</Aa>
+            <Aa href="/protected/test2">to 2</Aa>
             <div class="py-2">
-              <Aa to="/protected/">back</Aa>
+              <Aa href="/protected/">back</Aa>
             </div>
           </Section>
         </div>
