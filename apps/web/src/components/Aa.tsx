@@ -6,13 +6,13 @@ import { A } from "@solidjs/router";
 
 export default function Aa({
   children,
-  to,
+  href,
   class: className,
   callback,
   ...rest
 }: {
   children: any;
-  to: string;
+  href: string;
   class?: string;
   callback?: (e: any) => void;
 }) {
@@ -23,7 +23,7 @@ export default function Aa({
   const handleClick = async (e: any) => {
     e.preventDefault();
     if (callback) callback(e);
-    await animateOutAndTransition(to, el, navigate, location);
+    await animateOutAndTransition(href, el, navigate, location);
   };
 
   return (
@@ -31,7 +31,7 @@ export default function Aa({
       ref={el}
       data-anchor="animated"
       onClick={handleClick}
-      href={to}
+      href={href}
       class={className ? className + " inline-block" : "inline-block"}
       {...rest}
     >

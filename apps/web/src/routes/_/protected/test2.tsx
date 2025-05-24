@@ -23,10 +23,10 @@ export default function Test2() {
           <Section class="px-gx">
             <div>test2 route</div>
             <div>{data().hello}</div>
-            <Aa to="/protected/test"> to 1</Aa>
+            <Aa href="/protected/test"> to 1</Aa>
 
             <div class="py-2">
-              <Aa to="/protected/">back</Aa>
+              <Aa href="/protected/">back</Aa>
             </div>
           </Section>
         </div>

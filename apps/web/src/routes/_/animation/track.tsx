@@ -11,7 +11,7 @@ export default function TrackPage() {
       <Title>Track</Title>
 
       <Section class="px-gx">
-        <Aa to="/animation">Back</Aa>
+        <Aa href="/_/animation">Back</Aa>
       </Section>
 
       <div

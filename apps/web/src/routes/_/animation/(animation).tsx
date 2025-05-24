@@ -13,17 +13,17 @@ export default function Animation() {
           <h2>Animation </h2>
           <ul class="mt-6 flex flex-col items-start gap-3">
             <li>
-              <Aa animate-hover="underline" to="/_/animation/slider">
+              <Aa animate-hover="underline" href="/_/animation/slider">
                 Slider
               </Aa>
             </li>
             <li>
-              <Aa animate-hover="underline" to="/_/animation/track">
+              <Aa animate-hover="underline" href="/_/animation/track">
                 Track
               </Aa>
             </li>
             <li>
-              <Aa animate-hover="underline" to="/_/animation/split-text">
+              <Aa animate-hover="underline" href="/_/animation/split-text">
                 Split Text
               </Aa>
             </li>

@@ -13,7 +13,7 @@ export default function Components() {
           <h2>Components </h2>
           <ul class="mt-6 flex flex-col items-start gap-3">
             <li>
-              <Aa animate-hover="underline" to="/_/components/dropdown">
+              <Aa animate-hover="underline" href="/_/components/dropdown">
                 Dropdown
               </Aa>
             </li>
