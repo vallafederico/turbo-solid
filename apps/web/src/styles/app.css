@@ -10,15 +10,15 @@
 @import "./grid.css";
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 html,
 body {
-  overscroll-behavior: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  font-smooth: never;
+	overscroll-behavior: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	font-smooth: never;
 }
 
 html,
@@ -28,62 +28,61 @@ h1,
 h2,
 h3,
 h4 {
-  user-select: none; /* supported by Chrome and Opera */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* supported by Chrome and Opera */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
 }
 
 [data-selectable] {
-  user-select: text;
-  -webkit-user-select: text;
-  -khtml-user-select: text;
-  -moz-user-select: text;
-  -ms-user-select: text;
+	user-select: text;
+	-webkit-user-select: text;
+	-khtml-user-select: text;
+	-moz-user-select: text;
+	-ms-user-select: text;
 }
 
 /* make images not draggable */
 img {
-  user-drag: none;
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
+	user-drag: none;
+	-webkit-user-drag: none;
+	-khtml-user-drag: none;
+	-moz-user-drag: none;
 }
 
 /* basic fluid type */
 html {
-  --fluid-width: 1920;
-  font-size: clamp(12px, calc(((22 / var(--fluid-width)) * 100) * 1vw), 16px);
+	--fluid-width: 1920;
+	font-size: clamp(12px, calc(((22 / var(--fluid-width)) * 100) * 1vw), 16px);
 }
 
 /* main styles */
 body {
-  @apply font-sans text-base text-white bg-black;
+	@apply font-sans text-base text-white bg-black;
 }
 
 main {
-  min-height: 100svh;
+	min-height: 100svh;
 }
 
 html,
 body {
-  height: 100%;
-  overflow: hidden;
-  overscroll-behavior-y: none;
+	height: 100%;
+	overflow: hidden;
+	overscroll-behavior-y: none;
 }
 
 #app {
-  height: 100%;
-  overflow-y: auto;
-  overscroll-behavior-y: none;
+	height: 100%;
+	overflow-y: auto;
+	overscroll-behavior-y: none;
 }
 
 .lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
+	overscroll-behavior: contain;
 }
 
 .lenis.lenis-stopped {
-  overflow: clip;
+	overflow: clip;
 }
-
