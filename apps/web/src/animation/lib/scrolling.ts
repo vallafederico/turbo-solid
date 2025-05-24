@@ -68,7 +68,7 @@ function computeBounds(
 
 export function onTrack(
 	track: HTMLElement,
-	fn: Function,
+	fn: (progress: number, scroll: ScrollEvent) => void,
 	{
 		top = "bottom",
 		bottom = "top",
