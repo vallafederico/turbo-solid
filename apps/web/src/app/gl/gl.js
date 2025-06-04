@@ -145,9 +145,29 @@ export class Gl {
   }
 
   static destroy() {
-    this.renderer.dispose();
-    this.scene.dispose();
+    console.log("-------------- gl:destroy");
+    gsap.ticker.remove(this.render.bind(this));
+
     this.vp.container.removeChild(this.renderer.domElement);
+    this.renderer.domElement.remove();
+
+    this.scene.dispose();
+    this.renderer.dispose();
+
+    // if (this.post) {
+    //   this.post.kill();
+    //   this.post.dispose();
+    //   this.post = null;
+    //   delete this.post;
+    // }
+
+    try {
+      this.renderer.forceContextLoss();
+      this.renderer = null;
+    } catch (e) {
+      console.log("renderer.forceContextLoss failed", e);
+    }
+
     this.evt.forEach((e) => e());
   }
 
