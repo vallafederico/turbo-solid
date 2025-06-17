@@ -3,33 +3,45 @@ import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
 import Aa from "~/components/Aa";
 
-import { createAsync } from "@solidjs/router";
-import { createEffect, Show } from "solid-js";
+import { animateAlpha } from "~/animation/alpha.js";
 
-import { getData } from "./test";
+import { A, createAsync } from "@solidjs/router";
+import { Show } from "solid-js";
 
-export default function Test2() {
+import { getData } from "./util";
+
+export default function Test() {
   const data = createAsync(async () => await getData());
-
-  createEffect(() => {
-    console.log("2", data());
-  });
 
   return (
     <>
+      {/* <Title>Protected: Account</Title> */}
       <Show when={data()}>
-        <Title>Protected: {data()?.hello}</Title>
         <div class="min-h-[100vh] pt-20">
           <Section class="px-gx">
-            <div>test2 route</div>
-            <div>{data().hello}</div>
-            <Aa href="/protected/test"> to 1</Aa>
-
+            <div>baseline test1 route</div>
+            <Aa href="/_/protected/test">to 1</Aa>
             <div class="py-2">
-              <Aa href="/protected/">back</Aa>
+              <Aa href="/_/protected/">back</Aa>
             </div>
           </Section>
+
+          <Section class="mt-8 px-gx">
+            <p>DYNAMIC DATA</p>
+            <p>{data().name}</p>
+            <p>{data().email}</p>
+            <p>{data().phone}</p>
+            <p>{data().address}</p>
+            <p>{data().city}</p>
+            <p>{data().state}</p>
+            <p>{data().zip}</p>
+            <p>{data().country}</p>
+            <p>{data().website}</p>
+          </Section>
         </div>
+
+        <p>hi1</p>
+        <Aa href="/_/protected/test">to 1</Aa>
       </Show>
     </>
   );

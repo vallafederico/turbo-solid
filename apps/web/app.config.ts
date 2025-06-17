@@ -54,4 +54,7 @@ export default defineConfig({
   vite: {
     plugins,
   },
+  // solid: {
+  //   hot: false,
+  // },
 });

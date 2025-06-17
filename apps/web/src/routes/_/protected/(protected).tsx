@@ -4,11 +4,8 @@ import Section from "~/components/Section";
 import Aa from "~/components/Aa";
 
 import { animateAlpha } from "~/animation/alpha.js";
-import Track from "@components/animation/Track";
-import { createAsync, useNavigate } from "@solidjs/router";
-import { createEffect } from "solid-js";
-import { cache } from "@solidjs/router";
-import { setCookie, parseCookies } from "vinxi/http";
+
+import { useNavigate } from "@solidjs/router";
 
 // (*) [REFACTOR] with vinxxi sessions
 
@@ -25,7 +22,7 @@ export default function Protected() {
     setCookieClient("auth", "true");
     console.log("login:", parseCookiesClient());
 
-    navigate("/protected/test2");
+    navigate("/_/protected/test2");
   };
 
   const logOut = () => {
@@ -44,7 +41,7 @@ export default function Protected() {
           <button onClick={logOut}>logOut</button>
         </div>
 
-        <a href="/protected/test2">To protected Page</a>
+        <Aa href="/_/protected/test2">To protected Page</Aa>
       </Section>
     </div>
   );
