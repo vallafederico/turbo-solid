@@ -1,5 +1,4 @@
 import { WebGLRenderer, PerspectiveCamera } from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import gsap from "../gsap";
 
 import { Gui } from "~/app/gui";
@@ -64,8 +63,12 @@ export class Gl {
 
     this.camera.position.set(0, 0, 2);
     if (!isServer) {
-      this.controls = new OrbitControls(this.camera, document.body);
-      this.controls.enabled = false;
+      import("three/examples/jsm/controls/OrbitControls").then(
+        ({ OrbitControls }) => {
+          this.controls = new OrbitControls(this.camera, document.body);
+          this.controls.enabled = false;
+        },
+      );
     }
 
     this.init();
