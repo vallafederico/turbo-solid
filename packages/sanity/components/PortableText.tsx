@@ -1,9 +1,14 @@
-import { PortableText as PortableTextComponent, PortableTextProps } from '@portabletext/solid'
-
-
+import { clientOnly } from "@solidjs/start";
+import {
+	PortableText as PortableTextComponent,
+	type PortableTextProps,
+} from "@portabletext/solid";
 
 export default function PortableText(props: PortableTextProps) {
-  return (
-    <PortableTextComponent {...props} />
-  )
+	// Portable text cant render on the server, need to use client only
+	return clientOnly(() => {
+		return Promise.resolve({
+			default: PortableTextComponent,
+		});
+	})(props);
 }

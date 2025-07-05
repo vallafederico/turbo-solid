@@ -8,6 +8,7 @@
 		"@sanity/image-url": "^1.1.0",
 		"@solidjs/meta": "^0.29.4",
 		"@solidjs/router": "^0.15.3",
+		"@solidjs/start": "^1.1.4",
 		"solid-js": "^1.9.4",
 		"walkjs": "^6.0.1"
 	}
