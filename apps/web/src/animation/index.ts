@@ -34,6 +34,11 @@ async function animateOutAndTransition(
   // Scroll.lenis?.resize();
 }
 
+export async function animateOut() {
+  await Promise.all(outTransitions.map(async (fn) => await fn()));
+  reset();
+}
+
 /** exports */
 export { animateOutAndTransition, setOutTransition, outTransitions };
 

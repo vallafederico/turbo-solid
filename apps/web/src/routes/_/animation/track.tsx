@@ -1,9 +1,9 @@
 import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
-import Aa from "~/components/Aa";
 import Track from "~/components/animation/Track";
 
 import { animateAlpha } from "~/animation/alpha";
+import { A } from "@solidjs/router";
 
 export default function TrackPage() {
   return (
@@ -11,12 +11,12 @@ export default function TrackPage() {
       <Title>Track</Title>
 
       <Section class="px-gx">
-        <Aa href="/_/animation">Back</Aa>
+        <A href="/_/animation">Back</A>
       </Section>
 
       <div
         use:animateAlpha
-        class="flex-center max-w-screen overflow-clip py-20"
+        class="py-20 overflow-clip flex-center max-w-screen"
       >
         <Section class="w-full py-[100vh]">
           <Track class="">hello</Track>

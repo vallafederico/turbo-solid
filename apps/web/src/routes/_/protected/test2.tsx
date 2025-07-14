@@ -1,7 +1,6 @@
 import { Title } from "@solidjs/meta";
 
 import Section from "~/components/Section";
-import Aa from "~/components/Aa";
 
 import { animateAlpha } from "~/animation/alpha.js";
 
@@ -20,9 +19,9 @@ export default function Test() {
         <div class="min-h-[100vh] pt-20">
           <Section class="px-gx">
             <div>baseline test1 route</div>
-            <Aa href="/_/protected/test">to 1</Aa>
+            <A href="/_/protected/test">to 1</A>
             <div class="py-2">
-              <Aa href="/_/protected/">back</Aa>
+              <A href="/_/protected/">back</A>
             </div>
           </Section>
 
@@ -41,7 +40,7 @@ export default function Test() {
         </div>
 
         <p>hi1</p>
-        <Aa href="/_/protected/test">to 1</Aa>
+        <A href="/_/protected/test">to 1</A>
       </Show>
     </>
   );

@@ -1,6 +1,6 @@
 import { Title } from "@solidjs/meta";
 import { HttpStatusCode } from "@solidjs/start";
-import Aa from "~/components/Aa";
+import { A } from "@solidjs/router";
 
 export default function NotFound() {
   return (
@@ -11,7 +11,7 @@ export default function NotFound() {
       <div class="flex flex-col gap-2">
         <h1>Page not found</h1>
 
-        <Aa href="/">Back to website</Aa>
+        <A href="/">Back to website</A>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
-import Aa from "~/components/Aa";
+import { A } from "@solidjs/router";
 
 import { animateAlpha } from "~/animation/alpha";
 
@@ -13,9 +13,9 @@ export default function Components() {
           <h2>Components </h2>
           <ul class="mt-6 flex flex-col items-start gap-3">
             <li>
-              <Aa animate-hover="underline" href="/_/components/dropdown">
+              <A animate-hover="underline" href="/_/components/dropdown">
                 Dropdown
-              </Aa>
+              </A>
             </li>
           </ul>
         </div>

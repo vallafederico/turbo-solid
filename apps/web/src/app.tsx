@@ -12,6 +12,8 @@ import Grid from "~/components/Grid";
 import Canvas from "~/components/Canvas";
 import { scroll } from "~/app/scroll";
 
+import PageTransition from "./animation/PageTransition";
+
 export default function App() {
   useViewport();
 
@@ -19,17 +21,19 @@ export default function App() {
     <Router
       root={(props) => (
         <MetaProvider>
-          <Title>SolidStart - Basic</Title>
-          <Link rel="robots" type="text/plain" href="/api/robots.txt" />
+          <PageTransition>
+            <Title>SolidStart - Basic</Title>
+            <Link rel="robots" type="text/plain" href="/api/robots.txt" />
 
-          <Nav />
-          <Grid />
+            <Nav />
+            <Grid />
 
-          <Suspense>
-            <GlobalLayout>{props.children}</GlobalLayout>
-          </Suspense>
+            <Suspense>
+              <GlobalLayout>{props.children}</GlobalLayout>
+            </Suspense>
 
-          <Canvas />
+            <Canvas />
+          </PageTransition>
         </MetaProvider>
       )}
     >

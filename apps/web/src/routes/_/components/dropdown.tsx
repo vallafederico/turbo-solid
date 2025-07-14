@@ -1,7 +1,7 @@
 import { Title } from "@solidjs/meta";
 
 import Section from "~/components/Section";
-import Aa from "~/components/Aa";
+import { A } from "@solidjs/router";
 import Dropdown from "~/components/Dropdown";
 
 import { animateAlpha } from "~/animation/alpha";
@@ -13,7 +13,7 @@ export default function SplitTextPage() {
 
       <div use:animateAlpha>
         <Section class="px-gx">
-          <Aa href="/components">Back</Aa>
+          <A href="/components">Back</A>
         </Section>
       </div>
 

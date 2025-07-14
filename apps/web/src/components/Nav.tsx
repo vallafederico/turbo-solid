@@ -1,4 +1,4 @@
-import Aa from "./Aa";
+import { A } from "@solidjs/router";
 import { For } from "solid-js";
 import { RollingText } from "./animation/RollingText";
 import MobileMenu from "./MobileMenu";
@@ -33,18 +33,18 @@ const NAV_LINKS = [
 export const Nav = () => {
   return (
     <nav class="px-gx pointer-events-none fixed top-0 left-0 z-100 flex w-screen items-center justify-between py-6">
-      <Aa aria-label="homepage" class="pointer-events-auto z-20" href="/">
+      <A aria-label="homepage" class="pointer-events-auto z-20" href="/">
         <p>LOGO</p>
-      </Aa>
+      </A>
 
       {/* desktop menu */}
       <ul class="pointer-events-auto hidden justify-between md:flex">
         <For each={NAV_LINKS}>
           {({ to, text }) => (
             <li>
-              <Aa href={to}>
+              <A href={to}>
                 <RollingText class="px-3">{text}</RollingText>
-              </Aa>
+              </A>
             </li>
           )}
         </For>
@@ -56,7 +56,7 @@ export const Nav = () => {
           <For each={NAV_LINKS}>
             {({ to, text }) => (
               <li>
-                <Aa href={to}>{text}</Aa>
+                <A href={to}>{text}</A>
               </li>
             )}
           </For>

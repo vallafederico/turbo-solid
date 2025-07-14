@@ -5,6 +5,7 @@ export const globalOut = () =>
     autoAlpha: 0,
     ease: "expo.out",
     duration: 0.4,
-    delay: 0,
+    delay: 0.8,
+
     // delay: 0.8,
   });

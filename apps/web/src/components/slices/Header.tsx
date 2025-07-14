@@ -1,4 +1,4 @@
-import Aa from "~/components/Aa";
+import { A } from "@solidjs/router";
 import { SanityLink, sanityLink } from "@local/sanity";
 import { animateAlpha } from "~/animation/alpha";
 
@@ -16,7 +16,7 @@ export default function Header({ text, link }: HeaderProps) {
       <h2>Header Slice</h2>
       <SanityLink
         class="mt-20 block rounded-2xl border bg-white px-20 py-4 text-black"
-        tag={Aa}
+        tag={A}
         {...link}
       />
     </div>

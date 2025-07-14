@@ -1,11 +1,10 @@
 import { Title } from "@solidjs/meta";
 import Counter from "~/components/Counter";
 import Section from "~/components/Section";
-import Aa from "~/components/Aa";
 
 import { animateAlpha } from "~/animation/alpha.js";
 
-import { useNavigate } from "@solidjs/router";
+import { useNavigate, A } from "@solidjs/router";
 
 // (*) [REFACTOR] with vinxxi sessions
 
@@ -41,7 +40,7 @@ export default function Protected() {
           <button onClick={logOut}>logOut</button>
         </div>
 
-        <Aa href="/_/protected/test2">To protected Page</Aa>
+        <A href="/_/protected/test2">To protected Page</A>
       </Section>
     </div>
   );

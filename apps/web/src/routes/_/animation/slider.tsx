@@ -1,7 +1,7 @@
 import { Title } from "@solidjs/meta";
 import Slider from "~/components/animation/Slider";
 import Section from "~/components/Section";
-import Aa from "~/components/Aa";
+import { A } from "@solidjs/router";
 import { For } from "solid-js";
 
 import { animateAlpha } from "~/animation/alpha";
@@ -12,7 +12,7 @@ export default function SliderPage() {
       <Title>About</Title>
 
       <Section class="px-gx">
-        <Aa href="/_/animation">Back</Aa>
+        <A href="/_/animation">Back</A>
       </Section>
 
       <div

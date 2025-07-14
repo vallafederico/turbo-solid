@@ -1,6 +1,6 @@
 import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
-import Aa from "~/components/Aa";
+import { A } from "@solidjs/router";
 
 import { animateAlpha } from "~/animation/alpha";
 
@@ -13,19 +13,19 @@ export default function Animation() {
           <h2>Animation </h2>
           <ul class="mt-6 flex flex-col items-start gap-3">
             <li>
-              <Aa animate-hover="underline" href="/_/animation/slider">
+              <A animate-hover="underline" href="/_/animation/slider">
                 Slider
-              </Aa>
+              </A>
             </li>
             <li>
-              <Aa animate-hover="underline" href="/_/animation/track">
+              <A animate-hover="underline" href="/_/animation/track">
                 Track
-              </Aa>
+              </A>
             </li>
             <li>
-              <Aa animate-hover="underline" href="/_/animation/split-text">
+              <A animate-hover="underline" href="/_/animation/split-text">
                 Split Text
-              </Aa>
+              </A>
             </li>
           </ul>
         </div>

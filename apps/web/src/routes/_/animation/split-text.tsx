@@ -1,10 +1,11 @@
 import { Title } from "@solidjs/meta";
 
 import Section from "~/components/Section";
-import Aa from "~/components/Aa";
+
 import Split from "~/components/animation/Split";
 
 import { animateAlpha } from "~/animation/alpha";
+import { A } from "@solidjs/router";
 
 export default function SplitTextPage() {
   return (
@@ -13,11 +14,11 @@ export default function SplitTextPage() {
 
       <div use:animateAlpha>
         <Section class="px-gx">
-          <Aa href="/_/animation">Back</Aa>
+          <A href="/_/animation">Back</A>
         </Section>
       </div>
 
-      <div class="flex-center max-w-screen py-20">
+      <div class="py-20 flex-center max-w-screen">
         <Split class="text-[2rem]">
           <p class="">Split me</p>
         </Split>
@@ -27,7 +28,7 @@ export default function SplitTextPage() {
           <p class="">Cool text here</p>
         </Split>
       </div>
-      <div class="flex-center max-w-screen py-20">
+      <div class="py-20 flex-center max-w-screen">
         <Split class="text-[2rem]">
           <p class="">Split me PLEASE</p>
         </Split>
