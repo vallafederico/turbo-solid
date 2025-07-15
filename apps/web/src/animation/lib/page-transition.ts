@@ -9,7 +9,6 @@ export const setOutTransition = (fn: () => any) => {
 export function reset() {
   outTransitions.length = 0;
   outTransitions = [];
-  // outTransitions.push(globalOut);
 }
 
 export async function animateOut() {
