@@ -1,14 +1,14 @@
-import header from './header'
-import richText from './richText'
+import header from "./header";
+import richText from "./richText";
 
-import {createSliceSet} from '../../utils/create'
+import { createSliceSet } from "../../utils/create";
 
-const globalPageSlices = [richText, header, richText] as any[]
+const globalPageSlices = [richText, header] as any[];
 
 const slices = createSliceSet({
-  name: 'pageSlices',
-  title: 'Page Slices',
-  slices: globalPageSlices,
-})
+	name: "pageSlices",
+	title: "Page Slices",
+	slices: globalPageSlices,
+});
 
-export default [slices, ...globalPageSlices]
+export default [slices, ...globalPageSlices];

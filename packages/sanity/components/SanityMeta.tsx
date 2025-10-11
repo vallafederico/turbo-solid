@@ -1,15 +1,15 @@
-import { Link, Meta, Title } from '@solidjs/meta'
+import { Link, Meta, Title } from "@solidjs/meta";
 
 interface SanityMetatagsProps {
-	siteTitle?: string
-	title: string
-	description?: string
+	siteTitle?: string;
+	title: string;
+	description?: string;
 }
 
 export default function SanityMetatags({
-	siteTitle = '',
-	title = '',
-	description = '',
+	siteTitle = "",
+	title = "",
+	description = "",
 }: SanityMetatagsProps) {
 	return (
 		<>
@@ -27,9 +27,10 @@ export default function SanityMetatags({
 			<Meta property="twitter:description" content={description} />
 
 			<Link rel="icon" href="/favicon.ico" />
-	
+			<Link rel="icon" type="image/png" href="/favicon.png" />
+			<Link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
 			{/* <Meta property="twitter:image" content={image} /> */}
 		</>
-	)
+	);
 }
