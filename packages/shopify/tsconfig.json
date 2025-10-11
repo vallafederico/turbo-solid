@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"allowSyntheticDefaultImports": true,
+		"esModuleInterop": true,
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"allowJs": true,
+		"strict": true,
+		"noEmit": true,
+		"isolatedModules": true,
+		"declaration": true
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		"**/*.gql",
+		"**/*.graphql",
+		"types/graphql.d.ts",
+		"types/storefront.generated.ts",
+		"../../apps/web/src/context/ProductContext.ts",
+		"context/ProductProvider.tsx"
+	]
+}

@@ -1,0 +1,29 @@
+.text {
+	h2 {
+		font-size: 1.8rem;
+		font-weight: 700;
+		margin-bottom: 0.8rem;
+	}
+
+	p {
+		opacity: 0.7;
+		font-size: 1.4rem;
+
+		@media screen and (max-width: 1024px) {
+			font-size: 1.6rem;
+		}
+
+		&:not(:last-child) {
+			margin-bottom: 3.2rem;
+		}
+
+		strong {
+			font-weight: 700;
+		}
+
+		a {
+			color: var(--color-teal);
+			text-decoration: underline;
+		}
+	}
+}

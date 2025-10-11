@@ -1,0 +1,161 @@
+fragment ResponsiveImage on MediaImage {
+	image {
+		altText
+		height
+		width
+		url
+		size_390: url(transform: { maxWidth: 390, preferredContentType: WEBP })
+		size_768: url(transform: { maxWidth: 768, preferredContentType: WEBP })
+		size_1024: url(transform: { maxWidth: 1024, preferredContentType: WEBP })
+		size_1680: url(transform: { maxWidth: 1680, preferredContentType: WEBP })
+		size_1920: url(transform: { maxWidth: 1920, preferredContentType: WEBP })
+		size_2440: url(transform: { maxWidth: 2440, preferredContentType: WEBP })
+	}
+}
+
+fragment Product on Product {
+	id
+	title
+	handle
+	media(first: 4) {
+		nodes {
+			...ResponsiveImage
+		}
+	}
+}
+
+query GetProducts($first: Int) {
+	products(
+		first: $first
+		sortKey: PRICE
+		reverse: true
+		# query: "available_for_sale:true"
+	) {
+		nodes {
+			id
+			title
+			handle
+			availableForSale
+			priceRange {
+				minVariantPrice {
+					amount
+					currencyCode
+				}
+				maxVariantPrice {
+					amount
+					currencyCode
+				}
+			}
+
+			# priceRangeV2 {
+			# 	maxVariantPrice {
+			# 		amount
+			# 		currencyCode
+			# 	}
+			# 	minVariantPrice {
+			# 		amount
+			# 		currencyCode
+			# 	}
+			# }
+			media(first: 1) {
+				nodes {
+					...ResponsiveImage
+				}
+			}
+		}
+	}
+}
+
+query GetProductByHandle($handle: String!) {
+	product: productByHandle(handle: $handle) {
+		id
+		handle
+		availableForSale
+		description
+		descriptionHtml
+		title
+		seo {
+			description
+			title
+		}
+		options {
+			values
+			name
+			id
+		}
+		metafields(
+			identifiers: [
+				{ namespace: "custom", key: "measurement_selectors" }
+				{ namespace: "custom", key: "shape_options" }
+				{ namespace: "custom", key: "color_groups" }
+				{ namespace: "custom", key: "fabrication_options" }
+				{ namespace: "custom", key: "overlay_cut_options" }
+			]
+		) {
+			namespace
+			key
+			value
+			type
+			references(first: 100) {
+				nodes {
+					... on MetafieldReference {
+						... on Metaobject {
+							title: field(key: "title") {
+								value
+							}
+							description: field(key: "description") {
+								value
+							}
+							options: field(key: "options") {
+								value
+							}
+							name: field(key: "name") {
+								value
+							}
+							outline: field(key: "outline") {
+								value
+							}
+
+							colors: field(key: "colors") {
+								... on MetaobjectField {
+									references(first: 10) {
+										nodes {
+											... on Metaobject {
+												name: field(key: "name") {
+													value
+												}
+												color: field(key: "color") {
+													value
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		variants(first: 100) {
+			nodes {
+				id
+				availableForSale
+				title
+				price {
+					amount
+					currencyCode
+				}
+				selectedOptions {
+					name
+					value
+				}
+			}
+		}
+		media(first: 8) {
+			nodes {
+				...ResponsiveImage
+			}
+		}
+	}
+}

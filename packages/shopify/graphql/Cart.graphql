@@ -1,0 +1,127 @@
+fragment CartFragment on Cart {
+	id
+	checkoutUrl
+	totalQuantity
+	lines(first: 100) {
+		nodes {
+			id
+			attributes {
+				key
+				value
+			}
+			merchandise {
+				... on ProductVariant {
+					title
+					id
+
+					product {
+						title
+						handle
+						featuredImage {
+							altText
+							width
+							height
+							url
+							size_390: url(
+								transform: { maxWidth: 390, preferredContentType: WEBP }
+							)
+							size_768: url(
+								transform: { maxWidth: 768, preferredContentType: WEBP }
+							)
+						}
+					}
+					price {
+						amount
+						currencyCode
+					}
+					image {
+						url
+					}
+					selectedOptions {
+						name
+						value
+					}
+				}
+			}
+			quantity
+			cost {
+				totalAmount {
+					amount
+					currencyCode
+				}
+			}
+		}
+	}
+	cost {
+		totalAmount {
+			amount
+			currencyCode
+		}
+	}
+}
+
+mutation CartCreate($input: CartInput) {
+	cartCreate(input: $input) {
+		cart {
+			...CartFragment
+		}
+		# Cart fields
+		userErrors {
+			field
+			message
+		}
+		warnings {
+			code
+		}
+		# CartWarning fields
+	}
+}
+
+mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+	cartLinesAdd(cartId: $cartId, lines: $lines) {
+		cart {
+			...CartFragment
+		}
+		# Cart fields
+		userErrors {
+			field
+			message
+		}
+		warnings {
+			code
+		}
+		# CartWarning fields
+	}
+}
+
+mutation CartLinesUpdate($cartId: ID!, $lines: [CartLineUpdateInput!]!) {
+	cartLinesUpdate(cartId: $cartId, lines: $lines) {
+		cart {
+			...CartFragment
+		}
+		# Cart fields
+		userErrors {
+			field
+			message
+		}
+		warnings {
+			code
+		}
+		# CartWarning fields
+	}
+}
+
+mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+	cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+		cart {
+			...CartFragment
+		}
+		userErrors {
+			field
+			message
+		}
+		warnings {
+			code
+		}
+	}
+}

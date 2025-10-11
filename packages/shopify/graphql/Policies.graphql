@@ -1,0 +1,21 @@
+fragment Policy on ShopPolicy {
+	title
+
+	body
+}
+
+query GetShopPolicies {
+	shop {
+		name
+
+		shippingPolicy {
+			...Policy
+		}
+		refundPolicy {
+			...Policy
+		}
+		termsOfService {
+			...Policy
+		}
+	}
+}

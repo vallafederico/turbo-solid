@@ -1,0 +1,22 @@
+{
+	"name": "@local/shopify",
+	"type": "module",
+	"main": "./index.ts",
+	"dependencies": {
+		"@local/solid-components": "workspace:*",
+		"@shopify/shopify-api": "^11.14.1",
+		"@shopify/storefront-api-client": "^1.0.9",
+		"@solid-primitives/cookies": "^0.0.3",
+		"@solidjs/router": "^0.15.3",
+		"@solidjs/start": "^1.1.7",
+		"graphql": "^16.11.0",
+		"solid-js": "^1.9.9",
+		"vinxi": "^0.5.8"
+	},
+	"devDependencies": {
+		"@graphql-codegen/cli": "^5.0.7",
+		"@graphql-codegen/typescript": "^4.1.6",
+		"@graphql-codegen/typescript-graphql-request": "^6.3.0",
+		"@graphql-codegen/typescript-operations": "^4.6.1"
+	}
+}
