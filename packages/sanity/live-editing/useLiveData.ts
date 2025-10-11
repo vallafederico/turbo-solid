@@ -104,10 +104,6 @@ export function useLiveQuery<T = unknown>(
 		const sub = store.subscribe<T>(
 			`*[_type == "home"][0]`,
 			{},
-			// async (next) => {
-			// 	console.log("next", next);
-			// 	setData(() => next);
-			// },
 			(err, result) => {
 				console.log("result", result);
 				console.log("err", err);

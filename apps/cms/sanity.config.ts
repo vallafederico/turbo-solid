@@ -26,7 +26,8 @@ const sharedConfig = [
 	vercelDeployTool(),
 	presentationTool({
 		previewUrl: {
-			origin: "http://localhost:3000",
+			origin:
+				"https://turbo-solid-web-git-feat-sanity-live-editing-federicoooo.vercel.app",
 
 			// draftMode: { enable: '/api/preview', disable: '/api/exit-preview' },
 		},
