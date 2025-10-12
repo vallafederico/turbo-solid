@@ -9,7 +9,7 @@ import { noteField } from "sanity-plugin-note-field";
 import { userGuidePlugin } from "@q42/sanity-plugin-user-guide";
 import { userGuideStructure } from "./guides/userGuideStructure";
 import { resolve } from "./resolve";
-import { SANITY_CONFIG } from "@local/config";
+import { DOMAIN, SANITY_CONFIG } from "@local/config";
 
 import { presentationTool } from "sanity/presentation";
 
@@ -24,7 +24,7 @@ const sharedConfig = [
 	userGuidePlugin({ userGuideStructure }),
 	presentationTool({
 		previewUrl: {
-			origin: "http://localhost:3000",
+			origin: DOMAIN,
 			previewMode: {
 				enable: "/api/preview-enable",
 				disable: "/api/preview-disable",
