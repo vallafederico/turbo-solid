@@ -81,6 +81,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@local/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@local/sanity':
         specifier: workspace:*
         version: link:../../packages/sanity

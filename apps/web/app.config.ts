@@ -3,9 +3,10 @@ import solidSvg from "vite-plugin-solid-svg";
 import glsl from "vite-plugin-glsl";
 import { solidStartSiteMapPlugin } from "solid-start-sitemap";
 import glReloadPlugin from "./vite/vite-plugin-gl-reload";
+import { DOMAIN } from "@local/config";
 
 const sitemap = solidStartSiteMapPlugin({
-	hostname: "https://example.com",
+	hostname: DOMAIN,
 	replaceRouteParams: {
 		":postId": [1, 2, 3],
 	},
