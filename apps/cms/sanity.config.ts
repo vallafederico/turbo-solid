@@ -24,10 +24,11 @@ const sharedConfig = [
 	userGuidePlugin({ userGuideStructure }),
 	presentationTool({
 		previewUrl: {
-			origin:
-				"https://turbo-solid-web-git-feat-sanity-live-editing-federicoooo.vercel.app",
-
-			// draftMode: { enable: '/api/preview', disable: '/api/exit-preview' },
+			origin: "http://localhost:3000",
+			previewMode: {
+				enable: "/api/preview-enable",
+				disable: "/api/preview-disable",
+			},
 		},
 		resolve, // <— wires in mainDocuments + locations
 	}),
