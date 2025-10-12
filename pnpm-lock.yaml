@@ -139,9 +139,6 @@ importers:
       prettier-plugin-tailwindcss:
         specifier: ^0.6.14
         version: 0.6.14(prettier-plugin-astro@0.14.1)(prettier@3.6.2)
-      solid-start-sitemap:
-        specifier: ^0.2.2
-        version: 0.2.2(solid-js@1.9.9)(vinxi@0.5.8(@netlify/blobs@9.1.1)(@types/node@24.7.2)(db0@0.3.4)(ioredis@5.8.1)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.0)(yaml@2.8.1))
       tailwindcss:
         specifier: ^4.1.14
         version: 4.1.14
@@ -2923,9 +2920,6 @@ packages:
   '@types/ms@2.1.0':
     resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
-  '@types/node@17.0.45':
-    resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
-
   '@types/node@24.7.2':
     resolution: {integrity: sha512-/NbVmcGTP+lj5oa4yiYxxeBjRivKQ5Ns1eSZeB99ExsEQ6rX5XYU1Zy/gGxY/ilqtD4Etx9mKyrPxZRetiahhA==}
 
@@ -2954,9 +2948,6 @@ packages:
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
-
-  '@types/sax@1.2.7':
-    resolution: {integrity: sha512-rO73L89PJxeYM3s3pPPjiPgVVcymqU490g0YO5n5By0k2Erzj6tay/4lr1CHAAU4JyOWd1rpQ8bCf6cZfHU96A==}
 
   '@types/shallow-equals@1.0.3':
     resolution: {integrity: sha512-xZx/hZsf1p9J5lGN/nGTsuW/chJCdlyGxilwg1TS78rygBCU5bpY50zZiFcIimlnl0p41kAyaASsy0bqU7WyBA==}
@@ -3231,9 +3222,6 @@ packages:
   archiver@7.0.1:
     resolution: {integrity: sha512-ZcbTaIqJOfCc03QwD468Unz/5Ir8ATtvAHsK+FdXbDIbGfihqh9mrvdcYunQzqn4HrvWWaFyaxJhGZagaJJpPQ==}
     engines: {node: '>= 14'}
-
-  arg@5.0.2:
-    resolution: {integrity: sha512-PYjyFOLKQ9y57JvQ6QLo8dAgNqswh8M1RMJYdQduT6xbWSgK36P/Z/v+p888pM69jMMfS8Xd8F6I1kQ/I9HUGg==}
 
   argparse@1.0.10:
     resolution: {integrity: sha512-o5Roy6tNG4SL/FOkCAN6RzjiakZS25RLYFrcMttJqbdd8BWrnA+fGz57iN5Pb06pvBGvl5gQ0B48dJlslXvoTg==}
@@ -6801,9 +6789,6 @@ packages:
   sass-formatter@0.7.9:
     resolution: {integrity: sha512-CWZ8XiSim+fJVG0cFLStwDvft1VI7uvXdCNJYXhDvowiv+DsbD1nXLiQ4zrE5UBvj5DWZJ93cwN0NX5PMsr1Pw==}
 
-  sax@1.4.1:
-    resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
-
   saxes@6.0.0:
     resolution: {integrity: sha512-xAg7SOnEhrm5zI3puOOKyy1OMcMlIJZYNJY7xLBwSze0UjhPLnWfj2GF2EpT0jmzaJKIWKHLsaSSajf35bcYnA==}
     engines: {node: '>=v12.22.7'}
@@ -6946,11 +6931,6 @@ packages:
   simple-wcswidth@1.1.2:
     resolution: {integrity: sha512-j7piyCjAeTDSjzTSQ7DokZtMNwNlEAyxqSZeCS+CXH7fJ4jx3FuJ/mTW3mE+6JLs4VJBbcll0Kjn+KXI5t21Iw==}
 
-  sitemap@8.0.0:
-    resolution: {integrity: sha512-+AbdxhM9kJsHtruUF39bwS/B0Fytw6Fr1o4ZAIAEqA6cke2xcoO2GleBw9Zw7nRzILVEgz7zBM5GiTJjie1G9A==}
-    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
-    hasBin: true
-
   slash@3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
@@ -6988,13 +6968,6 @@ packages:
     resolution: {integrity: sha512-F3aPsX6hVw9ttm5LYlth8Q15x6MlI/J3Dn+o3EQyRTtTxidepSTwAYdozt01/YA+7ObcciagGEyXIopGZzQtbA==}
     peerDependencies:
       solid-js: ^1.3
-
-  solid-start-sitemap@0.2.2:
-    resolution: {integrity: sha512-+z39AxnINVCNWtsGUAv8KQ0I0mNKUJR67x0VxRV4NOAaHJcrMCK4FBM22eJvPd2lApTMxhX0hDcvXbPA/la7Kw==}
-    engines: {node: '>=18', pnpm: '>=9.0.0'}
-    peerDependencies:
-      solid-js: '>=1.6.0'
-      vinxi: '>=0.4.3'
 
   solid-use@0.9.1:
     resolution: {integrity: sha512-UwvXDVPlrrbj/9ewG9ys5uL2IO4jSiwys2KPzK4zsnAcmEl7iDafZWW1Mo4BSEWOmQCGK6IvpmGHo1aou8iOFw==}
@@ -11369,8 +11342,6 @@ snapshots:
 
   '@types/ms@2.1.0': {}
 
-  '@types/node@17.0.45': {}
-
   '@types/node@24.7.2':
     dependencies:
       undici-types: 7.14.0
@@ -11397,10 +11368,6 @@ snapshots:
       csstype: 3.1.3
 
   '@types/resolve@1.20.2': {}
-
-  '@types/sax@1.2.7':
-    dependencies:
-      '@types/node': 17.0.45
 
   '@types/shallow-equals@1.0.3': {}
 
@@ -11765,8 +11732,6 @@ snapshots:
     transitivePeerDependencies:
       - bare-abort-controller
       - react-native-b4a
-
-  arg@5.0.2: {}
 
   argparse@1.0.10:
     dependencies:
@@ -16264,8 +16229,6 @@ snapshots:
     dependencies:
       suf-log: 2.5.3
 
-  sax@1.4.1: {}
-
   saxes@6.0.0:
     dependencies:
       xmlchars: 2.2.0
@@ -16481,13 +16444,6 @@ snapshots:
 
   simple-wcswidth@1.1.2: {}
 
-  sitemap@8.0.0:
-    dependencies:
-      '@types/node': 17.0.45
-      '@types/sax': 1.2.7
-      arg: 5.0.2
-      sax: 1.4.1
-
   slash@3.0.0: {}
 
   slash@5.1.0: {}
@@ -16562,12 +16518,6 @@ snapshots:
       solid-js: 1.9.9
     transitivePeerDependencies:
       - supports-color
-
-  solid-start-sitemap@0.2.2(solid-js@1.9.9)(vinxi@0.5.8(@netlify/blobs@9.1.1)(@types/node@24.7.2)(db0@0.3.4)(ioredis@5.8.1)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.0)(yaml@2.8.1)):
-    dependencies:
-      sitemap: 8.0.0
-      solid-js: 1.9.9
-      vinxi: 0.5.8(@netlify/blobs@9.1.1)(@types/node@24.7.2)(db0@0.3.4)(ioredis@5.8.1)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.0)(yaml@2.8.1)
 
   solid-use@0.9.1(solid-js@1.9.9):
     dependencies:
