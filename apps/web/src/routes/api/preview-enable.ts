@@ -47,7 +47,7 @@ export async function GET({ params, request }: APIEvent) {
 	headers.set("Location", location);
 	// return new Response(null, { status: 303, headers });
 
-	return Response.redirect(location, 303);
+	// return Response.redirect(location, 303);
 }
 
 // Stub: replace with your token minting logic, or return undefined to skip
