@@ -24,6 +24,7 @@ const sharedConfig = [
 	userGuidePlugin({ userGuideStructure }),
 	presentationTool({
 		previewUrl: {
+			initial: DOMAIN,
 			origin: DOMAIN,
 			previewMode: {
 				enable: "/api/preview-enable",
