@@ -11,7 +11,7 @@ import { vercelDeployTool } from "sanity-plugin-vercel-deploy";
 import { userGuideStructure } from "./guides/userGuideStructure";
 import { resolve } from "./resolve";
 
-import { SANITY } from "../../config";
+import { SANITY_CONFIG } from "../../config";
 import { presentationTool } from "sanity/presentation";
 
 const sharedConfig = [
@@ -38,7 +38,7 @@ const sharedConfig = [
 const devConfig = [visionTool()];
 
 export default defineConfig({
-	...SANITY,
+	...SANITY_CONFIG,
 	scheduledPublishing: { enabled: false }, // enable if client pays for this feature
 	icon: Logo,
 
