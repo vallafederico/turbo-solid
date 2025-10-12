@@ -1,6 +1,6 @@
 import { createEffect, createMemo, createSignal, onCleanup } from "solid-js";
 import { groqStore, type GroqStore } from "@sanity/groq-store";
-import { SANITY } from "../../../config";
+import { SANITY_CONFIG } from "@local/config";
 import SanityEventSource from "@sanity/eventsource";
 
 type MaybeAccessor<T> = T | (() => T);
@@ -48,7 +48,7 @@ function getStore() {
 	// note: groqStore only uses .prototype.CLOSED/OPEN/CONNECTING if necessary, usually for browser compatibility
 
 	_store = groqStore({
-		...SANITY,
+		...SANITY_CONFIG,
 		token,
 		listen: true,
 		EventSource: ESWithToken,

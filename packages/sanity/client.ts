@@ -1,11 +1,11 @@
 import { createClient } from "@sanity/client";
-import { SANITY } from "../../config";
+import { SANITY_CONFIG } from "@local/config";
 
 const sanityClient = createClient({
 	perspective: "drafts",
 	useCdn: false,
 	apiVersion: "2025-01-11",
-	...SANITY,
+	...SANITY_CONFIG,
 	stega: {
 		enabled: true, // only in preview
 		studioUrl: import.meta.env.VITE_STUDIO_URL || "/studio",

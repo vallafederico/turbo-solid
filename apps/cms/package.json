@@ -23,11 +23,11 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-icons": "^5.5.0",
-    "sanity": "^3.99.0",
+    "@local/config": "workspace:*",
+    "sanity": "^4.10.2",
     "sanity-plugin-media": "^2.4.2",
     "sanity-plugin-note-field": "^2.0.2",
     "sanity-plugin-prefixed-slug": "^2.0.0",
-    "sanity-plugin-vercel-deploy": "^3.3.4",
     "styled-components": "^6.1.19"
   },
   "devDependencies": {
