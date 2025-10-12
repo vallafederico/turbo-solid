@@ -8,7 +8,7 @@ const sanityClient = createClient({
 	...SANITY_CONFIG,
 	stega: {
 		enabled: true, // only in preview
-		studioUrl: import.meta.env.VITE_STUDIO_URL || "/studio",
+		studioUrl: "https://internetthings-starter.sanity.studio",
 		// Optional: filter to skip specific fields (e.g., external URLs)
 		// filter: (props) => props.filterDefault(props),
 	},
