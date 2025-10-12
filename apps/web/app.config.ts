@@ -1,7 +1,6 @@
 import { defineConfig } from "@solidjs/start/config";
 import solidSvg from "vite-plugin-solid-svg";
 import glsl from "vite-plugin-glsl";
-import { solidStartSiteMapPlugin } from "solid-start-sitemap";
 import glReloadPlugin from "./vite/vite-plugin-gl-reload";
 
 const plugins = [
@@ -33,8 +32,6 @@ const plugins = [
 		//   },
 		// },
 	}),
-
-	sitemap,
 
 	// Add our custom GL reload plugin
 	glReloadPlugin(),
