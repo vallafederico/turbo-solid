@@ -30,6 +30,8 @@ const sharedConfig = [
 				disable: "/api/preview-disable",
 			},
 		},
+		allowOrigins: ["http://localhost:*", DOMAIN],
+
 		resolve, // <— wires in mainDocuments + locations
 	}),
 ];
