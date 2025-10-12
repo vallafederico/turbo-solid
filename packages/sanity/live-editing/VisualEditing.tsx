@@ -15,6 +15,7 @@ export default function SanityVisualEditing(props: { enabled: boolean }) {
 
 	onMount(() => {
 		if (props.enabled) {
+			console.log("starting visual editing");
 			cleanup = startVisualEditing({
 				// optional: provide router sync logic
 				history: {
