@@ -1,8 +1,5 @@
 {
 	"name": "@local/config",
 	"type": "module",
-	"main": "./index.ts",
-	"dependencies": {
-
-	}
+	"main": "./index.ts"
 }
