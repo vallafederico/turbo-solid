@@ -9,7 +9,7 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "Content-Security-Policy", "value": "frame-ancestors 'self' http://localhost:3333" }
+        { "key": "Content-Security-Policy", "value": "frame-ancestors 'self' https://turbo-solid-web-git-feat-sanity-live-editing-federicoooo.vercel.app" }
       ]
     }
   ]
