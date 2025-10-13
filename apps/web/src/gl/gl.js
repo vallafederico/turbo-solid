@@ -7,8 +7,8 @@ import { useMouseSpeed } from "./utils/mouseSpeed";
 import { isServer } from "solid-js/web";
 
 import { Scene } from "./scene";
-import { Post } from "./post/post";
-import { ScreenEffect } from "./screenEffect";
+import { Post } from "./_/post/post";
+import { ScreenEffect } from "./_/screenEffect";
 import { Scroll } from "../lib/utils/scroll";
 import { Resizer } from "../lib/utils/resizer";
 

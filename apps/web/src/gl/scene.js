@@ -1,21 +1,18 @@
 import { Scene as S } from "three";
-import { Gl } from "./gl";
-import { Quad } from "./quad";
-import { Instance } from "./instance";
 import { loadAssets } from "./utils/loader";
-import { Model } from "./model";
-import { GpuInstance } from "./gpuInstance";
 import { setWebgl } from "~/lib/stores/webglStore";
+// import { Gl } from "./gl";
 
-// import { Node } from "./quadNode";
-
-// (*) test and setup loader
+// import { Quad } from "./_/quad";
+// import { Instance } from "./_/instance";
+// import { Model } from "./_/model";
+// import { Gpuinstance } from "./_/gpuInstance";
 
 export class Scene extends S {
   constructor() {
     super();
 
-    // this.load();
+    this.load();
   }
 
   async load() {

@@ -1,0 +1,164 @@
+# WebGL Folder Structure Rules
+
+## Overview
+
+When working with WebGL in this project, all base elements should be created inside the `src/gl/_/` folder following a consistent naming and structure pattern.
+
+## Folder Structure Convention
+
+### Required Structure
+
+Each WebGL element must be organized in its own named folder with the following structure:
+
+```
+src/gl/_/[elementName]/
+├── index.js          # Main export file - exports the class/component
+├── vertex.vert       # Vertex shader (if needed)
+└── fragment.frag     # Fragment shader (if needed)
+```
+
+### Optional Files
+
+Additional files can be included as needed:
+
+```
+src/gl/_/[elementName]/
+├── index.js                    # Main export file
+├── vertex.vert                 # Vertex shader
+├── fragment.frag               # Fragment shader
+├── utils.[elementName].js      # Utilities specific to this element
+├── [additional].frag           # Additional fragment shaders (e.g., sim1.frag, navierstokes.frag)
+├── [additional].js             # Additional JS files (e.g., mixer.js, post.js)
+└── [ComponentName].tsx         # React components (e.g., DomGroupElement.tsx)
+```
+
+## Naming Conventions
+
+### Folder Names
+
+- Use camelCase: `domGroup`, `gpuInstance`, `screenEffect`
+- Be descriptive and concise
+- Avoid abbreviations unless commonly understood
+
+### File Names
+
+- **index.js**: Always the main entry point
+- **vertex.vert**: Vertex shader files
+- **fragment.frag**: Fragment shader files
+- **utils.[name].js**: Utility files with element name suffix
+- **Additional files**: Use descriptive names that indicate purpose
+
+### Class Names
+
+- Use PascalCase: `Instance`, `GpuInstance`, `DomGroup`
+- Match the folder name but in PascalCase
+- Export as default or named export from index.js
+
+## Implementation Patterns
+
+### Basic Element Structure
+
+```javascript
+// src/gl/_/[elementName]/index.js
+import { /* Three.js imports */ } from "three";
+import { /* utility imports */ } from "./utils.[name]";
+import fragmentShader from "./fragment.frag";
+import vertexShader from "./vertex.vert";
+
+export class [ElementName] extends [ThreeJSClass] {
+  constructor() {
+    // Implementation
+  }
+
+  render(t) {
+    // Render logic
+  }
+}
+
+class Material extends RawShaderMaterial {
+  constructor() {
+    super({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        u_time: { value: 0 },
+        // other uniforms
+      },
+      // other material properties
+    });
+  }
+
+  set time(t) {
+    this.uniforms.u_time.value = t;
+  }
+}
+```
+
+### Utility Files
+
+```javascript
+// src/gl/_/[elementName]/utils.[name].js
+// Utility functions specific to this element
+export function [utilityFunction]() {
+  // Implementation
+}
+```
+
+### Shader Files
+
+- Use `.vert` extension for vertex shaders
+- Use `.frag` extension for fragment shaders
+- Import shaders directly in the main index.js file
+- Keep shaders in the same folder as the element
+
+## Examples from Codebase
+
+### Simple Element (instance)
+
+- Folder: `src/gl/_/instance/`
+- Files: `index.js`, `vertex.vert`, `fragment.frag`, `utils.instance.js`
+- Class: `Instance`
+
+### Complex Element (gpuInstance)
+
+- Folder: `src/gl/_/gpuInstance/`
+- Files: `index.js`, `vertex.vert`, `fragment.frag`, `sim1.frag`, `utils.js`
+- Class: `GpuInstance`
+
+### DOM Integration (domGroup)
+
+- Folder: `src/gl/_/domGroup/`
+- Files: `index.js`, `vertex.vert`, `fragment.frag`, `DomGroupElement.tsx`
+- Class: `DomGroup`
+
+### Post-processing (post/base)
+
+- Folder: `src/gl/_/post/base/`
+- Files: `index.js`, `vertex.vert`, `fragment.frag`
+- Additional: `post.js` in parent folder
+
+## Import Paths
+
+- Always import from `../../gl` for main GL utilities
+- Import shaders using direct file imports: `import fragmentShader from "./fragment.frag"`
+- Use relative paths for utilities within the same element folder
+- Import Three.js modules directly: `import { InstancedMesh, PlaneGeometry } from "three"`
+
+## Best Practices
+
+1. **Consistency**: Follow the established patterns from existing elements
+2. **Separation**: Keep utilities in separate files when they become complex
+3. **Naming**: Use clear, descriptive names for folders and classes
+4. **Shaders**: Always include vertex and fragment shaders in the same folder
+5. **Materials**: Define custom materials as separate classes when needed
+6. **Exports**: Export the main class from index.js as the primary interface
+7. **Comments**: Include comments for complex logic, especially in shaders and GPU computations
+
+## When Creating New Elements
+
+1. Create a new folder in `src/gl/_/` with the element name
+2. Add `index.js` as the main export file
+3. Include `vertex.vert` and `fragment.frag` if shaders are needed
+4. Add `utils.[name].js` if utility functions are required
+5. Follow the established class and material patterns
+6. Import and export following the conventions above
