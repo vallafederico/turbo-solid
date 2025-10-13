@@ -58,31 +58,31 @@ import { Gl } from "../gl/gl";
 Use relative paths in these cases:
 
 ```typescript
-// 1. Same directory imports
+// 1. Same directory imports (prefer ~/ when possible)
 import { utility } from "./utility";
 import { helper } from "./helper";
 
-// 2. JavaScript files (always)
+// 2. JavaScript files (always use relative paths)
 import gsap from "../../lib/gsap";
 
-// 3. Within lib directory structure
+// 3. Within lib directory structure (prefer ~/ syntax)
 // From lib/utils/scroll.ts to lib/gsap.ts
-import gsap from "../gsap";
+import gsap from "~/lib/gsap";
 
 // From animation/lib/scrolling.ts to lib/utils/
-import { utility } from "../../lib/utils/utility";
+import { utility } from "~/lib/utils/utility";
 ```
 
 ### Path Aliases Reference
 
 From `tsconfig.json`:
 
+- `~/*` → `./src/*` ✅ **PRIMARY ALIAS - USE THIS**
 - `@gl/*` → `./src/gl/*`
 - `@components/*` → `./src/components/*`
 - `@app/*` → `./src/app/*`
 - `@lib/*` → `./src/lib/*`
 - `@hooks/*` → `./src/lib/hooks/*`
-- `~/*` → `./src/*` (legacy, avoid when possible)
 
 ## Import Organization
 
