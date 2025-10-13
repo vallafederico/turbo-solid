@@ -1,0 +1,17 @@
+{
+  "name": "@local/sanity-yaml",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "eta": "^4.0.1",
+    "text-case": "^1.2.9",
+    "yaml": "^2.8.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "bun run --watch index.ts"
+  }
+}

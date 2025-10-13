@@ -1,0 +1,8 @@
+
+
+ThisIsName:
+  title: string
+  date: datetime
+  items: {
+    label: string
+  }

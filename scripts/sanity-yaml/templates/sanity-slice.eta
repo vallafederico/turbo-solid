@@ -1,0 +1,14 @@
+import { defineField } from "sanity";
+import { createPreview } from "../../utils/preview";
+
+export default {
+    name: '<%= name %>',
+    title: 
+    type: 'object',
+    fields: [
+        <% fields.forEach(f => { %>
+        <%= includeFile('./partials/sanity-simple-field', { name: f.name, type: f.type }) %>
+        <% }) %>
+    ],
+    preview: createPreview('<%= name %>'),
+}
