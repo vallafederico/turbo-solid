@@ -1,46 +1,46 @@
 # Import Path Rules
 
-## Always Use @ Syntax from tsconfig.json
+## Always Use ~ Syntax from tsconfig.json
 
-**CRITICAL**: Always use the `@` syntax defined in tsconfig.json for imports instead of the legacy `~` syntax.
+**CRITICAL**: Always use the `~/` syntax defined in tsconfig.json for imports. This is the primary and preferred import path alias.
 
 **IMPORTANT**:
 
-- Use `@` syntax for cross-directory imports in TypeScript files (e.g., from components to lib)
-- Use relative paths for same-directory imports and JavaScript files
-- JavaScript files (.js) don't resolve TypeScript path aliases
+- Use `~/` syntax for all imports in TypeScript files (e.g., `~/lib/utils/`, `~/components/`, `~/animation/`)
+- Use relative paths only for JavaScript files (.js) since they don't resolve TypeScript path aliases
+- The `@` syntax is available but `~/` is the standard pattern in this codebase
 
 ### ✅ Correct Import Patterns
 
 ```typescript
 // Components
-import Component from "@components/Component";
-import { useHook } from "@hooks/useHook";
+import Component from "~/components/Component";
+import { useHook } from "~/lib/hooks/useHook";
 
 // Utilities and stores
-import { utility } from "@lib/utils/utility";
-import { store } from "@lib/stores/store";
+import { utility } from "~/lib/utils/utility";
+import { store } from "~/lib/stores/store";
 
 // App-specific modules
-import { gsap } from "@app/gsap";
-import { Gl } from "@app/gl/gl";
+import { gsap } from "~/lib/gsap";
+import { Gl } from "~/app/gl/gl";
 
 // Animation primitives
-import { onIntersect } from "@animation/";
+import { onIntersect } from "~/animation/";
 ```
 
 ### ❌ Avoid Legacy Patterns
 
 ```typescript
 // DON'T use these legacy patterns
-import Component from "~/components/Component"; // ❌
-import { utility } from "~/lib/utils/utility"; // ❌
-import { store } from "~/lib/stores/store"; // ❌
+import Component from "@components/Component"; // ❌ (use ~/ instead)
+import { utility } from "../../lib/utils/utility"; // ❌ (use ~/ instead)
+import { store } from "../../lib/stores/store"; // ❌ (use ~/ instead)
 ```
 
 ### JavaScript Files
 
-For JavaScript files, always use relative paths since `@` syntax doesn't resolve:
+For JavaScript files, always use relative paths since `~/` syntax doesn't resolve:
 
 ```javascript
 // JavaScript files - MUST use relative paths
@@ -49,8 +49,8 @@ import { store } from "../stores/store";
 import { gsap } from "../../lib/gsap";
 import { Gl } from "../gl/gl";
 
-// ❌ DON'T use @ syntax in .js files
-// import { utility } from "@lib/utils/utility"; // This will fail!
+// ❌ DON'T use ~/ syntax in .js files
+// import { utility } from "~/lib/utils/utility"; // This will fail!
 ```
 
 ### When to Use Relative Paths

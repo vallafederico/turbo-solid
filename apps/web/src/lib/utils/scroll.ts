@@ -1,5 +1,5 @@
 import Lenis from "lenis";
-import gsap from "../gsap";
+import gsap from "~/lib/gsap";
 import { isServer } from "solid-js/web";
 import { Subscribable } from "./subscribable";
 

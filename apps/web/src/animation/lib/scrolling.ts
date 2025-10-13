@@ -4,12 +4,12 @@ import {
   createUniqueId,
   createSignal,
 } from "solid-js";
-import { Scroll } from "../../lib/utils/scroll";
-import { Raf } from "../../lib/utils/raf";
-import { clientRect } from "../../lib/utils/clientRect";
-import { clamp, map, lerp as lerpFunc } from "../../lib/utils/math";
+import { Scroll } from "~/lib/utils/scroll";
+import { Raf } from "~/lib/utils/raf";
+import { clientRect } from "~/lib/utils/clientRect";
+import { clamp, map, lerp as lerpFunc } from "~/lib/utils/math";
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
-import { viewport } from "../../lib/stores/viewportStore";
+import { viewport } from "~/lib/stores/viewportStore";
 
 interface ScrollEvent {
   velocity: number;
