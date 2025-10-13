@@ -1,7 +1,7 @@
 import cx from "classix";
 import Core from "smooothy";
 import { onMount, onCleanup } from "solid-js";
-import { Raf } from "~/app/raf";
+import { Raf } from "~/lib/utils/raf";
 
 // https://github.com/vallafederico/smooothy
 

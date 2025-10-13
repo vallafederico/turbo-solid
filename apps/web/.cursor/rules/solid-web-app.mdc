@@ -1,0 +1,432 @@
+# Web App Cursor Rules
+
+This project is a Solid.js application built with SolidStart, featuring a custom animation system and WebGL integration.
+
+## Core Technologies
+
+- **Solid.js**: Reactive framework with fine-grained reactivity
+- **SolidStart**: Full-stack framework with SSR, file-based routing, and meta management
+- **GSAP**: Primary animation library for complex animations
+- **Three.js**: WebGL/3D graphics via custom integration
+- **Tailwind CSS**: Utility-first styling
+- **TypeScript**: Type safety and better DX
+
+## Project Structure
+
+### Path Aliases
+
+```typescript
+// ALWAYS use these aliases for clean imports (from tsconfig.json)
+"@gl/*": "./src/gl/*"
+"@components/*": "./src/components/*"
+"@app/*": "./src/app/*"
+"@lib/*": "./src/lib/*"
+"@hooks/*": "./src/lib/hooks/*"
+"~/*": "./src/*" // Legacy - prefer @ syntax when possible
+```
+
+**IMPORTANT**: Always use the `@` syntax from tsconfig.json for imports:
+
+- ✅ `import { Component } from "@components/Component"`
+- ✅ `import { utility } from "@lib/utils/utility"`
+- ✅ `import { hook } from "@hooks/useHook"`
+- ❌ `import { Component } from "~/components/Component"` (legacy)
+
+### Directory Organization
+
+```
+src/
+├── animation/           # Animation primitives and utilities
+│   ├── lib/            # Core animation functions
+│   ├── slider/         # Slider-specific animations
+│   └── index.ts        # Public animation API
+├── app/                # App-specific initialization
+│   └── gl/             # WebGL utilities and shaders
+├── components/         # React-like components
+│   ├── animation/      # Animated components
+│   ├── slices/         # Content slices
+│   └── svg/            # SVG components
+├── lib/                # Shared utilities
+│   ├── hooks/          # Custom hooks
+│   ├── stores/         # Solid stores
+│   ├── utils/          # Utility functions
+│   └── gsap.ts         # GSAP configuration and constants
+└── routes/             # File-based routing
+    ├── (home).tsx      # Grouped routes
+    ├── [...404].tsx    # Catch-all routes
+    └── api/            # API routes
+```
+
+## Solid.js Patterns
+
+### Component Structure
+
+```typescript
+// Use default exports for components
+export default function ComponentName(props: ComponentProps) {
+  // Component logic
+  return <div>...</div>;
+}
+
+// Use named exports for utilities and hooks
+export const useCustomHook = () => {
+  // Hook logic
+};
+```
+
+### Reactive Patterns
+
+```typescript
+import { createSignal, createEffect, onMount, onCleanup } from "solid-js";
+
+// Signals for reactive state
+const [count, setCount] = createSignal(0);
+
+// Effects for side effects
+createEffect(() => {
+  console.log("Count changed:", count());
+});
+
+// Lifecycle management
+onMount(() => {
+  // Component mounted
+});
+
+onCleanup(() => {
+  // Cleanup logic
+});
+```
+
+### Server vs Client Code
+
+```typescript
+import { isServer } from "solid-js/web";
+
+// Always check for server environment
+if (!isServer) {
+  // Client-only code
+  window.addEventListener("resize", handler);
+}
+```
+
+## SolidStart Patterns
+
+### File-based Routing
+
+- `(home).tsx` - Grouped routes (no URL segment)
+- `[...404].tsx` - Catch-all routes
+- `api/` - API routes
+- `_/` - Private routes (not publicly accessible)
+
+### Meta Management
+
+```typescript
+import { Title, Meta } from "@solidjs/meta";
+
+export default function Page() {
+  return (
+    <>
+      <Title>Page Title</Title>
+      <Meta name="description" content="Page description" />
+      {/* Page content */}
+    </>
+  );
+}
+```
+
+### Suspense and Loading
+
+```typescript
+import { Suspense } from "solid-js";
+
+<Suspense fallback={<div>Loading...</div>}>
+  <AsyncComponent />
+</Suspense>
+```
+
+## Animation System
+
+### Animation Primitives (`src/animation/lib/`)
+
+Use these core functions for consistent animations:
+
+```typescript
+import { onPageLeave, onIntersect, onScroll, onTrack } from "@animation/";
+
+// Page transition cleanup
+onPageLeave(element, async () => {
+  await gsap.to(element, { opacity: 0, duration: 0.5 });
+});
+
+// Viewport intersection
+onIntersect(element, {
+  onEnter: () => console.log("entered viewport"),
+  onLeave: () => console.log("left viewport"),
+  threshold: 0.1,
+});
+
+// Scroll events
+onScroll(({ velocity, scroll, direction }) => {
+  // Handle scroll
+});
+
+// Scroll progress tracking (0-1)
+onTrack(
+  element,
+  (progress) => {
+    // progress is 0-1 based on element's viewport position
+  },
+  {
+    top: "bottom",
+    bottom: "top",
+    lerp: 0.1, // Optional smoothing
+  },
+);
+```
+
+### GSAP Animation Standards
+
+```typescript
+import gsap, { A } from "@lib/gsap";
+
+// Use standardized animation constants
+gsap.to(element, {
+  opacity: 1,
+  duration: A.page.in.duration,
+  ease: A.page.in.ease,
+});
+
+// Always cleanup GSAP animations
+onCleanup(() => {
+  gsap.killTweensOf(element);
+});
+```
+
+### Animation Components (`src/components/animation/`)
+
+Follow existing patterns from Split, RollingText, Track, Slider:
+
+```typescript
+// Component with animation
+export default function AnimatedComponent({ children, class: className }) {
+  let ref!: HTMLElement;
+
+  onMount(() => {
+    // Animation setup
+    gsap.set(ref, { opacity: 0 });
+
+    onIntersect(ref, {
+      onEnter: () => {
+        gsap.to(ref, { opacity: 1, duration: 0.5 });
+      }
+    });
+  });
+
+  onCleanup(() => {
+    // Always cleanup
+    gsap.killTweensOf(ref);
+  });
+
+  return <div ref={ref} class={className}>{children}</div>;
+}
+```
+
+### Custom Directives
+
+Optional but useful for DOM-specific animations:
+
+```typescript
+// In global.d.ts or component file
+declare module "solid-js" {
+  namespace JSX {
+    interface Directives {
+      animateAlpha: boolean;
+      customDirective: [() => any, (v: any) => any];
+    }
+  }
+}
+
+// Usage in component
+<div use:animateAlpha>Content</div>
+```
+
+## Performance & Cleanup
+
+### Animation Cleanup
+
+```typescript
+// Always kill GSAP tweens
+onCleanup(() => {
+  gsap.killTweensOf(element);
+});
+
+// Revert SplitText to prevent memory leaks
+onCleanup(() => {
+  if (splitText) splitText.revert();
+});
+```
+
+### Subscription Management
+
+```typescript
+import { Raf, Resizer } from "@lib/utils/raf";
+import { Scroll } from "@lib/utils/scroll";
+
+// Subscribe to utilities
+const unsubscribe = Raf.add((time) => {
+  // Animation frame callback
+});
+
+onCleanup(() => {
+  unsubscribe(); // Always unsubscribe
+});
+```
+
+### Visibility Optimization
+
+```typescript
+import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
+
+// Pause animations when off-screen
+const visible = createVisibilityObserver({ threshold: 0 })();
+createEffect(() => {
+  if (visible()) {
+    // Resume animations
+  } else {
+    // Pause animations
+  }
+});
+```
+
+## WebGL Integration
+
+### Canvas Components
+
+Keep canvas components in JSX for legacy compatibility:
+
+```jsx
+// components/Canvas.jsx
+export default function Canvas() {
+  // WebGL setup
+  return <canvas ref={canvasRef} />;
+}
+```
+
+### WebGL Hooks
+
+```typescript
+import { useWebglNode } from "@hooks/useWebglNode";
+
+// Use for Solid-WebGL integration
+const webglNode = useWebglNode();
+```
+
+## Code Style
+
+### Naming Conventions
+
+- **Components**: PascalCase (`ComponentName.tsx`)
+- **Utilities**: camelCase (`utilityFunction.ts`)
+- **Types**: PascalCase (`ComponentProps`)
+- **Files**: Match export name
+
+### Import Organization
+
+```typescript
+// 1. External libraries
+import { createSignal } from "solid-js";
+import gsap from "gsap";
+
+// 2. Internal utilities (use @ syntax)
+import { onIntersect } from "@animation/";
+import { Raf } from "@lib/utils/raf";
+import { viewport } from "@lib/stores/viewportStore";
+
+// 3. Components (use @ syntax)
+import Component from "@components/Component";
+import { useHook } from "@hooks/useHook";
+```
+
+### TypeScript
+
+- Use strict typing
+- Define interfaces for props
+- Use type assertions sparingly
+- Prefer `interface` over `type` for object shapes
+- **Convert JavaScript files to TypeScript** for better type safety
+- Use proper type annotations for function parameters and return types
+
+### Utility Functions
+
+```typescript
+// Math utilities with proper typing
+import { lerp, map, clamp, mod } from "@lib/utils/math";
+
+// Client rect utilities with interfaces
+import {
+  clientRect,
+  clientRectGl,
+  ClientRectBounds,
+} from "@lib/utils/clientRect";
+
+// Example usage
+const bounds: ClientRectBounds = clientRect(element);
+const progress = map(scroll, 0, 100, 0, 1);
+```
+
+### Styling
+
+- Use Tailwind classes
+- Component-specific CSS in `.css` files alongside components
+- Global styles in `src/styles/`
+
+## Common Patterns
+
+### Form Handling
+
+```typescript
+const [formData, setFormData] = createSignal({});
+const handleSubmit = (e: Event) => {
+  e.preventDefault();
+  // Handle form submission
+};
+```
+
+### API Integration
+
+```typescript
+import { createResource } from "solid-js";
+
+const [data] = createResource(fetchData);
+```
+
+### Store Usage
+
+```typescript
+import { viewport } from "@lib/stores/viewportStore";
+
+// Access store values reactively
+createEffect(() => {
+  console.log("Viewport:", viewport.size);
+});
+```
+
+## Best Practices
+
+1. **Always cleanup**: Use `onCleanup` for subscriptions, timers, and GSAP animations
+2. **Server safety**: Check `isServer` before accessing browser APIs
+3. **Performance**: Use visibility observers to pause off-screen animations
+4. **Accessibility**: Implement `prefers-reduced-motion` support
+5. **Type safety**: Define proper TypeScript interfaces
+6. **Consistency**: Follow existing patterns in the codebase
+7. **Animation standards**: Use GSAP constants and animation primitives
+8. **File organization**: Keep related files together (component + styles)
+
+## Debugging
+
+- Use Solid DevTools for reactive debugging
+- GSAP timeline for animation debugging
+- Browser dev tools for WebGL debugging
+- Console logging for development (remove in production)
+
+Remember: This codebase prioritizes performance, maintainability, and smooth animations. Always consider the user experience when implementing new features.

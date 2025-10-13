@@ -3,13 +3,22 @@ import { isServer } from "solid-js/web";
 
 const guiKey = "GUI_STATE";
 
-let g;
+interface GuiConfig {
+  guiHidden: boolean;
+}
+
+interface GuiObject {
+  [key: string]: any;
+  show: () => void;
+}
+
+let g: GUI;
 if (!isServer) {
   g = new GUI();
   g.close();
 }
 
-const config = {
+const config: GuiConfig = {
   // guiHidden: process.env.NODE_ENV === "production",
   guiHidden: true,
 };
@@ -32,12 +41,12 @@ const config = {
 //   g.close();
 // }
 
-const createObservableObject = (obj) => {
+const createObservableObject = (obj: GuiObject): GuiObject => {
   return new Proxy(obj, {
-    set(target, prop, value) {
-      target[prop] = value;
+    set(target: GuiObject, prop: string | symbol, value: any): boolean {
+      target[prop as string] = value;
       if (!isServer) {
-        add(target, prop, value);
+        add(target, prop as string, value);
       }
       return true;
     },
@@ -45,7 +54,12 @@ const createObservableObject = (obj) => {
 };
 
 /* ---  add utils */
-function add(target, prop, value, addTo = g) {
+function add(
+  target: GuiObject,
+  prop: string,
+  value: any,
+  addTo: GUI = g,
+): void {
   if (isServer) return;
 
   switch (typeof value) {
@@ -67,24 +81,44 @@ function add(target, prop, value, addTo = g) {
   }
 }
 
-function addNumber(target, prop, value, addTo) {
+function addNumber(
+  target: GuiObject,
+  prop: string,
+  value: number,
+  addTo: GUI,
+): void {
   const minmax = value < 1 ? [0, 1] : [0, 100];
   addTo.add(target, prop, minmax[0], minmax[1]);
 }
 
-function addBoolean(target, prop, value, addTo) {
+function addBoolean(
+  target: GuiObject,
+  prop: string,
+  value: boolean,
+  addTo: GUI,
+): void {
   addTo.add(target, prop);
 }
 
-function addFunction(target, prop, value, addTo) {
+function addFunction(
+  target: GuiObject,
+  prop: string,
+  value: Function,
+  addTo: GUI,
+): void {
   addTo.add(target, prop);
 }
 
-function addObject(target, prop, value) {
+function addObject(
+  target: GuiObject,
+  prop: string,
+  value: object,
+  addTo: GUI = g,
+): void {
   const folder = g.addFolder(prop);
   folder.close();
   for (const key in value) {
-    add(value, key, value[key], folder);
+    add(value as GuiObject, key, (value as any)[key], folder);
   }
 }
 
@@ -96,7 +130,7 @@ if (!isServer) {
 }
 
 // * exports
-export const Gui = createObservableObject({});
+export const Gui: GuiObject = createObservableObject({} as GuiObject);
 
 Gui.show = () => {
   if (isServer) return;

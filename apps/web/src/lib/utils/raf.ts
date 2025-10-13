@@ -1,10 +1,8 @@
-import gsap from "./gsap";
+import gsap from "../gsap";
 import { isServer } from "solid-js/web";
 import { Subscribable } from "./subscribable";
 
-class _Raf extends Subscribable {
-  subscribers = [];
-
+class _Raf extends Subscribable<number> {
   constructor() {
     super();
 
@@ -13,11 +11,11 @@ class _Raf extends Subscribable {
     }
   }
 
-  init() {
-    gsap.ticker.add((time) => this.render(time * 1000));
+  init(): void {
+    gsap.ticker.add((time: number) => this.render(time * 1000));
   }
 
-  render(t) {
+  render(t: number): void {
     this.notify(t);
   }
 }

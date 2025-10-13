@@ -1,5 +1,5 @@
 import { createEffect, createUniqueId, onCleanup } from "solid-js";
-import { Raf } from "~/app/raf";
+import { Raf } from "~/lib/utils/raf";
 import { viewport } from "~/lib/stores/viewportStore";
 import { SliderApi } from "~/animation/slider/lib";
 

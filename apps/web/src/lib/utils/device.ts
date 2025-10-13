@@ -1,13 +1,32 @@
 const PERFORMANCE_MONITORING_INTERVAL = 3000;
 const WEBGL_MONITORING_DURATION = 1000;
 
+export type PowerLevel = "low" | "medium" | "high" | null;
+
+export interface PerformanceMetrics {
+  last: number | null;
+  interval: number;
+  isMonitoring: boolean;
+  lastMeasured: number[];
+  readMeasured: () => number;
+}
+
+export interface DeviceConfig {
+  power: PowerLevel;
+  fps: number | null;
+  useWorker: boolean;
+  worker: Worker | null;
+  observers: ((power: PowerLevel) => void)[];
+  perf: PerformanceMetrics;
+}
+
 export class Device {
-  static _power = null;
-  static fps = null;
-  static useWorker = false;
-  static worker = null;
-  static observers = [];
-  static perf = {
+  private static _power: PowerLevel = null;
+  private static fps: number | null = null;
+  private static useWorker = false;
+  private static worker: Worker | null = null;
+  private static observers: ((power: PowerLevel) => void)[] = [];
+  private static perf: PerformanceMetrics = {
     last: null,
     interval: PERFORMANCE_MONITORING_INTERVAL,
     isMonitoring: false,
@@ -24,13 +43,13 @@ export class Device {
     this.initMonitoring();
   }
 
-  static get isMobile() {
+  static get isMobile(): boolean {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
       navigator.userAgent,
     );
   }
 
-  static onDeviceChange() {
+  static onDeviceChange(): void {
     window.addEventListener("resize", () => {
       if (Device.isMobile) {
         // Mobile-specific code
@@ -40,7 +59,7 @@ export class Device {
     });
   }
 
-  static initMonitoring() {
+  static initMonitoring(): void {
     if (typeof Worker !== "undefined") {
       this.initWorker();
       this.useWorker = true;
@@ -52,9 +71,9 @@ export class Device {
     }
   }
 
-  static initWorker() {
+  static initWorker(): void {
     const workerCode = function () {
-      let perf = {
+      let perf: PerformanceMetrics = {
         last: null,
         interval: 3000, // Default value, will be overwritten
         isMonitoring: false,
@@ -69,15 +88,15 @@ export class Device {
 
       let WEBGL_MONITORING_DURATION = 1000; // Default value, will be overwritten
 
-      function calculatePower(value) {
+      function calculatePower(value: number): PowerLevel {
         if (isNaN(value)) return null;
-        let result = "high";
+        let result: PowerLevel = "high";
         if (value < 50) result = "low";
         if (value < 65) result = "medium";
         return result;
       }
 
-      function initWebglMonitoring() {
+      function initWebglMonitoring(): void {
         perf.lastMeasured = [];
         perf.isMonitoring = true;
         perf.last = Date.now();
@@ -86,7 +105,7 @@ export class Device {
         }, WEBGL_MONITORING_DURATION);
       }
 
-      function stopWebglMonitoring() {
+      function stopWebglMonitoring(): void {
         perf.isMonitoring = false;
         const avgFps = perf.readMeasured();
         if (!isNaN(avgFps)) {
@@ -95,17 +114,17 @@ export class Device {
         }
       }
 
-      function monitorWebgl(timestamp) {
+      function monitorWebgl(timestamp: number): void {
         if (!perf.isMonitoring) return;
         const currentLoop = timestamp;
-        const fps = 1000 / (currentLoop - perf.last);
+        const fps = 1000 / (currentLoop - perf.last!);
         if (!isNaN(fps)) {
           perf.last = currentLoop;
           perf.lastMeasured.push(fps);
         }
       }
 
-      self.onmessage = function (e) {
+      self.onmessage = function (e: MessageEvent) {
         switch (e.data.type) {
           case "init":
             perf.interval = e.data.interval;
@@ -127,7 +146,7 @@ export class Device {
     const workerUrl = URL.createObjectURL(blob);
     this.worker = new Worker(workerUrl);
 
-    this.worker.onmessage = (e) => {
+    this.worker.onmessage = (e: MessageEvent) => {
       if (e.data.type === "perfUpdate") {
         this.fps = e.data.fps;
         if (this.power !== e.data.power) {
@@ -146,15 +165,15 @@ export class Device {
     URL.revokeObjectURL(workerUrl);
   }
 
-  static calculatePower(value) {
+  static calculatePower(value: number): PowerLevel {
     if (isNaN(value)) return null;
-    let result = "high";
+    let result: PowerLevel = "high";
     if (value < 50) result = "low";
     if (value < 65) result = "medium";
     return result;
   }
 
-  static initWebglMonitoring() {
+  static initWebglMonitoring(): void {
     this.perf.lastMeasured = [];
     this.perf.isMonitoring = true;
     this.perf.last = performance.now();
@@ -163,7 +182,7 @@ export class Device {
     }, WEBGL_MONITORING_DURATION);
   }
 
-  static stopWebglMonitoring() {
+  static stopWebglMonitoring(): void {
     this.perf.isMonitoring = false;
     const avgFps = this.perf.readMeasured();
     if (!isNaN(avgFps)) {
@@ -172,7 +191,7 @@ export class Device {
     }
   }
 
-  static monitorWebgl() {
+  static monitorWebgl(): void {
     if (this.useWorker) {
       if (this.worker) {
         this.worker.postMessage({
@@ -183,7 +202,7 @@ export class Device {
     } else {
       if (!this.perf.isMonitoring) return;
       const currentLoop = performance.now();
-      const fps = 1000 / (currentLoop - this.perf.last);
+      const fps = 1000 / (currentLoop - this.perf.last!);
       if (!isNaN(fps)) {
         this.perf.last = currentLoop;
         this.perf.lastMeasured.push(fps);
@@ -192,19 +211,19 @@ export class Device {
   }
 
   // >>> OBSERVABLES
-  static addPowerObserver(callback) {
+  static addPowerObserver(callback: (power: PowerLevel) => void): void {
     this.observers.push(callback);
   }
 
-  static removePowerObserver(callback) {
+  static removePowerObserver(callback: (power: PowerLevel) => void): void {
     this.observers = this.observers.filter((obs) => obs !== callback);
   }
 
-  static notifyObservers() {
+  static notifyObservers(): void {
     this.observers.forEach((callback) => callback(this._power));
   }
 
-  static set power(newValue) {
+  static set power(newValue: PowerLevel) {
     if (this._power !== newValue) {
       this._power = newValue;
       this.notifyObservers();
@@ -215,7 +234,7 @@ export class Device {
     }
   }
 
-  static get power() {
+  static get power(): PowerLevel {
     return this._power;
   }
 }

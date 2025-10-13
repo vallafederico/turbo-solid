@@ -1,5 +1,5 @@
-import { Emitter } from "~/lib/utils/emitter";
-import { mod, symmetricMod, lerp } from "~/lib/utils/math";
+import { Emitter } from "../../lib/utils/emitter";
+import { mod, symmetricMod, lerp } from "../../lib/utils/math";
 
 const lerpOptions = [
   lerp,
