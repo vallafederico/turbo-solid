@@ -1,3 +1,7 @@
+---
+alwaysApply: false
+---
+
 # Web App Cursor Rules
 
 This project is a Solid.js application built with SolidStart, featuring a custom animation system and WebGL integration.
@@ -37,8 +41,10 @@ This project is a Solid.js application built with SolidStart, featuring a custom
 ```
 src/
 ├── animation/           # Animation primitives and utilities
-│   ├── lib/            # Core animation functions
-│   ├── slider/         # Slider-specific animations
+│   ├── alpha.ts        # Alpha fade animations
+│   ├── intersect.ts    # Intersection observer utilities
+│   ├── page-transition.ts # Page transition management
+│   ├── scrolling.ts    # Scroll-based animations
 │   └── index.ts        # Public animation API
 ├── gl/                 # WebGL utilities and shaders
 ├── components/         # React-like components
@@ -145,109 +151,31 @@ import { Suspense } from "solid-js";
 
 ## Animation System
 
-### Animation Primitives (`src/animation/lib/`)
+The project includes a comprehensive animation system built on GSAP with custom utilities for scroll-based and intersection-based animations.
 
-Use these core functions for consistent animations:
+**📋 For detailed animation rules and usage patterns, see: [animation-rules.mdc](./animation-rules.mdc)**
 
-```typescript
-import { onPageLeave, onIntersect, onScroll, onTrack } from "@animation/";
-
-// Page transition cleanup
-onPageLeave(element, async () => {
-  await gsap.to(element, { opacity: 0, duration: 0.5 });
-});
-
-// Viewport intersection
-onIntersect(element, {
-  onEnter: () => console.log("entered viewport"),
-  onLeave: () => console.log("left viewport"),
-  threshold: 0.1,
-});
-
-// Scroll events
-onScroll(({ velocity, scroll, direction }) => {
-  // Handle scroll
-});
-
-// Scroll progress tracking (0-1)
-onTrack(
-  element,
-  (progress) => {
-    // progress is 0-1 based on element's viewport position
-  },
-  {
-    top: "bottom",
-    bottom: "top",
-    lerp: 0.1, // Optional smoothing
-  },
-);
-```
-
-### GSAP Animation Standards
+### Quick Reference
 
 ```typescript
+// Core animation utilities
+import { onIntersect, onPageLeave, onScroll, onTrack } from "@animation/";
+
+// Pre-built animations
+import { animateAlpha } from "@animation/alpha";
+
+// Page transitions
+import { usePageTransition } from "@animation/page-transition";
+
+// GSAP constants
 import gsap, { A } from "@lib/gsap";
-
-// Use standardized animation constants
-gsap.to(element, {
-  opacity: 1,
-  duration: A.page.in.duration,
-  ease: A.page.in.ease,
-});
-
-// Always cleanup GSAP animations
-onCleanup(() => {
-  gsap.killTweensOf(element);
-});
 ```
 
-### Animation Components (`src/components/animation/`)
+### Key Animation Files
 
-Follow existing patterns from Split, RollingText, Track, Slider:
-
-```typescript
-// Component with animation
-export default function AnimatedComponent({ children, class: className }) {
-  let ref!: HTMLElement;
-
-  onMount(() => {
-    // Animation setup
-    gsap.set(ref, { opacity: 0 });
-
-    onIntersect(ref, {
-      onEnter: () => {
-        gsap.to(ref, { opacity: 1, duration: 0.5 });
-      }
-    });
-  });
-
-  onCleanup(() => {
-    // Always cleanup
-    gsap.killTweensOf(ref);
-  });
-
-  return <div ref={ref} class={className}>{children}</div>;
-}
-```
-
-### Custom Directives
-
-Optional but useful for DOM-specific animations:
-
-```typescript
-// In global.d.ts or component file
-declare module "solid-js" {
-  namespace JSX {
-    interface Directives {
-      animateAlpha: boolean;
-      customDirective: [() => any, (v: any) => any];
-    }
-  }
-}
-
-// Usage in component
-<div use:animateAlpha>Content</div>
-```
+- `src/animation/` - Core animation utilities
+- `src/lib/gsap.ts` - GSAP configuration and constants
+- `src/components/animation/` - Reusable animated components
 
 ## Performance & Cleanup
 

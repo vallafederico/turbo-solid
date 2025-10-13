@@ -1,3 +1,114 @@
+---
+alwaysApply: true
+---
+
+# Import Path Rules
+
+## Always Use ~ Syntax from tsconfig.json
+
+**CRITICAL**: Always use the `~/` syntax defined in tsconfig.json for imports. This is the primary and preferred import path alias.
+
+**IMPORTANT**:
+
+- Use `~/` syntax for all imports in TypeScript files (e.g., `~/lib/utils/`, `~/components/`, `~/animation/`)
+- Use relative paths only for JavaScript files (.js) since they don't resolve TypeScript path aliases
+- The `@` syntax is available but `~/` is the standard pattern in this codebase
+
+### ✅ Correct Import Patterns
+
+```typescript
+// Components
+import Component from "~/components/Component";
+import { useHook } from "~/lib/hooks/useHook";
+
+// Utilities and stores
+import { utility } from "~/lib/utils/utility";
+import { store } from "~/lib/stores/store";
+
+// App-specific modules
+import { gsap } from "~/lib/gsap";
+import { Gl } from "~/gl/gl";
+
+// Animation primitives
+import { onIntersect } from "~/animation/";
+```
+
+### ❌ Avoid Legacy Patterns
+
+```typescript
+// DON'T use these legacy patterns
+import Component from "@components/Component"; // ❌ (use ~/ instead)
+import { utility } from "../../lib/utils/utility"; // ❌ (use ~/ instead)
+import { store } from "../../lib/stores/store"; // ❌ (use ~/ instead)
+```
+
+### JavaScript Files
+
+For JavaScript files, always use relative paths since `~/` syntax doesn't resolve:
+
+```javascript
+// JavaScript files - MUST use relative paths
+import { utility } from "./utility";
+import { store } from "../stores/store";
+import { gsap } from "../../lib/gsap";
+import { Gl } from "../gl/gl";
+
+// ❌ DON'T use ~/ syntax in .js files
+// import { utility } from "~/lib/utils/utility"; // This will fail!
+```
+
+### When to Use Relative Paths
+
+Use relative paths in these cases:
+
+```typescript
+// 1. Same directory imports (prefer ~/ when possible)
+import { utility } from "./utility";
+import { helper } from "./helper";
+
+// 2. JavaScript files (always use relative paths)
+import gsap from "../../lib/gsap";
+
+// 3. Within lib directory structure (prefer ~/ syntax)
+// From lib/utils/scroll.ts to lib/gsap.ts
+import gsap from "~/lib/gsap";
+
+// From animation/lib/scrolling.ts to lib/utils/
+import { utility } from "~/lib/utils/utility";
+```
+
+### Path Aliases Reference
+
+From `tsconfig.json`:
+
+- `~/*` → `./src/*` ✅ **PRIMARY ALIAS - USE THIS**
+- `@gl/*` → `./src/gl/*`
+- `@components/*` → `./src/components/*`
+- `@lib/*` → `./src/lib/*`
+- `@hooks/*` → `./src/lib/hooks/*`
+
+## Import Organization
+
+Always organize imports in this order:
+
+1. **External libraries**
+2. **Internal utilities** (using @ syntax)
+3. **Components** (using @ syntax)
+
+```typescript
+// 1. External libraries
+import { createSignal } from "solid-js";
+import gsap from "gsap";
+
+// 2. Internal utilities
+import { Raf } from "@lib/utils/raf";
+import { viewport } from "@lib/stores/viewportStore";
+
+// 3. Components
+import Component from "@components/Component";
+import { useHook } from "@hooks/useHook";
+```
+
 # Import Path Rules
 
 ## Always Use ~ Syntax from tsconfig.json

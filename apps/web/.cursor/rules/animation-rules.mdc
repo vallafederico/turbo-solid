@@ -1,0 +1,362 @@
+# Animation System Rules (`@animation/`)
+
+The animation system provides a comprehensive set of utilities for creating smooth, performant animations using GSAP and intersection observers. All animation utilities are exported from `@animation/` and follow consistent patterns.
+
+## Core Animation Utilities
+
+### 1. **`onIntersect`** - Viewport Intersection Detection
+
+Use for animations triggered when elements enter/leave the viewport:
+
+```typescript
+import { onIntersect } from "@animation/";
+
+onIntersect(element, {
+  onEnter: () => {
+    // Element entered viewport - start animation
+    gsap.to(element, { opacity: 1, duration: 0.6 });
+  },
+  onLeave: () => {
+    // Element left viewport - reset or reverse animation
+    gsap.set(element, { opacity: 0 });
+  },
+  once: true, // Optional: only trigger once (default: true)
+  threshold: 0.1, // Optional: intersection threshold (default: 0.1)
+});
+```
+
+**When to use:**
+
+- Fade-in animations on scroll
+- Trigger animations when content becomes visible
+- Reset animations when content leaves viewport
+
+### 2. **`onPageLeave`** - Page Transition Cleanup
+
+Use for cleanup animations when navigating away from a page:
+
+```typescript
+import { onPageLeave } from "@animation/";
+
+onPageLeave(element, async () => {
+  await gsap.to(element, {
+    opacity: 0,
+    duration: 0.6,
+    ease: "expo.out",
+  });
+});
+```
+
+**When to use:**
+
+- Page exit animations
+- Cleaning up ongoing animations before navigation
+- Ensuring smooth transitions between routes
+
+### 3. **`onScroll`** - Scroll Event Handling
+
+Use for animations that respond to scroll events:
+
+```typescript
+import { onScroll } from "@animation/";
+
+onScroll(({ velocity, scroll, direction }) => {
+  // velocity: scroll speed
+  // scroll: current scroll position
+  // direction: 1 (down) or -1 (up)
+
+  // Example: Parallax effect
+  element.style.transform = `translateY(${scroll * 0.5}px)`;
+});
+```
+
+**When to use:**
+
+- Parallax effects
+- Scroll-based UI changes
+- Velocity-based animations
+
+### 4. **`onTrack`** - Scroll Progress Tracking
+
+Use for animations that follow scroll progress (0-1 range):
+
+```typescript
+import { onTrack } from "@animation/";
+
+onTrack(
+  element,
+  (progress) => {
+    // progress: 0-1 based on element's viewport position
+    element.style.transform = `translateY(${-progress * 100}%)`;
+  },
+  {
+    top: "bottom", // When progress = 0 (element enters from bottom)
+    bottom: "top", // When progress = 1 (element exits at top)
+    lerp: 0.1, // Optional: smooth interpolation
+  },
+);
+```
+
+**Configuration options:**
+
+- `top`: "top" | "center" | "bottom" - When progress = 0
+- `bottom`: "top" | "center" | "bottom" - When progress = 1
+- `lerp`: number | false - Smoothing factor (0.1 = smooth, false = no smoothing)
+
+**When to use:**
+
+- Scroll-triggered animations
+- Progress-based transformations
+- Elements that animate as they scroll through viewport
+
+## Pre-built Animation Directives
+
+### **`animateAlpha`** - Fade In/Out Animation
+
+A ready-to-use directive for simple fade animations:
+
+```typescript
+import { animateAlpha } from "@animation/alpha";
+
+// Use as Solid.js directive
+<div use:animateAlpha>
+  Content that fades in when scrolled into view
+</div>
+```
+
+**Features:**
+
+- Automatically fades in when element enters viewport
+- Fades out when element leaves viewport
+- Handles page transition cleanup
+- Uses standardized GSAP timing
+
+## Page Transition Management
+
+### **`usePageTransition`** - Global Page Transitions
+
+Set up global page transition handling:
+
+```typescript
+import { usePageTransition } from "@animation/page-transition";
+
+export default function App() {
+  usePageTransition(); // Enables page transition system
+
+  return (
+    <Router>
+      {/* Your app content */}
+    </Router>
+  );
+}
+```
+
+This automatically:
+
+- Prevents navigation until all `onPageLeave` animations complete
+- Resets scroll position to top
+- Coordinates all page exit animations
+
+## GSAP Integration Standards
+
+```typescript
+import gsap, { A } from "@lib/gsap";
+
+// Use standardized animation constants
+gsap.to(element, {
+  opacity: 1,
+  duration: A.page.in.duration, // 1.2s
+  ease: A.page.in.ease, // "expo.out"
+});
+
+// Available constants:
+// A.page.in.duration = 1.2
+// A.page.in.ease = "expo.out"
+// A.page.out.duration = 0.6
+// A.page.out.ease = "expo.out"
+```
+
+## Animation Best Practices
+
+### ✅ **DO:**
+
+```typescript
+// Use animation utilities consistently
+import { onIntersect, onPageLeave } from "@animation/";
+
+// Set initial state before animations
+gsap.set(element, { opacity: 0 });
+
+// Use standardized timing
+gsap.to(element, {
+  opacity: 1,
+  duration: A.page.in.duration,
+  ease: A.page.in.ease,
+});
+
+// Clean up animations properly
+onPageLeave(element, async () => {
+  await gsap.to(element, { opacity: 0, duration: 0.6 });
+});
+```
+
+### ❌ **DON'T:**
+
+```typescript
+// Don't use legacy imports
+import { onIntersect } from "~/animation/"; // ❌
+
+// Don't skip initial state setup
+gsap.to(element, { opacity: 1 }); // ❌ Element might already be visible
+
+// Don't forget cleanup
+// Missing onPageLeave cleanup // ❌
+
+// Don't hardcode animation values
+gsap.to(element, { duration: 1.2 }); // ❌ Use A.page.in.duration
+```
+
+## Performance Considerations
+
+1. **Use `lerp` for smooth scroll animations** - Prevents janky animations
+2. **Set initial states** - Always use `gsap.set()` before animations
+3. **Clean up properly** - Use `onPageLeave` for cleanup
+4. **Optimize intersection thresholds** - Use appropriate `threshold` values
+5. **Kill animations on cleanup** - Use `animation.kill()` when needed
+
+## Common Animation Patterns
+
+### Fade In on Scroll
+
+```typescript
+const animate = (self: HTMLElement) => {
+  gsap.set(self, { opacity: 0 });
+
+  onIntersect(self, {
+    onEnter: () => {
+      gsap.to(self, {
+        opacity: 1,
+        duration: A.page.in.duration * 0.6,
+        ease: "linear",
+        delay: 0.1,
+      });
+    },
+    onLeave: () => {
+      gsap.set(self, { opacity: 0 });
+    },
+  });
+
+  onPageLeave(self, async () => {
+    await gsap.to(self, {
+      opacity: 0,
+      duration: A.page.out.duration,
+      ease: A.page.out.ease,
+    });
+  });
+};
+```
+
+### Scroll-Triggered Transform
+
+```typescript
+onTrack(
+  element,
+  (progress) => {
+    element.style.transform = `translateY(${-progress * 100 + 50}%)`;
+  },
+  {
+    top: "center",
+    bottom: "center",
+    lerp: 0.1,
+  },
+);
+```
+
+### Split Text Animation
+
+```typescript
+import { SplitText } from "@lib/gsap";
+import { onIntersect, onPageLeave } from "@animation/";
+
+const animate = (self: HTMLElement) => {
+  const splitText = new SplitText(self, {
+    type: "words,chars",
+    wordsClass: "split-w",
+  });
+
+  gsap.set(splitText.chars, { yPercent: 100 });
+
+  onIntersect(self, {
+    onEnter: () => {
+      gsap.to(splitText.chars, {
+        yPercent: 0,
+        ease: A.page.in.ease,
+        duration: A.page.in.duration,
+        stagger: {
+          each: 0.02,
+          from: "start",
+        },
+      });
+    },
+    onLeave: () => {
+      gsap.set(splitText.chars, { yPercent: 100 });
+    },
+  });
+
+  onPageLeave(self, async () => {
+    await gsap.to(splitText.chars, {
+      yPercent: 100,
+      ease: A.page.out.ease,
+      duration: A.page.out.duration,
+    });
+  });
+
+  onCleanup(() => {
+    splitText.revert();
+    gsap.killTweensOf(splitText.chars);
+  });
+};
+```
+
+## Animation File Structure
+
+```
+src/animation/
+├── alpha.ts           # Pre-built fade animations
+├── intersect.ts       # Intersection observer utilities
+├── page-transition.ts # Page transition management
+├── scrolling.ts       # Scroll-based animations
+└── index.ts          # Public API exports
+```
+
+## Import Patterns
+
+```typescript
+// Import specific utilities
+import { onIntersect, onPageLeave } from "@animation/";
+
+// Import pre-built animations
+import { animateAlpha } from "@animation/alpha";
+
+// Import page transition hook
+import { usePageTransition } from "@animation/page-transition";
+```
+
+## Integration with Solid.js Directives
+
+```typescript
+// Declare directive types
+declare module "solid-js" {
+  namespace JSX {
+    interface Directives {
+      animateAlpha: boolean;
+      customAnimation: [() => any, (v: any) => any];
+    }
+  }
+}
+
+// Use in components
+<div use:animateAlpha>
+  <h1>Fade in content</h1>
+</div>
+```
