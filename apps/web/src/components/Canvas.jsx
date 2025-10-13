@@ -1,5 +1,5 @@
 import { onCleanup, onMount } from "solid-js";
-import { Gl } from "../app/gl/gl";
+import { Gl } from "~/gl/gl";
 
 export default function Canvas() {
   const webgl = (self) => {

@@ -1,5 +1,5 @@
 import { Group, ShaderMaterial, DoubleSide } from "three";
-import { Gl } from "../../gl";
+import { Gl } from "../gl";
 
 import vertexShader from "./vertex.vert";
 import fragmentShader from "./fragment.frag";

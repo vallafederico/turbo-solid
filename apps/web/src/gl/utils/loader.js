@@ -1,6 +1,6 @@
 import loadModel from "./model-loader";
 import loadTexture from "./texture-loader";
-import { assets as file } from "../assets";
+import { assets as file } from "../../assets/index.js";
 
 export async function loadAssets(opt = null) {
   console.time("assets::");

@@ -23,7 +23,7 @@ import { store } from "~/lib/stores/store";
 
 // App-specific modules
 import { gsap } from "~/lib/gsap";
-import { Gl } from "~/app/gl/gl";
+import { Gl } from "~/gl/gl";
 
 // Animation primitives
 import { onIntersect } from "~/animation/";
@@ -80,7 +80,6 @@ From `tsconfig.json`:
 - `~/*` → `./src/*` ✅ **PRIMARY ALIAS - USE THIS**
 - `@gl/*` → `./src/gl/*`
 - `@components/*` → `./src/components/*`
-- `@app/*` → `./src/app/*`
 - `@lib/*` → `./src/lib/*`
 - `@hooks/*` → `./src/lib/hooks/*`
 

@@ -40,8 +40,7 @@ src/
 │   ├── lib/            # Core animation functions
 │   ├── slider/         # Slider-specific animations
 │   └── index.ts        # Public animation API
-├── app/                # App-specific initialization
-│   └── gl/             # WebGL utilities and shaders
+├── gl/                 # WebGL utilities and shaders
 ├── components/         # React-like components
 │   ├── animation/      # Animated components
 │   ├── slices/         # Content slices

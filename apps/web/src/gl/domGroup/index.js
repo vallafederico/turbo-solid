@@ -1,8 +1,8 @@
 import { Group } from "three";
-import { Resizer } from "../../../lib/utils/resizer";
-import { Scroll } from "../../../lib/utils/scroll";
-import { clientRectGl } from "../../../lib/utils/clientRect";
-import { Gl } from "./gl";
+import { Resizer } from "../../lib/utils/resizer";
+import { Scroll } from "../../lib/utils/scroll";
+import { clientRectGl } from "../../lib/utils/clientRect";
+import { Gl } from "../gl";
 
 export class DomGroup extends Group {
   // inView = true;

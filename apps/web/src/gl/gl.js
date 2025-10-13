@@ -1,16 +1,16 @@
 import { WebGLRenderer, PerspectiveCamera } from "three";
-import gsap from "../../lib/gsap";
+import gsap from "../lib/gsap";
 
-import { Gui } from "../../lib/utils/gui";
-import { lerp } from "../../lib/utils/math";
+import { Gui } from "../lib/utils/gui";
+import { lerp } from "../lib/utils/math";
 import { useMouseSpeed } from "./utils/mouseSpeed";
 import { isServer } from "solid-js/web";
 
 import { Scene } from "./scene";
 import { Post } from "./post/post";
 import { ScreenEffect } from "./screenEffect";
-import { Scroll } from "../../lib/utils/scroll";
-import { Resizer } from "../../lib/utils/resizer";
+import { Scroll } from "../lib/utils/scroll";
+import { Resizer } from "../lib/utils/resizer";
 
 export const params = {
   clearColor: [1, 0, 0, 1],

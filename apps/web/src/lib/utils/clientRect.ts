@@ -1,4 +1,4 @@
-import { Gl } from "../../app/gl/gl";
+import { Gl } from "~/gl/gl";
 import { Scroll } from "./scroll";
 import { viewport } from "../stores/viewportStore";
 

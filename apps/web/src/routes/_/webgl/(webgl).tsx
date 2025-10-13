@@ -1,8 +1,8 @@
 import { Title } from "@solidjs/meta";
 import Section from "../../../components/Section";
 
-// import DomGroupElement from "~/app/gl/domGroup/DomGroupElement";
-import DomQuadElement from "../../../app/gl/domQuad/DomQuadElement";
+// import DomGroupElement from "~/gl/domGroup/DomGroupElement";
+import DomQuadElement from "~/gl/domQuad/DomQuadElement";
 
 export default function WebGl() {
   return (
