@@ -22,19 +22,18 @@ const sharedConfig = [
 	media(),
 	noteField(),
 	userGuidePlugin({ userGuideStructure }),
-	presentationTool({
-		previewUrl: {
-			initial: DOMAIN,
-			origin: DOMAIN,
-			previewMode: {
-				enable: "/api/preview-enable",
-				disable: "/api/preview-disable",
-			},
-		},
-		allowOrigins: ["http://localhost:*", DOMAIN],
-
-		resolve, // <— wires in mainDocuments + locations
-	}),
+	// presentationTool({
+	// 	previewUrl: {
+	// 		initial: DOMAIN,
+	// 		origin: DOMAIN,
+	// 		previewMode: {
+	// 			enable: "/api/preview-enable",
+	// 			disable: "/api/preview-disable",
+	// 		},
+	// 	},
+	// 	allowOrigins: ["http://localhost:*", DOMAIN],
+	// 	resolve,
+	// }),
 ];
 
 const devConfig = [visionTool()];
