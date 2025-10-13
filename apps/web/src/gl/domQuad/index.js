@@ -38,7 +38,7 @@ export class DomQuad extends Mesh {
     const rect = clientRectGl(this.item);
     this.#ctrl.x = this.position.x = rect.centerx;
     this.#ctrl.y = rect.centery;
-    this.position.y = this.#ctrl.y + Scroll.y * Gl.vp.px;
+    this.position.y = this.#ctrl.y + Scroll.gl;
     this.scale.set(rect.width, rect.height, 1);
 
     if (this.resize) this.resize(rect);
@@ -46,6 +46,7 @@ export class DomQuad extends Mesh {
 
   #scroll({ velocity, scroll, direction, progress, glScroll }) {
     if (!this.inView) return;
+    // Use the same calculation as in resize for consistency
     this.position.y = this.#ctrl.y + glScroll;
 
     if (this.scroll) this.scroll({ velocity, scroll, direction, progress });

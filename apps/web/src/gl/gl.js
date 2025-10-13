@@ -73,6 +73,10 @@ export class Gl {
 
     this.init();
     this.resize();
+
+    // Register GL pixel ratio with Scroll utility after camera is initialized
+    Scroll.setGlPixelRatio(this.vp.px);
+
     this.evt = this._evt();
   }
 
@@ -130,6 +134,9 @@ export class Gl {
     this.renderer.setSize(this.vp.w, this.vp.h);
     this.camera.aspect = this.vp.aspect();
     this.camera.updateProjectionMatrix();
+
+    // Update Scroll utility with new pixel ratio
+    Scroll.setGlPixelRatio(this.vp.px);
 
     this.scene?.resize();
   }

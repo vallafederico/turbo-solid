@@ -19,6 +19,7 @@ class _Scroll extends Subscribable<ScrollEvent> {
   previousHeight = 0;
   y = 0;
   lenis?: Lenis;
+  private glPixelRatio?: number;
 
   constructor() {
     super();
@@ -28,10 +29,25 @@ class _Scroll extends Subscribable<ScrollEvent> {
     }
   }
 
+  // Method to set GL pixel ratio for coordinate conversion
+  setGlPixelRatio(pixelRatio: number) {
+    this.glPixelRatio = pixelRatio;
+  }
+
+  // Getter for GL scroll value
+  get gl(): number {
+    const scroll = this.lenis?.scroll || 0;
+    if (!this.glPixelRatio) {
+      return scroll;
+    }
+    return scroll * this.glPixelRatio;
+  }
+
   init(): void {
     this.y = window.scrollY || 0;
+    const wrapper = document.querySelector("#app");
     this.lenis = new Lenis({
-      wrapper: document.querySelector("#app"),
+      wrapper: wrapper || window,
       autoResize: false,
     });
 
@@ -49,23 +65,21 @@ class _Scroll extends Subscribable<ScrollEvent> {
   }
 
   get scrollEventData(): ScrollEvent {
+    const scroll = this.lenis?.scroll || 0;
+
     return {
       velocity: this.lenis?.velocity || 0,
-      scroll: this.lenis?.scroll || 0,
+      scroll: scroll,
       direction: this.lenis?.direction || 1,
       progress: this.lenis?.progress || 0,
-      glScroll: this.lenis?.scroll || 0, // Will be overridden if Gl is available
+      glScroll: this.gl,
     };
   }
 
   onScroll({ velocity, scroll, direction, progress }: any): void {
-    this.y = scroll;
-    let glScroll = scroll;
+    this.y = this.gl;
 
-    // Note: Gl import removed to avoid circular dependency
-    // glScroll calculation should be handled where Gl is available
-
-    this.notify({ velocity, scroll, direction, progress, glScroll });
+    this.notify({ velocity, scroll, direction, progress, glScroll: this.gl });
   }
 
   to(params: any): void {
