@@ -1,6 +1,11 @@
 export const fieldTypeMap = {
 	string: "string",
+	url: "url",
 	number: "number",
+	email: {
+		type: "string",
+		validation: "email",
+	},
 	boolean: "boolean",
 	datetime: "datetime",
 	date: "date",
@@ -9,17 +14,18 @@ export const fieldTypeMap = {
 	reference: "reference",
 	image: "image",
 	file: "file",
-	video: "video",
-	link: "link",
 };
 
 const CONFIG = {
 	slices: {
-		schemaPath: '',
-    componentPath: '',
+		schemaPath: "",
+		componentPath: "",
 	},
 	pages: {
-		schemaPath: '',
-		componentPath: '',
+		schemaPath: "",
+		componentPath: "",
+	},
+	additionalTypes: {
+		link: "link",
 	},
 };
