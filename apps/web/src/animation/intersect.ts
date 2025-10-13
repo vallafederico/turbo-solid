@@ -1,6 +1,6 @@
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
 import { createEffect } from "solid-js";
-import { setOutTransition } from "../index";
+import { setOutTransition } from "./page-transition";
 
 type Callback =
   | ((duration?: number) => void)

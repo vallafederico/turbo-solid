@@ -1,5 +1,4 @@
 import { Title } from "@solidjs/meta";
-import Slider from "~/components/animation/Slider";
 import Section from "~/components/Section";
 import { A } from "@solidjs/router";
 import { For } from "solid-js";
@@ -17,9 +16,9 @@ export default function SliderPage() {
 
       <div
         use:animateAlpha
-        class="flex-center max-w-screen overflow-clip py-20"
+        class="py-20 overflow-clip flex-center max-w-screen"
       >
-        <Slider
+        <div
           style="--slide: 35vw"
           class="flex h-[70vh] w-full pl-[calc(50vw-calc(var(--slide)/2))]"
         >
@@ -32,7 +31,7 @@ export default function SliderPage() {
               </div>
             )}
           </For>
-        </Slider>
+        </div>
       </div>
     </div>
   );
