@@ -4,8 +4,11 @@ import { A } from "@solidjs/router";
 import { For } from "solid-js";
 
 import { animateAlpha } from "~/animation/alpha";
+import { useSmooothy } from "~/lib/hooks/useSmooothy";
 
 export default function SliderPage() {
+  const { ref, slider } = useSmooothy();
+
   return (
     <div class="min-h-[100vh] py-20">
       <Title>About</Title>
@@ -16,9 +19,10 @@ export default function SliderPage() {
 
       <div
         use:animateAlpha
-        class="py-20 overflow-clip flex-center max-w-screen"
+        class="flex-center max-w-screen overflow-clip py-20"
       >
         <div
+          ref={ref}
           style="--slide: 35vw"
           class="flex h-[70vh] w-full pl-[calc(50vw-calc(var(--slide)/2))]"
         >
