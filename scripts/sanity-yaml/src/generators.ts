@@ -50,6 +50,7 @@ const createSchema = (item: Record<string, unknown>) => {
 };
 
 const createType = (schema: any) => {
+	// console.log("schema::", schema);
 	const root = {};
 
 	new WalkBuilder()
@@ -99,7 +100,7 @@ export const generateFileset = (filesetName: string, filepath: string) => {
 		const schema = createSchema(value);
 		const typeDefinition = createType(schema);
 
-		console.log("schema::", schema);
+		console.log("typeDefinition::", typeDefinition);
 
 		return { name: key, schema, typeDefinition };
 	});

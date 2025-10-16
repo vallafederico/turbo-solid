@@ -130,7 +130,6 @@ export const handleField = (
 	return {
 		...formattedField,
 		_PARAMS: {
-			_id: "IDDD",
 			type: fieldToTypeDefinition(formattedField),
 			validation: validation,
 		},
