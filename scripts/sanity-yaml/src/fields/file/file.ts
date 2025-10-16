@@ -1,12 +1,16 @@
 import { EXTENSION_TO_MIME } from "./mime-types";
-import type { FieldHandlerParams } from "~/types";
+import type { FieldHandlerParams, ProcessedGenericField } from "~/types";
+
+export interface ProcessedFileField extends ProcessedGenericField {
+	options?: {
+		accepts: string[];
+	};
+}
 
 export const handleFileField = ({
 	name,
-	type,
-	dataSignature,
 	options,
-}: FieldHandlerParams) => {
+}: FieldHandlerParams): ProcessedFileField => {
 	let accepts: string[] | undefined;
 
 	if (options) {

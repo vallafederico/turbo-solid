@@ -7,6 +7,7 @@ import {
 	handleTextField,
 } from "~/fields";
 import { handleFileField } from "~/fields/file/file";
+import type { ExtraFieldParams, ProcessedGenericField } from "~/types";
 
 import { fieldToTypeDefinition } from "~/typescript-handlers";
 import { parseValidationRules } from "~/validation";
@@ -43,6 +44,8 @@ const parseFieldData = (name: string | null, type: string) => {
 		options,
 	};
 
+	// console.log("fieldType::", type);
+
 	if (Array.isArray(type)) {
 		field._type = "array";
 		field.dataSignature = type;
@@ -56,16 +59,16 @@ const parseFieldData = (name: string | null, type: string) => {
 		return field;
 	}
 
-	if (typeof type === "object") {
-		field._type = "object";
+	if (typeof name === "string" && name?.includes("[]")) {
+		field._type = "array";
 		field.dataSignature = type;
 
 		return field;
 	}
 
-	if (typeof type === "string" && name?.includes("[]")) {
-		field._type = "array";
-		field.dataSignature = type.split("[]")[0].trim();
+	if (typeof type === "object") {
+		field._type = "object";
+		field.dataSignature = type;
 
 		return field;
 	}
@@ -92,10 +95,17 @@ const parseFieldData = (name: string | null, type: string) => {
 	return field;
 };
 
+type FieldHandlerReturn = ProcessedGenericField & ExtraFieldParams;
+
 export const handleField = (
 	name: string | null,
 	type: unknown,
-): Record<string, unknown> | undefined => {
+): FieldHandlerReturn | undefined => {
+	// console.log("handling field::", name, type);
+	if (!type) {
+		console.log("🚨 No field type");
+		return undefined;
+	}
 	const { _type, dataSignature, options } = parseFieldData(name, type);
 	const { validation, cleanedFieldName } = parseValidationRules(name, type);
 
@@ -115,6 +125,7 @@ export const handleField = (
 
 	return {
 		...formattedField,
+
 		_PARAMS: {
 			type: fieldToTypeDefinition(formattedField),
 			validation: validation,

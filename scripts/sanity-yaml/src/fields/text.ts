@@ -5,7 +5,7 @@ export const handleTextField = ({ name, options }: FieldHandlerParams) => {
 	const rows = options || CONFIG.fieldDefaults?.text?.rows;
 
 	return {
-		name: name.replace(/(.+)/g, ""),
+		name,
 		type: "text",
 		options: {
 			rows,
