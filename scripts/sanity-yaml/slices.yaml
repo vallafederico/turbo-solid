@@ -1,7 +1,8 @@
 ThisIsName:
   title: string
-  date: datetime
+  date!4: datetime
   items: string(op1, op2, op3)
+  contact: email
   count: number
   itemList: string[]
   listItems: 

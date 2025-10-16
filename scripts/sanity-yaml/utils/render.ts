@@ -13,8 +13,6 @@ export const renderToFile = async (
 	const templateFile = await getCompiledTemplate(templateName);
 	const renderedTemplate = templateFile(data);
 
-	// console.log("🔥 Rendered template: ", renderedTemplate);
-
 	// 3) Write output
 	await mkdir(`${__dirname}/dist`, { recursive: true });
 	await writeFile(
@@ -22,6 +20,4 @@ export const renderToFile = async (
 		renderedTemplate,
 		"utf8",
 	);
-
-	// console.log("✔ Rendered to dist/output.html");
 };

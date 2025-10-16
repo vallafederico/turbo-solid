@@ -50,24 +50,21 @@ export const generateFileset = (filesetName: string, filepath: string) => {
 	const graph = yaml.parse(fs.readFileSync("./slices.yaml", "utf8"));
 
 	const processSingleton = (singleton: any) => {
-		const processed = new WalkBuilder()
-			.withGlobalFilter((a) => a.key)
+		const results: any[] = [];
+		new WalkBuilder()
+			.withGlobalFilter((a) => !!a.key) // do not walk root nodes (name of schema)
 			.withSimpleCallback((node) => {
-				// console.log(val);
-				// console.log("v::", { val: node.val, key: node.key });
-
-				node.val = handleField(node.key, node.val);
-
-				console.log("n::", node.val);
+				const handled = handleField(String(node.key), node.val);
+				if (handled !== undefined) {
+					results.push(handled);
+				}
 			})
 			.walk(singleton);
 
-		return processed;
+		return results;
 	};
 
-	const processed = Object.entries(graph).map(([key, value]) => {
+	const processed = Object.entries(graph).flatMap(([key, value]) => {
 		return processSingleton(value);
 	});
-
-	console.log(processed);
 };

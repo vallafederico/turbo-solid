@@ -1,4 +1,4 @@
-export const BASE_VALIDATION_RULE = "(r: any)=>Rule";
+export const BASE_VALIDATION_RULE = "(Rule: any)=>Rule";
 
 export const VALIDATION_RULES = {
 	required: ".required()",

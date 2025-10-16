@@ -1,10 +1,11 @@
 import { fieldToTypeDefinition } from "./generators";
+import { parseValidationRules } from "./validation";
 
-const handleArrayField = (name: string, fieldData: { type: string }) => {
+const handleArrayField = (name: string, type: string, dataSignature: any) => {
 	return {
 		name,
 		type: "array",
-		of: [{ type: fieldData.type }],
+		of: [{ type: dataSignature }],
 	};
 };
 
@@ -49,12 +50,14 @@ const handleGeneric = (name: string, type: string) => {
 
 const handleObjectField = (
 	name: string,
-	fieldData: { fields: { name: string; type: string }[] },
+	type: string,
+	fieldData: Record<string, string>,
 ) => {
-	const fieldsArray = Object.entries(fieldData).map(([key, value]) => ({
-		name: key,
-		type: value,
-	}));
+	// console.log("handleObjectField::", name, type, fieldData);
+
+	const fieldsArray = Object.entries(fieldData).map(([key, value]) => {
+		return handleField(key, value);
+	});
 
 	return {
 		name,
@@ -71,27 +74,50 @@ const FIELD_HANDLERS = {
 	boolean: handleGeneric,
 	object: handleObjectField,
 	array: handleArrayField,
+	email: handleStringField,
 };
 
-const reconcileFieldType = (type: string) => {
+const reconcileFieldType = (name: string, type: string) => {
+	const field = {
+		_type: type,
+		dataSignature: null,
+	};
+
+	if (Array.isArray(type)) {
+		field._type = "array";
+		field.dataSignature = type;
+
+		return field;
+	}
+
 	if (typeof type === "object") {
-		return "object";
+		// console.log("object field::", type);
+		field._type = "object";
+		field.dataSignature = type;
+
+		return field;
 	}
 
-	if (type.includes("[]")) {
-		return "array";
+	if (typeof type === "string" && type.includes("[]")) {
+		field._type = "array";
+		field.dataSignature = type.split("[]")[0].trim();
+
+		return field;
 	}
 
-	if (type?.includes("string")) {
-		return "string";
+	if (type?.startsWith("string")) {
+		field._type = "string";
+
+		return field;
 	}
 
-	return type;
+	return field;
 };
 
-export const handleField = (name: string, type: string) => {
-	// console.log(type);
-	const _type = reconcileFieldType(type);
+export const handleField = (name: string, type: any) => {
+	const { _type, dataSignature } = reconcileFieldType(name, type);
+	const { validation, name: fieldName } = parseValidationRules(name, type);
+
 	const fn = FIELD_HANDLERS?.[_type];
 
 	if (typeof fn !== "function") {
@@ -99,10 +125,15 @@ export const handleField = (name: string, type: string) => {
 		return undefined;
 	}
 
-	const formattedField = fn(name, _type);
+	const formattedField = fn(fieldName, _type, dataSignature);
 
-	return {
+	const f = {
 		field: formattedField,
 		typeDefinition: fieldToTypeDefinition(formattedField),
+		validation,
 	};
+
+	console.log("f::", f);
+
+	return f;
 };

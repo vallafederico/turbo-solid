@@ -1,26 +1,22 @@
 import { BASE_VALIDATION_RULE } from "../globals";
 
+const cleanFieldName = (fieldName: string) => {
+	return fieldName.replace(/\d+/, "").replace(/!/, "");
+};
+
 export const parseValidationRules = (
 	fieldName: string,
 	fieldType: string | object | null,
 ) => {
 	let validation: null | string = "";
 
-	const hasNumeric = typeof fieldName.match(/d+/)?.[0] === "number";
-	const hasRequired = fieldName.includes("!");
+	const limit = fieldName.match(/\d+/)?.[0];
+	const required = fieldName.includes("!");
 	const isEmailField = fieldType === "email";
 
-	if (hasNumeric) {
-		validation += `.max(${fieldName.match(/d+/)?.[0]})`;
-	}
-
-	if (isEmailField) {
-		validation += ".email()";
-	}
-
-	if (hasRequired) {
-		validation += ".required()";
-	}
+	if (limit) validation += `.max(${limit})`;
+	if (isEmailField) validation += ".email()";
+	if (required) validation += ".required()";
 
 	if (validation?.length > 1) {
 		validation = `${BASE_VALIDATION_RULE}${validation}`;
@@ -28,5 +24,5 @@ export const parseValidationRules = (
 		validation = null;
 	}
 
-	return validation;
+	return { validation, name: cleanFieldName(fieldName) };
 };
