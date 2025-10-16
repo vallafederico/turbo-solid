@@ -1,7 +1,13 @@
 ThisIsName:
+  stuff:
+    you: string
+    them: string
+    listItems[]: 
+      name: string
+      other: number
   # title: string
   # date!4: datetime
-  # itemsWithOptions[]: string(arrop1, arrop2) 
+  itemsWithOptions[]: string(arrop1, arrop2) 
   # items: string(op1, op2, op3)
   # ref[]: ->stuff
   # docs[]: file(pdf,mdx)
@@ -14,9 +20,3 @@ ThisIsName:
   # listItems: 
   #   - name: string
   #     count: number
-  stuff: 
-    you: string
-    them: string
-    listItems[]: 
-      name: string
-      other: number

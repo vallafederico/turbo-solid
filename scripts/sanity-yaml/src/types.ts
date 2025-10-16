@@ -19,6 +19,9 @@ export type ExtraFieldParams = {
 		type: string;
 		validation?: string;
 	};
+	options?: {
+		[key: string]: string;
+	};
 };
 
 export type TemplateData = {
@@ -39,3 +42,5 @@ export type ProcessedGenericField = {
 	type: SanityFieldType | string;
 	validation?: string;
 };
+
+export type FieldHandlerReturn = ProcessedGenericField & ExtraFieldParams;

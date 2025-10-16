@@ -7,8 +7,11 @@ import {
 	handleTextField,
 } from "~/fields";
 import { handleFileField } from "~/fields/file/file";
-import type { ExtraFieldParams, ProcessedGenericField } from "~/types";
-
+import type {
+	ExtraFieldParams,
+	FieldHandlerReturn,
+	ProcessedGenericField,
+} from "~/types";
 import { fieldToTypeDefinition } from "~/typescript-handlers";
 import { parseValidationRules } from "~/validation";
 
@@ -43,8 +46,6 @@ const parseFieldData = (name: string | null, type: string) => {
 		dataSignature: null,
 		options,
 	};
-
-	// console.log("fieldType::", type);
 
 	if (Array.isArray(type)) {
 		field._type = "array";
@@ -95,8 +96,6 @@ const parseFieldData = (name: string | null, type: string) => {
 	return field;
 };
 
-type FieldHandlerReturn = ProcessedGenericField & ExtraFieldParams;
-
 export const handleField = (
 	name: string | null,
 	type: unknown,
@@ -116,6 +115,8 @@ export const handleField = (
 		return undefined;
 	}
 
+	// console.log("opts::", options);
+
 	const formattedField = fn({
 		name: cleanedFieldName,
 		type: _type,
@@ -125,7 +126,6 @@ export const handleField = (
 
 	return {
 		...formattedField,
-
 		_PARAMS: {
 			type: fieldToTypeDefinition(formattedField),
 			validation: validation,

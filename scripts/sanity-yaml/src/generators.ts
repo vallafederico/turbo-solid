@@ -34,7 +34,7 @@ const createSchema = (item: Record<string, unknown>) => {
 		})
 		.walk(item);
 
-	console.log("results::", results);
+	// console.log("results::", results);
 
 	return results;
 };
@@ -45,8 +45,6 @@ const createType = (schema: any) => {
 	new WalkBuilder()
 		.withGlobalFilter((a) => !!a.key && a?.val?._PARAMS)
 		.withSimpleCallback((node) => {
-			// console.log(node.val);
-
 			const fieldName = node.val.name;
 			const fieldType = node.val._PARAMS.type;
 
@@ -81,8 +79,6 @@ const createType = (schema: any) => {
 		})
 		.walk(schema);
 
-	// console.log("root::", root);
-
 	return root;
 };
 
@@ -93,7 +89,7 @@ export const generateFileset = (filesetName: string, filepath: string) => {
 		const schema = createSchema(value);
 		const type = createType(schema);
 
-		return { schema, type };
+		return { name: key, schema, type };
 	});
 
 	// console.log("processed::", processed);
