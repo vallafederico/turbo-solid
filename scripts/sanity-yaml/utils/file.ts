@@ -1,6 +1,5 @@
 import fs from "node:fs/promises";
 import Handlebars from "handlebars";
-
 import { isAbsolute, resolve } from "node:path";
 import { normalize } from "node:path";
 

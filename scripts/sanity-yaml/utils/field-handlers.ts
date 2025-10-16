@@ -1,9 +1,9 @@
-import { fieldToTypeDefinition } from "./generators";
+import { fieldToTypeDefinition } from "../src/typescript-handlers";
 import { parseValidationRules } from "./validation";
 
 const handleArrayField = (name: string, type: string, dataSignature: any) => {
 	return {
-		name,
+		name: name.replace("[]", ""),
 		type: "array",
 		of: [{ type: dataSignature }],
 	};
@@ -20,7 +20,7 @@ const handleStringField = (name: string, type: string, isArray: boolean) => {
 		: null;
 
 	const field = {
-		name,
+		name: name.replace("[]", ""),
 		type: "string",
 	};
 
@@ -53,8 +53,6 @@ const handleObjectField = (
 	type: string,
 	fieldData: Record<string, string>,
 ) => {
-	// console.log("handleObjectField::", name, type, fieldData);
-
 	const fieldsArray = Object.entries(fieldData).map(([key, value]) => {
 		return handleField(key, value);
 	});
@@ -66,15 +64,51 @@ const handleObjectField = (
 	};
 };
 
+const handleTextField = (name: string, type: string) => {
+	return {
+		name,
+		type: "text",
+	};
+};
+
+const handleReferenceField = (name: string, type: string, data: any) => {
+	const isArray = name.includes("[]");
+
+	if (isArray) {
+		return {
+			name: name.replace("[]", ""),
+			type: "array",
+			of: [{ type: "reference", to: [{ type: data }] }],
+		};
+	}
+
+	return {
+		name: name,
+		type: "reference",
+		of: [{ type: data }],
+	};
+};
+
+const GENERIC_FIELD_TYPES = [
+	"datetime",
+	"date",
+	"number",
+	"boolean",
+	"geopoint",
+	"slug",
+];
+
 const FIELD_HANDLERS = {
 	string: handleStringField,
-	datetime: handleGeneric,
-	date: handleGeneric,
-	number: handleGeneric,
-	boolean: handleGeneric,
 	object: handleObjectField,
 	array: handleArrayField,
 	email: handleStringField,
+	text: handleTextField,
+	reference: handleReferenceField,
+	...GENERIC_FIELD_TYPES.reduce((acc, type) => {
+		acc[type] = handleGeneric;
+		return acc;
+	}, {}),
 };
 
 const reconcileFieldType = (name: string, type: string) => {
@@ -90,6 +124,12 @@ const reconcileFieldType = (name: string, type: string) => {
 		return field;
 	}
 
+	if (typeof type === "string" && type?.startsWith("->")) {
+		field._type = "reference";
+		field.dataSignature = type.replace("->", "");
+		return field;
+	}
+
 	if (typeof type === "object") {
 		// console.log("object field::", type);
 		field._type = "object";
@@ -98,7 +138,7 @@ const reconcileFieldType = (name: string, type: string) => {
 		return field;
 	}
 
-	if (typeof type === "string" && type.includes("[]")) {
+	if (typeof type === "string" && name.includes("[]")) {
 		field._type = "array";
 		field.dataSignature = type.split("[]")[0].trim();
 
@@ -132,8 +172,6 @@ export const handleField = (name: string, type: any) => {
 		typeDefinition: fieldToTypeDefinition(formattedField),
 		validation,
 	};
-
-	console.log("f::", f);
 
 	return f;
 };

@@ -1,16 +1,21 @@
 ThisIsName:
   title: string
   date!4: datetime
+  itemsWithOptions[]: string(arrop1, arrop2) 
   items: string(op1, op2, op3)
-  contact: email
-  count: number
-  itemList: string[]
-  listItems: 
-    - name: string
-      count: number
-  stuff: 
-    you: string
-    them: string
-    listItems[]: 
-    - name: string
-      other: number
+  ref: ->stuff
+  refArr[]: ->stuff
+  # contact: email
+  # count: number
+  # itemList: string
+  # description{3}: text
+  # points: geopoint
+  # listItems: 
+  #   - name: string
+  #     count: number
+  # stuff: 
+  #   you: string
+  #   them: string
+  #   listItems[]: 
+  #   - name: string
+  #     other: number
