@@ -1,0 +1,15 @@
+import Slice from '~/components/Slice'
+
+{{> frontend-types-jsx name=name fields=fields}}
+
+const {{pascalCase name}} = ({}: {{pascalCase name}}Props) => {
+  return (
+    <Slice>
+      <div className="h-screen w-full border-8 flex justify-center items-center">
+        <h2>Slice: {{name}}</h2>
+      </div>
+    </Slice>
+  )
+}
+
+export default {{pascalCase name}}

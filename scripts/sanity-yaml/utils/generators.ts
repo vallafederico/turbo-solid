@@ -1,38 +1,73 @@
-import fs from "node:fs/promises";
-import path from "node:path";
-import * as eta from "eta";
-import { kebabCase } from "text-case";
+import { kebabCase, sentenceCase } from "text-case";
+import { handleField } from "./field-handlers";
+import { renderToFile } from "./render";
+import { CONFIG } from "../config";
+import { resolveFrom } from "./file";
+import { WalkBuilder } from "walkjs";
+import fs from "node:fs";
+import yaml from "yaml";
 
-// Assuming eta is configured elsewhere and imported if needed
+const TYPE_TRANSFORMERS = {
+	datetime: "Date",
+	date: "Date",
+	url: "String",
+	email: "String",
+	string: ({ options }) => {
+		if (Array.isArray(options?.list)) {
+			return `'${options.list.map((option) => `'${option}'`).join(" | ")}'`;
+		}
 
-export const generateSlices = async (slices: {
-	[key: string]: { name: string; type: string }[];
-}) => {
-	let generated = 0;
+		return "String";
+	},
+};
 
-	// async map over Object.entries
-	await Promise.all(
-		Object.entries(slices).map(async ([key, fields], i) => {
-			const _type = key;
+export const fieldToTypeDefinition = (field: any) => {
+	const typeTransformer = TYPE_TRANSFORMERS[field.type];
+	const definition =
+		typeof typeTransformer === "function"
+			? typeTransformer(field?.type)
+			: typeTransformer || field.type;
 
-			const filename = kebabCase(_type);
+	return definition;
+};
 
-			// Render the template asynchronously
-			// Assuming you have an eta instance configured and a template named "sanity-slice"
-			const fileContent = await eta.renderFile("sanity-slice", {
-				name: _type,
-				fields,
-			});
+const generateFrontendFile = async (
+	name: string,
+	fields: Record<string, string>,
+) => {
+	const outputPath = resolveFrom(CONFIG.slices.frontendTemplate);
+	await renderToFile(
+		outputPath,
+		{
+			name,
+			fields,
+		},
+		`${name}.tsx`,
+	);
+};
 
-			if (typeof fileContent === "string") {
-				// Write fileContent to file, e.g., to 'output/slices/<slice name>.ts'
-				const filePath = path.join("output", "slices", `${_type}.ts`);
-				await fs.mkdir(path.dirname(filePath), { recursive: true });
-				await fs.writeFile(filePath, fileContent, "utf8");
-				generated++;
-			}
-		}),
-	).then(() => {
-		console.log(`${generated} slices generated ✅`);
+export const generateFileset = (filesetName: string, filepath: string) => {
+	const graph = yaml.parse(fs.readFileSync("./slices.yaml", "utf8"));
+
+	const processSingleton = (singleton: any) => {
+		const processed = new WalkBuilder()
+			.withGlobalFilter((a) => a.key)
+			.withSimpleCallback((node) => {
+				// console.log(val);
+				// console.log("v::", { val: node.val, key: node.key });
+
+				node.val = handleField(node.key, node.val);
+
+				console.log("n::", node.val);
+			})
+			.walk(singleton);
+
+		return processed;
+	};
+
+	const processed = Object.entries(graph).map(([key, value]) => {
+		return processSingleton(value);
 	});
+
+	console.log(processed);
 };

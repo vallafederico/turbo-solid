@@ -1,8 +1,15 @@
-
-
 ThisIsName:
   title: string
   date: datetime
-  items: {
-    label: string
-  }
+  items: string(op1, op2, op3)
+  count: number
+  itemList: string[]
+  listItems: 
+    - name: string
+      count: number
+  stuff: 
+    you: string
+    them: string
+    listItems[]: 
+    - name: string
+      other: number

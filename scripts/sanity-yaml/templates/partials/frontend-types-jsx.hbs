@@ -1,0 +1,5 @@
+interface {{pascalCase name}}Props {
+  {{#each fields}}
+    {{name}}: {{pascalCase type}},
+  {{/each}}
+}

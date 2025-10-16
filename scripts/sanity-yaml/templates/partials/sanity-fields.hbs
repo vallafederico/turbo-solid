@@ -1,0 +1,13 @@
+defineField({
+    name: '{{name}}',
+    type: 'object',
+    fields: [
+        {{#each fields}}
+            {{#if (or (eq type "object") (eq type "array"))}}
+                {{> sanity-object-field name=name fields=fields}}
+            {{else}}
+                {{> sanity-simple-field name=name type=type validation=validation}}
+            {{/if}}
+        {{/each}}
+    ]
+}),

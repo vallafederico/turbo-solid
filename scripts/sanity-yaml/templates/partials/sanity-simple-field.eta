@@ -1,4 +1,0 @@
-defineField({
-    name: '<%= name %>',
-    type: '<%= type %>'
-}),
