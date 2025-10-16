@@ -1,4 +1,4 @@
-import type { FieldHandlerParams, FieldHandlerReturn } from "./types";
+import type { FieldHandlerReturn } from "../types";
 
 const TYPE_TRANSFORMERS: Record<
 	string,
@@ -22,10 +22,6 @@ const TYPE_TRANSFORMERS: Record<
 };
 
 export const fieldToTypeDefinition = (field: FieldHandlerReturn) => {
-	if (!field?.type) {
-		return undefined;
-	}
-
 	const typeTransformer = TYPE_TRANSFORMERS?.[field?.type];
 	const definition =
 		typeof typeTransformer === "function"

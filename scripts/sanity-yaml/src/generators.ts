@@ -2,9 +2,10 @@
 import { handleField } from "~/utils/field-handlers";
 
 // import { resolveFrom } from "~/utils/file";
-import { WalkBuilder } from "walkjs";
+import { walk, WalkBuilder } from "walkjs";
 import fs from "node:fs";
 import yaml from "yaml";
+import { FieldHandlerReturn } from "./types";
 // import { renderToFile } from "~/render";
 
 // const generateFrontendFile = async (
@@ -23,20 +24,29 @@ import yaml from "yaml";
 // };
 
 const createSchema = (item: Record<string, unknown>) => {
-	const results: any[] = [];
-	new WalkBuilder()
-		// .withGlobalFilter((a) => !!a.key) // do not walk root nodes (name of schema)
-		.withSimpleCallback((node) => {
-			const handled = handleField(String(node.key), node.val);
-			if (handled !== undefined) {
-				results.push(handled);
-			}
-		})
-		.walk(item);
+	const fields: FieldHandlerReturn[] = [];
+	walk(item, {
+		onVisit: {
+			filters: (node) => !!node.key,
+			callback: (node) => {
+				const field = handleField(String(node.key), node.val);
 
-	// console.log("results::", results);
+				if (field === undefined) return;
+				// Skip the below scenarios to avoid adding fields to the parent array that have already been resolved in place as children of objects and arrays
+				if (node.parent?.key?.includes("[]")) return;
+				if (node.parent?.key && typeof node?.parent?.val === "object") return;
 
-	return results;
+				fields.push(field);
+			},
+		},
+	});
+
+	// new WalkBuilder()
+	// 	.withGlobalFilter((a) => !!a.key) // do not walk root nodes (name of schema)
+	// 	.withSimpleCallback((node) => {})
+	// 	.walk(item);
+
+	return fields;
 };
 
 const createType = (schema: any) => {
@@ -85,12 +95,16 @@ const createType = (schema: any) => {
 export const generateFileset = (filesetName: string, filepath: string) => {
 	const graph = yaml.parse(fs.readFileSync("./slices.yaml", "utf8"));
 
-	const processed = Object.entries(graph).flatMap(([key, value]) => {
+	const fileset = Object.entries(graph).flatMap(([key, value]) => {
 		const schema = createSchema(value);
-		const type = createType(schema);
+		const typeDefinition = createType(schema);
 
-		return { name: key, schema, type };
+		console.log("schema::", schema);
+
+		return { name: key, schema, typeDefinition };
 	});
+
+	// console.log("fileset::", fileset);
 
 	// console.log("processed::", processed);
 };

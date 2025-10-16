@@ -3,7 +3,7 @@ import { mkdir } from "node:fs/promises";
 import { writeFile } from "node:fs/promises";
 
 import type { TemplateData } from "~/types";
-import { getCompiledTemplate } from "./utils/file";
+import { getCompiledTemplate } from "./utils/paths";
 
 export const renderToFile = async (
 	templateName: string,

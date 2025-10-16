@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import Handlebars from "handlebars";
-import { resolveFrom } from "./file";
+import { resolveFrom } from "./paths";
 import { pascalCase } from "text-case";
 
 export const registerPartials = (directory: string) => {

@@ -12,7 +12,7 @@ import type {
 	FieldHandlerReturn,
 	ProcessedGenericField,
 } from "~/types";
-import { fieldToTypeDefinition } from "~/typescript-handlers";
+import { fieldToTypeDefinition } from "~/typegen/typescript-handlers";
 import { parseValidationRules } from "~/validation";
 
 const GENERIC_FIELD_TYPES = [
@@ -105,6 +105,11 @@ export const handleField = (
 		console.log("🚨 No field type");
 		return undefined;
 	}
+
+	if (name === "undefined") {
+		return undefined;
+	}
+
 	const { _type, dataSignature, options } = parseFieldData(name, type);
 	const { validation, cleanedFieldName } = parseValidationRules(name, type);
 
@@ -114,8 +119,6 @@ export const handleField = (
 		console.log("🚨 No field handler or declared type found for type: ", type);
 		return undefined;
 	}
-
-	// console.log("opts::", options);
 
 	const formattedField = fn({
 		name: cleanedFieldName,
@@ -127,6 +130,7 @@ export const handleField = (
 	return {
 		...formattedField,
 		_PARAMS: {
+			_id: "IDDD",
 			type: fieldToTypeDefinition(formattedField),
 			validation: validation,
 		},
