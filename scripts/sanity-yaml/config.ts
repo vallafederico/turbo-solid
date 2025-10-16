@@ -17,16 +17,16 @@ export const FIELDS_MAP = {
 };
 
 type Config = {
+	fieldDefaults?: {
+		text: {
+			rows: number;
+		};
+	};
 	slices: {
 		schemaTemplate: string;
 		frontendTemplate: string;
 		componentPath?: string;
 		typedValidationRules?: boolean;
-		fieldDefaults?: {
-			text: {
-				rows: number;
-			};
-		};
 	};
 	pages: {
 		schemaPath: string;
@@ -43,17 +43,17 @@ type Config = {
 };
 
 export const CONFIG: Config = {
+	fieldDefaults: {
+		text: {
+			rows: 3,
+		},
+	},
 	slices: {
 		// schemaPath: "/templates/sanity-slice.hbs",
 		schemaTemplate: "./templates/sanity-slice.hbs",
 		frontendTemplate: "./templates/frontend-slice.hbs",
 		componentPath: "",
 		// typedValidationRules: true,
-		fieldDefaults: {
-			text: {
-				rows: 3,
-			},
-		},
 	},
 	pages: {
 		schemaPath: "",

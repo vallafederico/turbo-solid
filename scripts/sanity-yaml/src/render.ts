@@ -1,8 +1,9 @@
 import { readFile } from "node:fs/promises";
 import { mkdir } from "node:fs/promises";
 import { writeFile } from "node:fs/promises";
-import { getCompiledTemplate } from "./file";
-import type { TemplateData } from "../types";
+
+import type { TemplateData } from "~/types";
+import { getCompiledTemplate } from "./utils/file";
 
 export const renderToFile = async (
 	templateName: string,

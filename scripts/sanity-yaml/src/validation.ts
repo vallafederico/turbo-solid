@@ -5,10 +5,12 @@ const cleanFieldName = (fieldName: string) => {
 };
 
 export const parseValidationRules = (
-	fieldName: string,
+	fieldName: string | null,
 	fieldType: string | object | null,
 ) => {
 	let validation: null | string = "";
+
+	if (!fieldName) return { validation: null, name: null };
 
 	const limit = fieldName.match(/\d+/)?.[0];
 	const required = fieldName.includes("!");
@@ -24,5 +26,7 @@ export const parseValidationRules = (
 		validation = null;
 	}
 
-	return { validation, name: cleanFieldName(fieldName) };
+	// console.log("validation::", { fieldType, fieldName });
+
+	return { validation, cleanedFieldName: cleanFieldName(fieldName) };
 };

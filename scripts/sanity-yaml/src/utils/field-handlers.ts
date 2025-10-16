@@ -1,0 +1,123 @@
+import {
+	handleArrayField,
+	handleObjectField,
+	handleGeneric,
+	handleReferenceField,
+	handleStringField,
+	handleTextField,
+} from "~/fields";
+import { handleFileField } from "~/fields/file/file";
+
+import { fieldToTypeDefinition } from "~/typescript-handlers";
+import { parseValidationRules } from "~/validation";
+
+const GENERIC_FIELD_TYPES = [
+	"datetime",
+	"date",
+	"number",
+	"boolean",
+	"geopoint",
+	"slug",
+];
+
+const FIELD_HANDLERS = {
+	string: handleStringField,
+	object: handleObjectField,
+	array: handleArrayField,
+	email: handleStringField,
+	text: handleTextField,
+	reference: handleReferenceField,
+	file: handleFileField,
+	...GENERIC_FIELD_TYPES.reduce((acc, type) => {
+		acc[type] = handleGeneric;
+		return acc;
+	}, {}),
+};
+
+const parseFieldData = (name: string | null, type: string) => {
+	const options = typeof type === "string" ? type.match(/\((.*)\)/)?.[1] : null;
+
+	const field = {
+		_type: type,
+		dataSignature: null,
+		options,
+	};
+
+	if (Array.isArray(type)) {
+		field._type = "array";
+		field.dataSignature = type;
+
+		return field;
+	}
+
+	if (typeof type === "string" && type?.startsWith("->")) {
+		field._type = "reference";
+		field.dataSignature = type.replace("->", "");
+		return field;
+	}
+
+	if (typeof type === "object") {
+		field._type = "object";
+		field.dataSignature = type;
+
+		return field;
+	}
+
+	if (typeof type === "string" && name?.includes("[]")) {
+		field._type = "array";
+		field.dataSignature = type.split("[]")[0].trim();
+
+		return field;
+	}
+
+	if (type?.includes("file")) {
+		field._type = "file";
+		field.dataSignature = type;
+
+		return field;
+	}
+
+	if (type?.includes("text")) {
+		field._type = "text";
+
+		return field;
+	}
+
+	if (type?.startsWith("string")) {
+		field._type = "string";
+
+		return field;
+	}
+
+	return field;
+};
+
+export const handleField = (
+	name: string | null,
+	type: unknown,
+): Record<string, unknown> | undefined => {
+	const { _type, dataSignature, options } = parseFieldData(name, type);
+	const { validation, cleanedFieldName } = parseValidationRules(name, type);
+
+	const fn = FIELD_HANDLERS?.[_type];
+
+	if (typeof fn !== "function") {
+		console.log("🚨 No field handler or declared type found for type: ", type);
+		return undefined;
+	}
+
+	const formattedField = fn({
+		name: cleanedFieldName,
+		type: _type,
+		dataSignature,
+		options,
+	});
+
+	return {
+		...formattedField,
+		_PARAMS: {
+			type: fieldToTypeDefinition(formattedField),
+			validation: validation,
+		},
+	};
+};

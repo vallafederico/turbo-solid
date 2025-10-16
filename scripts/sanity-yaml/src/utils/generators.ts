@@ -1,11 +1,12 @@
 import { kebabCase, sentenceCase } from "text-case";
 import { handleField } from "./field-handlers";
-import { renderToFile } from "./render";
-import { CONFIG } from "../config";
-import { resolveFrom } from "./file";
+
+import { CONFIG } from "../../config";
+import { resolveFrom } from "~/utils/file";
 import { WalkBuilder } from "walkjs";
 import fs from "node:fs";
 import yaml from "yaml";
+import { renderToFile } from "~/render";
 
 const generateFrontendFile = async (
 	name: string,

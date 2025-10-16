@@ -10,6 +10,9 @@ const TYPE_TRANSFORMERS = {
 		return "String";
 	},
 	reference: "any",
+	array: (data) => {
+		return "Array";
+	},
 };
 
 export const fieldToTypeDefinition = (field: any) => {

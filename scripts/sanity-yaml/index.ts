@@ -1,9 +1,9 @@
 import fs from "node:fs";
 import yaml from "yaml";
 
-import { registerPartials } from "./utils/handlebars";
-import { registerHelpers } from "./utils/handlebars";
-import { generateFileset } from "./utils/generators";
+import { registerPartials } from "./src/utils/handlebars";
+import { registerHelpers } from "./src/utils/handlebars";
+import { generateFileset } from "./src/utils/generators";
 
 // const slices = yaml.parse(fs.readFileSync("./slices.yaml", "utf8"));
 

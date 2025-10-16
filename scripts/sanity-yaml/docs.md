@@ -98,7 +98,6 @@ The basic structure of schemas within YAML is key/value pairs. Keys are field na
 | `text`            | `description: text(4)`       | Plain text with multiple rows                 |                                        |
 
 <strong>Coming soon:</strong>
-- File with mime-type validations and subfields
 - slug
 
 
