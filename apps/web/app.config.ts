@@ -15,6 +15,7 @@ const plugins = [
 		root: "/",
 	}),
 	sitemapPlugin({
+		domain: "https://yourdomain.com",
 		sitemaps: {
 			pages: ["/", "/about/*"],
 			posts: ["/blog/*"],

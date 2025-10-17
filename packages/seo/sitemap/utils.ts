@@ -104,16 +104,6 @@ export async function createIndexSitemap(
 }
 
 /**
- * Generates robots.txt string referencing the sitemap index xml.
- */
-export function createRobotsTxt(indexUrl: string): string {
-	if (!indexUrl || typeof indexUrl !== "string") {
-		throw new Error("createRobotsTxt: indexUrl must be a non-empty string");
-	}
-	return `User-agent: *\nAllow: /\nSitemap: ${indexUrl}\n`;
-}
-
-/**
  * Writes a file to a directory, creating the full path if needed. Throws on failure.
  */
 export const createFile = (

@@ -48,4 +48,14 @@ export type SitemapConfig = {
 	sitemaps:
 		| { [key: string]: () => Promise<SitemapEntry[]> }
 		| (() => Promise<SitemapEntry[]>);
+	/**
+	 * (Optional) Async function returning extra robots.txt content for custom rules.
+	 * If not provided, a reasonable default is used.
+	 * The correct Sitemap: ... line(s) will be appended automatically.
+	 */
+	robots?: () => Promise<string> | string;
+	/**
+	 * (Optional) If true, sitemap.xml outputs will be minified via minify-xml
+	 */
+	minify?: boolean;
 };
