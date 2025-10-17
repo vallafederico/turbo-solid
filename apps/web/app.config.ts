@@ -16,7 +16,6 @@ const plugins = [
 	}),
 	sitemapPlugin({
 		domain: "https://yourdomain.com",
-		minify: true,
 		outDir: "dist",
 		sitemaps: {
 			pages: async () => [
@@ -48,8 +47,6 @@ const plugins = [
 		//   },
 		// },
 	}),
-
-	// Add our custom GL reload plugin
 	glReloadPlugin(),
 ];
 

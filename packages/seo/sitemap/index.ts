@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { createSitemapXml, createIndexSitemap, createFile } from "./utils";
-import { createRobotsTxt, DEFAULT_ROBOTS_TXT } from "../robots";
+import { DEFAULT_ROBOTS_TXT } from "../robots";
 import type { SitemapConfig, SitemapEntry } from "../types";
 
 const DEFAULT_CONFIG: SitemapConfig = {
