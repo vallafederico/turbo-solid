@@ -151,9 +151,9 @@ export const handleField = (
 
 	return {
 		...formattedField,
+		...coalesce("validation", validation),
 		_PARAMS: {
 			type: fieldToTypeDefinition(formattedField),
-			...coalesce("validation", validation),
 		},
 	};
 };

@@ -22,4 +22,20 @@ export const registerHelpers = () => {
 		const args = Array.from(fnargs).slice(0, -1);
 		return args.some(Boolean);
 	});
+	Handlebars.registerHelper("switch", function (value, options) {
+		this.switch_value = value;
+		return options.fn(this);
+	});
+
+	Handlebars.registerHelper("case", function (value, options) {
+		if (value === this.switch_value) {
+			return options.fn(this);
+		}
+	});
+
+	Handlebars.registerHelper("default", function (value, options) {
+		if (this.switch_break === false) {
+			return options.fn(this);
+		}
+	});
 };

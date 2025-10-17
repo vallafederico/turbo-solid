@@ -1,3 +1,5 @@
+export type FilesetDataOutput = "schema" | "type";
+
 type SanityFieldType =
 	| "string"
 	| "number"

@@ -5,7 +5,9 @@ import { handleField } from "~/utils/field-handlers";
 import { walk, WalkBuilder } from "walkjs";
 import fs from "node:fs";
 import yaml from "yaml";
-import { FieldHandlerReturn } from "./types";
+import { FieldHandlerReturn, FilesetDataOutput } from "./types";
+import { renderToFile } from "./utils/render";
+import { titleCase } from "text-case";
 // import { renderToFile } from "~/render";
 
 // const generateFrontendFile = async (
@@ -93,17 +95,39 @@ const createType = (schema: any) => {
 	return root;
 };
 
-export const generateFileset = (filesetName: string, filepath: string) => {
-	const graph = yaml.parse(fs.readFileSync("./slices.yaml", "utf8"));
+export const generateFileset = ({
+	name,
+	input,
+	data,
+	template,
+	output,
+}: {
+	name: string;
+	filepath: string;
+	data: FilesetDataOutput;
+	template: string;
+	output: string;
+}) => {
+	const graph = yaml.parse(fs.readFileSync(input, "utf8"));
 
 	const fileset = Object.entries(graph).flatMap(([key, value]) => {
 		const schema = createSchema(value);
 		const typeDefinition = createType(schema);
 
-		return { name: key, schema, typeDefinition };
+		return { name: key, schema, typeDefinition, title: titleCase(key) };
 	});
 
-	console.log("fileset::", fileset);
+	fileset.forEach((file, i) => {
+		console.log("f:", file.schema);
+
+		const templateData =
+			{
+				schema: { fields: file.schema, ...file },
+				type: { types: file.typeDefinition, ...file },
+			}[data as FilesetDataOutput] || {};
+
+		renderToFile(template, templateData, output, `${file.name}.ts`);
+	});
 
 	// console.log("processed::", processed);
 };

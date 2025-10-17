@@ -1,5 +1,5 @@
 defineField({
     name: '{{name}}',
-    type: '{{type}}'{{#if validation}},
-    validation: {{validation}}{{/if}}
+    type: '{{type}}'
+    {{> sanity-validation validation=validation}}
 }),
