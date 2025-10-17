@@ -36,8 +36,8 @@ export default function sitemapPlugin(config: SitemapConfig = sampleConfig) {
 		createFile(outDir, "robots.txt", r);
 	};
 
-	const createSitemap = (filename: string, urls: SitemapEntry[]) => {
-		const xml = createSitemapXml(urls, { minify: config?.minify });
+	const createSitemap = async (filename: string, urls: SitemapEntry[]) => {
+		const xml = await createSitemapXml(urls, { minify: config?.minify });
 		createFile(outDir, `${filename}.xml`, xml);
 	};
 
