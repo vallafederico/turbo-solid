@@ -1,64 +1,60 @@
 import { defineConfig } from "@solidjs/start/config";
 import solidSvg from "vite-plugin-solid-svg";
 import glsl from "vite-plugin-glsl";
-import { solidStartSiteMapPlugin } from "solid-start-sitemap";
 import glReloadPlugin from "./vite/vite-plugin-gl-reload";
-
-const sitemap = solidStartSiteMapPlugin({
-  hostname: "https://example.com",
-  replaceRouteParams: {
-    ":postId": [1, 2, 3],
-  },
-  limit: 5000,
-});
+import sitemapPlugin from "../../packages/seo/sitemap";
 
 const plugins = [
-  glsl({
-    include: ["**/*.glsl", "**/*.vert", "**/*.frag"],
-    exclude: undefined,
-    warnDuplicatedImports: true,
-    defaultExtension: "glsl",
-    minify: false,
-    watch: true,
-    root: "/",
-  }),
+	glsl({
+		include: ["**/*.glsl", "**/*.vert", "**/*.frag"],
+		exclude: undefined,
+		warnDuplicatedImports: true,
+		defaultExtension: "glsl",
+		minify: false,
+		watch: true,
+		root: "/",
+	}),
+	sitemapPlugin({
+		sitemaps: {
+			pages: ["/", "/about/*"],
+			posts: ["/blog/*"],
+		},
+	}),
 
-  solidSvg({
-    defaultAsComponent: true,
-    // svgo: {
-    //   enabled: false,
-    //   svgoConfig: {
-    //     plugins: [
-    //       {
-    //         name: "preset-default",
-    //         params: {
-    //           overrides: {
-    //             removeUselessDefs: false,
-    //           },
-    //         },
-    //       },
-    //     ],
-    //   },
-    // },
-  }),
+	solidSvg({
+		defaultAsComponent: true,
+		// svgo: {
+		//   enabled: false,
+		//   svgoConfig: {
+		//     plugins: [
+		//       {
+		//         name: "preset-default",
+		//         params: {
+		//           overrides: {
+		//             removeUselessDefs: false,
+		//           },
+		//         },
+		//       },
+		//     ],
+		//   },
+		// },
+	}),
 
-  sitemap,
-
-  // Add our custom GL reload plugin
-  glReloadPlugin(),
+	// Add our custom GL reload plugin
+	glReloadPlugin(),
 ];
 
 export default defineConfig({
-  server: {
-    prerender: {
-      // routes: ["/"],
-      crawlLinks: true /* prerenders all */,
-    },
-  },
-  vite: {
-    plugins,
-  },
-  // solid: {
-  //   hot: false,
-  // },
+	server: {
+		prerender: {
+			// routes: ["/"],
+			crawlLinks: true /* prerenders all */,
+		},
+	},
+	vite: {
+		plugins,
+	},
+	// solid: {
+	//   hot: false,
+	// },
 });

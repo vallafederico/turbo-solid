@@ -84,6 +84,9 @@ importers:
       '@local/sanity':
         specifier: workspace:*
         version: link:../../packages/sanity
+      '@local/seo':
+        specifier: workspace:*
+        version: link:../../packages/seo
       '@solid-primitives/intersection-observer':
         specifier: ^2.2.2
         version: 2.2.2(solid-js@1.9.9)
@@ -175,6 +178,24 @@ importers:
       walkjs:
         specifier: ^6.0.1
         version: 6.0.1
+
+  packages/seo:
+    dependencies:
+      '@solidjs/meta':
+        specifier: ^0.29.4
+        version: 0.29.4(solid-js@1.9.9)
+      '@solidjs/router':
+        specifier: ^0.15.3
+        version: 0.15.3(solid-js@1.9.9)
+      '@solidjs/start':
+        specifier: ^1.1.4
+        version: 1.2.0(solid-js@1.9.9)(vinxi@0.5.8(@netlify/blobs@9.1.1)(@types/node@24.7.2)(db0@0.3.4)(ioredis@5.8.1)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.0)(yaml@2.8.0))(vite@6.3.6(@types/node@24.7.2)(jiti@2.6.1)(lightningcss@1.30.1)(terser@5.44.0)(yaml@2.8.0))
+      minify-xml:
+        specifier: ^4.5.2
+        version: 4.5.2
+      solid-js:
+        specifier: ^1.9.4
+        version: 1.9.9
 
   scripts/optimise:
     dependencies:
@@ -5599,6 +5620,10 @@ packages:
     resolution: {integrity: sha512-iwxgEpSOx9BDLJMD0JAzNicqo9xdrvzt6w/aVwBKMndlA6z/DH41+o60H2uHB0vCR1Xr37UOgu9xFWJHvYsuKw==}
     engines: {node: '>=14.18'}
 
+  meow@13.2.0:
+    resolution: {integrity: sha512-pxQJQzB6djGPXh08dacEloMFopsOqGVRKFPYvPOt9XDZ1HasbgDZA74CJGreSU4G3Ak7EFJGoiH2auq+yXISgA==}
+    engines: {node: '>=18'}
+
   meow@9.0.0:
     resolution: {integrity: sha512-+obSblOQmRhcyBt62furQqRAQpNyWXo8BuQ5bN7dG8wmwQ+vwHKp/rCFD4CrTP8CsDQD1sjoZ94K417XEUk8IQ==}
     engines: {node: '>=10'}
@@ -5758,6 +5783,11 @@ packages:
   min-indent@1.0.1:
     resolution: {integrity: sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==}
     engines: {node: '>=4'}
+
+  minify-xml@4.5.2:
+    resolution: {integrity: sha512-iPNfX4n7pgJc3VFcf/Fbuzxdh2V8zNc8pLezVTLWJVxk8G/qmMijtgr7OkT5VAAGhWeIxpVH+WwgvigfF/6bZQ==}
+    engines: {node: '>=16'}
+    hasBin: true
 
   minimatch@10.0.3:
     resolution: {integrity: sha512-IPZ167aShDZZUMdRk66cyQAW3qr0WzbHkPdMYa8bzZhlHhO3jALbKdxcaak7W9FfT2rZNpQuUu4Od7ILEpXSaw==}
@@ -6403,6 +6433,9 @@ packages:
   pumpify@1.5.1:
     resolution: {integrity: sha512-oClZI37HvuUJJxSKKrC17bZ9Cu0ZYhEAGPsPUy9KlMUmv9dKX2o77RUmq7f3XjIxbwyGwYzbzQ1L2Ks8sIradQ==}
 
+  pumpify@2.0.1:
+    resolution: {integrity: sha512-m7KOje7jZxrmutanlkS1daj1dS6z6BgslzOXmcSEpIlCxM3VJH7lG5QLeck/6hgF6F4crFf01UtQmNsJfweTAw==}
+
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -6704,6 +6737,9 @@ packages:
 
   remark-stringify@11.0.0:
     resolution: {integrity: sha512-1OSmLd3awB/t8qdoEOMazZkNsfVTeY4fTsgzcQFdXNq8ToTN4ZGwrMnlda4K6smTFKD+GRV6O48i6Z4iKgPPpw==}
+
+  replacestream@4.0.3:
+    resolution: {integrity: sha512-AC0FiLS352pBBiZhd4VXB1Ab/lh0lEgpP+GGvZqbQh8a5cmXVoTe5EX/YeTFArnp4SRGTHh1qCHu9lGs1qG8sA==}
 
   require-directory@2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==}
@@ -12809,7 +12845,7 @@ snapshots:
 
   duplexify@4.1.3:
     dependencies:
-      end-of-stream: 1.4.4
+      end-of-stream: 1.4.5
       inherits: 2.0.4
       readable-stream: 3.6.2
       stream-shift: 1.0.3
@@ -14596,6 +14632,8 @@ snapshots:
 
   mendoza@3.0.8: {}
 
+  meow@13.2.0: {}
+
   meow@9.0.0:
     dependencies:
       '@types/minimist': 1.2.5
@@ -14849,6 +14887,12 @@ snapshots:
       dom-walk: 0.1.2
 
   min-indent@1.0.1: {}
+
+  minify-xml@4.5.2:
+    dependencies:
+      meow: 13.2.0
+      pumpify: 2.0.1
+      replacestream: 4.0.3
 
   minimatch@10.0.3:
     dependencies:
@@ -15535,6 +15579,12 @@ snapshots:
       inherits: 2.0.4
       pump: 2.0.1
 
+  pumpify@2.0.1:
+    dependencies:
+      duplexify: 4.1.3
+      inherits: 2.0.4
+      pump: 3.0.2
+
   punycode@2.3.1: {}
 
   qs@6.14.0:
@@ -15905,6 +15955,12 @@ snapshots:
       '@types/mdast': 4.0.4
       mdast-util-to-markdown: 2.1.2
       unified: 11.0.5
+
+  replacestream@4.0.3:
+    dependencies:
+      escape-string-regexp: 1.0.5
+      object-assign: 4.1.1
+      readable-stream: 2.3.8
 
   require-directory@2.1.1: {}
 
@@ -16678,7 +16734,7 @@ snapshots:
 
   stream-each@1.2.3:
     dependencies:
-      end-of-stream: 1.4.4
+      end-of-stream: 1.4.5
       stream-shift: 1.0.3
 
   stream-shift@1.0.3: {}
