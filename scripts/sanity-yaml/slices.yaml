@@ -1,4 +1,5 @@
 ThisIsName:
+  slug!: slug(title)
   stuff:
     you: string
     them: string

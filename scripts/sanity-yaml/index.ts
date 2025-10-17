@@ -4,6 +4,8 @@ import { generateFileset } from "~/generators";
 
 // const slices = yaml.parse(fs.readFileSync("./slices.yaml", "utf8"));
 
+// const
+
 registerHelpers();
 registerPartials("./templates/partials");
 generateFileset("slices", "./slices.yaml");

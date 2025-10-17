@@ -100,12 +100,10 @@ export const generateFileset = (filesetName: string, filepath: string) => {
 		const schema = createSchema(value);
 		const typeDefinition = createType(schema);
 
-		console.log("typeDefinition::", typeDefinition);
-
 		return { name: key, schema, typeDefinition };
 	});
 
-	// console.log("fileset::", fileset);
+	console.log("fileset::", fileset);
 
 	// console.log("processed::", processed);
 };

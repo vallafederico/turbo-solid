@@ -74,8 +74,14 @@ type ThingyThing = {
 
 ```
 
+# What is this
+I got tired of writing all my Sanity schmeas by hand. Tons of objects and validation parameters, a few hours of work every time to get right, THEN I had to go make frontend files and type them accordingly. Heavily inspired by (plopjs)[https://www.npmjs.com/package/plop] and built specifically to generate Typesafe frontend files and schemas.
+
 
 # Syntax
+
+## Gotchas
+90% of the syntax is native yaml. But we don't have support for native yaml arrays. The `[]` was chosen over this for its similarity to typescript (LINK TO THIS) and removing the need for keys in arrays, as Sanity doesn't need them either.
 
 ## Basics
 The basic structure of schemas within YAML is key/value pairs. Keys are field names, and values are field types.
@@ -92,10 +98,11 @@ The basic structure of schemas within YAML is key/value pairs. Keys are field na
 | `geopoint`        | `location: geopoint`         | Point with lat/lng                            |                                        |
 | `image`           | `thumbnail: image`           | Sanity image field                            |                                        |
 | `number`          | `count: number`              | Numeric value (integer or float)              | `score: number(1, 10)`                 |
-| `object`          | <pre>item:\n  label: string\n  value: string</pre> | Nested fields as an object        | <pre>options:\n  title: string\n  code: string</pre> |
+| `object`          | ``` stuff: -thing - thing ```| Nested fields as an object  | <pre>options:\n  title: string\n  code: string</pre> |
 | `reference`       | `author: ->author`           | Reference (relation) to another document      | `category: ->category[]` (array of refs)|
+| `reference array` | `clothing: ->(shirts,pants)` | Reference (relation) to another document      | `category: ->category[]` (array of refs)|
 | `string`          | `name: string`               | Plain text string                             | `status: string(active, inactive)`      |
-| `text`            | `description: text(4)`       | Plain text with multiple rows                 |                                        |
+| `text`            | `description: text(4)`       | Plain text with multiple rows                 |                                         |
 
 <strong>Coming soon:</strong>
 - slug

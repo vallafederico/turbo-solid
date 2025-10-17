@@ -5,14 +5,11 @@ import {
 	handleReferenceField,
 	handleStringField,
 	handleTextField,
+	handleSlugField,
 } from "~/fields";
-import { handleFileField } from "~/fields/file/file";
-import type {
-	ExtraFieldParams,
-	FieldHandlerReturn,
-	ProcessedGenericField,
-} from "~/types";
-import { fieldToTypeDefinition } from "~/typegen/typescript-handlers";
+import { handleFileField } from "~/fields/file";
+import type { FieldHandlerReturn } from "~/types";
+import { fieldToTypeDefinition } from "~/typegen";
 import { parseValidationRules } from "~/validation";
 
 const GENERIC_FIELD_TYPES = [
@@ -30,6 +27,7 @@ const FIELD_HANDLERS = {
 	array: handleArrayField,
 	email: handleStringField,
 	text: handleTextField,
+	slug: handleSlugField,
 	reference: handleReferenceField,
 	file: handleFileField,
 	...GENERIC_FIELD_TYPES.reduce((acc, type) => {
@@ -40,16 +38,18 @@ const FIELD_HANDLERS = {
 
 const parseFieldData = (name: string | null, type: string) => {
 	const options = typeof type === "string" ? type.match(/\((.*)\)/)?.[1] : null;
+	const cleanedTypeName =
+		typeof type === "string" ? type.replace(/\((.*)\)/, "") : type;
 
 	const field = {
-		_type: type,
+		_type: cleanedTypeName,
 		dataSignature: null,
 		options,
 	};
 
 	if (Array.isArray(type)) {
 		field._type = "array";
-		field.dataSignature = type;
+		field.dataSignature = cleanedTypeName;
 
 		return field;
 	}
@@ -62,38 +62,60 @@ const parseFieldData = (name: string | null, type: string) => {
 
 	if (typeof name === "string" && name?.includes("[]")) {
 		field._type = "array";
-		field.dataSignature = type;
+		field.dataSignature = cleanedTypeName;
 
 		return field;
 	}
 
 	if (typeof type === "object") {
 		field._type = "object";
-		field.dataSignature = type;
+		field.dataSignature = cleanedTypeName;
 
 		return field;
 	}
 
-	if (type?.includes("file")) {
+	if (cleanedTypeName === "file") {
 		field._type = "file";
-		field.dataSignature = type;
+		field.dataSignature = cleanedTypeName;
 
 		return field;
 	}
 
-	if (type?.includes("text")) {
+	if (cleanedTypeName === "text") {
 		field._type = "text";
 
 		return field;
 	}
 
-	if (type?.startsWith("string")) {
+	if (cleanedTypeName === "string") {
 		field._type = "string";
 
 		return field;
 	}
 
 	return field;
+};
+
+export const coalesce = (objKey: string, options: object | string | null) => {
+	const fieldOptions = {} as Record<string, string>;
+
+	if (!options) return {};
+
+	if (typeof options === "string") {
+		return { [objKey]: options };
+	}
+
+	for (const [key, value] of Object.entries(options)) {
+		if (value !== undefined) {
+			fieldOptions[key] = value as string;
+		}
+	}
+
+	if (Object.keys(fieldOptions).length === 0) {
+		return {};
+	}
+
+	return { [objKey]: fieldOptions };
 };
 
 export const handleField = (
@@ -131,7 +153,7 @@ export const handleField = (
 		...formattedField,
 		_PARAMS: {
 			type: fieldToTypeDefinition(formattedField),
-			validation: validation,
+			...coalesce("validation", validation),
 		},
 	};
 };
