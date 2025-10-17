@@ -16,9 +16,17 @@ const plugins = [
 	}),
 	sitemapPlugin({
 		domain: "https://yourdomain.com",
+		minify: true,
+		outDir: "dist",
 		sitemaps: {
-			pages: ["/", "/about/*"],
-			posts: ["/blog/*"],
+			pages: async () => [
+				{ url: "/", updated: "2025-10-17" },
+				{ url: "/about", updated: "2025-10-16" },
+			],
+			posts: async () => [
+				{ url: "/blog/post-1", updated: "2025-10-10" },
+				{ url: "/blog/post-2", updated: "2025-10-08" },
+			],
 		},
 	}),
 

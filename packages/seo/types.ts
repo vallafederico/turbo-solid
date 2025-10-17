@@ -55,7 +55,7 @@ export type SitemapConfig = {
 	 */
 	robots?: () => Promise<string> | string;
 	/**
-	 * (Optional) If true, sitemap.xml outputs will be minified via minify-xml
+	 * (Optional) If true, disables minification for all output XML. Defaults to false (so XML is minified by default for SEO best practices).
 	 */
-	minify?: boolean;
+	disableMinification?: boolean;
 };

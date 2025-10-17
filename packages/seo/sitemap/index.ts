@@ -4,33 +4,23 @@ import { createSitemapXml, createIndexSitemap, createFile } from "./utils";
 import { createRobotsTxt, DEFAULT_ROBOTS_TXT } from "../robots";
 import type { SitemapConfig, SitemapEntry } from "../types";
 
-// Reasonable default robots.txt rules
-
-
-const sampleConfig: SitemapConfig = {
+const DEFAULT_CONFIG: SitemapConfig = {
 	outDir: "dist",
 	domain: "https://yourdomain.com",
-	minify: true,
-	sitemaps: {
-		pages: async () => [
-			{ url: "/", updated: "2025-10-17" },
-			{ url: "/about", updated: "2025-10-16" },
-		],
-		posts: async () => [
-			{ url: "/blog/post-1", updated: "2025-10-10" },
-			{ url: "/blog/post-2", updated: "2025-10-08" },
-		],
-	},
+	disableMinification: false,
+	sitemaps: { pages: async () => [] },
 	robots: async () => DEFAULT_ROBOTS_TXT,
 };
 
-export default function sitemapPlugin(config: SitemapConfig = sampleConfig) {
+export default function sitemapPlugin(config: SitemapConfig = DEFAULT_CONFIG) {
 	const domain = config?.domain;
 	if (!domain) {
 		throw new Error("Domain is required for sitemap generation");
 	}
 
 	const outDir = config?.outDir || "dist";
+
+	const minify = !config?.disableMinification;
 
 	/**
 	 * Creates robots.txt handling custom async/user rules and always adds sitemaps at the end.
@@ -59,7 +49,7 @@ export default function sitemapPlugin(config: SitemapConfig = sampleConfig) {
 	};
 
 	const createSitemap = async (filename: string, urls: SitemapEntry[]) => {
-		const xml = await createSitemapXml(urls, { minify: config?.minify });
+		const xml = await createSitemapXml(urls, { minify });
 		createFile(outDir, `${filename}.xml`, xml);
 	};
 
@@ -92,7 +82,7 @@ export default function sitemapPlugin(config: SitemapConfig = sampleConfig) {
 			const indexXml = await createIndexSitemap(
 				allSitemaps.map((s: string) => s.slice(1)),
 				domain,
-				{ minify: config?.minify },
+				{ minify },
 			);
 			createFile(outDir, "sitemap.xml", indexXml);
 			await createRobots(["/sitemap.xml", ...allSitemaps]);
