@@ -2,6 +2,7 @@ export * from "./types";
 
 // Utils
 export * from "./utils/query";
+export * from "./utils/seo-queries";
 export * from "./utils/assets";
 export * from "./utils/link";
 

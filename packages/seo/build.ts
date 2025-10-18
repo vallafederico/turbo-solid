@@ -1,30 +1,47 @@
-import { mergeSeoData } from "./utils/merge";
+import {
+	mergeSeoData,
+	type PageMetadata,
+	type SeoDefaults,
+	type MergedMetadata,
+} from "./utils/merge";
+import { composeSchema, type SchemaDefaults } from "./schema-markup";
 
-// seo/build.ts
+export type BuildSeoPayloadParams = {
+	globalDefaults?: SeoDefaults;
+	schemaDefaults?: SchemaDefaults;
+	pageSeo?: PageMetadata;
+	pageSchemaType?: string;
+	extraSchemaData?: Record<string, unknown>;
+};
+
+export type BuildSeoPayloadResult = {
+	meta: MergedMetadata;
+	schema?: unknown[];
+};
+
+/**
+ * Builds the complete SEO payload for a page
+ * Merges global defaults with page-specific metadata
+ */
 export function buildSeoPayload({
 	globalDefaults,
-	typeDefaults,
+	schemaDefaults,
 	pageSeo,
 	pageSchemaType,
 	extraSchemaData,
-}: {
-	globalDefaults: SeoData;
-	typeDefaults?: SeoData;
-	pageSeo?: SeoData;
-	pageSchemaType?: string;
-	extraSchemaData?: Record<string, any>;
-}) {
-	const merged = mergeSeoData(
-		globalDefaults,
-		typeDefaults || {},
-		pageSeo || {},
-	);
+}: BuildSeoPayloadParams): BuildSeoPayloadResult {
+	// Merge SEO data: page metadata overrides global defaults
+	const merged = mergeSeoData(pageSeo, globalDefaults);
 
-	const schema = composeSchema({
-		seo: merged,
-		type: pageSchemaType || "webpage",
-		extra: extraSchemaData,
-	});
+	// Compose schema markup if defaults are provided
+	const schema = schemaDefaults
+		? composeSchema({
+				seo: merged,
+				schemaDefaults,
+				type: pageSchemaType || "WebPage",
+				extra: extraSchemaData,
+			})
+		: undefined;
 
 	return {
 		meta: merged,

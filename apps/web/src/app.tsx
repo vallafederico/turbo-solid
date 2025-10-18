@@ -22,7 +22,6 @@ export default function App() {
 			root={(props) => (
 				<MetaProvider>
 					{/* <PageTransition> */}
-					<Title>SolidStart - Basic</Title>
 					<Link rel="robots" type="text/plain" href="/api/robots.txt" />
 
 					<Nav />

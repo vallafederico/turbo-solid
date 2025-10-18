@@ -20,6 +20,7 @@ export type SeoDefaults = {
  */
 export type PageMetadata = {
 	title: string;
+	schemaMarkup?: string;
 	metadata?: {
 		description?: string;
 		canonicalUrl?: string;
@@ -29,21 +30,36 @@ export type PageMetadata = {
 			noFollow?: boolean;
 		};
 	};
+	_createdAt?: string;
+	_updatedAt?: string;
 };
 
 /**
  * Merged metadata result
  */
 export type MergedMetadata = {
-	title: string;
+	title?: string;
 	description?: string;
-	canonicalUrl: string;
+	canonicalUrl?: string;
 	metaImage?: SanityImageAssetDocument;
 	favicon?: SanityImageAssetDocument;
 	twitterHandle?: string;
-	noIndex?: boolean;
-	noFollow?: boolean;
+	robots?: string;
 	schemaMarkup?: string;
+};
+
+const buildRobotsString = ({
+	noIndex = false,
+	noFollow = false,
+}: { noIndex?: boolean; noFollow?: boolean }) => {
+	const parts = [];
+
+	if (noIndex) parts.push("noindex");
+	if (noFollow) parts.push("nofollow");
+
+	if (parts.length === 0) return undefined;
+
+	return parts.join(",");
 };
 
 /**
@@ -51,11 +67,42 @@ export type MergedMetadata = {
  * Page metadata takes precedence over defaults
  */
 export const mergeSeoData = (
-	page: PageMetadata,
-	seoDefaults: SeoDefaults,
+	page?: PageMetadata,
+	seoDefaults?: SeoDefaults,
 ): MergedMetadata => {
-	if (!page || !seoDefaults) return {};
+	// If no data available, return minimal metadata
+	if (!page && !seoDefaults) {
+		console.warn("mergeSeoData: No page or seoDefaults provided");
+		return {
+			title: undefined,
+			description: undefined,
+		};
+	}
 
+	// If only defaults available
+	if (!page) {
+		console.warn("mergeSeoData: No page data provided");
+		return {
+			title: seoDefaults?.siteTitle,
+			description: seoDefaults?.metaDescription,
+			canonicalUrl: seoDefaults?.siteUrl,
+			favicon: seoDefaults?.favicon,
+			twitterHandle: seoDefaults?.twitterHandle,
+		};
+	}
+
+	// If only page data available (no defaults)
+	if (!seoDefaults) {
+		console.warn("mergeSeoData: No seoDefaults provided");
+		return {
+			title: page.title,
+			description: page.metadata?.description,
+			canonicalUrl: page.metadata?.canonicalUrl,
+			schemaMarkup: page.schemaMarkup,
+		};
+	}
+
+	// Both page and defaults available - merge them
 	return {
 		// Generate title using template
 		title: createMetaTitle(
@@ -69,10 +116,9 @@ export const mergeSeoData = (
 		metaImage: page.metadata?.metaImage,
 		favicon: seoDefaults.favicon,
 		twitterHandle: seoDefaults.twitterHandle,
-		...(page.metadata?.searchVisibility || {
-			noIndex: false,
-			noFollow: false,
-		}),
+		robots: buildRobotsString(
+			page.metadata?.searchVisibility || { noIndex: false, noFollow: false },
+		),
 		schemaMarkup: page.schemaMarkup,
 	};
 };

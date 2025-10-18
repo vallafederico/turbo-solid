@@ -1,60 +1,41 @@
-import type { WebSite } from "schema-dts";
-import { createAsync } from "@solidjs/router";
-import { getDocumentByType } from "@local/sanity";
-import { buildWebPageSchema } from "./utils/webpage";
-import { Show } from "solid-js";
-import { createMetaTitle } from "../utils/meta-title";
-import { mergeSeoData } from "../utils/merge";
+import { For } from "solid-js";
+import { composeSchema, type SchemaDefaults } from "./compose";
+import type { MergedMetadata } from "../utils/merge";
+
+export type SchemaMarkupProps = {
+	seo: MergedMetadata;
+	schemaDefaults?: SchemaDefaults;
+	type?: string;
+	extra?: Record<string, unknown>;
+};
 
 export default function SchemaMarkup({
-	schemaMarkup,
-	title,
-	_createdAt,
-	_updatedAt,
-}: {
-	data: any;
-	title: string;
-	_createdAt: string;
-	_updatedAt: string;
-}) {
-	const defaults = createAsync(() => {
-		return Promise.all([
-			getDocumentByType("schemaMarkupDefaults"),
-			getDocumentByType("seoDefaults"),
-		]);
+	seo,
+	schemaDefaults,
+	type,
+	extra,
+}: SchemaMarkupProps) {
+	const schemas = composeSchema({
+		seo,
+		schemaDefaults,
+		type,
+		extra,
 	});
-	// const seoDefaults = createAsync(() => getDocumentByType("seoDefaults"));
 
-	const schemaGenerators = {
-		WebPage: buildWebPageSchema,
-	};
+	if (!schemas || schemas.length === 0) {
+		return null;
+	}
 
 	return (
-		<Show when={defaults()}>
-			{(data) => {
-				const [schemaMarkupDefaults, seoDefaults] = data();
-				const mergedMetadata = mergeSeoData(data, seoDefaults);
-				const metaTitle = createMetaTitle(
-					title,
-					seoDefaults?.siteTitle,
-					seoDefaults?.pageTitleTemplate,
-				);
-
-				return (
-					<script type="application/ld+json">
-						{JSON.stringify(
-							schemaGenerators?.[
-								schemaMarkup.type as keyof typeof schemaGenerators
-							]?.({
-								...schemaMarkupDefaults,
-								...seoDefaults,
-								...data,
-								title: metaTitle,
-							}),
-						)}
-					</script>
-				);
-			}}
-		</Show>
+		<>
+			<For each={schemas}>
+				{(schema) => (
+					<script
+						type="application/ld+json"
+						innerHTML={JSON.stringify(schema)}
+					/>
+				)}
+			</For>
+		</>
 	);
 }

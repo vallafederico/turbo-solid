@@ -4,6 +4,8 @@ import { schemaMarkupProductFields } from "./product-entity";
 import { schemaMarkupEventFields } from "./event-entity";
 import { schemaMarkupFAQPageFields } from "./faq-entity";
 import { schemaMarkupPersonFields } from "./person-entity";
+import { schemaMarkupAboutPageFields } from "./about-page-entity";
+import { schemaMarkupContactPageFields } from "./contact-page-entity";
 
 export default [
 	schemaMarkupArticleFields,
@@ -12,4 +14,6 @@ export default [
 	schemaMarkupFAQPageFields,
 	schemaMarkupWebPageFields,
 	schemaMarkupPersonFields,
+	schemaMarkupAboutPageFields,
+	schemaMarkupContactPageFields,
 ];
