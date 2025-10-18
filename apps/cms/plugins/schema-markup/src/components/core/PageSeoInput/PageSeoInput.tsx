@@ -7,6 +7,7 @@ import TwitterCard from "../../socials/twitter/TwitterCard";
 import GoogleEntry from "../../socials/google/GoogleEntry";
 import { PreviewGroup } from "./PreviewGroup";
 import { concatenatePageTitle } from "../../../utils/string";
+import ButtonWithIcon from "../../partials/ButtonWithIcon";
 
 const PREVIEW_GROUPS = [
 	{
@@ -15,7 +16,7 @@ const PREVIEW_GROUPS = [
 		title: "Facebook",
 	},
 	{
-		name: "Twitter",
+		name: "Twitter / X",
 		component: TwitterCard,
 		title: "Twitter",
 	},
@@ -59,26 +60,27 @@ export default function PageSeoInput(props: ObjectInputProps) {
 
 	return (
 		<div>
-			<Box marginY={2}>
-				<Flex gap={2}>
+			<Box marginBottom={4} width="fill">
+				<Flex gap={2} width="fill">
 					{MODES.map((m: SeoInputMode) => (
-						<Box key={m.name}>
-							<Button
-								padding={1}
-								icon={m.icon}
-								mode={m.name === currentMode ? "default" : "ghost"}
-								onClick={() => setCurrentMode(m.name)}
-							>
-								{m.title}
-							</Button>
-						</Box>
+						<ButtonWithIcon
+							key={m.name}
+							buttonProps={{
+								padding: 2,
+								width: "fill",
+								mode: m.name === currentMode ? "default" : "ghost",
+								onClick: () => setCurrentMode(m.name),
+							}}
+							label={m.title}
+							icon={m.icon}
+						/>
 					))}
 				</Flex>
 			</Box>
 
 			{currentMode === "fields" && props.renderDefault(props)}
 			{currentMode === "preview" && (
-				<Flex gap={7} marginTop={6} direction="column">
+				<Flex gap={6} marginTop={6} direction="column">
 					{PREVIEW_GROUPS.map((group) => (
 						<PreviewGroup key={group.name} title={group.title}>
 							<group.component {...seoData} />

@@ -39,6 +39,13 @@ export const seoDefaults = defineType({
 			group: "metadata",
 		}),
 		defineField({
+			name: "metaDescription",
+			type: "metaDescription",
+			group: "metadata",
+			description: "The default meta description for all pages.",
+			// validation: (Rule) => Rule.required(),
+		}),
+		defineField({
 			name: "siteUrl",
 			title: "Base URL",
 			type: "url",

@@ -7,7 +7,7 @@ export function PreviewGroup({
 	return (
 		<div>
 			<Box marginBottom={4}>
-				<Text weight="semibold" size={4}>
+				<Text weight="semibold" size={2}>
 					{title}
 				</Text>
 			</Box>

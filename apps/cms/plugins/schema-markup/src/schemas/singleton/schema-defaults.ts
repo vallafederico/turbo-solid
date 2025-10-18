@@ -245,13 +245,6 @@ export const schemaMarkupDefaults = defineType({
 			options: { collapsible: true, collapsed: true },
 			fields: [
 				{
-					name: "prettyPrint",
-					type: "boolean",
-					initialValue: false,
-					description:
-						"Pretty-print JSON-LD in preview (not recommended in prod).",
-				},
-				{
 					name: "multiLocaleStrategy",
 					type: "string",
 					initialValue: "one-per-locale",

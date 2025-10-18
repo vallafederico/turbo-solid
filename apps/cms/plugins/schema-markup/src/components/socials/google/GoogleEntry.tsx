@@ -3,6 +3,7 @@ import styles from "./GoogleEntry.module.css";
 import { truncate } from "../../../utils/string";
 import type { PreviewCardProps } from "../../../types";
 import { useRootTheme } from "@sanity/ui";
+import SocialCardWrapper from "../../partials/SocialCardWrapper";
 
 export function GoogleEntry(props: PreviewCardProps) {
 	const fallback = {
@@ -17,7 +18,7 @@ export function GoogleEntry(props: PreviewCardProps) {
 	const theme = useRootTheme();
 
 	return (
-		<Card className={styles.googleCard} radius={2} shadow={1} tone="default">
+		<SocialCardWrapper>
 			<Box padding={3}>
 				<Stack space={3}>
 					<Flex align="center" marginBottom={2} gap={2}>
@@ -46,7 +47,7 @@ export function GoogleEntry(props: PreviewCardProps) {
 					</Text>
 				</Stack>
 			</Box>
-		</Card>
+		</SocialCardWrapper>
 	);
 }
 

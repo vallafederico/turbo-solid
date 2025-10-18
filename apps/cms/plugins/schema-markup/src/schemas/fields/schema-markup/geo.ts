@@ -4,7 +4,7 @@ export const schemaMarkupGeo = defineType({
 	name: "schemaMarkupGeo",
 	title: "Geo Coordinates",
 	type: "object",
-	options: { collapsible: true, collapsed: true },
+	options: { collapsible: true, collapsed: true, columns: 2 },
 	fields: [
 		{ name: "latitude", type: "number", validation: (r) => r.min(-90).max(90) },
 		{

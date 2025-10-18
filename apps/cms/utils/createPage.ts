@@ -77,6 +77,11 @@ export const createPage = (opts: PageAttributes) => {
 			group: "seo",
 			type: "metadata",
 		});
+		allFields.push({
+			name: "schemaMarkup",
+			group: "schema-markup",
+			type: "schemaMarkup",
+		});
 	}
 
 	if (slug && !prefix) {

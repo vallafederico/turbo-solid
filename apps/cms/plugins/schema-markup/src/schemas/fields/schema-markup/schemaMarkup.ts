@@ -1,29 +1,39 @@
 // src/schema/field.ts
 import { defineType, defineField } from "sanity";
-import { needs } from "../../utils/needs";
+import { needs } from "../../../utils/needs";
+import PageSchemaMarkupInput from "../../../components/core/PageSchemaMarkupInput/PageSchemaMarkupInput";
+import ButtonSelector from "../../../../../../components/ButtonSelector";
+import {
+	MdArticle,
+	MdBusiness,
+	MdEvent,
+	MdPageview,
+	MdQuestionAnswer,
+	MdShoppingBag,
+	MdWeb,
+	MdPerson,
+	MdStore,
+} from "react-icons/md";
+import SchemaMarkupTypeSelector from "../../../components/core/PageSchemaMarkupInput/SchemaMarkupTypeSelector";
+import { SCHEMA_MARKUP_TYPES } from "../../../globals";
 
 export const schemaMarkup = defineType({
 	name: "schemaMarkup",
 	title: "Schema Markup",
+	components: {
+		input: PageSchemaMarkupInput,
+	},
 	type: "object",
 	fields: [
 		defineField({
 			name: "type",
 			title: "Schema Type",
 			type: "string",
+			components: {
+				input: SchemaMarkupTypeSelector,
+			},
 			options: {
-				list: [
-					{ title: "WebSite", value: "WebSite" },
-					{ title: "WebPage", value: "WebPage" },
-					{ title: "Article", value: "Article" },
-					{ title: "Product", value: "Product" },
-					{ title: "Event", value: "Event" },
-					{ title: "FAQPage", value: "FAQPage" },
-					// { title: "BreadcrumbList", value: "BreadcrumbList" },
-					{ title: "Organization", value: "Organization" },
-					{ title: "Person", value: "Person" },
-					{ title: "LocalBusiness", value: "LocalBusiness" },
-				],
+				list: [...Object.values(SCHEMA_MARKUP_TYPES)],
 				layout: "radio",
 			},
 			validation: (Rule) => Rule.required(),

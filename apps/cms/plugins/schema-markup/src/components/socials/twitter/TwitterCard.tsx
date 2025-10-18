@@ -2,6 +2,7 @@ import { Card, Stack, Text, Box, Avatar, Flex } from "@sanity/ui";
 import styles from "./TwitterCard.module.css";
 import { truncate } from "../../../utils/string";
 import type { PreviewCardProps } from "../../../types";
+import SocialCardWrapper from "../../partials/SocialCardWrapper";
 
 export function TwitterCard(props: PreviewCardProps) {
 	const fallback = {
@@ -18,7 +19,7 @@ export function TwitterCard(props: PreviewCardProps) {
 		...props,
 	};
 	return (
-		<Card className={styles.twitterCard} radius={2} shadow={1} tone="default">
+		<SocialCardWrapper>
 			<Flex gap={2} padding={3} className={styles.userRow}>
 				<Avatar src={data.avatar} size={3} />
 				<Stack space={2}>
@@ -48,7 +49,7 @@ export function TwitterCard(props: PreviewCardProps) {
 					<Text size={2}>{truncate(data.description, 120)}</Text>
 				</Flex>
 			</Box>
-		</Card>
+		</SocialCardWrapper>
 	);
 }
 

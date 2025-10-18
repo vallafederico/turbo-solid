@@ -1,4 +1,5 @@
-import PageSeoInput from "../../components/core/PageSeoInput/PageSeoInput";
+import InputWithGlobalDefault from "../../../components/core/InputWithGlobalDefault/InputWithGlobalDefault";
+import PageSeoInput from "../../../components/core/PageSeoInput/PageSeoInput";
 
 export default {
 	name: "metadata",
@@ -12,6 +13,12 @@ export default {
 		{
 			name: "description",
 			title: "Meta Description",
+			components: {
+				input: InputWithGlobalDefault,
+			},
+			options: {
+				matchingDefaultField: "metaDescription",
+			},
 			type: "text",
 			rows: 3,
 			description:
@@ -22,10 +29,9 @@ export default {
 				),
 		},
 		{
-			name: "noIndex",
-			title: "No Index",
-			type: "boolean",
-			description: "If true, the page will not be indexed by search engines.",
+			name: "indexing",
+			title: "Indexing Controls",
+			type: "indexing",
 		},
 		{
 			name: "canonicalUrl",
@@ -36,6 +42,12 @@ export default {
 		},
 		{
 			name: "metaImage",
+			components: {
+				input: InputWithGlobalDefault,
+			},
+			options: {
+				matchingDefaultField: "metaImage",
+			},
 			title: "Meta Image",
 			description:
 				"Displayed when the site link is posted on social media, defaults to a screenshot of the homepage.",
