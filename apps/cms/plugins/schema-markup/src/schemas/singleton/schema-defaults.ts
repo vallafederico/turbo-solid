@@ -57,6 +57,13 @@ export const schemaMarkupDefaults = defineType({
 
 		// ---- Image & Media Fallbacks ----
 		defineField({
+			name: "logo",
+			title: "Global Logo",
+			type: "image",
+			description:
+				"Default logo used for Organization and WebSite schemas when no specific logo is provided.",
+		}),
+		defineField({
 			name: "imageFallback",
 			title: "Default Image",
 			type: "image",

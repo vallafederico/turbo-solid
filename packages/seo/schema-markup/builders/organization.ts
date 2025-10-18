@@ -48,7 +48,10 @@ export function buildOrganization(
 		"@id": id,
 		name: organization.name,
 		url: organization.url,
-		logo: getImageUrl(organization.logo, schemaDefaults?.imageFallback),
+		logo: getImageUrl(
+			organization.logo,
+			schemaDefaults?.logo || schemaDefaults?.imageFallback,
+		),
 		sameAs: organization.sameAs || schemaDefaults?.sameAs,
 		department: departments,
 		contactPoint,

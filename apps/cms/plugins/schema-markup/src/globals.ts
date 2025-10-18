@@ -9,9 +9,13 @@ import {
 	MdPerson,
 	MdStore,
 	MdCreate,
+	MdPeople,
+	MdEmail,
 } from "react-icons/md";
 
 export const SCHEMA_MARKUP_TYPES = {
+	AboutPage: { title: "AboutPage", value: "AboutPage", icon: MdPeople },
+	ContactPage: { title: "ContactPage", value: "ContactPage", icon: MdEmail },
 	Article: { title: "Article", value: "Article", icon: MdArticle },
 	CreativeWork: {
 		title: "CreativeWork",

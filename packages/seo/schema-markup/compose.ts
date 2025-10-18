@@ -24,6 +24,7 @@ import type {
 
 export type SchemaDefaults = {
 	sameAs?: string[];
+	logo?: SchemaImage; // Global logo fallback
 	organization?: SchemaOrganization;
 	publisher?: SchemaOrganization;
 	imageFallback?: SchemaImage;
@@ -104,8 +105,14 @@ export function composeSchema({
 
 	// Helper to recursively add organization and all its departments
 	const addOrgWithDepartments = (org: SchemaOrganization) => {
+		// Apply global logo fallback if organization doesn't have a logo
+		const orgWithDefaults = {
+			...org,
+			logo: org.logo || schemaDefaults?.logo,
+		};
+
 		// Add the organization itself
-		addEntity(org, (o) =>
+		addEntity(orgWithDefaults, (o) =>
 			buildOrganization(o as SchemaOrganization, schemaDefaults, baseUrl),
 		);
 
@@ -165,7 +172,12 @@ export function composeSchema({
 	if (extra?.organizer && Array.isArray(extra.organizer)) {
 		for (const organizer of extra.organizer) {
 			if (organizer && typeof organizer === "object" && "name" in organizer) {
-				addEntity(organizer, (entity) =>
+				// Apply logo fallback for organizations
+				const entityWithDefaults =
+					"jobTitle" in organizer
+						? organizer
+						: { ...organizer, logo: organizer.logo || schemaDefaults?.logo };
+				addEntity(entityWithDefaults, (entity) =>
 					buildPersonOrOrg(
 						entity as SchemaPerson | SchemaOrganization,
 						false,
@@ -179,7 +191,12 @@ export function composeSchema({
 	if (extra?.performer && Array.isArray(extra.performer)) {
 		for (const performer of extra.performer) {
 			if (performer && typeof performer === "object" && "name" in performer) {
-				addEntity(performer, (entity) =>
+				// Apply logo fallback for organizations
+				const entityWithDefaults =
+					"jobTitle" in performer
+						? performer
+						: { ...performer, logo: performer.logo || schemaDefaults?.logo };
+				addEntity(entityWithDefaults, (entity) =>
 					buildPersonOrOrg(
 						entity as SchemaPerson | SchemaOrganization,
 						false,

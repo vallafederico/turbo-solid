@@ -1,27 +1,18 @@
 // schema/builders/utils.ts
 import type { SanityImageAssetDocument } from "@sanity/client";
 import type { SchemaImage, SchemaPerson, SchemaOrganization } from "../types";
+import { resolveImageUrl } from "../../utils/image";
 
 /**
  * Helper to extract image URL from Sanity image asset or fallback
+ * Supports URL strings, objects with url property, and Sanity image objects
  */
 export function getImageUrl(
 	image?: SchemaImage,
 	fallback?: SchemaImage,
 ): string | undefined {
-	if (typeof image === "string") {
-		return image;
-	}
-
-	if (image && typeof image === "object" && "url" in image) {
-		return image.url;
-	}
-
-	if (fallback && typeof fallback === "object" && "url" in fallback) {
-		return fallback.url;
-	}
-
-	return undefined;
+	// @ts-expect-error - SchemaImage is compatible with ImageSource
+	return resolveImageUrl(image, fallback);
 }
 
 /**
@@ -116,7 +107,7 @@ export function buildOrgSchema(
 		"@id": id,
 		name: org.name,
 		url: org.url,
-		logo: getImageUrl(org.logo),
+		logo: getImageUrl(org.logo), // Logo should be provided or defaults applied upstream
 		sameAs: org.sameAs,
 		department: departments,
 		contactPoint,
