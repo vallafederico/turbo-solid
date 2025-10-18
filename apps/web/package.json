@@ -27,7 +27,7 @@
     "vinxi": "^0.5.8"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=22"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.14",

@@ -1,3 +1,4 @@
+import { MdPerson } from "react-icons/md";
 import { defineType, defineField } from "sanity";
 
 /**
@@ -9,8 +10,8 @@ import { defineType, defineField } from "sanity";
 export const schemaMarkupPerson = defineType({
 	name: "schemaMarkupPerson",
 	title: "Person",
-	type: "object",
-	options: { collapsible: true, collapsed: true },
+	type: "document",
+	icon: MdPerson,
 	validation: (Rule) =>
 		Rule.custom((val) => {
 			if (!val) return true;

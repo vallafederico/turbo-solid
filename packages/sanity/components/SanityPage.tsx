@@ -1,7 +1,6 @@
 import type { SanityDocumentStub } from "@sanity/client";
 import { Show, Suspense } from "solid-js";
 import type { JSX } from "solid-js";
-import { SanityMeta } from "..";
 
 interface SanityPageProps {
   children: (data: SanityDocumentStub) => JSX.Element;

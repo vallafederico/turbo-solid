@@ -1,0 +1,11 @@
+{
+  "name": "crawl-me-maybe",
+  "version": "1.0.0",
+  "author": "Nathan Nye",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@sanity-image/url-builder": "^1.0.0",
+    "react-icons": "^5.5.0"
+  }
+}

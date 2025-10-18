@@ -3,10 +3,13 @@
 	"type": "module",
 	"main": "./index.ts",
 	"dependencies": {
+		"@local/sanity": "workspace:*",
+		"@sanity/types": "^4.10.3",
 		"@solidjs/meta": "^0.29.4",
 		"@solidjs/router": "^0.15.3",
 		"@solidjs/start": "^1.1.4",
 		"minify-xml": "^4.5.2",
+		"schema-dts": "^1.1.5",
 		"solid-js": "^1.9.4"
 	}
 }

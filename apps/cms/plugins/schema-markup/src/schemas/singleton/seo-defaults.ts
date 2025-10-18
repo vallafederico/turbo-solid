@@ -48,7 +48,7 @@ export const seoDefaults = defineType({
 		}),
 		defineField({
 			name: "siteUrl",
-			title: "Base URL",
+			title: "Site URL",
 			type: "url",
 			description:
 				"Root URL of the website (e.g. https://your-domain.com). Used for canonical and OG tags.",

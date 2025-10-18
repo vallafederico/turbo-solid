@@ -29,9 +29,8 @@ export default {
 				),
 		},
 		{
-			name: "indexing",
-			title: "Indexing Controls",
-			type: "indexing",
+			name: "searchVisibility",
+			type: "searchVisibility",
 		},
 		{
 			name: "canonicalUrl",
