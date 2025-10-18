@@ -1,4 +1,4 @@
-import PageSeoInput from "../../components/core/PageSeoInput";
+import PageSeoInput from "../../components/core/PageSeoInput/PageSeoInput";
 
 export default {
 	name: "metadata",

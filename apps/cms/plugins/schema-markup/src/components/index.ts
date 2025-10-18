@@ -1,1 +1,1 @@
-export * from "./core/PageSeoInput";
+export * from "./core/PageSeoInput/PageSeoInput";

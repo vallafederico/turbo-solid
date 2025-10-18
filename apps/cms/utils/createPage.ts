@@ -1,7 +1,8 @@
-import { pageDefaultsGroups, pageDefaultsSeo } from "./_pageDefaults";
+import { pageDefaultsGroups } from "./_pageDefaults";
 import { HiDocumentText } from "react-icons/hi";
-import { IconType } from "react-icons/lib";
-import { FieldDefinition, FormFieldGroup } from "sanity";
+import type { IconType } from "react-icons/lib";
+import type { FieldDefinition, FormFieldGroup } from "sanity";
+
 import { SlugInput } from "sanity-plugin-prefixed-slug";
 
 type PageAttributes = {
@@ -73,6 +74,7 @@ export const createPage = (opts: PageAttributes) => {
 	if (seo !== false) {
 		allFields.push({
 			name: "seo",
+			group: "seo",
 			type: "metadata",
 		});
 	}
