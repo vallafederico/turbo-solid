@@ -1,5 +1,6 @@
 import { MdSearch, MdShare } from "react-icons/md";
 import { defineField, defineType } from "sanity";
+import FaviconPreview from "../../components/core/Favicon/FaviconPreview";
 
 export const seoDefaults = defineType({
 	name: "seoDefaults",
@@ -57,6 +58,9 @@ export const seoDefaults = defineType({
 		defineField({
 			name: "favicon",
 			type: "image",
+			components: {
+				input: FaviconPreview,
+			},
 			description:
 				"The favicon of the site. To create the sharpest fallback images possible, use an SVG. Careful with transparent backgrounds, a user might have light or dark mode enabled.",
 			group: "metadata",

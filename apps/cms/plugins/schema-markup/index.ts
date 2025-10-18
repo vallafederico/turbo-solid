@@ -7,7 +7,7 @@ import singleton from "./src/schemas/singleton";
 import SeoLayoutWrapper from "./src/components/core/SeoLayoutWrapper";
 
 export const schemaMarkupPlugin = definePlugin({
-	name: "schema-markup",
+	name: "crawl-me-maybe",
 
 	schema: {
 		types: [...fieldGroups, ...global, ...entities, ...singleton],

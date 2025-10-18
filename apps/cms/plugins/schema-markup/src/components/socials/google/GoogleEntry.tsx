@@ -1,4 +1,4 @@
-import { Card, Stack, Text, Box, Flex, Avatar, useTheme } from "@sanity/ui";
+import { Card, Stack, Text, Box, Flex, Avatar } from "@sanity/ui";
 import styles from "./GoogleEntry.module.css";
 import { truncate } from "../../../utils/string";
 import type { PreviewCardProps } from "../../../types";

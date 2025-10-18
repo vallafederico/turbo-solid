@@ -1,0 +1,27 @@
+.card {
+	&[data-theme="dark"] {
+		--card-bg: #22242a;
+		--tab-bg: #22242a;
+		--tab-shadow: 0px 1.5px 3px 0px #181a1f, 0px 0.5px 0.5px 0.2px #23272b;
+		--tab-border: 1.5px solid #32353b;
+		--tab-favicon-bg: #22242a;
+		--tab-favicon-border: 1px solid #44464a;
+		--tab-url-text-color: #e1e6f0;
+	}
+	&[data-theme="light"] {
+		--card-bg: #fff;
+		--tab-bg: #fff;
+		--tab-shadow: 0px 1.5px 3px 0px #ececec, 0px 0.5px 0.5px 0.2px #d4d9db;
+		--tab-border: 1.5px solid #e7ebed;
+		--tab-favicon-bg: #fff;
+		--tab-favicon-border: 1px solid #e5e5e5;
+		--tab-url-text-color: #242629;
+	}
+
+	& [data-tab-display] {
+		background: var(--tab-bg);
+		font-family: "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI",
+			"Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+			"Helvetica Neue", sans-serif;
+	}
+}
