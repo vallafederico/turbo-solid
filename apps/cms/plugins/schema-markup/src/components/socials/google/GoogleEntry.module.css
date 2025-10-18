@@ -1,0 +1,20 @@
+.googleCard {
+	border: 1px solid #e1e4e8;
+	background: #fff;
+	max-width: 550px;
+	margin: 0 auto;
+	box-sizing: border-box;
+	font-family: Arial, sans-serif;
+}
+.title {
+	color: #1a0dab;
+	margin-bottom: 0.2em;
+}
+.site {
+	color: #202124;
+	font-size: 0.95em;
+	margin-bottom: 0.15em;
+}
+.desc {
+	color: #4d5156;
+}

@@ -4,7 +4,7 @@ import { defineType, defineField } from "sanity";
 
 export const schemaMarkupOrganization = defineType({
 	name: "schemaMarkupOrganization",
-	title: "Organization (Ref or Inline)",
+	title: "Organization",
 	type: "object",
 	options: { collapsible: true, collapsed: true },
 	validation: (Rule) =>

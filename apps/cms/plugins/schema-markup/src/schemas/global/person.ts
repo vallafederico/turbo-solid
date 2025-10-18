@@ -8,7 +8,7 @@ import { defineType, defineField } from "sanity";
 
 export const schemaMarkupPerson = defineType({
 	name: "schemaMarkupPerson",
-	title: "Person (Ref or Inline)",
+	title: "Person",
 	type: "object",
 	options: { collapsible: true, collapsed: true },
 	validation: (Rule) =>

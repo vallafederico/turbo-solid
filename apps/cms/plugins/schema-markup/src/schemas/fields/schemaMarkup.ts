@@ -1,8 +1,8 @@
 // src/schema/field.ts
 import { defineType, defineField } from "sanity";
-import { needs } from "../utils/needs";
+import { needs } from "../../utils/needs";
 
-export const schemaMarkupField = defineType({
+export const schemaMarkup = defineType({
 	name: "schemaMarkup",
 	title: "Schema Markup",
 	type: "object",
@@ -54,17 +54,17 @@ export const schemaMarkupField = defineType({
 		// e.g., Article
 		defineField({
 			name: "article",
-			type: "jsonldArticleFields",
+			type: "schemaMarkupArticleFields",
 			hidden: ({ parent }) => parent?.type !== "Article",
 		}),
 		// Product
 		defineField({
 			name: "product",
-			type: "jsonldProductFields",
+			type: "schemaMarkupProductFields",
 			hidden: ({ parent }) => parent?.type !== "Product",
 		}),
 		// ...repeat for Event, FAQPage, BreadcrumbList, etc.
 	],
-	components: { input: JsonLdInput }, // custom UI that merges defaults + shows preview
+	// components: { input: JsonLdInput }, // custom UI that merges defaults + shows preview
 	preview: { select: { title: "type", subtitle: "name" } },
 });

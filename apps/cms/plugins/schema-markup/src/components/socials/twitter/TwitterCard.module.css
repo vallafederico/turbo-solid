@@ -1,0 +1,20 @@
+.twitterCard {
+	border: 1px solid #1da1f2;
+	background: #fff;
+	max-width: 500px;
+	margin: 0 auto;
+	box-sizing: border-box;
+	font-family: Arial, sans-serif;
+}
+.userRow {
+	display: flex;
+	gap: 0.75rem;
+	align-items: center;
+}
+.imageLarge {
+	width: 100%;
+	height: 260px;
+	object-fit: cover;
+	border-radius: 12px;
+	margin: 0.5rem 0;
+}

@@ -1,6 +1,6 @@
 import { defineType, defineField } from "sanity";
 
-export const seoAndSchemaDefaults = defineType({
+export const schemaMarkupDefaults = defineType({
 	name: "schemaMarkupDefaults",
 	title: "Schema Markup Defaults",
 	type: "document",
@@ -15,13 +15,13 @@ export const seoAndSchemaDefaults = defineType({
 		// 	description: "Root URL used to build canonical links in JSON-LD.",
 		// 	validation: (r) => r.required(),
 		// }),
-		defineField({
-			name: "defaultLocale",
-			title: "Default Locale",
-			type: "string",
-			description: "2-letter language code (e.g., en, it, de).",
-			validation: (r) => r.required().max(2),
-		}),
+		// defineField({
+		// 	name: "defaultLocale",
+		// 	title: "Default Locale",
+		// 	type: "string",
+		// 	description: "2-letter language code (e.g., en, it, de).",
+		// 	validation: (r) => r.required().max(2),
+		// }),
 
 		// GETTING THESE FROM CODEBASE, NOT CMS
 		// defineField({
@@ -44,20 +44,22 @@ export const seoAndSchemaDefaults = defineType({
 		defineField({
 			name: "organization",
 			title: "Default Organization",
-			type: "schemaMarkupOrganization",
+			type: "reference",
+			to: [{ type: "schemaMarkupOrganization" }],
 			description: "Used as publisher/brand when none specified.",
 		}),
 		defineField({
 			name: "publisher",
 			title: "Default Publisher (Overrides Organization)",
-			type: "schemaMarkupOrganization",
+			type: "reference",
+			to: [{ type: "schemaMarkupOrganization" }],
 		}),
 
 		// ---- Image & Media Fallbacks ----
 		defineField({
 			name: "imageFallback",
 			title: "Default Image",
-			type: "jsonldImageObject",
+			type: "image",
 			description: "Used if an entity has no image set or auto-mapped.",
 		}),
 		defineField({
@@ -120,11 +122,11 @@ export const seoAndSchemaDefaults = defineType({
 			options: { collapsible: true, collapsed: false },
 			fields: [
 				{ name: "name", type: "string" },
-				{
-					name: "inLanguage",
-					type: "string",
-					description: "BCP-47 code. Fallback to defaultLocale.",
-				},
+				// {
+				// 	name: "inLanguage",
+				// 	type: "string",
+				// 	description: "BCP-47 code. Fallback to defaultLocale.",
+				// },
 				{ name: "publisher", type: "schemaMarkupOrganization" },
 				defineField({
 					name: "searchAction",
@@ -154,7 +156,7 @@ export const seoAndSchemaDefaults = defineType({
 			options: { collapsible: true, collapsed: true },
 			fields: [
 				{ name: "inLanguage", type: "string" },
-				{ name: "primaryImageOfPage", type: "jsonldImageObject" },
+				{ name: "primaryImageOfPage", type: "image" },
 			],
 		}),
 
@@ -231,7 +233,7 @@ export const seoAndSchemaDefaults = defineType({
 				{ name: "priceRange", type: "string", description: "e.g., $, $$, $$$" },
 				{ name: "address", type: "schemaMarkupAddress" },
 				{ name: "geo", type: "schemaMarkupGeo" },
-				{ name: "aggregateRating", type: "jsonldAggregateRating" },
+				{ name: "aggregateRating", type: "schemaMarkupAggregateRating" },
 			],
 		}),
 
@@ -268,7 +270,7 @@ export const seoAndSchemaDefaults = defineType({
 	preview: {
 		select: { baseUrl: "baseUrl", locale: "defaultLocale" },
 		prepare: ({ baseUrl, locale }) => ({
-			title: "SEO & JSON-LD Defaults",
+			title: "Schema Markup Defaults",
 			subtitle: `${baseUrl || "—"} · ${locale || "locale not set"}`,
 		}),
 	},
