@@ -37,10 +37,9 @@ export default function PageSeoInput(props: ObjectInputProps) {
 		MODES[0]?.name,
 	);
 
-	const g = useFormValue(props.path);
-	console.log(g);
+	const document = useFormValue([]) || {};
 
-	const seoData = props.value as Seo;
+	const seoData = { ...(props.value || {}), title: document?.title } as any;
 
 	return (
 		<div>

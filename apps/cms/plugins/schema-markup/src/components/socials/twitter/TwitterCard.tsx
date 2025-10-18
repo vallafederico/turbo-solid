@@ -1,5 +1,6 @@
 import { Card, Stack, Text, Box, Avatar } from "@sanity/ui";
 import styles from "./TwitterCard.module.css";
+import { truncate } from "../../../utils/truncate";
 
 export interface TwitterCardProps {
 	title?: string;
@@ -10,23 +11,7 @@ export interface TwitterCardProps {
 	avatar?: string;
 }
 
-function truncate(text: string, len: number) {
-	if (!text) return "";
-	if (text.length <= len) return text;
-	let out = text.slice(0, len);
-	const lastSpace = out.lastIndexOf(" ");
-	if (lastSpace > 40) out = out.slice(0, lastSpace);
-	return out + "…";
-}
-
-export function TwitterCard({
-	title,
-	description,
-	image,
-	site,
-	username,
-	avatar,
-}: TwitterCardProps) {
+export function TwitterCard(props: TwitterCardProps) {
 	const fallback = {
 		title: "Why Static Site Generators Rock",
 		description:
@@ -38,12 +23,7 @@ export function TwitterCard({
 	};
 	const data = {
 		...fallback,
-		title,
-		description,
-		image,
-		site,
-		username,
-		avatar,
+		...props,
 	};
 	return (
 		<Card className={styles.twitterCard} radius={2} shadow={1} tone="default">

@@ -1,5 +1,6 @@
 import { Card, Stack, Text, Box } from "@sanity/ui";
 import styles from "./GoogleEntry.module.css";
+import { truncate } from "../../../utils/truncate";
 
 export interface GoogleEntryProps {
 	title?: string;
@@ -7,23 +8,16 @@ export interface GoogleEntryProps {
 	site?: string;
 }
 
-function truncate(text: string, len: number) {
-	if (!text) return "";
-	if (text.length <= len) return text;
-	let out = text.slice(0, len);
-	const lastSpace = out.lastIndexOf(" ");
-	if (lastSpace > 40) out = out.slice(0, lastSpace);
-	return out + "…";
-}
-
-export function GoogleEntry({ title, description, site }: GoogleEntryProps) {
+export function GoogleEntry(props: GoogleEntryProps) {
 	const fallback = {
 		title: "My Awesome Page - MyWebsite",
 		description:
 			"A compelling meta description for Google search snippet. Explain what users can find inside!",
 		site: "https://mywebsite.com/page",
 	};
-	const data = { ...fallback, title, description, site };
+
+	const data = { ...fallback, ...props };
+
 	return (
 		<Card className={styles.googleCard} radius={2} shadow={1} tone="default">
 			<Box padding={3}>

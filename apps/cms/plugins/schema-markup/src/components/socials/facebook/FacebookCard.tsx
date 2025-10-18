@@ -1,5 +1,6 @@
 import { Card, Stack, Text, Box, Avatar } from "@sanity/ui";
 import styles from "./FacebookCard.module.css";
+import { truncate } from "../../../utils/truncate";
 
 export interface FacebookCardProps {
 	title?: string;
@@ -10,23 +11,7 @@ export interface FacebookCardProps {
 	avatar?: string;
 }
 
-function truncate(text: string, len: number) {
-	if (!text) return "";
-	if (text.length <= len) return text;
-	let out = text.slice(0, len);
-	const lastSpace = out.lastIndexOf(" ");
-	if (lastSpace > 40) out = out.slice(0, lastSpace);
-	return out + "…";
-}
-
-export function FacebookCard({
-	title,
-	description,
-	image,
-	site,
-	author,
-	avatar,
-}: FacebookCardProps) {
+export function FacebookCard(props: FacebookCardProps) {
 	const fallback = {
 		title: "My Awesome Page",
 		description:
@@ -36,7 +21,7 @@ export function FacebookCard({
 		author: "Your Brand",
 		avatar: "https://placehold.co/40x40",
 	};
-	const data = { ...fallback, title, description, image, site, author, avatar };
+	const data = { ...fallback, ...props };
 
 	return (
 		<Card className={styles.facebookCard} radius={2} shadow={1} tone="default">
