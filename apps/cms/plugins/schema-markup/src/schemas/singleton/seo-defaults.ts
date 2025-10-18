@@ -57,12 +57,7 @@ export const seoDefaults = defineType({
 		}),
 		defineField({
 			name: "favicon",
-			type: "image",
-			components: {
-				input: FaviconPreview,
-			},
-			description:
-				"The favicon of the site. To create the sharpest fallback images possible, use an SVG. Careful with transparent backgrounds, a user might have light or dark mode enabled.",
+			type: "favicon",
 			group: "metadata",
 		}),
 		defineField({

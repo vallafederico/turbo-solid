@@ -3,13 +3,14 @@ import styles from "./favicon-preview.module.css";
 
 export default function BrowserTab({
 	url = "https://example.com",
-	favicon = "https://placehold.co/32x32",
+	favicon = "https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg",
 	title = "Facebook",
-}: { url: string; favicon: string; title: string }) {
+}: { url?: string | null; favicon?: string | null; title?: string | null }) {
 	const theme = useRootTheme();
 
 	return (
-		<Box
+		<Flex
+			gap={2}
 			data-theme={theme.scheme}
 			className={styles.card}
 			style={{
@@ -22,21 +23,18 @@ export default function BrowserTab({
 				display: "flex",
 				alignItems: "center",
 				padding: "0 16px",
-				gap: 10,
 				border: "var(--tab-border)",
 				borderBottom: "none",
 			}}
 		>
 			<img
 				src={favicon}
-				width={18}
-				height={18}
+				width={16}
+				height={16}
 				alt="Favicon on tab"
 				style={{
 					borderRadius: 4,
 					background: "var(--tab-favicon-bg)",
-					// border: "var(--tab-favicon-border)",
-					marginRight: 6,
 					display: "block",
 				}}
 			/>
@@ -49,7 +47,6 @@ export default function BrowserTab({
 						opacity: 0.93,
 						height: "100%",
 						whiteSpace: "nowrap",
-						// overflow: "hidden",
 						textOverflow: "ellipsis",
 						userSelect: "none",
 						fontFamily: "inherit",
@@ -58,6 +55,6 @@ export default function BrowserTab({
 					{title}
 				</Text>
 			</Flex>
-		</Box>
+		</Flex>
 	);
 }

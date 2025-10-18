@@ -25,3 +25,9 @@
 			"Helvetica Neue", sans-serif;
 	}
 }
+
+.image-preview {
+	img {
+		background: #ececec !important;
+	}
+}

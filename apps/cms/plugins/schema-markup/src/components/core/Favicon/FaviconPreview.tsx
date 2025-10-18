@@ -34,23 +34,25 @@ export default function FaviconPreview(props: ImageInputProps) {
 				data-tab-display
 				data-theme={theme.scheme}
 				shadow={2}
-				marginBottom={4}
+				marginBottom={2}
 				radius={4}
 				style={{
 					width: "100%",
 				}}
 			>
-				<Flex paddingX={4} paddingY={2} gap={1} justify="start" align="center">
+				<Flex paddingX={4} paddingY={2} justify="start" align="center">
 					<WindowControls />
 					<BrowserTab
 						url={url}
-						title={defaults?.siteTitle || "Site Title"}
+						title={defaults?.siteTitle}
 						favicon={faviconUrl}
 					/>
 					<BrowserTab />
 				</Flex>
 			</Card>
-			{props.renderDefault(props)}
+			<Box className={styles?.["image-preview"]}>
+				{props.renderDefault(props)}
+			</Box>
 		</div>
 	);
 }
