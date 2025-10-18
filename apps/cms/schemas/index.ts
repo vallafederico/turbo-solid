@@ -4,4 +4,10 @@ import settings from "./settings";
 import slices from "./slices";
 import taxonomies from "./taxonomies";
 
-export const schemaTypes = [...blocks, ...taxonomies, ...slices, ...pages, ...settings ]
+export const schemaTypes = [
+	...blocks,
+	...taxonomies,
+	...slices,
+	...pages,
+	...settings,
+];
