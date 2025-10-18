@@ -5,12 +5,16 @@
 	margin: 0 auto;
 	box-sizing: border-box;
 	font-family: Arial, sans-serif;
+	padding: 0;
+	gap: 0;
 }
 .header {
 	display: flex;
-	gap: 0.75rem;
+	gap: 1.2rem;
 	align-items: center;
 	border-bottom: 1px solid #f0f2f5;
+	padding-bottom: 8px;
+	margin-bottom: 8px;
 }
 .image {
 	width: 100%;
@@ -18,4 +22,20 @@
 	object-fit: cover;
 	display: block;
 	border-bottom: 1px solid #f0f2f5;
+	margin: 8px 0 12px 0;
+}
+.cardSection {
+	margin: 16px 0;
+}
+
+@media (max-width: 600px) {
+	.facebookCard {
+		max-width: 99vw;
+	}
+	.image {
+		height: 160px;
+	}
+	.header {
+		gap: 0.6rem;
+	}
 }

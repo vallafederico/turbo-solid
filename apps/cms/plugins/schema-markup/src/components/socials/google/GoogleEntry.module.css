@@ -2,19 +2,29 @@
 	border: 1px solid #e1e4e8;
 	background: #fff;
 	max-width: 550px;
-	margin: 0 auto;
+	margin: 0 auto 24px auto;
 	box-sizing: border-box;
 	font-family: Arial, sans-serif;
+	padding: 0;
 }
 .title {
 	color: #1a0dab;
-	margin-bottom: 0.2em;
+	margin-bottom: 0.25em;
 }
 .site {
 	color: #202124;
-	font-size: 0.95em;
-	margin-bottom: 0.15em;
+	font-size: 0.97em;
+	margin-bottom: 0.2em;
 }
 .desc {
 	color: #4d5156;
+}
+.cardSection {
+	margin: 16px 0;
+}
+
+@media (max-width: 600px) {
+	.googleCard {
+		max-width: 99vw;
+	}
 }

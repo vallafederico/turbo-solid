@@ -1,23 +1,15 @@
-import { Card, Stack, Text, Box, Avatar } from "@sanity/ui";
+import { Card, Stack, Text, Box, Avatar, Flex } from "@sanity/ui";
 import styles from "./TwitterCard.module.css";
-import { truncate } from "../../../utils/truncate";
+import { truncate } from "../../../utils/string";
+import type { PreviewCardProps } from "../../../types";
 
-export interface TwitterCardProps {
-	title?: string;
-	description?: string;
-	image?: string;
-	site?: string;
-	username?: string;
-	avatar?: string;
-}
-
-export function TwitterCard(props: TwitterCardProps) {
+export function TwitterCard(props: PreviewCardProps) {
 	const fallback = {
-		title: "Why Static Site Generators Rock",
+		siteTitle: "Why Static Site Generators Rock",
 		description:
 			"Exploring the benefits of JAMstack and web dev with static content. Fast, secure, scalable.",
 		image: "https://placehold.co/800x418",
-		site: "mywebsite.com",
+		siteUrl: "mywebsite.com",
 		username: "@yoursite",
 		avatar: "https://placehold.co/40x40",
 	};
@@ -27,17 +19,17 @@ export function TwitterCard(props: TwitterCardProps) {
 	};
 	return (
 		<Card className={styles.twitterCard} radius={2} shadow={1} tone="default">
-			<Box padding={3} className={styles.userRow}>
-				<Avatar src={data.avatar} size={1} />
+			<Flex gap={2} padding={3} className={styles.userRow}>
+				<Avatar src={data.avatar} size={3} />
 				<Stack space={2}>
 					<Text weight="semibold" size={2}>
-						{data.site}
+						{data.siteTitle}
 					</Text>
 					<Text size={1} muted>
-						{data.username}
+						{data.twitterHandle}
 					</Text>
 				</Stack>
-			</Box>
+			</Flex>
 			<Box>
 				<img
 					className={styles.imageLarge}
@@ -46,12 +38,15 @@ export function TwitterCard(props: TwitterCardProps) {
 				/>
 			</Box>
 			<Box padding={3}>
-				<Stack space={2}>
+				<Flex direction="column" gap={4}>
+					<Text size={1} muted>
+						{data.siteUrl}
+					</Text>
 					<Text weight="semibold" size={3}>
 						{truncate(data.title, 70)}
 					</Text>
 					<Text size={2}>{truncate(data.description, 120)}</Text>
-				</Stack>
+				</Flex>
 			</Box>
 		</Card>
 	);

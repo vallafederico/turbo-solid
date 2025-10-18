@@ -1,11 +1,12 @@
 import { Button, Flex, Box, Text } from "@sanity/ui";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdEdit, MdPreview } from "react-icons/md";
-import { useFormValue, type ObjectInputProps } from "sanity";
+import { useClient, useFormValue, type ObjectInputProps } from "sanity";
 import FacebookCard from "../../socials/facebook/FacebookCard";
 import TwitterCard from "../../socials/twitter/TwitterCard";
 import GoogleEntry from "../../socials/google/GoogleEntry";
 import { PreviewGroup } from "./PreviewGroup";
+import { concatenatePageTitle } from "../../../utils/string";
 
 const PREVIEW_GROUPS = [
 	{
@@ -26,6 +27,7 @@ const PREVIEW_GROUPS = [
 ];
 
 export default function PageSeoInput(props: ObjectInputProps) {
+	const client = useClient({ apiVersion: "2025-01-11" });
 	const MODES = [
 		{ name: "fields", title: "Fields", icon: MdEdit },
 		{ name: "preview", title: "Preview", icon: MdPreview },
@@ -36,10 +38,24 @@ export default function PageSeoInput(props: ObjectInputProps) {
 	const [currentMode, setCurrentMode] = useState<SeoInputMode["name"]>(
 		MODES[0]?.name,
 	);
+	const [seoDefaults, setSeoDefaults] = useState<any>(null);
+
+	useEffect(() => {
+		client.fetch(`*[_type == "seoDefaults"][0]`).then(setSeoDefaults);
+	}, [client]);
 
 	const document = useFormValue([]) || {};
 
-	const seoData = { ...(props.value || {}), title: document?.title } as any;
+	const seoData = {
+		...(seoDefaults || {}),
+		...(props.value || {}),
+		title: concatenatePageTitle(
+			document?.title,
+			seoDefaults?.siteTitle,
+			seoDefaults?.pageTitleTemplate,
+		),
+		// merge description or other fields as needed
+	};
 
 	return (
 		<div>

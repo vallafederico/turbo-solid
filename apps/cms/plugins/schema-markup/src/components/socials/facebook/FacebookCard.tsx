@@ -1,23 +1,15 @@
-import { Card, Stack, Text, Box, Avatar } from "@sanity/ui";
+import { Card, Stack, Text, Box, Avatar, Flex } from "@sanity/ui";
 import styles from "./FacebookCard.module.css";
-import { truncate } from "../../../utils/truncate";
+import { truncate } from "../../../utils/string";
+import type { PreviewCardProps } from "../../../types";
 
-export interface FacebookCardProps {
-	title?: string;
-	description?: string;
-	image?: string;
-	site?: string;
-	author?: string;
-	avatar?: string;
-}
-
-export function FacebookCard(props: FacebookCardProps) {
+export function FacebookCard(props: PreviewCardProps) {
 	const fallback = {
 		title: "My Awesome Page",
 		description:
 			"This is an engaging summary preview of your content for Facebook! Enjoy maximum clickthrough.",
 		image: "https://placehold.co/600x315",
-		site: "mywebsite.com",
+		siteUrl: "mywebsite.com",
 		author: "Your Brand",
 		avatar: "https://placehold.co/40x40",
 	};
@@ -25,26 +17,31 @@ export function FacebookCard(props: FacebookCardProps) {
 
 	return (
 		<Card className={styles.facebookCard} radius={2} shadow={1} tone="default">
-			<Box padding={3} className={styles.header}>
-				<Avatar src={data.avatar} size={1} />
+			<Flex gap={2} padding={3} className={styles.header}>
+				<Avatar src={data.avatar} size={3} />
 				<Stack space={2}>
 					<Text weight="semibold" size={2}>
-						{data.author}
+						{data.siteTitle}
 					</Text>
 					<Text size={1} muted>
-						{data.site}
+						{data.siteUrl}
 					</Text>
 				</Stack>
-			</Box>
+			</Flex>
 			<Box>
 				<img className={styles.image} src={data.image} alt="Facebook preview" />
 			</Box>
 			<Box padding={3}>
-				<Stack space={2}>
+				<Stack space={3}>
+					<Text size={1} muted>
+						{data.siteUrl}
+					</Text>
 					<Text weight="semibold" size={3}>
 						{truncate(data.title, 60)}
 					</Text>
-					<Text size={2}>{truncate(data.description, 110)}</Text>
+					<Box marginTop={1}>
+						<Text size={2}>{truncate(data.description, 110)}</Text>
+					</Box>
 				</Stack>
 			</Box>
 		</Card>
