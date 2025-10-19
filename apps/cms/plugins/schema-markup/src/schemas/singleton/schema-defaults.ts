@@ -1,9 +1,24 @@
+import { AiOutlineGlobal } from "react-icons/ai";
+import { MdSettingsSuggest } from "react-icons/md";
 import { defineType, defineField } from "sanity";
 
 export const schemaMarkupDefaults = defineType({
 	name: "schemaMarkupDefaults",
 	title: "Schema Markup Defaults",
 	type: "document",
+	groups: [
+		{
+			name: "global",
+			title: "Global Defaults",
+			default: true,
+			icon: AiOutlineGlobal,
+		},
+		{
+			name: "type-specific",
+			title: "Type-Specific Defaults",
+			icon: MdSettingsSuggest,
+		},
+	],
 	// mark as singleton in your desk (see snippet below)
 	fields: [
 		// IN OTHER PLACE ALREADY
@@ -37,6 +52,7 @@ export const schemaMarkupDefaults = defineType({
 			name: "sameAs",
 			title: "Global Profiles (sameAs)",
 			type: "array",
+			group: "global",
 			of: [{ type: "url" }],
 			description: "Social/profile URLs applied when relevant.",
 		}),
@@ -44,6 +60,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "organization",
 			title: "Default Organization",
+			group: "global",
 			type: "reference",
 			to: [{ type: "schemaMarkupOrganization" }],
 			description: "Used as publisher/brand when none specified.",
@@ -51,6 +68,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "publisher",
 			title: "Default Publisher (Overrides Organization)",
+			group: "global",
 			type: "reference",
 			to: [{ type: "schemaMarkupOrganization" }],
 		}),
@@ -59,6 +77,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "logo",
 			title: "Global Logo",
+			group: "global",
 			type: "image",
 			description:
 				"Default logo used for Organization and WebSite schemas when no specific logo is provided.",
@@ -66,12 +85,14 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "imageFallback",
 			title: "Default Image",
+			group: "global",
 			type: "image",
 			description: "Used if an entity has no image set or auto-mapped.",
 		}),
 		defineField({
 			name: "imageFieldMapping",
 			title: "Image Auto-Map Order",
+			group: "global",
 			type: "array",
 			of: [{ type: "string" }],
 			description:
@@ -84,6 +105,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "autoMap",
 			title: "Automatic Field Mapping",
+			group: "global",
 			type: "object",
 			options: { collapsible: true, collapsed: true },
 			fields: [
@@ -125,6 +147,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "webSite",
 			title: "WebSite Defaults",
+			group: "type-specific",
 			type: "object",
 			options: { collapsible: true, collapsed: false },
 			fields: [
@@ -159,6 +182,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "webPage",
 			title: "WebPage Defaults",
+			group: "type-specific",
 			type: "object",
 			options: { collapsible: true, collapsed: true },
 			fields: [
@@ -170,6 +194,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "article",
 			title: "Article Defaults",
+			group: "type-specific",
 			type: "object",
 			options: { collapsible: true, collapsed: true },
 			fields: [
@@ -185,6 +210,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "product",
 			title: "Product Defaults",
+			group: "type-specific",
 			type: "object",
 			options: { collapsible: true, collapsed: true },
 			fields: [
@@ -213,6 +239,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "event",
 			title: "Event Defaults",
+			group: "type-specific",
 			type: "object",
 			options: { collapsible: true, collapsed: true },
 			fields: [
@@ -234,6 +261,7 @@ export const schemaMarkupDefaults = defineType({
 		defineField({
 			name: "localBusiness",
 			title: "LocalBusiness Defaults",
+			group: "type-specific",
 			type: "object",
 			options: { collapsible: true, collapsed: true },
 			fields: [
