@@ -8,12 +8,15 @@ export * from "./utils/link";
 
 export * from "./robots/sanity-robots-generator";
 
+export * from "./live-editing";
+
 // Client
 export { default as sanityClient } from "./client";
 
 // Components
 export { default as PortableText } from "./components/PortableText";
 export { default as SanityPage } from "./components/SanityPage";
+export { default as SanityMeta } from "./components/SanityMeta";
 
 export { default as SanityLink } from "./components/SanityLink";
 

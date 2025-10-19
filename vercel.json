@@ -1,0 +1,16 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Content-Security-Policy", "value": "frame-ancestors 'self' https://internetthings-starter.sanity.studio" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "Content-Security-Policy", "value": "frame-ancestors 'self' https://turbo-solid-web-git-feat-sanity-live-editing-federicoooo.vercel.app" }
+      ]
+    }
+  ]
+}

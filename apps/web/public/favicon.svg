@@ -1,12 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 100 100">
-    <path fill="#fff" d="M62.631 26.55a.941.941 0 0 1 .856-.55H95.3c.686 0 1.141.71.856 1.333l-21.1 46.117a.941.941 0 0 1-.855.55H42.387a.941.941 0 0 1-.855-1.333l21.1-46.117ZM25.924 26.55a.941.941 0 0 1 .856-.55h31.812c.686 0 1.141.71.856 1.333l-21.1 46.117a.941.941 0 0 1-.855.55H5.68a.941.941 0 0 1-.855-1.333l21.1-46.117Z"/>
-    
-    <style>
-        @media (prefers-color-scheme: dark) {
-            svg {
-                filter: invert(1);
-            }]
-        }
-    </style>
-    
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_615_388)">
+<g clip-path="url(#clip1_615_388)">
+<rect x="-0.947754" y="-0.947754" width="33.8955" height="33.8955" fill="#1D1D1D"/>
+<rect x="2.3667" y="2.33765" width="27.3247" height="27.3247" rx="13.6623" fill="#1D1D1D"/>
+<circle cx="16" cy="16" r="10.2609" fill="#F9F9F9"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_615_388">
+<rect width="32" height="32" fill="white"/>
+</clipPath>
+<clipPath id="clip1_615_388">
+<rect width="32" height="32" fill="white"/>
+</clipPath>
+</defs>
 </svg>

@@ -1,0 +1,8 @@
+{{#each fields}}
+    {{#switch type}} 
+        {{#case 'reference'}} {{> sanity-reference-field name=name to=to validation=validation}} {{/case}} 
+        {{#case 'object'}} {{> sanity-object-field name=name fields=fields validation=validation type=type }} {{/case}}
+        {{!-- {{#case 'array'}} {{> sanity-array-field name=name fields=fields validation=validation type=type }} {{/case}} --}}
+        {{#default}} {{> sanity-simple-field name=name type=type validation=validation}} {{/default}}
+    {{/switch}}
+{{/each}}
