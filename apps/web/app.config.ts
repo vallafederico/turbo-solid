@@ -28,7 +28,6 @@ const plugins = [
 			],
 		},
 	}),
-
 	solidSvg({
 		defaultAsComponent: true,
 		// svgo: {

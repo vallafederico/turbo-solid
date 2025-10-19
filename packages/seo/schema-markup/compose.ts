@@ -76,17 +76,22 @@ export type SchemaDefaults = {
  * Entities with @id (Person, Organization) are output as full schemas first,
  * then referenced by @id in other schemas for cleaner markup.
  */
+
+interface ComposeSchemaProps {
+	seo: MergedMetadata;
+	schemaDefaults?: SchemaDefaults;
+	type?: string;
+	extra?: Record<string, unknown>;
+	isHomepage?: boolean;
+}
+
 export function composeSchema({
 	seo,
 	schemaDefaults,
 	type,
 	extra,
-}: {
-	seo: MergedMetadata;
-	schemaDefaults?: SchemaDefaults;
-	type?: string;
-	extra?: Record<string, unknown>;
-}): unknown[] {
+	isHomepage = false,
+}: ComposeSchemaProps): unknown[] {
 	const schemas: unknown[] = [];
 	const entities = new Set<string>(); // Track entities we've already added
 
@@ -216,13 +221,18 @@ export function composeSchema({
 		addOrgWithDepartments(extra.brand as SchemaOrganization);
 	}
 
-	// Always include WebSite
-	if (schemaDefaults?.webSite) {
+	// Always include WebSite if defaults provided, or automatically generate for homepage
+	if (schemaDefaults?.webSite || isHomepage) {
 		schemas.push(
 			buildWebSite({
-				...schemaDefaults.webSite,
+				...(schemaDefaults?.webSite || {}),
+				name: schemaDefaults?.webSite?.name || seo.title,
 				url: seo.canonicalUrl,
-				publisher: schemaDefaults.publisher || schemaDefaults.organization,
+				publisher:
+					schemaDefaults?.webSite?.publisher ||
+					schemaDefaults?.publisher ||
+					schemaDefaults?.organization,
+				searchAction: schemaDefaults?.webSite?.searchAction,
 			}),
 		);
 	}

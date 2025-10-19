@@ -2,7 +2,7 @@ import "./app.css";
 import { Link, MetaProvider, Title } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-import { VisualEditing } from "@local/sanity";
+// import { VisualEditing } from "@local/sanity";
 
 import { Suspense } from "solid-js";
 import { useViewport } from "~/lib/hooks/useViewport";

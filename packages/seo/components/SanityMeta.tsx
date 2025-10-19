@@ -11,9 +11,13 @@ type SanityMetaProps = {
 	pageData?: PageMetadata;
 	seoDefaults?: SeoDefaults;
 	schemaDefaults?: SchemaDefaults;
+	isHomepage?: boolean;
 };
 
-export default function SanityMeta({ pageData }: SanityMetaProps) {
+export default function SanityMeta({
+	pageData,
+	isHomepage = false,
+}: SanityMetaProps) {
 	const seoDefaults = createAsync(() => getDocumentByType("seoDefaults"), {
 		deferStream: true,
 	});
@@ -25,7 +29,6 @@ export default function SanityMeta({ pageData }: SanityMetaProps) {
 		},
 	);
 
-	// Always render meta tags - SolidStart's meta system handles reactive updates
 	return (
 		<>
 			<Show when={seoDefaults()}>
@@ -39,6 +42,7 @@ export default function SanityMeta({ pageData }: SanityMetaProps) {
 							_createdAt: pageData?._createdAt,
 							_updatedAt: pageData?._updatedAt,
 						},
+						isHomepage,
 					});
 
 					return (

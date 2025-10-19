@@ -12,6 +12,7 @@ export type BuildSeoPayloadParams = {
 	pageSeo?: PageMetadata;
 	pageSchemaType?: string;
 	extraSchemaData?: Record<string, unknown>;
+	isHomepage?: boolean;
 };
 
 export type BuildSeoPayloadResult = {
@@ -29,19 +30,24 @@ export function buildSeoPayload({
 	pageSeo,
 	pageSchemaType,
 	extraSchemaData,
+	isHomepage = false,
 }: BuildSeoPayloadParams): BuildSeoPayloadResult {
 	// Merge SEO data: page metadata overrides global defaults
 	const merged = mergeSeoData(pageSeo, globalDefaults);
 
+	console.log({ pageSchemaType });
+
 	// Compose schema markup if defaults are provided
-	const schema = schemaDefaults
-		? composeSchema({
-				seo: merged,
-				schemaDefaults,
-				type: pageSchemaType || "WebPage",
-				extra: extraSchemaData,
-			})
-		: undefined;
+	const schema =
+		pageSchemaType && schemaDefaults
+			? composeSchema({
+					seo: merged,
+					schemaDefaults,
+					type: pageSchemaType || "WebPage",
+					extra: extraSchemaData,
+					isHomepage,
+				})
+			: undefined;
 
 	return {
 		meta: merged,

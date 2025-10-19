@@ -20,7 +20,7 @@ export default function Home() {
 
 	return (
 		<div class="min-h-[100vh] pt-20">
-			<SanityMeta pageData={data()} />
+			<SanityMeta isHomepage={true} pageData={data()} />
 		</div>
 	);
 }
