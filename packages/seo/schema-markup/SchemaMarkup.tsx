@@ -5,10 +5,12 @@ import { composeSchema, type SchemaDefaults } from "./compose";
 import type { MergedMetadata } from "../utils/merge";
 
 // "schemas" prop can be typed as Thing[] for schema.org LD+JSON
-export default function SchemaMarkup({ schemas }: { schemas: Thing[] }) {
+export default function SchemaMarkup({
+	schemas,
+}: { schemas: Thing[] | undefined }) {
 	return (
 		<>
-			<Show when={schemas?.length > 0}>
+			<Show when={schemas && schemas.length > 0}>
 				<For each={schemas}>
 					{(schema) => (
 						<script

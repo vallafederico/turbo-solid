@@ -1,6 +1,6 @@
 import type { SanityImageAssetDocument } from "@sanity/client";
 
-export type SchemaImage = SanityImageAssetDocument | string | undefined;
+export type SchemaImage = SanityImageAssetDocument;
 
 export type SchemaAddress = {
 	streetAddress?: string;

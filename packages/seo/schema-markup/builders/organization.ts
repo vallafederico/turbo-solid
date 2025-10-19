@@ -1,7 +1,8 @@
 // schema/builders/organization.ts
+import { createSchemaImageObject } from "../../utils";
 import type { SchemaDefaults } from "../compose";
 import type { SchemaOrganization } from "../types";
-import { getImageUrl, normalizeId, buildOrgSchema } from "./utils";
+import { normalizeId, buildOrgSchema } from "./utils";
 
 export function buildOrganization(
 	organization: SchemaOrganization,
@@ -48,7 +49,7 @@ export function buildOrganization(
 		"@id": id,
 		name: organization.name,
 		url: organization.url,
-		logo: getImageUrl(
+		logo: createSchemaImageObject(
 			organization.logo,
 			schemaDefaults?.logo || schemaDefaults?.imageFallback,
 		),

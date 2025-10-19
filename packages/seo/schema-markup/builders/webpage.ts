@@ -1,8 +1,8 @@
 // schema/builders/webpage.ts
+import { createSchemaImageObject } from "../../utils";
 import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
 import type { SchemaImage } from "../types";
-// import { getImageUrl } from "./utils";
 
 export function buildWebPage({
 	seo,
@@ -23,11 +23,11 @@ export function buildWebPage({
 		autoMap.description !== false
 			? seo.description
 			: (extra?.description as string | undefined);
-	// const image = getImageUrl(
-	// 	autoMap.image !== false ? seo.metaImage : (extra?.image as SchemaImage),
-	// 	schemaDefaults?.imageFallback,
-	// );
-	const image = "image someday";
+
+	const image = createSchemaImageObject(
+		autoMap.image !== false ? seo.metaImage : (extra?.image as SchemaImage),
+		schemaDefaults?.imageFallback,
+	);
 
 	return {
 		"@context": "https://schema.org",

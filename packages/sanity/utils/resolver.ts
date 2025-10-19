@@ -62,7 +62,7 @@ const resolveLinks = async (inputData: any, maxDepth = 5) => {
 					throw new TypeError("node.val is not set");
 				}
 
-				// if (!refId.startsWith('image-')) {
+				// if (!refId.startsWith("image-")) {
 				if (!store.has(refId)) {
 					// unresolved, add it to the list
 					ids.set(refId, node);

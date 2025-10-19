@@ -1,8 +1,8 @@
 // schema/builders/about-page.ts
+import { createSchemaImageObject } from "../../utils";
 import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
 import type { SchemaImage } from "../types";
-import { getImageUrl } from "./utils";
 
 export function buildAboutPage({
 	seo,
@@ -23,7 +23,7 @@ export function buildAboutPage({
 		autoMap.description !== false
 			? seo.description
 			: (extra?.description as string | undefined);
-	const image = getImageUrl(
+	const image = createSchemaImageObject(
 		autoMap.image !== false ? seo.metaImage : (extra?.image as SchemaImage),
 		schemaDefaults?.imageFallback,
 	);

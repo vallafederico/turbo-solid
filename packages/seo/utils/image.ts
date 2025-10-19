@@ -1,81 +1,59 @@
 // utils/image.ts
 import { urlFor } from "@local/sanity";
 import type { SanityImageAssetDocument } from "@sanity/client";
+import type { ImageObject } from "schema-dts";
 
-export type SanityImageObject = {
-	asset?:
-		| {
-				_ref?: string;
-				_id?: string;
-				url?: string;
-		  }
-		| SanityImageAssetDocument;
+const formatImageUrl = (imageReference: string): ImageObject => {
+	if (!imageReference)
+		return { url: undefined, width: undefined, height: undefined };
+
+	const MAX_WIDTH = 2000;
+	const QUALITY = 85;
+
+	const [_, id, dimensions, _fileType] = imageReference.split("-");
+	const [width, height] = dimensions.split("x").map(Number);
+	const aspectRatio = Number(width) / Number(height);
+
+	let w = width;
+	let h = height;
+
+	const shouldClamp = width > MAX_WIDTH;
+	if (shouldClamp) {
+		const newWidth = Math.min(width, MAX_WIDTH);
+		const newHeight = Math.round(newWidth / aspectRatio);
+
+		w = newWidth;
+		h = newHeight;
+
+		return {
+			url: urlFor(imageReference)
+				.size(newWidth, newHeight)
+				.quality(QUALITY)
+				.url(),
+			width: newWidth,
+			height: newHeight,
+		};
+	}
+
+	return {
+		url: urlFor(imageReference).quality(QUALITY).url(),
+		width: w,
+		height: h,
+	};
 };
 
-export type ImageSource = string | SanityImageObject | { url: string };
+export function createSchemaImageObject(
+	image?: SanityImageAssetDocument,
+	fallback?: SanityImageAssetDocument,
+): ImageObject | undefined {
+	if (!image && !fallback) return undefined;
+	const imageToUse = image || fallback;
 
-/**
- * Resolve a Sanity image object to a URL string
- * Handles multiple input formats:
- * - Plain URL strings
- * - Objects with { url: string }
- * - Sanity image objects with asset references
- */
-export function resolveImageUrl(
-	image?: ImageSource,
-	fallback?: ImageSource,
-): string | undefined {
-	const resolved = resolveImage(image) || resolveImage(fallback);
-	return resolved;
-}
+	const isDereferencedImage =
+		typeof imageToUse === "object" && "asset" in imageToUse && imageToUse.asset;
+	const reference = isDereferencedImage
+		? imageToUse.asset?._id
+		: imageToUse?.asset?._ref;
 
-function resolveImage(image?: ImageSource): string | undefined {
-	if (!image) return undefined;
-
-	// Already a URL string
-	if (typeof image === "string") {
-		return image;
-	}
-
-	// Object with url property
-	if (typeof image === "object" && "url" in image && image.url) {
-		return image.url;
-	}
-
-	// Sanity image object with asset reference
-	if (typeof image === "object" && "asset" in image && image.asset) {
-		const asset = image.asset;
-
-		// Asset already has url
-		if (typeof asset === "object" && "url" in asset && asset.url) {
-			return asset.url;
-		}
-
-		// Asset has _ref or _id, use urlFor to build URL
-		if (typeof asset === "object" && ("_ref" in asset || "_id" in asset)) {
-			try {
-				// Build the URL using Sanity's image URL builder
-				// @ts-expect-error - urlFor accepts flexible image types
-				const builder = urlFor(image);
-				return builder.url();
-			} catch (err) {
-				console.warn("Failed to resolve Sanity image URL:", err);
-				return undefined;
-			}
-		}
-	}
-
-	return undefined;
-}
-
-/**
- * Create a schema-compatible image object from various sources
- * Returns an object with a url property suitable for schema markup
- */
-export function createSchemaImage(
-	image?: ImageSource,
-	fallback?: ImageSource,
-): { url: string } | undefined {
-	const url = resolveImageUrl(image, fallback);
-	return url ? { url } : undefined;
+	return { "@type": "ImageObject", ...formatImageUrl(reference || "") };
 }

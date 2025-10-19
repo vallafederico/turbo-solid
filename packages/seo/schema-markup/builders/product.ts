@@ -1,8 +1,9 @@
 // schema/builders/product.ts
+import { createSchemaImageObject } from "../../utils";
 import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
 import type { SchemaImage } from "../types";
-import { getImageUrl, buildOrgSchema } from "./utils";
+import { buildOrgSchema } from "./utils";
 
 export function buildProduct({
 	seo,
@@ -23,7 +24,7 @@ export function buildProduct({
 		autoMap.description !== false
 			? seo.description
 			: (extra?.description as string | undefined);
-	const image = getImageUrl(
+	const image = createSchemaImageObject(
 		autoMap.image !== false ? seo.metaImage : (extra?.image as SchemaImage),
 		schemaDefaults?.imageFallback,
 	);

@@ -21,6 +21,7 @@ import type {
 	SchemaGeo,
 	SchemaAggregateRating,
 } from "./types";
+import type { Thing } from "schema-dts";
 
 export type SchemaDefaults = {
 	sameAs?: string[];
@@ -88,10 +89,10 @@ interface ComposeSchemaProps {
 export function composeSchema({
 	seo,
 	schemaDefaults,
-	type,
+	type = "WebPage",
 	extra,
 	isHomepage = false,
-}: ComposeSchemaProps): unknown[] {
+}: ComposeSchemaProps): Thing[] {
 	const schemas: unknown[] = [];
 	const entities = new Set<string>(); // Track entities we've already added
 

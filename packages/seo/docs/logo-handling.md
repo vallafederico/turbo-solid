@@ -31,7 +31,7 @@ When building organization schemas, logos are resolved in the following order:
 
 ```typescript
 // Example fallback chain in code:
-logo: getImageUrl(
+logo: createSchemaImageObject(
   organization.logo,           // 1. Specific logo
   schemaDefaults?.logo ||      // 2. Global logo
   schemaDefaults?.imageFallback // 3. General fallback
@@ -109,7 +109,7 @@ If you need to create a schema-compatible image object:
 import { createSchemaImage } from "@local/seo/utils";
 
 const schemaImage = createSchemaImage(
-  sanityImageObject,
+  sanityImageAssetObject,
   fallbackImage
 );
 // Returns: { url: "https://..." } or undefined

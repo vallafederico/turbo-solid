@@ -1,13 +1,9 @@
 // schema/builders/article.ts
+import { createSchemaImageObject } from "../../utils";
 import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
 import type { SchemaImage, SchemaPerson, SchemaOrganization } from "../types";
-import {
-	getImageUrl,
-	buildPersonOrOrg,
-	buildOrgSchema,
-	formatSchemaDate,
-} from "./utils";
+import { buildPersonOrOrg, buildOrgSchema, formatSchemaDate } from "./utils";
 
 export function buildArticle({
 	seo,
@@ -30,7 +26,7 @@ export function buildArticle({
 		autoMap.description !== false
 			? seo.description
 			: (extra?.description as string | undefined);
-	const image = getImageUrl(
+	const image = createSchemaImageObject(
 		autoMap.image !== false ? seo.metaImage : (extra?.image as SchemaImage),
 		schemaDefaults?.imageFallback,
 	);
