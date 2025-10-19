@@ -7,7 +7,6 @@ import { structure } from "./desk/structure";
 import Logo from "./components/Logo";
 import { noteField } from "sanity-plugin-note-field";
 import { userGuidePlugin } from "@q42/sanity-plugin-user-guide";
-import { vercelDeployTool } from "sanity-plugin-vercel-deploy";
 import { userGuideStructure } from "./guides/userGuideStructure";
 
 import { schemaMarkupPlugin } from "./plugins/schema-markup";
@@ -25,7 +24,6 @@ const sharedConfig = [
 	media(),
 	noteField(),
 	userGuidePlugin({ userGuideStructure }),
-	vercelDeployTool(),
 	schemaMarkupPlugin(),
 	// presentationTool({
 	// 	previewUrl: {
