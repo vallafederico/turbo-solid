@@ -12,42 +12,30 @@ Meta tags in SolidStart must be rendered **synchronously during SSR** for search
 
 ### 1. Route-Level Data Loading
 
-Use SolidStart's `route.load()` function to preload all SEO-related data:
+Use SolidStart's `route.load()` function to preload page-specific data:
 
 ```typescript
 // apps/web/src/routes/your-page.tsx
 import { SanityMeta } from "@local/seo";
-import type { PageMetadata, SeoDefaults } from "@local/seo";
+import type { PageMetadata } from "@local/seo";
 import { createAsync } from "@solidjs/router";
-import { getDocumentByType, getSeoDefaults, getSchemaDefaults } from "@local/sanity";
+import { getDocumentByType } from "@local/sanity";
 
 /**
- * Preload all data needed for SSR meta tags
- * This ensures meta tags are rendered synchronously during initial page load
+ * Preload page-specific data for SSR meta tags
+ * SanityMeta fetches global defaults internally
  */
 export const route = {
-  load: () => Promise.all([
-    getSeoDefaults(),      // Global SEO defaults
-    getSchemaDefaults(),   // Schema markup defaults
-    getDocumentByType("yourPageType"), // Page-specific data
-  ]),
+  load: () => getDocumentByType("yourPageType"),
 };
 
 export default function YourPage() {
-  // All data is preloaded, so these resolve immediately during SSR
-  const seoDefaults = createAsync(() => getSeoDefaults());
-  const schemaDefaults = createAsync(() => getSchemaDefaults());
+  // Page data is preloaded, resolves immediately during SSR
   const pageData = createAsync(() => getDocumentByType("yourPageType"));
 
   return (
     <div>
-      {seoDefaults() && pageData() && (
-        <SanityMeta 
-          pageData={pageData() as PageMetadata} 
-          seoDefaults={seoDefaults() as SeoDefaults}
-          schemaDefaults={schemaDefaults()}
-        />
-      )}
+      <SanityMeta pageData={pageData() as PageMetadata} />
       
       {/* Your page content */}
     </div>
@@ -55,22 +43,24 @@ export default function YourPage() {
 }
 ```
 
-### 2. Cached Queries
+### 2. Internal Default Fetching
 
-The SEO defaults are cached using SolidStart's `cache()` function, so they're only fetched once per request and shared across all pages:
+The `SanityMeta` component fetches global defaults internally using `createAsync` with `deferStream: true`. This means:
+
+- **SEO defaults** (`seoDefaults`) and **schema defaults** (`schemaMarkupDefaults`) are fetched automatically
+- No need to pass them as props
+- They can be cached in Sanity queries for performance
+- The component handles the data loading and merging automatically
 
 ```typescript
-// packages/sanity/utils/seo-queries.ts
-import { cache } from "@solidjs/router";
-import { getDocumentByType } from "./query";
+// Inside SanityMeta component
+const seoDefaults = createAsync(() => getDocumentByType("seoDefaults"), {
+  deferStream: true,
+});
 
-export const getSeoDefaults = cache(async () => {
-  return getDocumentByType("seoDefaults");
-}, "seo-defaults");
-
-export const getSchemaDefaults = cache(async () => {
-  return getDocumentByType("schemaMarkupDefaults");
-}, "schema-defaults");
+const schemaDefaults = createAsync(() => getDocumentByType("schemaMarkupDefaults"), {
+  deferStream: true,
+});
 ```
 
 ## Architecture
@@ -80,17 +70,16 @@ export const getSchemaDefaults = cache(async () => {
 ```
 Route Load
   ↓
-getSeoDefaults() --------→ Cached globally
-getSchemaDefaults() -----→ Cached globally
-getDocumentByType() -----→ Page-specific data
+getDocumentByType() -----→ Page-specific data preloaded
   ↓
-createAsync() resolves immediately during SSR
-  ↓
-SanityMeta component receives resolved data
+SanityMeta component renders
+  ├─→ createAsync() fetches seoDefaults (with deferStream)
+  ├─→ createAsync() fetches schemaDefaults (with deferStream)
+  └─→ Receives pageData as prop
   ↓
 buildSeoPayload() merges defaults with page data
   ↓
-Meta tags render synchronously
+Meta tags render during SSR
   ↓
 Search engines see complete meta tags in HTML
 ```
@@ -99,129 +88,180 @@ Search engines see complete meta tags in HTML
 
 1. **Global Defaults** (`seoDefaults`)
    - Site-wide SEO settings
-   - Fetched once per request via cache
+   - Fetched internally by SanityMeta
    - Examples: siteTitle, pageTitleTemplate, siteUrl
 
-2. **Type Defaults** (`schemaDefaults`) [Optional]
-   - Content type-specific defaults
-   - Examples: Article publisher, Product brand
+2. **Schema Defaults** (`schemaDefaults`)
+   - Schema markup defaults
+   - Fetched internally by SanityMeta
+   - Examples: Organization, Publisher, WebSite data
 
-3. **Page Metadata** (`pageData.metadata`)
-   - Individual page overrides
+3. **Page Metadata** (`pageData`)
+   - Individual page content and overrides
+   - Passed as prop to SanityMeta
    - Highest priority
-   - Examples: Custom description, canonical URL
+   - Examples: Custom description, canonical URL, schema type
 
 ## Key Files
 
-### Queries
-- `packages/sanity/utils/seo-queries.ts` - Cached queries for shared data
-- `packages/sanity/utils/query.ts` - Base query utilities
-
 ### Components
-- `packages/seo/components/SanityMeta.tsx` - Meta tag renderer
-- Accepts resolved data as props (no internal fetching)
+- `packages/seo/components/SanityMeta.tsx` - Main meta tag component
+  - Fetches defaults internally
+  - Accepts pageData and isHomepage props
+  - Renders meta tags and schema markup
 
 ### Utilities
 - `packages/seo/build.ts` - Builds complete SEO payload
 - `packages/seo/utils/merge.ts` - Merges defaults with page data
+- `packages/seo/utils/image.ts` - Image URL resolution and optimization
+
+### Queries
+- `packages/sanity/utils/query.ts` - Base query utilities
+- `getDocumentByType()` - Used internally for defaults
+- `getDocumentBySlug()` - Used for page-specific data
 
 ### Types
 - `PageMetadata` - Page-level metadata structure
-- `SeoDefaults` - Global SEO defaults structure
+- `SeoDefaults` - Global SEO defaults structure  
+- `SchemaDefaults` - Schema markup defaults structure
 - `MergedMetadata` - Final merged result
 
 ## Benefits
 
 ✅ **SEO-friendly**: Meta tags in initial HTML response  
-✅ **Performance**: Cached queries prevent redundant fetches  
+✅ **Simple API**: Only pass pageData, defaults fetched internally  
+✅ **Performance**: Deferred streams and internal caching  
 ✅ **Type-safe**: Full TypeScript support  
-✅ **Maintainable**: Centralized SEO logic  
+✅ **Maintainable**: Centralized SEO logic in one component  
 ✅ **Flexible**: Easy to add page-specific overrides  
+✅ **Auto-generated schemas**: WebSite schema automatic on homepage  
 
 ## Common Patterns
 
 ### Home Page
 ```typescript
+import { SanityMeta } from "@local/seo";
+import { createAsync } from "@solidjs/router";
+import { getDocumentByType } from "@local/sanity";
+
 export const route = {
-  load: () => Promise.all([
-    getSeoDefaults(),
-    getSchemaDefaults(),
-    getDocumentByType("home"),
-  ]),
+  load: () => getDocumentByType("home"),
 };
+
+export default function HomePage() {
+  const pageData = createAsync(() => getDocumentByType("home"));
+  
+  return (
+    <div>
+      <SanityMeta pageData={pageData()} isHomepage={true} />
+      {/* Page content */}
+    </div>
+  );
+}
 ```
 
 ### Dynamic Page (with slug)
 ```typescript
+import { SanityMeta } from "@local/seo";
+import { createAsync, useParams } from "@solidjs/router";
+import { getDocumentBySlug } from "@local/sanity";
+
 export const route = {
-  load: ({ params }) => Promise.all([
-    getSeoDefaults(),
-    getSchemaDefaults(),
-    getDocumentBySlug("article", params.slug),
-  ]),
+  load: ({ params }) => getDocumentBySlug("article", params.slug),
 };
+
+export default function ArticlePage() {
+  const params = useParams();
+  const pageData = createAsync(() => getDocumentBySlug("article", params.slug));
+  
+  return (
+    <div>
+      <SanityMeta pageData={pageData()} />
+      {/* Article content */}
+    </div>
+  );
+}
 ```
 
-### Page with No CMS Data
+### Page with Static Metadata
 ```typescript
-export const route = {
-  load: () => Promise.all([
-    getSeoDefaults(),
-    getSchemaDefaults(),
-  ]),
-};
+import { SanityMeta } from "@local/seo";
+import type { PageMetadata } from "@local/seo";
 
-// Provide static page metadata
+// Static page metadata (no CMS data needed)
 const pageData: PageMetadata = {
   title: "Contact Us",
   metadata: {
     description: "Get in touch with our team",
   },
 };
+
+export default function ContactPage() {
+  return (
+    <div>
+      <SanityMeta pageData={pageData} />
+      {/* Page content */}
+    </div>
+  );
+}
 ```
 
 ## Anti-Patterns
 
-❌ **Don't wrap meta tags in `<Show>`**
+❌ **Don't conditionally render SanityMeta based on pageData**
 ```typescript
-// BAD - Meta tags won't be in SSR HTML
-<Show when={seoDefaults()}>
-  <SanityMeta ... />
+// BAD - SanityMeta should always render, even without pageData
+<Show when={pageData()}>
+  <SanityMeta pageData={pageData()} />
 </Show>
+
+// GOOD - SanityMeta handles undefined pageData gracefully
+<SanityMeta pageData={pageData()} />
 ```
 
-❌ **Don't fetch data inside meta component**
+❌ **Don't skip route.load() for CMS pages**
 ```typescript
-// BAD - Async fetch delays meta tag rendering
-export default function SanityMeta() {
-  const data = createAsync(() => getSeoDefaults());
-  // Meta tags render after data loads
-}
-```
-
-❌ **Don't skip route.load()**
-```typescript
-// BAD - Data not preloaded for SSR
+// BAD - Page data not preloaded for SSR
 export default function Page() {
-  const data = createAsync(() => getSeoDefaults());
-  // Data might not be ready during SSR
+  const data = createAsync(() => getDocumentByType("page"));
+  return <SanityMeta pageData={data()} />;
 }
+
+// GOOD - Preload in route.load()
+export const route = {
+  load: () => getDocumentByType("page"),
+};
+```
+
+❌ **Don't forget isHomepage flag**
+```typescript
+// BAD - Homepage won't get WebSite schema automatically
+<SanityMeta pageData={homeData()} />
+
+// GOOD - Set isHomepage for proper schema generation
+<SanityMeta pageData={homeData()} isHomepage={true} />
 ```
 
 ## Troubleshooting
 
 ### Meta tags not showing in view-source
-- Ensure `route.load()` is defined and preloads all data
-- Check that queries are returning data (no errors)
-- Verify conditional rendering doesn't hide meta tags
+- Ensure `route.load()` preloads page-specific data
+- Check that `getDocumentByType()` is returning data (no errors)
+- Verify SanityMeta is not wrapped in conditional rendering
+- Check browser console for Sanity query errors
 
 ### Empty meta tag values
 - Ensure page data structure matches `PageMetadata` type
 - Check that field names match (use `metadata`, not `seo`)
-- Verify defaults are fetched successfully
+- Verify seoDefaults document exists in Sanity CMS
+- Check that schemaMarkupDefaults document exists for schema markup
+
+### WebSite schema not appearing on homepage
+- Ensure `isHomepage={true}` is set on SanityMeta component
+- Check that schemaDefaults are properly configured in Sanity
 
 ### TypeScript errors
-- Import types from `@local/seo`: `PageMetadata`, `SeoDefaults`
+- Import types from `@local/seo`: `PageMetadata`
 - Use type assertions when needed: `as PageMetadata`
-- Ensure conditional rendering checks data exists
+- Ensure pageData can be undefined: `pageData?: PageMetadata`
 

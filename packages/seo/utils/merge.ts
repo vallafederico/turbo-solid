@@ -1,5 +1,6 @@
 import type { SanityImageAssetDocument } from "@sanity/client";
 import { createMetaTitle } from "./meta-title";
+import { createFavicons } from "./favicon";
 
 /**
  * Type for SEO defaults from seoDefaults singleton
@@ -42,7 +43,13 @@ export type MergedMetadata = {
 	description?: string;
 	canonicalUrl?: string;
 	metaImage?: SanityImageAssetDocument;
-	favicon?: SanityImageAssetDocument;
+	favicons?:
+		| {
+				type: string;
+				sizes?: string;
+				href: string;
+		  }
+		| undefined;
 	twitterHandle?: string;
 	robots?: string;
 	schemaMarkup?: string;
@@ -114,7 +121,7 @@ export const mergeSeoData = (
 		description: page.metadata?.description || seoDefaults.metaDescription,
 		canonicalUrl: page.metadata?.canonicalUrl || seoDefaults.siteUrl,
 		metaImage: page.metadata?.metaImage,
-		favicon: seoDefaults.favicon,
+		favicons: createFavicons(seoDefaults.favicon),
 		twitterHandle: seoDefaults.twitterHandle,
 		robots: buildRobotsString(
 			page.metadata?.searchVisibility || { noIndex: false, noFollow: false },

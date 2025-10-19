@@ -1,9 +1,9 @@
-import { Meta, Title } from "@solidjs/meta";
+import { Link, Meta, Title } from "@solidjs/meta";
 import type { PageMetadata, SeoDefaults } from "../utils/merge";
 import { buildSeoPayload } from "../build";
 import { getDocumentByType } from "@local/sanity";
 import { createAsync } from "@solidjs/router";
-import { Show } from "solid-js";
+import { For, Show } from "solid-js";
 import SchemaMarkup from "../schema-markup/SchemaMarkup";
 import type { SchemaDefaults } from "../schema-markup";
 
@@ -48,6 +48,18 @@ export default function SanityMeta({
 					return (
 						<>
 							<Title>{meta.title ?? ""}</Title>
+
+							<For each={meta.favicons}>
+								{(favicon) => (
+									<Link
+										rel="icon"
+										href={favicon.href}
+										type={favicon.type}
+										sizes={favicon.sizes}
+									/>
+								)}
+							</For>
+
 							<Meta name="description" content={meta.description ?? ""} />
 							{meta.robots && <Meta name="robots" content={meta.robots} />}
 

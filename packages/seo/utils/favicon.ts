@@ -1,52 +1,38 @@
+import type { SanityAssetDocument } from "@sanity/client";
 import sanityClient from "../../sanity/client";
 import { urlFor } from "../../sanity/utils/assets";
 
-const createFavicons = (favicon) => {
-	if (!favicon || !favicon.url) return [];
+export type Favicon = {
+	type: string;
+	sizes?: string;
+	href: string;
+};
 
-	const imageUrl = urlFor(favicon.asset._ref).url();
+export const createFavicons = (
+	favicon: SanityAssetDocument,
+): Favicon[] | null => {
+	if (!favicon?.asset) return null;
 
-	console.log(imageUrl);
+	const favicons: Favicon[] = [];
+	const imageRef = favicon.asset._ref || favicon.asset._id;
+	const [assetType, id, dimensions, fileType] = imageRef.split("-");
 
-	return null;
+	if (fileType === "svg") {
+		const svg = urlFor(imageRef).url();
+		const pngFallback = urlFor(imageRef).size(32, 32).format("png").url();
 
-	// const isSvg =
-	// 	favicon.mimeType === "image/svg+xml" ||
-	// 	(favicon.extension && favicon.extension.toLowerCase() === "svg");
+		favicons.push(
+			{
+				type: "image/svg+xml",
+				href: svg,
+			},
+			{
+				type: "image/png",
+				sizes: "32x32",
+				href: pngFallback,
+			},
+		);
+	}
 
-	// const baseUrl = favicon.url.split("?")[0];
-
-	// if (isSvg) {
-	// 	return [
-	// 		// PNG at 32x32
-	// 		{
-	// 			rel: "icon",
-	// 			type: "image/png",
-	// 			sizes: "32x32",
-	// 			href: `${baseUrl}?w=32&h=32&fit=crop&fm=png`,
-	// 		},
-	// 		// SVG favicon
-	// 		{
-	// 			rel: "icon",
-	// 			type: "image/svg+xml",
-	// 			href: baseUrl,
-	// 		},
-	// 		// Apple touch icon 180x180 PNG
-	// 		{
-	// 			rel: "apple-touch-icon",
-	// 			sizes: "180x180",
-	// 			href: `${baseUrl}?w=180&h=180&fit=crop&fm=png`,
-	// 		},
-	// 	];
-	// } else {
-	// 	return [
-	// 		// Only PNG at 32x32
-	// 		{
-	// 			rel: "icon",
-	// 			type: "image/png",
-	// 			sizes: "32x32",
-	// 			href: `${baseUrl}?w=32&h=32&fit=crop&fm=png`,
-	// 		},
-	// 	];
-	// }
+	return favicons;
 };
