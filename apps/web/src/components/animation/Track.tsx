@@ -1,5 +1,10 @@
-import { onScroll, onTrack, onIntersect, onPageLeave } from "~/animation/";
-import gsap from "~/app/gsap";
+import {
+  onScroll,
+  onTrack,
+  onIntersect,
+  onPageLeave,
+} from "~/animation/";
+import gsap from "~/lib/gsap";
 import { createSignal } from "solid-js";
 
 export default function Track({

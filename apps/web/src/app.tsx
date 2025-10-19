@@ -11,7 +11,7 @@ import { Nav } from "~/components/Nav";
 import Grid from "~/components/Grid";
 
 import Canvas from "~/components/Canvas";
-import { scroll } from "~/app/scroll";
+import { scroll } from "~/lib/utils/scroll";
 
 import { usePageTransition } from "./animation";
 

@@ -1,4 +1,4 @@
-import gsap, { A } from "~/app/gsap";
+import gsap, { A } from "../lib/gsap";
 import { onIntersect, onPageLeave } from "~/animation/";
 
 declare module "solid-js" {

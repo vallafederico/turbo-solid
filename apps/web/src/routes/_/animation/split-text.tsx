@@ -18,9 +18,9 @@ export default function SplitTextPage() {
         </Section>
       </div>
 
-      <div class="py-20 flex-center max-w-screen">
+      <div class="flex-center max-w-screen py-20">
         <Split class="text-[2rem]">
-          <p class="">Split me</p>
+          <p class="">Split me Gg yl</p>
         </Split>
       </div>
       <div class="flex-center min-h-[100vh] max-w-screen py-20">
@@ -28,7 +28,7 @@ export default function SplitTextPage() {
           <p class="">Cool text here</p>
         </Split>
       </div>
-      <div class="py-20 flex-center max-w-screen">
+      <div class="flex-center max-w-screen py-20">
         <Split class="text-[2rem]">
           <p class="">Split me PLEASE</p>
         </Split>

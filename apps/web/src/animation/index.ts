@@ -1,4 +1,4 @@
-export { usePageTransition } from "./lib/page-transition";
-export { setOutTransition, reset } from "./lib/page-transition";
-export { onPageLeave, onIntersect } from "./lib/intersect";
-export { onScroll, onTrack } from "./lib/scrolling";
+export * from "./alpha";
+export * from "./intersect";
+export * from "./page-transition";
+export * from "./scrolling";

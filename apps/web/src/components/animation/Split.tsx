@@ -1,6 +1,6 @@
 import "./Split.css";
 import cx from "classix";
-import gsap, { SplitText, A } from "~/app/gsap";
+import gsap, { SplitText, A } from "~/lib/gsap";
 import { onCleanup, onMount } from "solid-js";
 import { onIntersect, onPageLeave } from "~/animation";
 
