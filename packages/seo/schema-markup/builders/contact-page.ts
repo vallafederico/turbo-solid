@@ -2,8 +2,8 @@
 import { createSchemaImageObject } from "../../utils";
 import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
+import { coalesce } from "../schema-utils";
 import type { SchemaImage } from "../types";
-
 
 export function buildContactPage({
 	seo,
@@ -32,9 +32,9 @@ export function buildContactPage({
 	return {
 		"@context": "https://schema.org",
 		"@type": "ContactPage",
-		name: name || (extra?.name as string | undefined),
-		description: description || (extra?.description as string | undefined),
-		url: seo.canonicalUrl || (extra?.url as string | undefined),
+		name: coalesce(name, extra?.name),
+		description: coalesce(description, extra?.description),
+		url: coalesce(seo.canonicalUrl, extra?.url),
 		image,
 		inLanguage:
 			(extra?.inLanguage as string | undefined) || defaults.inLanguage,

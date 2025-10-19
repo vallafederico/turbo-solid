@@ -125,7 +125,9 @@ export function buildPersonOrOrg(
 /**
  * Helper to format date for schema.org
  */
-export function formatSchemaDate(date?: string | Date): string | undefined {
+export function formatSchemaDate(
+	date?: string | Date | undefined,
+): string | Date | undefined {
 	if (!date) return undefined;
 
 	if (typeof date === "string") {

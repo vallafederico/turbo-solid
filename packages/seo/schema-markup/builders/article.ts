@@ -4,6 +4,7 @@ import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
 import type { SchemaImage, SchemaPerson, SchemaOrganization } from "../types";
 import { buildPersonOrOrg, buildOrgSchema, formatSchemaDate } from "./utils";
+import { coalesce } from "../schema-utils";
 
 export function buildArticle({
 	seo,
@@ -43,17 +44,17 @@ export function buildArticle({
 			: undefined;
 
 	// Build publisher (use reference since it's added as entity first)
-	const publisher =
-		(extra?.publisher as SchemaOrganization | undefined) ||
-		defaults.publisher ||
-		schemaDefaults?.publisher ||
-		schemaDefaults?.organization;
-
+	const publisher = coalesce(
+		extra?.publisher,
+		defaults.publisher,
+		schemaDefaults?.publisher,
+		schemaDefaults?.organization,
+	) as SchemaOrganization | undefined;
 	return {
 		"@context": "https://schema.org",
 		"@type": "Article",
-		headline: headline || (extra?.headline as string | undefined),
-		description: description || (extra?.description as string | undefined),
+		headline: coalesce(headline, extra?.headline),
+		description: coalesce(description, extra?.description),
 		image,
 		datePublished: formatSchemaDate(
 			autoMap.dates !== false
@@ -73,11 +74,11 @@ export function buildArticle({
 		),
 		author: authorSchema,
 		publisher: buildOrgSchema(publisher, true, seo.canonicalUrl), // Use reference
-		mainEntityOfPage:
-			seo.canonicalUrl || (extra?.mainEntityOfPage as string | undefined),
-		articleSection:
-			(extra?.articleSection as string | undefined) || defaults.section,
-		url: seo.canonicalUrl,
+		mainEntityOfPage: coalesce(seo.canonicalUrl, extra?.mainEntityOfPage) as
+			| string
+			| undefined,
+		articleSection: coalesce(extra?.articleSection, defaults.section),
+		url: coalesce(seo.canonicalUrl, extra?.url) as string | undefined,
 		isPartOf: seo.canonicalUrl
 			? {
 					"@type": "WebSite",

@@ -1,6 +1,7 @@
 // schema/builders/organization.ts
 import { createSchemaImageObject } from "../../utils";
 import type { SchemaDefaults } from "../compose";
+import { coalesce } from "../schema-utils";
 import type { SchemaOrganization } from "../types";
 import { normalizeId, buildOrgSchema } from "./utils";
 
@@ -51,9 +52,9 @@ export function buildOrganization(
 		url: organization.url,
 		logo: createSchemaImageObject(
 			organization.logo,
-			schemaDefaults?.logo || schemaDefaults?.imageFallback,
+			coalesce(schemaDefaults?.logo, schemaDefaults?.imageFallback),
 		),
-		sameAs: organization.sameAs || schemaDefaults?.sameAs,
+		sameAs: coalesce(organization.sameAs, schemaDefaults?.sameAs),
 		department: departments,
 		contactPoint,
 	};

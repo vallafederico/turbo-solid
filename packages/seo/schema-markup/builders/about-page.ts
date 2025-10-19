@@ -2,6 +2,7 @@
 import { createSchemaImageObject } from "../../utils";
 import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
+import { coalesce } from "../schema-utils";
 import type { SchemaImage } from "../types";
 
 export function buildAboutPage({
@@ -32,15 +33,16 @@ export function buildAboutPage({
 		"@context": "https://schema.org",
 		"@type": "AboutPage",
 		name: name || (extra?.name as string | undefined),
-		description: description || (extra?.description as string | undefined),
-		url: seo.canonicalUrl || (extra?.url as string | undefined),
+		description: coalesce(description, extra?.description) as string | undefined,
+		url: coalesce(seo.canonicalUrl, extra?.url) as string | undefined,
 		image,
-		inLanguage:
-			(extra?.inLanguage as string | undefined) || defaults.inLanguage,
-		datePublished: (extra?.datePublished || extra?._createdAt) as
+		inLanguage: coalesce(extra?.inLanguage, defaults.inLanguage) as
 			| string
 			| undefined,
-		dateModified: (extra?.dateModified || extra?._updatedAt) as
+		datePublished: coalesce(extra?.datePublished, extra?._createdAt) as
+			| string
+			| undefined,
+		dateModified: coalesce(extra?.dateModified, extra?._updatedAt) as
 			| string
 			| undefined,
 		about: extra?.about,

@@ -2,6 +2,7 @@
 import { createSchemaImageObject } from "../../utils";
 import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
+import { coalesce } from "../schema-utils";
 import type { SchemaImage, SchemaPerson, SchemaOrganization } from "../types";
 import { buildPersonOrOrg, formatSchemaDate } from "./utils";
 
@@ -47,8 +48,12 @@ export function buildEvent({
 		: undefined;
 
 	// Build organizer (use references since they're added as entities first)
-	const organizer =
-		extra?.organizer || defaults.organizer || schemaDefaults?.organization;
+	const organizer = coalesce(
+		extra?.organizer,
+		defaults.organizer,
+		schemaDefaults?.organization,
+	) as SchemaOrganization | SchemaPerson | undefined;
+
 	const organizerSchema = Array.isArray(organizer)
 		? (organizer as Array<SchemaPerson | SchemaOrganization>)
 				.map((org) => buildPersonOrOrg(org, true, seo.canonicalUrl))
@@ -69,18 +74,20 @@ export function buildEvent({
 	return {
 		"@context": "https://schema.org",
 		"@type": "Event",
-		name: name || (extra?.name as string | undefined),
-		description: description || (extra?.description as string | undefined),
+		name: coalesce(name, extra?.name),
+		description: coalesce(description, extra?.description),
 		image,
-		startDate: formatSchemaDate(extra?.startDate as string | Date | undefined),
-		endDate: formatSchemaDate(extra?.endDate as string | Date | undefined),
+		startDate: formatSchemaDate(extra?.startDate),
+		endDate: formatSchemaDate(extra?.endDate),
 		eventStatus: extra?.eventStatus
 			? `https://schema.org/${extra.eventStatus}`
 			: undefined,
-		eventAttendanceMode:
-			extra?.eventAttendanceMode || defaults.eventAttendanceMode
-				? `https://schema.org/${extra.eventAttendanceMode || defaults.eventAttendanceMode}`
-				: undefined,
+		eventAttendanceMode: coalesce(
+			extra?.eventAttendanceMode,
+			defaults.eventAttendanceMode,
+		)
+			? `https://schema.org/${extra.eventAttendanceMode || defaults.eventAttendanceMode}`
+			: undefined,
 		location,
 		organizer: organizerSchema,
 		performer,

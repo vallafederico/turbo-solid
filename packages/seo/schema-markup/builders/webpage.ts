@@ -2,6 +2,7 @@
 import { createSchemaImageObject } from "../../utils";
 import type { MergedMetadata } from "../../utils/merge";
 import type { SchemaDefaults } from "../compose";
+import { coalesce } from "../schema-utils";
 import type { SchemaImage } from "../types";
 
 export function buildWebPage({
@@ -32,18 +33,13 @@ export function buildWebPage({
 	return {
 		"@context": "https://schema.org",
 		"@type": "WebPage",
-		name: name || (extra?.name as string | undefined),
-		description: description || (extra?.description as string | undefined),
-		url: seo.canonicalUrl || (extra?.url as string | undefined),
+		name: coalesce(name, extra?.name),
+		description: coalesce(description, extra?.description),
+		url: coalesce(seo.canonicalUrl, extra?.url),
 		image,
-		inLanguage:
-			(extra?.inLanguage as string | undefined) || defaults.inLanguage,
-		datePublished: (extra?.datePublished || extra?._createdAt) as
-			| string
-			| undefined,
-		dateModified: (extra?.dateModified || extra?._updatedAt) as
-			| string
-			| undefined,
+		inLanguage: coalesce(extra?.inLanguage, defaults.inLanguage),
+		datePublished: coalesce(extra?.datePublished, extra?._createdAt),
+		dateModified: coalesce(extra?.dateModified, extra?._updatedAt),
 		about: extra?.about,
 		isPartOf: seo.canonicalUrl
 			? {
