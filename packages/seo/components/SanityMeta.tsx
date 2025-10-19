@@ -33,7 +33,7 @@ export default function SanityMeta({
 		<>
 			<Show when={seoDefaults()}>
 				{(defaults) => {
-					const { meta, schema } = buildSeoPayload({
+					const { meta, schemas } = buildSeoPayload({
 						globalDefaults: defaults(),
 						schemaDefaults: schemaDefaults(),
 						pageSeo: pageData,
@@ -68,21 +68,8 @@ export default function SanityMeta({
 							/>
 
 							{/* Schema Markup */}
-							<Show when={schema && schemaDefaults()}>
-								<SchemaMarkup
-									seo={meta}
-									schemaDefaults={schemaDefaults()}
-									type={
-										typeof pageData?.schemaMarkup === "string"
-											? pageData.schemaMarkup
-											: (pageData?.schemaMarkup as unknown as { type?: string })
-													?.type
-									}
-									extra={{
-										_createdAt: pageData?._createdAt,
-										_updatedAt: pageData?._updatedAt,
-									}}
-								/>
+							<Show when={schemas && schemaDefaults()}>
+								<SchemaMarkup schemas={schemas} />
 							</Show>
 						</>
 					);

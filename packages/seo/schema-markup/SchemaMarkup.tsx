@@ -1,41 +1,25 @@
-import { For } from "solid-js";
+import { For, Show } from "solid-js";
+// If you're using schema-ltd, you can import the type like this:
+import type { Thing } from "schema-dts";
 import { composeSchema, type SchemaDefaults } from "./compose";
 import type { MergedMetadata } from "../utils/merge";
 
-export type SchemaMarkupProps = {
-	seo: MergedMetadata;
-	schemaDefaults?: SchemaDefaults;
-	type?: string;
-	extra?: Record<string, unknown>;
-};
-
-export default function SchemaMarkup({
-	seo,
-	schemaDefaults,
-	type,
-	extra,
-}: SchemaMarkupProps) {
-	const schemas = composeSchema({
-		seo,
-		schemaDefaults,
-		type,
-		extra,
-	});
-
-	if (!schemas || schemas.length === 0) {
-		return null;
-	}
-
+// "schemas" prop can be typed as Thing[] for schema.org LD+JSON
+export default function SchemaMarkup({ schemas }: { schemas: Thing[] }) {
 	return (
 		<>
-			<For each={schemas}>
-				{(schema) => (
-					<script
-						type="application/ld+json"
-						innerHTML={JSON.stringify(schema)}
-					/>
-				)}
-			</For>
+			<Show when={schemas?.length > 0}>
+				<For each={schemas}>
+					{(schema) => (
+						<script
+							type="application/ld+json"
+							innerHTML={JSON.stringify(schema)}
+						/>
+					)}
+				</For>
+			</Show>
 		</>
 	);
 }
+
+// If you need to support any structure that schema-ltd allows, "Thing" covers the root for most structured data types.
