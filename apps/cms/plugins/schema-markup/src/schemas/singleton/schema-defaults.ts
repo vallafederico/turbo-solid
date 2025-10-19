@@ -91,6 +91,7 @@ export const schemaMarkupDefaults = defineType({
 		}),
 		defineField({
 			name: "imageFieldMapping",
+			hidden: true,
 			title: "Image Auto-Map Order",
 			group: "global",
 			type: "array",

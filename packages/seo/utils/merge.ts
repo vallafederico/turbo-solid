@@ -1,6 +1,6 @@
 import type { SanityImageAssetDocument } from "@sanity/client";
 import { createMetaTitle } from "./meta-title";
-import { createFavicons } from "./favicon";
+import { createFavicons, Favicon } from "./favicon";
 
 /**
  * Type for SEO defaults from seoDefaults singleton
@@ -35,21 +35,12 @@ export type PageMetadata = {
 	_updatedAt?: string;
 };
 
-/**
- * Merged metadata result
- */
 export type MergedMetadata = {
 	title?: string;
 	description?: string;
 	canonicalUrl?: string;
 	metaImage?: SanityImageAssetDocument;
-	favicons?:
-		| {
-				type: string;
-				sizes?: string;
-				href: string;
-		  }
-		| undefined;
+	favicons?: Favicon[] | null;
 	twitterHandle?: string;
 	robots?: string;
 	schemaMarkup?: string;
@@ -70,7 +61,7 @@ const buildRobotsString = ({
 };
 
 /**
- * Merges page-level metadata with SEO defaults
+ * Merges page-level metadata with SEO defaults,
  * Page metadata takes precedence over defaults
  */
 export const mergeSeoData = (
@@ -93,7 +84,7 @@ export const mergeSeoData = (
 			title: seoDefaults?.siteTitle,
 			description: seoDefaults?.metaDescription,
 			canonicalUrl: seoDefaults?.siteUrl,
-			favicon: seoDefaults?.favicon,
+			favicons: createFavicons(seoDefaults?.favicon),
 			twitterHandle: seoDefaults?.twitterHandle,
 		};
 	}

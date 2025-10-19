@@ -9,7 +9,7 @@ export type Favicon = {
 };
 
 export const createFavicons = (
-	favicon: SanityAssetDocument,
+	favicon: SanityAssetDocument | undefined,
 ): Favicon[] | null => {
 	if (!favicon?.asset) return null;
 
