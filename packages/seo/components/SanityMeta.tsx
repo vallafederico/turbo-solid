@@ -1,11 +1,12 @@
 import { Link, Meta, Title } from "@solidjs/meta";
 import type { PageMetadata, SeoDefaults } from "../utils/merge";
-import { buildSeoPayload } from "../build";
+import { buildSeoPayload } from "@crawl-me-maybe/web";
 import { getDocumentByType } from "@local/sanity";
 import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import SchemaMarkup from "../schema-markup/SchemaMarkup";
 import type { SchemaDefaults } from "../schema-markup";
+import { SANITY_CONFIG } from "../../config";
 
 type SanityMetaProps = {
 	pageData?: PageMetadata;
@@ -30,19 +31,21 @@ export default function SanityMeta({
 	);
 
 	return (
-		<>
 			<Show when={seoDefaults()}>
 				{(defaults) => {
 					const { meta, schemas } = buildSeoPayload({
 						globalDefaults: defaults(),
+						seoFieldName: 'ssss',
 						schemaDefaults: schemaDefaults(),
 						pageSeo: pageData,
-						pageSchemaType: pageData?.schemaMarkup,
+						pageSchemaType: pageData?.schemaMarkup?.type,
 						extraSchemaData: {
 							_createdAt: pageData?._createdAt,
 							_updatedAt: pageData?._updatedAt,
 						},
 						isHomepage,
+						projectId: SANITY_CONFIG.projectId,
+						dataset: SANITY_CONFIG.dataset,
 					});
 
 					return (
@@ -87,6 +90,5 @@ export default function SanityMeta({
 					);
 				}}
 			</Show>
-		</>
 	);
 }
