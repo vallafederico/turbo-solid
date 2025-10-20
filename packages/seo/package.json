@@ -3,6 +3,7 @@
 	"type": "module",
 	"main": "./index.ts",
 	"dependencies": {
+		"@crawl-me-maybe/web": "^0.0.1",
 		"@local/sanity": "workspace:*",
 		"@sanity/types": "^4.10.3",
 		"@solidjs/meta": "^0.29.4",

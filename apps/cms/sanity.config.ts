@@ -8,9 +8,7 @@ import Logo from "./components/Logo";
 import { noteField } from "sanity-plugin-note-field";
 import { userGuidePlugin } from "@q42/sanity-plugin-user-guide";
 import { userGuideStructure } from "./guides/userGuideStructure";
-
-// import { schemaMarkupPlugin } from "./plugins/schema-markup";
-import crawlMeMaybe from "@crawl-me-maybe/sanity";
+import { crawlMeMaybe } from "@crawl-me-maybe/sanity";
 import { DOMAIN, SANITY_CONFIG } from "@local/config";
 import { presentationTool } from "sanity/presentation";
 
@@ -23,7 +21,6 @@ const sharedConfig = [
 	media(),
 	noteField(),
 	userGuidePlugin({ userGuideStructure }),
-	// schemaMarkupPlugin(),
 	crawlMeMaybe(),
 	// presentationTool({
 	// 	previewUrl: {

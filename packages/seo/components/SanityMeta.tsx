@@ -4,7 +4,7 @@ import { buildSeoPayload } from "@crawl-me-maybe/web";
 import { getDocumentByType } from "@local/sanity";
 import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
-import SchemaMarkup from "../schema-markup/SchemaMarkup";
+import SchemaMarkup from "./SchemaMarkup";
 import { SANITY_CONFIG } from "../../config";
 
 type SanityMetaProps = {

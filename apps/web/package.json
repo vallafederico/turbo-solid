@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@local/sanity": "workspace:*",
+    "@crawl-me-maybe/sitemap": "^0.0.1",
     "@local/seo": "workspace:*",
     "@local/config": "workspace:*",
     "@solid-primitives/intersection-observer": "^2.2.2",

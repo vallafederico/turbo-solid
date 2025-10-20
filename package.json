@@ -16,9 +16,6 @@
   },
   "packageManager": "pnpm@10.12.1",
   "engines": {
-    "node": ">=18"
-  },
-  "dependencies": {
-    "@crawl-me-maybe/web": "link:../../Library/pnpm/global/5/node_modules/@crawl-me-maybe/web"
+    "node": ">=22"
   }
 }
