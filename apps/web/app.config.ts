@@ -2,7 +2,7 @@ import { defineConfig } from "@solidjs/start/config";
 import solidSvg from "vite-plugin-solid-svg";
 import glsl from "vite-plugin-glsl";
 import glReloadPlugin from "./vite/vite-plugin-gl-reload";
-import sitemapPlugin from "../../packages/seo/sitemap";
+import sitemapPlugin from "@crawl-me-maybe/sitemap";
 
 const plugins = [
 	glsl({
