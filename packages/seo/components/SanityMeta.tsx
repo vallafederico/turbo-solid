@@ -5,13 +5,12 @@ import { getDocumentByType } from "@local/sanity";
 import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import SchemaMarkup from "../schema-markup/SchemaMarkup";
-import type { SchemaDefaults } from "../schema-markup";
 import { SANITY_CONFIG } from "../../config";
 
 type SanityMetaProps = {
 	pageData?: PageMetadata;
 	seoDefaults?: SeoDefaults;
-	schemaDefaults?: SchemaDefaults;
+	schemaDefaults?: any
 	isHomepage?: boolean;
 };
 
