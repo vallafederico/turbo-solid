@@ -1,8 +1,5 @@
-// import { SanityMeta } from "@local/seo";
-
 import { createAsync, query } from "@solidjs/router";
 import { getDocumentByType } from "@local/sanity";
-import { Title } from "@solidjs/meta";
 import { SanityMeta } from "@local/seo";
 
 const getHomeData = query(async () => {

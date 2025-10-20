@@ -5,6 +5,3 @@ packages:
 
 ignoredBuiltDependencies:
   - bun
-
-overrides:
-  '@crawl-me-maybe/web': link:../../Library/pnpm/global/5/node_modules/@crawl-me-maybe/web
