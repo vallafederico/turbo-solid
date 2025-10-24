@@ -1,8 +1,9 @@
-import { defineConfig } from "@solidjs/start/config";
-import solidSvg from "vite-plugin-solid-svg";
-import glsl from "vite-plugin-glsl";
-import glReloadPlugin from "./vite/vite-plugin-gl-reload";
 import sitemapPlugin from "@crawl-me-maybe/sitemap";
+import { defineConfig } from "@solidjs/start/config";
+import glsl from "vite-plugin-glsl";
+import solidSvg from "vite-plugin-solid-svg";
+import glReloadPlugin from "./vite/vite-plugin-gl-reload";
+import componentDataAttr from "./vite/vite-pulugin-component-attrs";
 
 const plugins = [
 	glsl({
@@ -14,6 +15,7 @@ const plugins = [
 		watch: true,
 		root: "/",
 	}),
+	componentDataAttr(),
 	sitemapPlugin({
 		domain: "https://yourdomain.com",
 		outDir: "dist",
