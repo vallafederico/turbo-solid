@@ -1,5 +1,14 @@
 # Turborepo x Solid Starter
 
+## Solid Start
+Solid Start is JSX without the opinions of Next. Things to be aware of:
+- `map()` is not used to loop through components, use `<For/>` [Docs](https://docs.solidjs.com/reference/components/for)
+- Conditional rendering is done with `<Show/>` not `&&` [Docs](https://docs.solidjs.com/reference/components/show)
+- No keys are used on arrays
+- State is created via `createSignal()`, Solid's version of `useState()` [Docs](https://docs.solidjs.com/concepts/signals)
+
+[Read full docs](https://docs.solidjs.com/)
+
 ## Slices vs Components
 - **Components:** Smaller, composable, re-suable elements
 - **Slices:** Contentful-matched sections or modules. Lazily registered in (PATH)
@@ -42,14 +51,13 @@ Classes like `px-grid-3` (3 columns), `mx-margin-2` (2 margins), and `size-gutte
 TBD
 
 
-
-
 ## Animation
 
 **`requestAnimationFrame`**
 A single Raf is created via class and subscribed to as needed with `useRaf` or `Raf.add()`.
 
-## Event Listeners
+## Resizing
+A single Resize Observer is created via class and subscribed to with `useWindowResize()` or `Resizer.add()`.
 
 
 
