@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+
+Sanity is split into 5 categories; pages, slices, taxonmies, settings, and blocks. Slices are registered inside of an index file and used to create sets that are specific to a pagetype
