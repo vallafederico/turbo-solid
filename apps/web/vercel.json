@@ -1,5 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "pnpm build --no-frozen-lockfile",
+  "buildCommand": "cd ../../ && pnpm build:web --no-frozen-lockfile",
   "framework": "solidstart"
 }
