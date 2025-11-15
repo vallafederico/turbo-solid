@@ -10,29 +10,21 @@ const meta = {
 export default meta;
 // type Story = StoryObj<typeof meta>;
 
-const sharedArgTypes = {
-	// ...disableArgTypes("variant", "className", "href", "onClick"),
-
-	label: {
-		name: "Label",
-		control: "text",
-	},
-};
-
 // Primary Variant
-export const Primary: Story = {
+export const Primary = {
 	args: {
-		variant: "primary",
-		disabled: false,
-		size: "lg",
 		label: "Click me",
 	},
 	argTypes: {
-		...sharedArgTypes,
-		variant: {
-			options: ["primary"],
-			control: { type: "select" },
-			table: { disable: true },
+		// ...sharedArgTypes,
+		// variant: {
+		// 	options: ["primary"],
+		// 	control: { type: "select" },
+		// 	table: { disable: true },
+		// },
+		label: {
+			name: "Label",
+			control: "text",
 		},
 	},
 };

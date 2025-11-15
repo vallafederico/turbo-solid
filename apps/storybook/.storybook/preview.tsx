@@ -79,6 +79,27 @@ export default definePreview({
 				...customViewports,
 			},
 		},
+		decorators: [
+			(Story) => {
+				// useScrollbarWidth();
+
+				return (
+					<div
+						style={{
+							display: "flex",
+							"min-height": "100vh",
+							width: "100%",
+							"justify-content": "center",
+							"align-items": "center",
+						}}
+						class="bg-[#F4F4F4]"
+						data-wrapper
+					>
+						<Story />
+					</div>
+				);
+			},
+		],
 	},
 	// All components will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
 	// tags: ['autodocs'],
