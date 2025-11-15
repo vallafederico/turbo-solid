@@ -38,6 +38,6 @@ For turbo package
 - [ ] <Meta> / per page with settings and OG images
 - [x] tabs
 - [ ] mobile menu
-- [ ] . sitemap and robots .txt
+- [x] . sitemap and robots .txt
 
 ---
