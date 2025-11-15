@@ -5,11 +5,9 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@local/hooks": "workspace:*",
     "@local/mocks": "workspace:*",
     "@local/types": "workspace:*",
     "@local/config": "workspace:*",
-    "@local/utils": "workspace:*",
     "classix": "^2.2.5",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.6.0",

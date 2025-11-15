@@ -10,7 +10,7 @@
     "version": "vinxi version"
   },
   "dependencies": {
-    "@crawl-me-maybe/sitemap": "^0.0.1",
+    "@crawl-me-maybe/sitemap": "^0.0.8",
     "@local/config": "workspace:*",
     "@local/sanity": "workspace:*",
     "@local/seo": "workspace:*",

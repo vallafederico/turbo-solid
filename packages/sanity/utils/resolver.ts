@@ -1,5 +1,5 @@
+import { deepCopy, WalkBuilder } from "walkjs";
 import sanityClient from "../client";
-import { WalkBuilder, deepCopy } from "walkjs";
 
 const leadingSlash = (str: string) => {
 	if (!str || typeof str !== "string") return str;

@@ -19,6 +19,7 @@ const plugins = [
 	sitemapPlugin({
 		domain: "https://yourdomain.com",
 		outDir: "dist",
+		// robots: 
 		sitemaps: {
 			pages: async () => [
 				{ url: "/", updated: "2025-10-17" },

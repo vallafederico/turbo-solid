@@ -1,59 +1,51 @@
+import { useKeypress } from "@lib/hooks/useKeypress";
 import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import { isServer } from "solid-js/web";
 
 function getGridValues() {
-  const computed = getComputedStyle(document.documentElement);
-  const gx = computed.getPropertyValue("--gx");
-  const gutter = computed.getPropertyValue("--gutter");
-  const columns = computed.getPropertyValue("--columns");
+	const computed = getComputedStyle(document.documentElement);
+	const gutter = computed.getPropertyValue("--grid-gutter");
+	const columns = computed.getPropertyValue("--grid-columns");
+	const margin = computed.getPropertyValue("--grid-margin");
 
-  return { gx, gutter, columns };
+	return { gutter, columns, margin };
 }
 
 export default function Grid({}) {
-  const [num, setNum] = createSignal(Array.from({ length: 12 }));
+	const [num, setNum] = createSignal(Array.from({ length: 12 }));
 
-  const handleResize = () => {
-    const { columns } = getGridValues(); // gx, gutter,
-    setNum(Array.from({ length: +columns }));
-  };
+	const handleResize = () => {
+		const { columns } = getGridValues(); // gx, gutter,
+		setNum(Array.from({ length: +columns }));
+	};
 
-  onMount(() => {
-    handleResize();
-    if (!isServer) window.addEventListener("resize", handleResize);
+	onMount(() => {
+		handleResize();
+		if (!isServer) window.addEventListener("resize", handleResize);
 
-    // get from localstorage
-    const grid = localStorage.getItem("grid");
-    if (grid) setVisible(grid === "true");
-  });
+		// get from localstorage
+		const grid = localStorage.getItem("grid");
+		if (grid) setVisible(grid === "true");
+	});
 
-  onCleanup(() => {
-    if (!isServer) window.removeEventListener("resize", handleResize);
-  });
+	onCleanup(() => {
+		if (!isServer) window.removeEventListener("resize", handleResize);
+	});
 
-  const [visible, setVisible] = createSignal(false);
+	const [visible, setVisible] = createSignal(false);
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (!e.shiftKey) return;
+	useKeypress("g", () => {
+		setVisible(!visible());
+	});
 
-    if (e.key === "G") {
-      setVisible(!visible());
-      localStorage.setItem("grid", visible().toString());
-    }
-  };
+	const styles =
+		"gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] w-screen justify-between px-gx ";
 
-  createEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-  });
-
-  const styles =
-    "gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] w-screen justify-between px-gx ";
-
-  return (
-    <div class={visible() ? styles : "invisible"}>
-      {num().map((item) => {
-        return <div class="grow bg-red-500 opacity-10"></div>;
-      })}
-    </div>
-  );
+	return (
+		<div class={visible() ? styles : "invisible"}>
+			{num().map((item) => {
+				return <div class="grow bg-red-500 opacity-10"></div>;
+			})}
+		</div>
+	);
 }

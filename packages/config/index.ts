@@ -1,3 +1,3 @@
-export * from "./locales";
 export * from "./domains";
-export { default as SANITY_CONFIG } from "./sanity";
+export * from "./locales";
+export * from "./sanity";

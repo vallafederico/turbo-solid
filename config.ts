@@ -17,9 +17,3 @@ export const OPTIMISE = {
 		subsets: ["latin"], // subsets to convert
 	},
 };
-
-export const SANITY_SYNC = {
-	enabled: true, // enable sanity sync
-	slicesTarget: "/apps/web/src/components/slices", // target path for slices creation
-	pagesTarget: "/apps/web/src/pages", // target path for pages creation
-};

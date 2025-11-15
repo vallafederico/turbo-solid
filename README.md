@@ -1,6 +1,19 @@
+# Turborepo x Solid Starter
+
+
+
+
+## Tailwind
+
+**Grid**
+Shift
+
+
+## Animation
+
+
 # Stuffs
 
-CHECK ROBOTS TXT
 
 
 ## Web
