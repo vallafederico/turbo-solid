@@ -1,12 +1,23 @@
 # Turborepo x Solid Starter
 
 
+## Styles
+CSS uses rems and is base-10, not base-16 because math with 16 is dumb.
+
+### Fluid Type
+`apps/web/src/styles/fluid-type.css` controls the breakpoints for fluid type. 10px is 1:1 with Figma. To generate a new breakpoint set, ask Cursor: "Generate a new breakpoint set from X to Y, where (X or Y) is 10px", it will build a new point/slope formula for scaling between 2 points.
+
+### Grid
+**Grid Overlay**
+Press Shift+G to toggle a grid overlay that matches Figma
+**Grid Config**
+`apps/web/src/styles/grid.css` is used to modify the grid columns, margins, and gutters
+
+**Using in Tailwind**
+Classes like `px-grid-3` (3 columns), `mx-margin-2` (2 margins), and `size-gutter-4` (4 gutters) are used to match the Figma grid.
 
 
-## Tailwind
 
-**Grid**
-Press G
 
 
 ## Animation

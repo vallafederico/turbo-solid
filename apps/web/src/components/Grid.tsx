@@ -34,12 +34,18 @@ export default function Grid({}) {
 
 	const [visible, setVisible] = createSignal(false);
 
-	useKeypress("g", () => {
-		setVisible(!visible());
-	});
+	useKeypress(
+		"g",
+		() => {
+			setVisible(!visible());
+		},
+		{
+			shift: true,
+		},
+	);
 
 	const styles =
-		"gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] w-screen justify-between px-gx ";
+		"gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] w-screen justify-between px-margin-1";
 
 	return (
 		<div class={visible() ? styles : "invisible"}>
