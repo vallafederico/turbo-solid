@@ -2,7 +2,7 @@ import addonA11y from "@storybook/addon-a11y";
 import addonDocs from "@storybook/addon-docs";
 import { definePreview } from "storybook-solidjs-vite";
 
-import "../../web/src/app/css";
+import "../../web/src/app.css";
 
 const customViewports = {
 	"xl-desktop": {

@@ -1,19 +1,14 @@
 {
-  "compilerOptions": {
-    "baseUrl": ".",
-    "jsx": "preserve",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"jsx": "preserve",
 
-    "paths": {
-      "@local/ui/components": ["molecules/index.ts"],
-      "@local/ui/components/*": ["./components/*"],
-      "@local/ui/slices": ["./slices/index.ts"],
-      "@local/ui/slices/*": ["./slices/*"]
-    }
-  },
-  "references": [
-    { "path": "../config/" },
-    { "path": "../hooks/" },
-    { "path": "../types/" },
-    { "path": "../utils/" }
-  ]
+		"paths": {
+			"@local/ui/components": ["molecules/index.ts"],
+			"@local/ui/components/*": ["./components/*"],
+			"@local/ui/slices": ["./slices/index.ts"],
+			"@local/ui/slices/*": ["./slices/*"]
+		}
+	},
+	"references": [{ "path": "../config/" }, { "path": "../types/" }]
 }
