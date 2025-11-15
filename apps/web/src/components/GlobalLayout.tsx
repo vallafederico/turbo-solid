@@ -7,7 +7,7 @@ const GlobalLayout = ({ children, ...props }: { children: any }) => {
 	return (
 		<>
 			<Nav />
-			<main use:scroll>{children}</main>;
+			<main use:scroll>{children}</main>
 		</>
 	);
 };
