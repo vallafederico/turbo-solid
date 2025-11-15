@@ -3,7 +3,7 @@ import { createSignal, onMount } from "solid-js";
 import { useKeypress } from "~/lib/hooks/useKeypress";
 import { useWindowResize } from "~/lib/hooks/useWindowResize";
 
-export default function Grid() {
+export default function GridOverlay() {
 	const [visible, setVisible] = createSignal(false);
 	const [columns, setColumns] = createSignal(1);
 

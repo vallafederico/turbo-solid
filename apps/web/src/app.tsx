@@ -2,12 +2,13 @@ import "./app.css";
 import { Link, MetaProvider, Title } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
+
 // import { VisualEditing } from "@local/sanity";
 
 import { Suspense } from "solid-js";
 import { isDev } from "solid-js/web";
 import Canvas from "~/components/Canvas";
-import Grid from "~/components/Grid";
+import GridOverlay from "~/components/GridOverlay";
 import { Nav } from "~/components/Nav";
 import { useViewport } from "~/lib/hooks/useViewport";
 import { scroll } from "~/lib/utils/scroll";
@@ -21,7 +22,7 @@ export default function App() {
 			root={(props) => (
 				<MetaProvider>
 					<Nav />
-					{isDev && <Grid />}
+					{isDev && <GridOverlay />}
 
 					<Suspense>
 						<GlobalLayout>{props.children}</GlobalLayout>
