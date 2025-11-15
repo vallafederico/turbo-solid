@@ -1,23 +1,17 @@
 import cx from "classix";
-import { createSignal, onCleanup, onMount } from "solid-js";
-import { isServer } from "solid-js/web";
+import { createSignal, onMount } from "solid-js";
 import { useKeypress } from "~/lib/hooks/useKeypress";
 import { useWindowResize } from "~/lib/hooks/useWindowResize";
-
-function getColumnCount() {
-	const computed = getComputedStyle(document.documentElement);
-	const columns = computed.getPropertyValue("--grid-columns");
-
-	return columns;
-}
 
 export default function Grid() {
 	const [visible, setVisible] = createSignal(false);
 	const [columns, setColumns] = createSignal(1);
 
 	const handleResize = () => {
-		const cols = getColumnCount(); // gx, gutter,
-		setColumns(+cols);
+		const computed = getComputedStyle(document.documentElement);
+		const columns = computed.getPropertyValue("--grid-columns");
+
+		setColumns(+columns);
 	};
 
 	onMount(() => {
