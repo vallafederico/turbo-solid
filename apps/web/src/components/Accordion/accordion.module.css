@@ -1,6 +1,6 @@
 .accordion {
 	--duration: 0.795s;
-	--ease: var(--ease-quint-out);
+	--ease: cubic-bezier(0.4, 0, 0.2, 1);
 
 	& summary::marker {
 		color: transparent;
