@@ -6,7 +6,7 @@
 ## Tailwind
 
 **Grid**
-Shift
+Press G
 
 
 ## Animation

@@ -1,4 +1,4 @@
-x## Features
+## Features
 
 ```bash
 # ...
