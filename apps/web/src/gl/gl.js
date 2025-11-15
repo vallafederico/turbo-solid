@@ -24,11 +24,10 @@ export class Gl {
 		ex: 0,
 		ey: 0,
 		speed: 0,
-		espeed: 0
+		espeed: 0,
 	};
 
-
-	static start(el: HTMLElement) {
+	static start(el) {
 		Gl.renderer = new WebGLRenderer({
 			alpha: true,
 			antialias: true,
