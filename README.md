@@ -1,6 +1,5 @@
 # Turborepo x Solid Starter
 
-
 ## Styles
 CSS uses rems and is base-10, not base-16 because math with 16 is dumb.
 
@@ -16,11 +15,37 @@ Press Shift+G to toggle a grid overlay that matches Figma
 **Using in Tailwind**
 Classes like `px-grid-3` (3 columns), `mx-margin-2` (2 margins), and `size-gutter-4` (4 gutters) are used to match the Figma grid.
 
+- `margin` and `gutter` accept values 1–6
+- `grid` supports values 1 up to `var(--grid-columns)`
+- The `grid-contain` utility pins content to the maximum width defined by `var(--max-scaling-width)`
+
+
+## CMS Integrations
+
+### Filegen
+`sanity-yaml` generates type definitions, frontend files, and sanity schemas with yaml and handlebars. [Docs](https://github.com/nathannye/sanity-yaml)
+
+### Sanity.io
+
+## SEO
+
+**Sitemaps**
+`@crawl-me-maybe/sitemap` generates sitemap via async functions at build time. [Docs](https://github.com/nathannye/crawl-me-maybe/tree/main/packages/sitemap)
+
+**Schema Markup**
+
 
 
 
 
 ## Animation
+
+**`requestAnimationFrame`**
+A single Raf is created via class and subscribed to as needed with `useRaf` or `Raf.add()`.
+
+## Event Listeners
+
+
 
 
 # Stuffs
