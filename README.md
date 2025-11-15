@@ -1,13 +1,26 @@
 # Turborepo x Solid Starter
+Modular monorepo for building sites with Solid.js
 
-## Solid Start
+
+## Organization
+Optional groups of packges are bumped into `pacakges` or `apps` so they can be removed/added per project.
+
+### Solid Start
 Solid Start is JSX without the opinions of Next. Things to be aware of:
 - `map()` is not used to loop through components, use `<For/>` [Docs](https://docs.solidjs.com/reference/components/for)
 - Conditional rendering is done with `<Show/>` not `&&` [Docs](https://docs.solidjs.com/reference/components/show)
 - No keys are used on arrays
 - State is created via `createSignal()`, Solid's version of `useState()` [Docs](https://docs.solidjs.com/concepts/signals)
+- State updated do _not_ rerender entire components, only single DOM nodes. [Docs](https://docs.solidjs.com/concepts/intro-to-reactivity)
 
 [Read full docs](https://docs.solidjs.com/)
+
+### Optional packages
+- Storybook (Solid)
+- WebGL (Coming soon)
+- UI (TBD)
+
+---
 
 ## Slices vs Components
 - **Components:** Smaller, composable, re-suable elements
@@ -41,8 +54,19 @@ Classes like `px-grid-3` (3 columns), `mx-margin-2` (2 margins), and `size-gutte
 ## CMS Integration
 
 ### Sanity.io
+Sanity is organized into 4 segments
+- **blocks**: Groups of fields that get used in schemas (ex: rich text with specific settings)
+- **slices**: Sections of a page
+- **taxonomies**: Categorical items that get used as referneces
+- **pages**: Self explanatory
+
+**SanityPage Component**
+TBD
+
 
 ## SEO
+
+**Metadata**
 
 **Sitemaps**
 `@crawl-me-maybe/sitemap` generates sitemap via async functions at build time. [Docs](https://github.com/nathannye/crawl-me-maybe/tree/main/packages/sitemap)
@@ -59,12 +83,10 @@ A single Raf is created via class and subscribed to as needed with `useRaf` or `
 ## Resizing
 A single Resize Observer is created via class and subscribed to with `useWindowResize()` or `Resizer.add()`.
 
+## Deployment
+Vercel is used for deploys, `vercel.json` controls the deployment of `apps/web`
 
-
-
-# Stuffs
-
-
+# Coming Eventually
 
 ## Web
 - [ ] Add examples to frontend
