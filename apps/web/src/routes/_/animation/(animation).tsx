@@ -1,9 +1,9 @@
+import { SanityMeta } from "@local/seo";
 import { Title } from "@solidjs/meta";
-import Section from "~/components/Section";
 import { A } from "@solidjs/router";
 
 import { animateAlpha } from "~/animation/alpha";
-import { SanityMeta } from "@local/seo";
+import Section from "~/components/Section";
 
 export default function Animation() {
 	return (
@@ -11,7 +11,10 @@ export default function Animation() {
 			<Title>About</Title>
 			<SanityMeta isHomepage={false} />
 			<Section class="">
-				<div use:animateAlpha class="px-gx flex flex-col items-start gap-4">
+				<div
+					use:animateAlpha
+					class="px-margin-1 flex flex-col items-start gap-4"
+				>
 					<h2>Animation </h2>
 					<ul class="mt-6 flex flex-col items-start gap-3">
 						<li>

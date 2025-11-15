@@ -10,7 +10,7 @@ export default function SplitTextPage() {
 			<Title>Split Text</Title>
 
 			<div use:animateAlpha>
-				<Section class="px-gx">
+				<Section class="px-margin-1">
 					<A href="/components">Back</A>
 				</Section>
 			</div>
