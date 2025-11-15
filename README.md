@@ -68,8 +68,8 @@ TBD
 
 **Metadata**
 
-**Sitemaps**
-`@crawl-me-maybe/sitemap` generates sitemap via async functions at build time. [Docs](https://github.com/nathannye/crawl-me-maybe/tree/main/packages/sitemap)
+**Sitemaps & Robots**
+`@crawl-me-maybe/sitemap` generates sitemaps and robots.txt via async functions at build time. [Docs](https://github.com/nathannye/crawl-me-maybe/tree/main/packages/sitemap)
 
 **Schema Markup**
 TBD

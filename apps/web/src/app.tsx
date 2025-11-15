@@ -20,9 +20,6 @@ export default function App() {
 		<Router
 			root={(props) => (
 				<MetaProvider>
-					{/* <PageTransition> */}
-					<Link rel="robots" type="text/plain" href="/api/robots.txt" />
-
 					<Nav />
 					{isDev && <Grid />}
 
