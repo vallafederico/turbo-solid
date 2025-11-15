@@ -54,7 +54,7 @@ export default function Grid({}) {
 		// 	})}
 		// </div>
 		<div class="pointer-events-none z-9999 fixed inset-0 h-screen w-full">
-			<div class="flex size-full gap-gutter-1 grid-contain">
+			<div class="flex size-full px-margin-1 gap-gutter-1 grid-contain">
 				{num().map((item) => {
 					return <div class="bg-[red]/10 size-full"></div>;
 				})}
