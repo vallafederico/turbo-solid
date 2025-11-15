@@ -1,4 +1,5 @@
 import { onCleanup, onMount } from "solid-js";
+import { isServer } from "solid-js/web";
 
 type KeypressOptions = {
 	ctrl?: boolean;
@@ -16,17 +17,19 @@ export function useKeypress(
 			e.key === key &&
 			(options.ctrl === undefined || options.ctrl === e.ctrlKey) &&
 			(options.alt === undefined || options.alt === e.altKey) &&
-			(options.shift === undefined || options.shift === e.shiftKey) &&
+			(options.shift === undefined || options.shift === e.shiftKey)
 		) {
 			callback(e);
 		}
 	};
 
 	onMount(() => {
+		if (isServer) return;
 		window.addEventListener("keydown", handler);
 	});
 
 	onCleanup(() => {
+		if (isServer) return;
 		window.removeEventListener("keydown", handler);
 	});
 }

@@ -2,7 +2,7 @@
 	/* Grid configuration */
 	--scrollbar: 0px;
 	--infinity: calc(infinity * 1px);
-	--max-scaling-width: 2600px;
+	--max-scaling-width: 2600;
 
 	--grid-columns: 6;
 	--grid-gutter: 1rem;

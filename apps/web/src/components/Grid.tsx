@@ -1,6 +1,6 @@
-import { useKeypress } from "@lib/hooks/useKeypress";
-import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, onCleanup, onMount } from "solid-js";
 import { isServer } from "solid-js/web";
+import { useKeypress } from "~/lib/hooks/useKeypress";
 
 function getGridValues() {
 	const computed = getComputedStyle(document.documentElement);
@@ -48,10 +48,17 @@ export default function Grid({}) {
 		"gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] w-screen justify-between px-margin-1";
 
 	return (
-		<div class={visible() ? styles : "invisible"}>
-			{num().map((item) => {
-				return <div class="grow bg-red-500 opacity-10"></div>;
-			})}
+		// <div class={visible() ? styles : "invisible"}>
+		// 	{num().map((item) => {
+		// 		return <div class="grow bg-red-500 opacity-10"></div>;
+		// 	})}
+		// </div>
+		<div class="pointer-events-none z-9999 fixed inset-0 h-screen w-full">
+			<div class="flex size-full gap-gutter-1 grid-contain">
+				{num().map((item) => {
+					return <div class="bg-[red]/10 size-full"></div>;
+				})}
+			</div>
 		</div>
 	);
 }
