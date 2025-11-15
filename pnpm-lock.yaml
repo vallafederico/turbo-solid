@@ -150,6 +150,9 @@ importers:
       '@local/seo':
         specifier: workspace:*
         version: link:../../packages/seo
+      '@solid-primitives/resize-observer':
+        specifier: ^2.1.3
+        version: 2.1.3(solid-js@1.9.10)
       '@solidjs/meta':
         specifier: ^0.29.4
         version: 0.29.4(solid-js@1.9.10)
@@ -168,12 +171,18 @@ importers:
       lenis:
         specifier: ^1.3.15
         version: 1.3.15(react@19.1.0)
+      lil-gui:
+        specifier: ^0.21.0
+        version: 0.21.0
       smooothy:
         specifier: ^0.0.26
         version: 0.0.26
       solid-js:
         specifier: ^1.9.10
         version: 1.9.10
+      three:
+        specifier: ^0.180.0
+        version: 0.180.0
       vinxi:
         specifier: ^0.5.8
         version: 0.5.8(@types/node@24.10.1)(db0@0.3.4)(ioredis@5.8.2)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.1)
@@ -222,18 +231,6 @@ importers:
         version: 1.9.10
 
   packages/config: {}
-
-  packages/gl:
-    dependencies:
-      '@local/animation':
-        specifier: workspace:*
-        version: link:../animation
-      lil-gui:
-        specifier: ^0.21.0
-        version: 0.21.0
-      three:
-        specifier: ^0.180.0
-        version: 0.180.0
 
   packages/mocks: {}
 

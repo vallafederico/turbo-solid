@@ -5,14 +5,13 @@ import { FileRoutes } from "@solidjs/start/router";
 
 // import { VisualEditing } from "@local/sanity";
 
-import { scroll } from "@local/animation";
+import { scroll, usePageTransition } from "@local/animation";
 import { Suspense } from "solid-js";
 import { isDev } from "solid-js/web";
 import Canvas from "~/components/Canvas";
 import GridOverlay from "~/components/GridOverlay";
 import { Nav } from "~/components/Nav";
 import { useViewport } from "~/lib/hooks/useViewport";
-import { usePageTransition } from "./animation";
 
 export default function App() {
 	useViewport();

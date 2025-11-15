@@ -1,6 +1,6 @@
 import Lenis from "lenis";
 import { isServer } from "solid-js/web";
-import gsap from "../../gsap";
+import { gsap } from "../gsap";
 import { Subscribable } from "./subscribable";
 
 export interface ScrollEvent {

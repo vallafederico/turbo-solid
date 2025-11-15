@@ -1,5 +1,5 @@
+import { type ResizeData, Resizer } from "@local/animation";
 import { onCleanup, onMount } from "solid-js";
-import { type ResizeData, Resizer } from "~/lib/utils/resizer";
 
 type ResizeCallback = (params: { width: number; height: number }) => void;
 

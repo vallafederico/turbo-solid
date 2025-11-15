@@ -1,5 +1,5 @@
 import { isServer } from "solid-js/web";
-import gsap from "~/lib/gsap";
+import { gsap } from "../gsap";
 import { Subscribable } from "./subscribable";
 
 class _Raf extends Subscribable<number> {

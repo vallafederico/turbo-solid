@@ -5,7 +5,7 @@ import {
 	createUniqueId,
 	onCleanup,
 } from "solid-js";
-import { viewport } from "../stores/viewportStore";
+// import { viewport } from "../stores/viewportStore";
 import { Raf } from "../subscribers/raf";
 import { Scroll } from "../subscribers/scroll";
 import { clientRect } from "./clientRect";
@@ -90,8 +90,8 @@ export function onTrack(
 	let lerped = 0;
 
 	createEffect(() => {
-		viewport.size.height;
-		viewport.size.width;
+		// viewport.size.height;
+		// viewport.size.width;
 		setBounds(computeBounds(track, { top, bottom }));
 	});
 

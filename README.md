@@ -60,6 +60,7 @@ Sanity is organized into 4 segments
 - **slices**: Sections of a page
 - **taxonomies**: Categorical items that get used as referneces
 - **pages**: Self explanatory
+- **settings**: Globals that affect multiple schema types/pages
 
 **SanityPage Component**
 TBD

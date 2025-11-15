@@ -13,7 +13,7 @@ export default meta;
 // Primary Variant
 export const Primary = {
 	args: {
-		label: "Click me",
+		label: "Click meeee",
 	},
 	argTypes: {
 		// ...sharedArgTypes,

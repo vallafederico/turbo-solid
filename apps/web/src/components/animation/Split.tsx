@@ -1,78 +1,77 @@
 import "./Split.css";
+import { A, gsap, onIntersect, onPageLeave, SplitText } from "@local/animation";
 import cx from "classix";
-import gsap, { SplitText, A } from "~/lib/gsap";
 import { onCleanup, onMount } from "solid-js";
-import { onIntersect, onPageLeave } from "~/animation";
 
 export default function Split({
-  children,
-  class: className,
-  type = "chars",
+	children,
+	class: className,
+	type = "chars",
 }: {
-  children: any;
-  type?: "words" | "chars" | "lines";
-  class?: string;
+	children: any;
+	type?: "words" | "chars" | "lines";
+	class?: string;
 }) {
-  let item!: HTMLElement;
-  let splitText!: SplitText;
+	let item!: HTMLElement;
+	let splitText!: SplitText;
 
-  onMount(() => {
-    if (!item) return;
-    splitText = new SplitText(item, {
-      type: "words," + type,
-      wordsClass: "split-w",
-    });
-    let animateIn: GSAPAnimation;
+	onMount(() => {
+		if (!item) return;
+		splitText = new SplitText(item, {
+			type: "words," + type,
+			wordsClass: "split-w",
+		});
+		let animateIn: GSAPAnimation;
 
-    gsap.set(item, {
-      autoAlpha: 1,
-    });
+		gsap.set(item, {
+			autoAlpha: 1,
+		});
 
-    gsap.set(splitText.chars, {
-      yPercent: 100,
-    });
+		gsap.set(splitText.chars, {
+			yPercent: 100,
+		});
 
-    onPageLeave(item, async () => {
-      await gsap.to(splitText.chars, {
-        yPercent: 100,
-        ease: "expo.out",
-        duration: 0.4,
-        // delay: 2,
-      });
-    });
+		onPageLeave(item, async () => {
+			await gsap.to(splitText.chars, {
+				yPercent: 100,
+				ease: "expo.out",
+				duration: 0.4,
+				// delay: 2,
+			});
+		});
 
-    onIntersect(item, {
-      onEnter: () => {
-        animateIn = gsap.to(splitText.chars, {
-          yPercent: 0,
-          ease: A.page.in.ease,
-          duration: A.page.in.duration,
-          stagger: {
-            each: 0.02,
-            from: "start",
-          },
-        });
-      },
-      onLeave: () => {
-        if (animateIn) animateIn.kill();
-        gsap.set(splitText.chars, {
-          yPercent: 100,
-        });
-      },
-    });
-  });
+		onIntersect(item, {
+			onEnter: () => {
+				animateIn = gsap.to(splitText.chars, {
+					yPercent: 0,
+					ease: A.page.in.ease,
+					duration: A.page.in.duration,
+					stagger: {
+						each: 0.02,
+						from: "start",
+					},
+				});
+			},
+			onLeave: () => {
+				if (animateIn) animateIn.kill();
+				gsap.set(splitText.chars, {
+					yPercent: 100,
+				});
+			},
+		});
+	});
 
-  onCleanup(() => {
-    if (splitText) splitText.revert();
-    if (splitText && splitText.chars) gsap.killTweensOf(splitText.chars);
-    if (item) gsap.killTweensOf(item);
-  });
+	onCleanup(() => {
+		if (splitText) splitText.revert();
+		if (splitText && splitText.chars) gsap.killTweensOf(splitText.chars);
+		if (item) gsap.killTweensOf(item);
+	});
 
-  return (
-    <div data-split class={cx("invisible", className)} ref={item}>
-      {children}
-    </div>
-  );
+	return (
+		<div data-split class={cx("invisible", className)} ref={item}>
+			{children}
+		</div>
+	);
 }
 
 /*

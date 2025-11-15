@@ -1,10 +1,7 @@
+import gsap, { lerp, Resizer, Scroll } from "@local/animation";
 import { isServer } from "solid-js/web";
 import { PerspectiveCamera, WebGLRenderer } from "three";
-import gsap from "../lib/gsap";
 import { Gui } from "../lib/utils/gui";
-import { lerp } from "../lib/utils/math";
-import { Resizer } from "../lib/utils/resizer";
-import { Scroll } from "../lib/utils/scroll";
 import { Post } from "./_/post/post";
 import { ScreenEffect } from "./_/screenEffect";
 import { Scene } from "./scene";
