@@ -1,25 +1,19 @@
 import { createEffect, onCleanup, onMount } from "solid-js";
 import { isServer } from "solid-js/web";
+import { type ResizeData, Resizer } from "~/lib/utils/resizer";
 
 type ResizeCallback = (params: { width: number; height: number }) => void;
-let subs: ResizeCallback[] = [];
-
-if (!isServer) {
-  //   console.log("init");
-  window.addEventListener("resize", () => {
-    subs.forEach((sub) =>
-      sub({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      }),
-    );
-  });
-}
 
 export const useWindowResize = (callback: ResizeCallback) => {
-  subs.push(callback);
+	const cb = (data: ResizeData) => {
+		callback(data);
+	};
 
-  onCleanup(() => {
-    subs = subs.filter((sub) => sub !== callback);
-  });
+	onMount(() => {
+		Resizer.add(cb);
+	});
+
+	onCleanup(() => {
+		Resizer.remove(callback);
+	});
 };

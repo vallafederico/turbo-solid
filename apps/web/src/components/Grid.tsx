@@ -1,6 +1,7 @@
 import { createSignal, onCleanup, onMount } from "solid-js";
 import { isServer } from "solid-js/web";
 import { useKeypress } from "~/lib/hooks/useKeypress";
+import { useWindowResize } from "~/lib/hooks/useWindowResize";
 
 function getGridValues() {
 	const computed = getComputedStyle(document.documentElement);
@@ -19,18 +20,22 @@ export default function Grid({}) {
 		setNum(Array.from({ length: +columns }));
 	};
 
-	onMount(() => {
-		handleResize();
-		if (!isServer) window.addEventListener("resize", handleResize);
-
-		// get from localstorage
-		const grid = localStorage.getItem("grid");
-		if (grid) setVisible(grid === "true");
+	useWindowResize(({ width, height }) => {
+		console.log("resize", width, height);
 	});
 
-	onCleanup(() => {
-		if (!isServer) window.removeEventListener("resize", handleResize);
-	});
+	// onMount(() => {
+	// 	handleResize();
+	// 	if (!isServer) window.addEventListener("resize", handleResize);
+
+	// 	// get from localstorage
+	// 	const grid = localStorage.getItem("grid");
+	// 	if (grid) setVisible(grid === "true");
+	// });
+
+	// onCleanup(() => {
+	// 	if (!isServer) window.removeEventListener("resize", handleResize);
+	// });
 
 	const [visible, setVisible] = createSignal(false);
 
@@ -44,15 +49,7 @@ export default function Grid({}) {
 		},
 	);
 
-	const styles =
-		"gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] w-screen justify-between px-margin-1";
-
 	return (
-		// <div class={visible() ? styles : "invisible"}>
-		// 	{num().map((item) => {
-		// 		return <div class="grow bg-red-500 opacity-10"></div>;
-		// 	})}
-		// </div>
 		<div class="pointer-events-none z-9999 fixed inset-0 h-screen w-full">
 			<div class="flex size-full px-margin-1 gap-gutter-1 grid-contain">
 				{num().map((item) => {
