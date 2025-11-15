@@ -67,6 +67,7 @@ TBD
 ## SEO
 
 **Metadata**
+TBD
 
 **Sitemaps & Robots**
 `@crawl-me-maybe/sitemap` generates sitemaps and robots.txt via async functions at build time. [Docs](https://github.com/nathannye/crawl-me-maybe/tree/main/packages/sitemap)
@@ -144,5 +145,3 @@ Vercel is used for deploys, `vercel.json` controls the deployment of `apps/web`
 
 ---
 
-
--
