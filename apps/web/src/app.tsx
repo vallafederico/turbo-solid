@@ -1,16 +1,13 @@
 import "./app.css";
-import { Link, MetaProvider, Title } from "@solidjs/meta";
+
+import GlobalLayout from "@components/GlobalLayout";
+import { MetaProvider } from "@solidjs/meta";
 import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
-
-// import { VisualEditing } from "@local/sanity";
-
-import { scroll, usePageTransition } from "@local/animation";
 import { Suspense } from "solid-js";
 import { isDev } from "solid-js/web";
 import Canvas from "~/components/Canvas";
 import GridOverlay from "~/components/GridOverlay";
-import { Nav } from "~/components/Nav";
 import { useViewport } from "~/lib/hooks/useViewport";
 
 export default function App() {
@@ -20,15 +17,12 @@ export default function App() {
 		<Router
 			root={(props) => (
 				<MetaProvider>
-					<Nav />
 					{isDev && <GridOverlay />}
 
 					<Suspense>
 						<GlobalLayout>{props.children}</GlobalLayout>
 					</Suspense>
-
 					<Canvas />
-					{/* </PageTransition> */}
 				</MetaProvider>
 			)}
 		>
@@ -38,11 +32,3 @@ export default function App() {
 		</Router>
 	);
 }
-
-// ////////////////
-
-const GlobalLayout = ({ children, ...props }: { children: any }) => {
-	usePageTransition();
-
-	return <main use:scroll>{children}</main>;
-};
