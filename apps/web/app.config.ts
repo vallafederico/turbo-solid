@@ -2,8 +2,8 @@ import sitemapPlugin from "@crawl-me-maybe/sitemap";
 import { defineConfig } from "@solidjs/start/config";
 import glsl from "vite-plugin-glsl";
 import solidSvg from "vite-plugin-solid-svg";
+import componentDataAttr from "./vite/vite-plugin-component-attrs";
 import glReloadPlugin from "./vite/vite-plugin-gl-reload";
-import componentDataAttr from "./vite/vite-pulugin-component-attrs";
 
 const plugins = [
 	glsl({
@@ -19,7 +19,7 @@ const plugins = [
 	sitemapPlugin({
 		domain: "https://yourdomain.com",
 		outDir: "dist",
-		// robots: 
+		// robots:
 		sitemaps: {
 			pages: async () => [
 				{ url: "/", updated: "2025-10-17" },

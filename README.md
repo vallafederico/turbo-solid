@@ -16,6 +16,7 @@ Solid Start is JSX without the opinions of Next. Things to be aware of:
 [Read full docs](https://docs.solidjs.com/)
 
 ### Optional packages
+- Sanity
 - Storybook (Solid)
 - WebGL (Coming soon)
 - UI (TBD)

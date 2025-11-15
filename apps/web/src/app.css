@@ -12,7 +12,6 @@
 @import "./styles/grid.css";
 
 @theme {
-  --font-*: initial;
   --font-sans: soh, sans-serif;
 
   --text-base-0: var(--text-base);
@@ -43,8 +42,6 @@
   --text-xxl-1: 0.9;
   --text-xxl-length: 2;
 
-  --spacing-gx: var(--gx);
-  --spacing-gy: var(--gy);
   --spacing-sm: var(--sm);
   --spacing-md: var(--md);
   --spacing-lg: var(--lg);
