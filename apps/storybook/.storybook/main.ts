@@ -4,16 +4,7 @@ import { defineMain } from "storybook-solidjs-vite";
 export default defineMain({
 	stories: ["../../../packages/ui/**/*.stories.tsx"],
 	staticDirs: ["../../web/public"],
-	async viteFinal(config) {
-		config.resolve.alias = [
-			{
-				find: "@local",
-				replacement: path.resolve(__dirname, "../../../packages"),
-			},
-		];
 
-		return config;
-	},
 	framework: {
 		name: "storybook-solidjs-vite",
 		options: {

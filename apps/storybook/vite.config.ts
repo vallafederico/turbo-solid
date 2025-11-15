@@ -17,6 +17,17 @@ export default defineConfig({
 	define: {
 		"process.env": {},
 	},
+	async viteFinal(config) {
+		const __dirname = path.dirname(new URL(import.meta.url).pathname);
+		config.resolve.alias = [
+			{
+				find: "@local",
+				replacement: path.resolve(__dirname, "../../../packages"),
+			},
+		];
+
+		return config;
+	},
 	test: {
 		projects: [
 			{

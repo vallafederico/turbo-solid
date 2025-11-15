@@ -76,11 +76,11 @@ export default definePreview({
 					? 0
 					: a.id.localeCompare(b.id, undefined, { numeric: true }),
 		},
-		viewport: {
-			options: {
-				...customViewports,
-			},
-		},
+		// viewport: {
+		// 	// options: {
+		// 	// 	...customViewports,
+		// 	// },
+		// },
 		decorators: [
 			(Story) => {
 				// useScrollbarWidth();
