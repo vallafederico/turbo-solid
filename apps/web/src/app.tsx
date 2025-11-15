@@ -5,14 +5,12 @@ import { FileRoutes } from "@solidjs/start/router";
 // import { VisualEditing } from "@local/sanity";
 
 import { Suspense } from "solid-js";
-import { useViewport } from "~/lib/hooks/useViewport";
-
-import { Nav } from "~/components/Nav";
-import Grid from "~/components/Grid";
-
+import { isDev } from "solid-js/web";
 import Canvas from "~/components/Canvas";
+import Grid from "~/components/Grid";
+import { Nav } from "~/components/Nav";
+import { useViewport } from "~/lib/hooks/useViewport";
 import { scroll } from "~/lib/utils/scroll";
-
 import { usePageTransition } from "./animation";
 
 export default function App() {
@@ -26,7 +24,7 @@ export default function App() {
 					<Link rel="robots" type="text/plain" href="/api/robots.txt" />
 
 					<Nav />
-					<Grid />
+					{isDev && <Grid />}
 
 					<Suspense>
 						<GlobalLayout>{props.children}</GlobalLayout>
