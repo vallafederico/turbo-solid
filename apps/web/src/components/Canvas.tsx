@@ -2,7 +2,8 @@ import { onCleanup, onMount } from "solid-js";
 import { Gl } from "~/gl/gl";
 
 export default function Canvas() {
-	const webgl = (self) => {
+	const webgl = (self: HTMLElement) => {
+		console.log(self);
 		onMount(() => {
 			Gl.start(self);
 		});
@@ -12,5 +13,5 @@ export default function Canvas() {
 		});
 	};
 
-	return <div use:webgl class="fixed inset-0 z-[-1] h-screen w-screen"></div>;
+	return <div use:webgl class="fixed inset-0 z-[-1] h-screen w-full"></div>;
 }

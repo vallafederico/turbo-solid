@@ -1,3 +1,4 @@
+import Canvas from "~/components/Canvas";
 import "./app.css";
 
 import { MetaProvider } from "@solidjs/meta";
@@ -5,7 +6,6 @@ import { Router } from "@solidjs/router";
 import { FileRoutes } from "@solidjs/start/router";
 import { Suspense } from "solid-js";
 import { isDev } from "solid-js/web";
-import Canvas from "~/components/Canvas";
 import GlobalLayout from "~/components/GlobalLayout";
 import GridOverlay from "~/components/GridOverlay";
 import { useViewport } from "~/lib/hooks/useViewport";

@@ -23,6 +23,13 @@ Solid Start is JSX without the opinions of Next. Things to be aware of:
 
 ---
 
+## Data Fetching
+- its at the top of files because of preload()
+- little abstraction
+- allow processing of data on the server AND after initial fetch to format how you want before the data comes to the client
+
+(show example)
+
 ## Slices vs Components
 - **Components:** Smaller, composable, re-suable elements
 - **Slices:** Contentful-matched sections or modules. Lazily registered in (PATH)

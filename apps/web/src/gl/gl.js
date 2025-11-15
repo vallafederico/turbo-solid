@@ -1,4 +1,4 @@
-import gsap, { lerp, Resizer, Scroll } from "@local/animation";
+import { gsap, lerp, Resizer, Scroll } from "@local/animation";
 import { isServer } from "solid-js/web";
 import { PerspectiveCamera, WebGLRenderer } from "three";
 import { Gui } from "../lib/utils/gui";
@@ -15,6 +15,7 @@ export class Gl {
 	static subscribers = [];
 	static paused = false;
 	static time = 0;
+
 	static mouse = {
 		x: 1,
 		y: 1,
@@ -23,10 +24,11 @@ export class Gl {
 		ex: 0,
 		ey: 0,
 		speed: 0,
-		espeed: 0,
+		espeed: 0
 	};
 
-	static start(el) {
+
+	static start(el: HTMLElement) {
 		Gl.renderer = new WebGLRenderer({
 			alpha: true,
 			antialias: true,
@@ -151,6 +153,7 @@ export class Gl {
 
 	static destroy() {
 		console.log("-------------- gl:destroy");
+		console.log(Gl.vp);
 		gsap.ticker.remove(Gl.render.bind(Gl));
 
 		Gl.vp.container.removeChild(Gl.renderer.domElement);
@@ -159,7 +162,7 @@ export class Gl {
 		Gl.scene.dispose();
 		Gl.renderer.dispose();
 
-		// if (this.post) {
+		// if (this.post) {l
 		//   this.post.kill();
 		//   this.post.dispose();
 		//   this.post = null;
