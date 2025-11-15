@@ -5,6 +5,7 @@
 	& summary::marker {
 		color: transparent;
 		font-size: 0rem;
+		display: none;
 	}
 
 	& summary {
