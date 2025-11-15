@@ -1,0 +1,15 @@
+{
+  "name": "@local/animation",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "@solidjs/router": "^0.15.4",
+    "solid-js": "^1.9.10",
+    "@solid-primitives/intersection-observer": "^2.2.2",
+    "@solid-primitives/resize-observer": "^2.1.3",
+    "lenis": "^1.3.13"
+  }
+}

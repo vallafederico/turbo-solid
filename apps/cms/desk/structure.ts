@@ -1,9 +1,5 @@
-import { setupPages } from "../utils/structure-utils";
-import type {
-	StructureBuilder,
-	StructureResolver,
-	StructureResolverContext,
-} from "sanity/structure";
+import { AiOutlineFileSearch } from "react-icons/ai";
+import { IoShareSocial } from "react-icons/io5";
 import {
 	MdArticle,
 	MdBusiness,
@@ -17,12 +13,16 @@ import {
 	MdSettingsSuggest,
 } from "react-icons/md";
 import {
-	RiLayoutTop2Line,
 	RiLayoutBottom2Line,
 	RiLayoutMasonryFill,
+	RiLayoutTop2Line,
 } from "react-icons/ri";
-import { AiOutlineFileSearch } from "react-icons/ai";
-import { IoShareSocial } from "react-icons/io5";
+import type {
+	StructureBuilder,
+	StructureResolver,
+	StructureResolverContext,
+} from "sanity/structure";
+import { setupPages } from "../utils/structure-utils";
 
 export const structure: StructureResolver = (
 	S: StructureBuilder,

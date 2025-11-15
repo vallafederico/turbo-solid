@@ -1,0 +1,12 @@
+{
+  "name": "@local/gl",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "type": "module",
+  "private": true, 
+  "dependencies": {
+    "lil-gui": "^0.21.0",
+    "@local/animation": "workspace:*",
+    "three": "^0.180.0"
+  }
+}

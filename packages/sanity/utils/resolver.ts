@@ -6,7 +6,7 @@ const leadingSlash = (str: string) => {
 	return str?.startsWith("/") ? str : `/${str}`;
 };
 
-const resolveLinks = async (inputData: any, maxDepth = 5) => {
+export const resolveLinks = async (inputData: any, maxDepth = 5) => {
 	const store = new Map();
 
 	const replaceNode = (node: any, id: string) => {

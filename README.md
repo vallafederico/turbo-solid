@@ -88,6 +88,9 @@ A single Resize Observer is created via class and subscribed to with `useWindowR
 ## Deployment
 Vercel is used for deploys, `vercel.json` controls the deployment of `apps/web`
 
+**ISR**
+`apps/web/src/routes/api/revalidate.ts` contains ISR logic. Create a new deploy hook in Vercel and add the route prefixes.
+
 # Coming Eventually
 
 ## Web
