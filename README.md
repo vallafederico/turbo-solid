@@ -1,7 +1,12 @@
 # Turborepo x Solid Starter
 
+## Slices vs Components
+- **Components:** Smaller, composable, re-suable elements
+- **Slices:** Contentful-matched sections or modules. Lazily registered in (PATH)
+
 ## Styles
-CSS uses rems and is base-10, not base-16 because math with 16 is dumb.
+Spacing is base 10. `1rem = 10px` and can be used as `mt-10`, `px-33`, etc. 
+
 
 ### Fluid Type
 `apps/web/src/styles/fluid-type.css` controls the breakpoints for fluid type. 10px is 1:1 with Figma. To generate a new breakpoint set, ask Cursor: "Generate a new breakpoint set from X to Y, where (X or Y) is 10px", it will build a new point/slope formula for scaling between 2 points.
@@ -20,10 +25,11 @@ Classes like `px-grid-3` (3 columns), `mx-margin-2` (2 margins), and `size-gutte
 - The `grid-contain` utility pins content to the maximum width defined by `var(--max-scaling-width)`
 
 
-## CMS Integrations
-
-### Filegen
+## Filegen
 `sanity-yaml` generates type definitions, frontend files, and sanity schemas with yaml and handlebars. [Docs](https://github.com/nathannye/sanity-yaml)
+
+
+## CMS Integration
 
 ### Sanity.io
 
@@ -33,7 +39,7 @@ Classes like `px-grid-3` (3 columns), `mx-margin-2` (2 margins), and `size-gutte
 `@crawl-me-maybe/sitemap` generates sitemap via async functions at build time. [Docs](https://github.com/nathannye/crawl-me-maybe/tree/main/packages/sitemap)
 
 **Schema Markup**
-
+TBD
 
 
 
