@@ -1,0 +1,125 @@
+/* --------------------------------------------------------------------------
+   FLUID TYPOGRAPHY SYSTEM — FINAL, LIVE + HEIGHT AWARE
+   --------------------------------------------------------------------------
+   FORMULAS
+     slope (b)     = 100 × (maxSize − minSize) / (maxWidth − minWidth)
+     intercept (a) = minSize − b × (minWidth / 100)
+     font-size     = clamp(minSize, calc(a + b × 1vw), maxSize)
+
+   HEIGHT MODIFIER
+     vh-factor = clamp(vhMinFactor,
+                       calc(vhMinFactor + (100vh - vhMin) /
+                       (vhMax - vhMin) * (vhMaxFactor - vhMinFactor)),
+                       vhMaxFactor)
+
+   RULES
+     • html font-size uses px/vw only → live scaling works
+     • content uses rem → zoom & accessibility preserved
+     • vh-factor subtly shrinks type on short screens
+   -------------------------------------------------------------------------- */
+
+html {
+	/* viewport-height modulation */
+	--vh-min: 500px;
+	--vh-max: 700px;
+	--vh-min-factor: 0.8;
+	--vh-max-factor: 1;
+
+	--vh-factor: clamp(
+		var(--vh-min-factor),
+		calc(
+			var(--vh-min-factor) +
+			(100vh - var(--vh-min)) /
+			(var(--vh-max) - var(--vh-min)) *
+			(var(--vh-max-factor) - var(--vh-min-factor))
+		),
+		var(--vh-max-factor)
+	);
+
+	/* === Default Range (320 → 390) ===
+         Base target: 10px at 390px
+         Start smaller at 320px (~8.2px)  */
+	--min-size: 8.2px;
+	--max-size: 10px;
+	--slope: 2.5714; /* 100*(10−8.2)/(390−320) */
+	--intercept: 0.9px; /* 8.2 − (2.5714×3.2) */
+
+	font-size: calc(
+		var(--vh-factor) *
+		clamp(
+			var(--min-size),
+			calc(var(--intercept) + var(--slope) * 1vw),
+			var(--max-size)
+		)
+	);
+}
+
+/* === 320 → 390 === */
+@media (min-width: 320px) and (max-width: 390px) {
+	html {
+		--min-size: 8.2px;
+		--max-size: 10px;
+		--slope: 2.5714;
+		--intercept: 0.9px;
+	}
+}
+
+/* === 390 → 768 === */
+@media (min-width: 390px) and (max-width: 768px) {
+	html {
+		--min-size: 10px;
+		--max-size: 10px;
+		--slope: 0;
+		--intercept: 10px;
+	}
+}
+
+/* === 768 → 1024 === */
+@media (min-width: 768px) and (max-width: 1024px) {
+	html {
+		--min-size: 9.6px;
+		--max-size: 10px;
+		--slope: 0.1953;
+		--intercept: 8.1px;
+	}
+}
+
+/* === 1024 → 1440 === */
+@media (min-width: 1024px) and (max-width: 1440px) {
+	html {
+		--min-size: 7.104px;
+		--max-size: 10px;
+		--slope: 0.696;
+		--intercept: -0.022px;
+	}
+}
+
+/* === 1440 → 1920 === */
+@media (min-width: 1440px) and (max-width: 1920px) {
+	html {
+		--min-size: 10px;
+		--max-size: 11px;
+		--slope: 0.2083;
+		--intercept: 7px;
+	}
+}
+
+/* === 1920 → 2600 === */
+@media (min-width: 1920px) and (max-width: 2600px) {
+	html {
+		--min-size: 10px;
+		--max-size: 12.42px;
+		--slope: 0.2086;
+		--intercept: 7px;
+	}
+}
+
+/* ≥2600 */
+@media (min-width: 2600px) {
+	html {
+		--min-size: 12.42px;
+		--max-size: 12.42px;
+		--slope: 0;
+		--intercept: 0;
+	}
+}

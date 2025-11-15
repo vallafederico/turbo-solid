@@ -3,19 +3,19 @@
 	"type": "module",
 	"main": "./index.ts",
 	"dependencies": {
+		"@local/config": "workspace:*",
 		"@portabletext/solid": "^1.0.8",
 		"@sanity/client": "^6.29.1",
 		"@sanity/eventsource": "^5.0.2",
 		"@sanity/groq-store": "^4.1.3",
 		"@sanity/image-url": "^1.2.0",
-		"@local/config": "workspace:*",
 		"@sanity/visual-editing": "^2.15.4",
 		"@solidjs/meta": "^0.29.4",
-		"@solidjs/router": "^0.15.3",
+		"@solidjs/router": "^0.15.4",
 		"@solidjs/start": "^1.2.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
-		"solid-js": "^1.9.9",
+		"solid-js": "^1.9.10",
 		"walkjs": "^6.0.1"
 	}
 }

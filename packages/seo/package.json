@@ -5,10 +5,10 @@
 	"dependencies": {
 		"@crawl-me-maybe/web": "^0.0.2",
 		"@local/sanity": "workspace:*",
-		"@sanity/types": "^4.10.3",
+		"@sanity/types": "^4.15.0",
 		"@solidjs/meta": "^0.29.4",
-		"@solidjs/router": "^0.15.3",
-		"@solidjs/start": "^1.1.4",
-		"solid-js": "^1.9.4"
+		"@solidjs/router": "^0.15.4",
+		"@solidjs/start": "^1.2.0",
+		"solid-js": "^1.9.10"
 	}
 }

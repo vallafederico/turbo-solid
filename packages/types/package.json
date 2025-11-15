@@ -1,0 +1,11 @@
+{
+  "name": "@local/types",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "type": "module",
+  "private": true,
+  "devDependencies": {
+    "@types/node": "^20.19.24",
+    "typescript": "^5.9.3"
+  }
+}

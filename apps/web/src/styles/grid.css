@@ -1,24 +1,37 @@
 :root {
 	/* Grid configuration */
-	--margin: var(--gx);
-	--grid-columns: var(--columns);
-	--grid-gutter: var(--gutter);
+	--scrollbar: 0px;
+	--infinity: calc(infinity * 1px);
+	--max-scaling-width: 2600px;
+
+	--grid-columns: 6;
+	--grid-gutter: 1rem;
+	--grid-margin: 1.5rem;
+
+	--screen-width: min(calc(100vw - var(--scrollbar)), var(--infinity));
+
+	--all-gutters: calc(var(--grid-gutter) * (var(--grid-columns) - 1));
 	--grid-column-width: calc(
-		(
-			100vw -
-			2 *
-			var(--margin) -
-			(var(--grid-gutter) * (var(--grid-columns) - 1))
-		) /
+		(var(--screen-width) - (var(--grid-margin) * 2) - var(--all-gutters)) /
 		var(--grid-columns)
 	);
 
-	/* (*) FIND A CLAMPING VALUE TO AUTOMATICALLY HANDLE LARGER THAN POSSIBLE GRIDS ON MOBILE */
-	/* --clamping: */
+}
+
+@media screen and (min-width: 1024px){
+	:root {
+		--grid-columns: 12;
+		--grid-gutter: 2rem;
+		--grid-margin: 3.5rem;
+	}
+}
+
+@utility grid-contain {
+	max-width: calc(var(--max-scaling-width) * 1px);
+	margin: 0 auto;
 }
 
 @theme {
-	/* SPACING */
 	--spacing-grid-1: calc(var(--grid-column-width) * 1 + var(--grid-gutter) * 1);
 	--spacing-grid-2: calc(var(--grid-column-width) * 2 + var(--grid-gutter) * 2);
 	--spacing-grid-3: calc(var(--grid-column-width) * 3 + var(--grid-gutter) * 3);
@@ -47,26 +60,19 @@
 		12
 	);
 
-	/* SIZES */
-	--spacing-grids-1: calc(var(--grid-column-width) * 1 + var(--grid-gutter) * 0);
-	--spacing-grids-2: calc(var(--grid-column-width) * 2 + var(--grid-gutter) * 1);
-	--spacing-grids-3: calc(var(--grid-column-width) * 3 + var(--grid-gutter) * 2);
-	--spacing-grids-4: calc(var(--grid-column-width) * 4 + var(--grid-gutter) * 3);
-	--spacing-grids-5: calc(var(--grid-column-width) * 5 + var(--grid-gutter) * 4);
-	--spacing-grids-6: calc(var(--grid-column-width) * 6 + var(--grid-gutter) * 5);
-	--spacing-grids-7: calc(var(--grid-column-width) * 7 + var(--grid-gutter) * 6);
-	--spacing-grids-8: calc(var(--grid-column-width) * 8 + var(--grid-gutter) * 7);
-	--spacing-grids-9: calc(var(--grid-column-width) * 9 + var(--grid-gutter) * 8);
-	--spacing-grids-10: calc(
-		var(--grid-column-width) *
-		10 +
-		var(--grid-gutter) *
-		9
-	);
-	--spacing-grids-11: calc(
-		var(--grid-column-width) *
-		11 +
-		var(--grid-gutter) *
-		10
-	);
+	--spacing-margin-1: calc(var(--grid-margin) * 1);
+	--spacing-margin-2: calc(var(--grid-margin) * 2);
+	--spacing-margin-3: calc(var(--grid-margin) * 3);
+	--spacing-margin-4: calc(var(--grid-margin) * 4);
+	--spacing-margin-5: calc(var(--grid-margin) * 5);
+	--spacing-margin-6: calc(var(--grid-margin) * 6);
+
+
+	--spacing-gutter-1: calc(var(--grid-gutter) * 1);
+	--spacing-gutter-2: calc(var(--grid-gutter) * 2);
+	--spacing-gutter-3: calc(var(--grid-gutter) * 3);
+	--spacing-gutter-4: calc(var(--grid-gutter) * 4);
+	--spacing-gutter-5: calc(var(--grid-gutter) * 5);
+	--spacing-gutter-6: calc(var(--grid-gutter) * 6);
+
 }
