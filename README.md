@@ -1,6 +1,23 @@
 # Turborepo x Solid Starter
 Modular monorepo for building sites with Solid.js
 
+## Table of Contents
+- [Organization](#organization)
+  - [Solid Start](#solid-start)
+  - [Optional packages](#optional-packages)
+- [Slices vs Components](#slices-vs-components)
+- [Styles](#styles)
+  - [Fluid Type](#fluid-type)
+  - [Grid](#grid)
+- [Filegen](#filegen)
+- [CMS Integration](#cms-integration)
+  - [Sanity.io](#sanityio)
+- [SEO](#seo)
+- [Animation](#animation)
+- [Resizing](#resizing)
+- [Deployment](#deployment)
+
+---
 
 ## Organization
 Optional groups of packges are bumped into `pacakges` or `apps` so they can be removed/added per project.
@@ -23,20 +40,14 @@ Solid Start is JSX without the opinions of Next. Things to be aware of:
 
 ---
 
-## Data Fetching
-- its at the top of files because of preload()
-- little abstraction
-- allow processing of data on the server AND after initial fetch to format how you want before the data comes to the client
-
-(show example)
-
 ## Slices vs Components
 - **Components:** Smaller, composable, re-suable elements
 - **Slices:** Contentful-matched sections or modules. Lazily registered in (PATH)
 
-## Styles
-Spacing is base 10. `1rem = 10px` and can be used as `mt-10`, `px-33`, etc. 
+---
 
+## Styles
+Spacing is base 10. `1rem = 10px` and can be used as `mt-10`, `px-33`, etc.
 
 ### Fluid Type
 `apps/web/src/styles/fluid-type.css` controls the breakpoints for fluid type. 10px is 1:1 with Figma. To generate a new breakpoint set, ask Cursor: "Generate a new breakpoint set from X to Y, where (X or Y) is 10px", it will build a new point/slope formula for scaling between 2 points.
@@ -54,10 +65,12 @@ Classes like `px-grid-3` (3 columns), `mx-margin-2` (2 margins), and `size-gutte
 - `grid` supports values 1 up to `var(--grid-columns)`
 - The `grid-contain` utility pins content to the maximum width defined by `var(--max-scaling-width)`
 
+---
 
 ## Filegen
 `sanity-yaml` generates type definitions, frontend files, and sanity schemas with yaml and handlebars. [Docs](https://github.com/nathannye/sanity-yaml)
 
+---
 
 ## CMS Integration
 
@@ -69,9 +82,32 @@ Sanity is organized into 4 segments
 - **pages**: Self explanatory
 - **settings**: Globals that affect multiple schema types/pages
 
-**SanityPage Component**
-TBD
+#### Data Fetching
+SanityPage wraps a show and passes the reactive result of a fetch into a function
+```tsx
+const getContent = async ()=>{
+  "use server"
+  // return your data
+}
 
+export default function Page() {
+  const fetcher = createAsync(() => getContent());
+
+  return (
+    <SanityPage fetcher={fetcher}>
+      {(data) => {
+        return (
+          <div use:animateAlpha>
+            <SanityPageSlices slices={data().slices} />
+          </div>
+        );
+      }}
+    </SanityPage>
+  );
+}
+```
+
+---
 
 ## SEO
 
@@ -84,76 +120,27 @@ TBD
 **Schema Markup**
 TBD
 
+---
 
 ## Animation
 
 **`requestAnimationFrame`**
 A single Raf is created via class and subscribed to as needed with `useRaf` or `Raf.add()`.
 
+---
+
 ## Resizing
 A single Resize Observer is created via class and subscribed to with `useWindowResize()` or `Resizer.add()`.
 
+---
+
 ## Deployment
+
+**Web**
 Vercel is used for deploys, `vercel.json` controls the deployment of `apps/web`
+
+**Storybook**
+TBD (Chroamtic?)
 
 **ISR**
 `apps/web/src/routes/api/revalidate.ts` contains ISR logic. Create a new deploy hook in Vercel and add the route prefixes.
-
-# Coming Eventually
-
-## Web
-- [ ] Add examples to frontend
-  - [ ] CMS Dynamic pages /article/(slug)
-  - [ ] CMS SEO on all pages
-  - [ ] CMS form fields example /forms
-  - [ ] CMS Slices example /slices
-  - [ ] /content needs tabs like animation and components
-- [ ] Accordions with summary and details
-
-
-### Lenis/Scroll
-- [ ] Add resize subscriber for lenis so we can tie it to webgl
-
-### Components
-- [x] rework slider with smooothy
-
----
-
-## CMS
-
-- [x] add Vercel deploy (@nathan)
-- [ ] add guides (@nathan)
-- [x] forms (@nathan)
-- [ ] seo fields (@nathan)
-  - [ ] schema markup
-  - [x] canonical
-  - [x] robots.txt
-- [x] FUCKING HELL CLEAN UP THE CONFIGURATION ISSUE SIN SANITY BITCH
-- [x] remove schdules and clean up bar
-
-### Packages
-
-- [x] SIETAMP GENERATOR
-- [x] Sanity Solid (@nathan)
-  - [x] finish sanity setup
-  - [x] add component for data fetching
-  - [x] do the <Slices>
-
-#### Future
-
-- [ ] Ecommerce Package (Shopify Utils) (eventually)
-- [ ] localisation (eventually)
-- [ ] get vercel analytics into sanity dashboard
-- [ ] CWV
-- [ ] Migration tools
-  - [ ] push jsonnd to sanity
-  - [ ] format from wordpress
-  - [ ] format from webflow
-
-### Scripts
-
-- [ ] sanity importers
-- [ ] sanity/web sync
-
----
-
