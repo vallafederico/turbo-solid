@@ -1,10 +1,9 @@
 // import type { PageMetadata, SeoDefaults } from "@crawl-me-maybe/web";
 import { buildSeoPayload } from "@crawl-me-maybe/web";
-import { getDocumentByType } from "@local/sanity";
+import { getDocumentByType, SANITY_CONFIG } from "@local/sanity";
 import { Link, Meta, Title } from "@solidjs/meta";
 import { createAsync } from "@solidjs/router";
 import { For, Show } from "solid-js";
-import { SANITY_CONFIG } from "../../config";
 import SchemaMarkup from "./SchemaMarkup";
 
 type SanityMetaProps = {

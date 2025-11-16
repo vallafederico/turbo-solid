@@ -1,0 +1,12 @@
+
+interface {{pascalCase name}}Props {
+{{> jsx-types typeDefinition=typeDefinition}}
+}
+
+export default function {{pascalCase name}}({  }: {{pascalCase name}}Props) {
+  return (
+    <div>
+      <h2>{{pascalCase name}} Slice</h2>
+    </div>
+  )
+}

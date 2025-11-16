@@ -1,7 +1,7 @@
-import { createEffect, createMemo, createSignal, onCleanup } from "solid-js";
-import { groqStore, type GroqStore } from "@sanity/groq-store";
-import { SANITY_CONFIG } from "@local/config";
 import SanityEventSource from "@sanity/eventsource";
+import { type GroqStore, groqStore } from "@sanity/groq-store";
+import { createEffect, createMemo, createSignal, onCleanup } from "solid-js";
+import { SANITY_CONFIG } from "../config";
 
 type MaybeAccessor<T> = T | (() => T);
 function get<T>(v: MaybeAccessor<T>): T {

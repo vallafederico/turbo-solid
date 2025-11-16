@@ -1,5 +1,5 @@
-import { SANITY_CONFIG } from "@local/config";
 import { createClient } from "@sanity/client";
+import { SANITY_CONFIG } from "./config";
 
 const sanityClient = createClient({
 	...SANITY_CONFIG,

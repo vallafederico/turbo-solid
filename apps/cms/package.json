@@ -17,6 +17,7 @@
   "dependencies": {
     "@crawl-me-maybe/sanity": "^0.0.1",
     "@local/config": "workspace:*",
+    "@local/sanity": "workspace:*",
     "@q42/sanity-plugin-user-guide": "^1.0.1",
     "@sanity-image/url-builder": "^1.0.0",
     "@sanity/table": "^1.1.4",

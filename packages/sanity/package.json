@@ -2,6 +2,9 @@
 	"name": "@local/sanity",
 	"type": "module",
 	"main": "./index.ts",
+	"scripts": {
+		"generate": "pnpm sanity-yaml"
+	},
 	"dependencies": {
 		"@local/config": "workspace:*",
 		"@portabletext/solid": "^1.0.8",
@@ -17,5 +20,8 @@
 		"react-dom": "^18.3.1",
 		"solid-js": "^1.9.10",
 		"walkjs": "^6.0.1"
+	},
+	"devDependencies": {
+		"sanity-yaml": "^0.1.6"
 	}
 }

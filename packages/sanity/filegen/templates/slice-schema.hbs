@@ -1,0 +1,10 @@
+import { defineField } from "sanity";
+
+export default {
+  name: '{{name}}',
+  title: '{{titleCase title}}',
+  type: 'object',
+  fields: [
+      {{> sanity-fields fields=sanityFields}}
+  ],
+}

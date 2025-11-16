@@ -1,5 +1,6 @@
 import { crawlMeMaybe } from "@crawl-me-maybe/sanity";
-import { DOMAIN, SANITY_CONFIG } from "@local/config";
+import { DOMAIN } from "@local/config";
+import { SANITY_CONFIG } from "@local/sanity";
 import { userGuidePlugin } from "@q42/sanity-plugin-user-guide";
 import { visionTool } from "@sanity/vision";
 import { defineConfig } from "sanity";
