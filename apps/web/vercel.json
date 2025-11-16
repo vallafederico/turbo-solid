@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "pnpm install --filter web...",
-  "buildCommand": "cd ../../ && pnpm build:web",
-  "framework": "solidstart-1"
+  "buildCommand": "cd ../../ && pnpm build:web"
 }
