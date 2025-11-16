@@ -1,21 +1,23 @@
-import { SLICE_LIST } from "~/components/slices";
-
 import {
-	SanityPage,
 	getDocumentByType,
-	TextInput,
+	SanityComponents,
+	SanityPage,
 	SelectInput,
 	TextareaInput,
-	SanityComponents,
+	TextInput,
 	useLiveQuery,
-	getDocByType,
 } from "@local/sanity";
-
 import { createAsync } from "@solidjs/router";
 import { animateAlpha } from "~/animation/alpha";
+import { SLICE_LIST } from "~/components/slices";
+
+const getContent = async () => {
+	"use server";
+	return getDocumentByType("home");
+};
 
 export default function Content() {
-	const ssr = createAsync(() => getDocByType("home")); // { data, query, params }
+	const ssr = createAsync(() => getContent()); // { data, query, params }
 
 	// // Start overlays when in preview (needs react@18 + react-dom@18 installed)
 	// onMount(() => {
