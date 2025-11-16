@@ -59,70 +59,77 @@ const config: GeneratorConfig = {
 					regex: "// append",
 					targetFile: "../../apps/cms/schemas/pages/index.ts",
 				});
+
+				await modifyFile({
+					template: "{{camelCase name}},",
+					data: { name },
+					regex: "export default [",
+					targetFile: "../../apps/cms/schemas/pages/index.ts",
+				});
 			},
 		},
-		// slices: {
-		// 	inputPath: "./filegen/slices.yaml",
-		// 	onFileCreate: async ({
-		// 		name,
-		// 		sanityFields,
-		// 		typeDefinition,
-		// 		renderTemplate,
-		// 		modifyFile,
-		// 	}) => {
-		// 		// FRONTEND
+		slices: {
+			inputPath: "./filegen/slices.yaml",
+			onFileCreate: async ({
+				name,
+				sanityFields,
+				typeDefinition,
+				renderTemplate,
+				modifyFile,
+			}) => {
+				// FRONTEND
 
-		// 		// Generate component file
-		// 		await renderTemplate({
-		// 			templateFile: "./filegen/templates/slice-component.hbs",
-		// 			data: { name, sanityFields, typeDefinition },
-		// 			outputPath:
-		// 				"../../packages/ui/{{camelCase name}}/{{pascalCase name}}.tsx",
-		// 		});
+				// Generate component file
+				await renderTemplate({
+					templateFile: "./filegen/templates/slice-component.hbs",
+					data: { name, sanityFields, typeDefinition },
+					outputPath:
+						"../../packages/ui/{{camelCase name}}/{{pascalCase name}}.tsx",
+				});
 
-		// 		// Generate story file
-		// 		await renderTemplate({
-		// 			templateFile: "./filegen/templates/slice-story-component.hbs",
-		// 			data: { name, sanityFields, typeDefinition },
-		// 			outputPath:
-		// 				"../../packages/ui/{{camelCase name}}/{{pascalCase name}}.stories.tsx",
-		// 		});
+				// Generate story file
+				await renderTemplate({
+					templateFile: "./filegen/templates/slice-story-component.hbs",
+					data: { name, sanityFields, typeDefinition },
+					outputPath:
+						"../../packages/ui/{{camelCase name}}/{{pascalCase name}}.stories.tsx",
+				});
 
-		// 		// Add to frontend slice map
-		// 		await modifyFile({
-		// 			template:
-		// 				"{{camelCase name}}: lazy(() => import('./{{name}}/{{pascalCase name}}.tsx')),\n",
-		// 			data: { name },
-		// 			regex: "const SANITY_PAGE_SLICES = {",
-		// 			targetFile: "./components/SanityPageSlices.tsx",
-		// 		});
+				// Add to frontend slice map
+				await modifyFile({
+					template:
+						"{{camelCase name}}: lazy(() => import('../../ui/slices/{{pascalCase name}}/{{pascalCase name}}')),\n",
+					data: { name },
+					regex: "const SANITY_PAGE_SLICES = {",
+					targetFile: "./components/SanityPageSlices.tsx",
+				});
 
-		// 		// SCHEMAS IN SANITY
+				// SCHEMAS IN SANITY
 
-		// 		// Generate schema file
-		// 		await renderTemplate({
-		// 			templateFile: "./filegen/templates/slice-schema.hbs",
-		// 			data: { name, sanityFields },
-		// 			outputPath: "../../apps/cms/schemas/slices/{{camelCase name}}.ts",
-		// 		});
+				// Generate schema file
+				await renderTemplate({
+					templateFile: "./filegen/templates/slice-schema.hbs",
+					data: { name, sanityFields },
+					outputPath: "../../apps/cms/schemas/slices/{{camelCase name}}.ts",
+				});
 
-		// 		// Import into slice list
-		// 		await modifyFile({
-		// 			template: "\nimport {{camelCase name}} from './{{camelCase name}}'",
-		// 			data: { name },
-		// 			targetFile: "../../apps/cms/schemas/slices/index.ts",
-		// 			regex: "// append",
-		// 		});
+				// Import into slice list
+				await modifyFile({
+					template: "\nimport {{camelCase name}} from './{{camelCase name}}'",
+					data: { name },
+					targetFile: "../../apps/cms/schemas/slices/index.ts",
+					regex: "// append",
+				});
 
-		// 		// Add to slice list
-		// 		await modifyFile({
-		// 			template: "{{camelCase name}},",
-		// 			data: { name },
-		// 			targetFile: "../../apps/cms/schemas/slices/index.ts",
-		// 			regex: /const globalPageSlices = \[/,
-		// 		});
-		// 	},
-		// },
+				// Add to slice list
+				await modifyFile({
+					template: "{{camelCase name}},",
+					data: { name },
+					targetFile: "../../apps/cms/schemas/slices/index.ts",
+					regex: /const globalPageSlices = \[/,
+				});
+			},
+		},
 	},
 };
 

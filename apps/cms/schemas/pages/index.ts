@@ -1,5 +1,4 @@
 // append
-import about from './about'
 
 import about from "./about";
 import article from "./article";
