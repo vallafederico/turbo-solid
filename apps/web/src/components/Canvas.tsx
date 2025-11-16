@@ -3,7 +3,6 @@ import { Gl } from "~/gl/gl";
 
 export default function Canvas() {
 	const webgl = (self: HTMLElement) => {
-		console.log(self);
 		onMount(() => {
 			Gl.start(self);
 		});

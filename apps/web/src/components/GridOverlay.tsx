@@ -28,13 +28,13 @@ export default function GridOverlay() {
 	return (
 		<div
 			class={cx(
-				"pointer-events-none z-9999 fixed inset-0 h-screen w-full",
+				"pointer-events-none z-9999 fixed inset-0 w-[var(--screen-width)] h-screen ",
 				visible() ? "block" : "hidden",
 			)}
 		>
 			<div class="flex size-full px-margin-1 gap-gutter-1 grid-contain">
 				<For each={Array.from({ length: columns() }).fill(null)}>
-					{(item, index) => <div class="bg-[red]/10 size-full" />x}
+					{(item, index) => <div class="bg-[red]/10 size-full" />}
 				</For>
 			</div>
 		</div>
