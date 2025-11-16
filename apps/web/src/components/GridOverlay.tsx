@@ -34,7 +34,7 @@ export default function GridOverlay() {
 		>
 			<div class="flex size-full px-margin-1 gap-gutter-1 grid-contain">
 				<For each={Array.from({ length: columns() }).fill(null)}>
-					{(item, index) => <div class="bg-[red]/10 size-full">{index()}</div>}
+					{(item, index) => <div class="bg-[red]/10 size-full" />x}
 				</For>
 			</div>
 		</div>
