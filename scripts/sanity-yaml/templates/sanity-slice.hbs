@@ -1,0 +1,12 @@
+import { defineField } from "sanity";
+import { createPreview } from "../../utils/preview";
+
+export default {
+    name: '{{name}}',
+    title: '{{title}}',
+    type: 'object',
+    fields: [
+        {{> sanity-fields fields=fields}}
+    ],
+    preview: createPreview('{{title}}'),
+}

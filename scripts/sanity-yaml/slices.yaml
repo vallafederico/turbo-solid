@@ -1,0 +1,21 @@
+ThisIsName:
+  slug!: slug(title)
+  stuff:
+    you: string
+    them: string
+    listItems[]: 
+      name: string
+      other: number
+  title: string
+  date!4: datetime
+  itemsWithOptions[]: string(arrop1, arrop2) 
+  items: string(op1, op2, op3)
+  ref: ->stuff
+  docs[]: file(pdf,mdx)
+  description: text(4)
+  refArr[]: ->stuff
+  contact: email
+  count: number
+  itemList: string
+  points: geopoint
+

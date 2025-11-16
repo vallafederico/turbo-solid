@@ -1,64 +1,67 @@
+import sitemapPlugin from "@crawl-me-maybe/sitemap";
 import { defineConfig } from "@solidjs/start/config";
-import solidSvg from "vite-plugin-solid-svg";
 import glsl from "vite-plugin-glsl";
-import { solidStartSiteMapPlugin } from "solid-start-sitemap";
+import solidSvg from "vite-plugin-solid-svg";
 import glReloadPlugin from "./vite/vite-plugin-gl-reload";
-
-const sitemap = solidStartSiteMapPlugin({
-  hostname: "https://example.com",
-  replaceRouteParams: {
-    ":postId": [1, 2, 3],
-  },
-  limit: 5000,
-});
+import componentDataAttr from "./vite/vite-pulugin-component-attrs";
 
 const plugins = [
-  glsl({
-    include: ["**/*.glsl", "**/*.vert", "**/*.frag"],
-    exclude: undefined,
-    warnDuplicatedImports: true,
-    defaultExtension: "glsl",
-    minify: false,
-    watch: true,
-    root: "/",
-  }),
-
-  solidSvg({
-    defaultAsComponent: true,
-    // svgo: {
-    //   enabled: false,
-    //   svgoConfig: {
-    //     plugins: [
-    //       {
-    //         name: "preset-default",
-    //         params: {
-    //           overrides: {
-    //             removeUselessDefs: false,
-    //           },
-    //         },
-    //       },
-    //     ],
-    //   },
-    // },
-  }),
-
-  sitemap,
-
-  // Add our custom GL reload plugin
-  glReloadPlugin(),
+	glsl({
+		include: ["**/*.glsl", "**/*.vert", "**/*.frag"],
+		exclude: undefined,
+		warnDuplicatedImports: true,
+		defaultExtension: "glsl",
+		minify: false,
+		watch: true,
+		root: "/",
+	}),
+	componentDataAttr(),
+	sitemapPlugin({
+		domain: "https://yourdomain.com",
+		outDir: "dist",
+		sitemaps: {
+			pages: async () => [
+				{ url: "/", updated: "2025-10-17" },
+				{ url: "/about", updated: "2025-10-16" },
+			],
+			posts: async () => [
+				{ url: "/blog/post-1", updated: "2025-10-10" },
+				{ url: "/blog/post-2", updated: "2025-10-08" },
+			],
+		},
+	}),
+	solidSvg({
+		defaultAsComponent: true,
+		// svgo: {
+		//   enabled: false,
+		//   svgoConfig: {
+		//     plugins: [
+		//       {
+		//         name: "preset-default",
+		//         params: {
+		//           overrides: {
+		//             removeUselessDefs: false,
+		//           },
+		//         },
+		//       },
+		//     ],
+		//   },
+		// },
+	}),
+	glReloadPlugin(),
 ];
 
 export default defineConfig({
-  server: {
-    prerender: {
-      // routes: ["/"],
-      crawlLinks: true /* prerenders all */,
-    },
-  },
-  vite: {
-    plugins,
-  },
-  // solid: {
-  //   hot: false,
-  // },
+	server: {
+		prerender: {
+			// routes: ["/"],
+			crawlLinks: true /* prerenders all */,
+		},
+	},
+	vite: {
+		plugins,
+	},
+	// solid: {
+	//   hot: false,
+	// },
 });

@@ -1,3 +1,4 @@
+
 export default {
   name: 'settings.footer',
   type: 'document',
@@ -7,5 +8,6 @@ export default {
       type: 'array',
       of: [{type: 'link'}],
     },
+
   ],
 }

@@ -1,0 +1,8 @@
+defineField({
+    name: '{{name}}',
+    type: 'reference',
+    to: [{{#each to}}
+        { type: '{{this}}' }{{#unless @last}},{{/unless}}
+    {{/each}}],
+    {{> sanity-validation validation=validation}}
+}),

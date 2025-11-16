@@ -2,5 +2,6 @@ packages:
   - apps/*
   - packages/*
   - scripts/*
+
 ignoredBuiltDependencies:
   - bun
