@@ -11,16 +11,17 @@ const GlobalLayout = ({ children, ...props }: { children: any }) => {
 	usePageTransition();
 
 	const getScrollbarWidth = () => {
-		if (!el || isServer) return 0;
-		return window.innerWidth - el.offsetWidth;
+		if (!el || isServer) return "0px";
+		const width = window.innerWidth - el.offsetWidth;
+		return `${width}px`;
 	};
 
 	onMount(() => {
-		setCssVariable("--scrollbar", `${getScrollbarWidth()}px`);
+		setCssVariable("--scrollbar", getScrollbarWidth());
 	});
 
 	useWindowResize(() => {
-		setCssVariable("--scrollbar", `${getScrollbarWidth()}px`);
+		setCssVariable("--scrollbar", getScrollbarWidth());
 	});
 
 	return (
