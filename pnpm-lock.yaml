@@ -150,6 +150,9 @@ importers:
       '@local/seo':
         specifier: workspace:*
         version: link:../../packages/seo
+      '@solid-primitives/intersection-observer':
+        specifier: ^2.2.2
+        version: 2.2.2(solid-js@1.9.10)
       '@solid-primitives/resize-observer':
         specifier: ^2.1.3
         version: 2.1.3(solid-js@1.9.10)
