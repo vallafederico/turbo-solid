@@ -1,3 +1,4 @@
+import { viewport } from "../stores/viewportStore";
 import { Scroll } from "../subscribers/scroll";
 
 interface ClientRectBounds {

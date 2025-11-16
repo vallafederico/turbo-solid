@@ -1,6 +1,5 @@
-import { Scroll } from "@local/animation";
+import { Scroll, viewport } from "@local/animation";
 import { Gl } from "~/gl/gl";
-import { viewport } from "../stores/viewportStore";
 
 export interface ClientRectBounds {
 	top: number;
