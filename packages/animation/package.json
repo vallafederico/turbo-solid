@@ -2,6 +2,7 @@
   "name": "@local/animation",
   "version": "0.1.0",
   "main": "index.ts",
+  "sideEffects": false,
   "private": true,
   "scripts": {},
   "dependencies": {

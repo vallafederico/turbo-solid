@@ -1,5 +1,6 @@
 {
 	"name": "@local/config",
 	"type": "module",
-	"main": "./index.ts"
+	"main": "./index.ts",
+	"sideEffects": false
 }

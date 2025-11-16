@@ -4,6 +4,7 @@
   "main": "index.ts",
   "type": "module",
   "private": true,
+  "sideEffects": false,
   "dependencies": {
     "@local/mocks": "workspace:*",
     "@local/types": "workspace:*",
@@ -36,6 +37,5 @@
     "./molecules/*": "./molecules/*",
     "./icons": "./icons/index.ts",
     "./icons/*": "./icons/*"
-  },
-  "sideEffects": false
+  }
 }

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "main": "index.ts",
   "type": "module",
+  "sideEffects": false,
   "private": true,
   "devDependencies": {
     "@types/node": "^20.19.24",
