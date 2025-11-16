@@ -1,6 +1,6 @@
+import { setViewport } from "@local/animation";
 import { makeResizeObserver } from "@solid-primitives/resize-observer";
 import { createEffect } from "solid-js";
-import { setViewport, viewport } from "~/lib/stores/viewportStore";
 
 export function useViewport() {
 	createEffect(() => {
@@ -20,7 +20,6 @@ const initResize = (ref = document.body) => {
 		const height = window.innerHeight;
 
 		setViewport("size", { width, height });
-		// console.log("resize", viewport);
 	};
 
 	const { observe, unobserve } = makeResizeObserver(handleObserverCallback, {

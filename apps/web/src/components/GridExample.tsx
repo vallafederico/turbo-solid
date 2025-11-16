@@ -8,7 +8,7 @@ export default function GridExample() {
 				Grid system
 			</h1>
 			<p use:animateAlpha class="text-center">
-				use Shift+G to toggle grid view
+				use X to toggle grid view
 			</p>
 
 			<div

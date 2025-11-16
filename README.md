@@ -43,7 +43,7 @@ Spacing is base 10. `1rem = 10px` and can be used as `mt-10`, `px-33`, etc.
 
 ### Grid
 **Grid Overlay**
-Press Shift+G to toggle a grid overlay that matches Figma
+Press x to toggle a grid overlay that matches Figma
 **Grid Config**
 `apps/web/src/styles/grid.css` is used to modify the grid columns, margins, and gutters
 
