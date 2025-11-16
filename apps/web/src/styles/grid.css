@@ -8,7 +8,7 @@
 	--grid-gutter: 1rem;
 	--grid-margin: 1.5rem;
 
-	--screen-width: min(calc(100cqw - var(--scrollbar)), var(--infinity));
+	--screen-width: min(calc(100vw - var(--scrollbar)), var(--infinity));
 
 	--all-gutters: calc(var(--grid-gutter) * (var(--grid-columns) - 1));
 	--grid-column-width: calc(
