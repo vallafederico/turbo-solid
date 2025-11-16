@@ -1,7 +1,8 @@
-import header from "./header";
-import richText from "./richText";
+// append
 
 import { createSliceSet } from "../../utils/create";
+import header from "./header";
+import richText from "./richText";
 
 const globalPageSlices = [header, richText] as any[] as Slice[];
 
