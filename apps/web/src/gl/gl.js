@@ -151,31 +151,26 @@ export class Gl {
 	}
 
 	static destroy() {
-		console.log("-------------- gl:destroy");
-		console.log(Gl.vp);
-		gsap.ticker.remove(Gl.render.bind(Gl));
-
-		Gl.vp.container.removeChild(Gl.renderer.domElement);
-		Gl.renderer.domElement.remove();
-
-		Gl.scene.dispose();
-		Gl.renderer.dispose();
-
-		// if (this.post) {l
-		//   this.post.kill();
-		//   this.post.dispose();
-		//   this.post = null;
-		//   delete this.post;
+		// console.log("-------------- gl:destroy");
+		// console.log(Gl.vp);
+		// gsap.ticker.remove(Gl.render.bind(Gl));
+		// Gl.vp.container.removeChild(Gl.renderer.domElement);
+		// Gl.renderer.domElement.remove();
+		// Gl.scene.dispose();
+		// Gl.renderer.dispose();
+		// // if (this.post) {l
+		// //   this.post.kill();
+		// //   this.post.dispose();
+		// //   this.post = null;
+		// //   delete this.post;
+		// // }
+		// try {
+		// 	Gl.renderer.forceContextLoss();
+		// 	Gl.renderer = null;
+		// } catch (e) {
+		// 	console.log("renderer.forceContextLoss failed", e);
 		// }
-
-		try {
-			Gl.renderer.forceContextLoss();
-			Gl.renderer = null;
-		} catch (e) {
-			console.log("renderer.forceContextLoss failed", e);
-		}
-
-		Gl.evt.forEach((e) => e());
+		// Gl.evt.forEach((e) => e());
 	}
 
 	static get viewSize() {

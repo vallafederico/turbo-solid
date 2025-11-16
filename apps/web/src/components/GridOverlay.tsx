@@ -1,5 +1,6 @@
 import cx from "classix";
-import { createSignal, onMount } from "solid-js";
+import { createSignal, For, onMount } from "solid-js";
+import { isServer } from "solid-js/web";
 import { useKeypress } from "~/lib/hooks/useKeypress";
 import { useWindowResize } from "~/lib/hooks/useWindowResize";
 
@@ -32,9 +33,9 @@ export default function GridOverlay() {
 			)}
 		>
 			<div class="flex size-full px-margin-1 gap-gutter-1 grid-contain">
-				{Array.from({ length: columns() }).map((item) => {
-					return <div class="bg-[red]/10 size-full"></div>;
-				})}
+				<For each={Array.from({ length: columns() }).fill(null)}>
+					{(item, index) => <div class="bg-[red]/10 size-full">{index()}</div>}
+				</For>
 			</div>
 		</div>
 	);
