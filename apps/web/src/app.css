@@ -49,9 +49,6 @@
   --spacing-lg: var(--lg);
   --spacing-xl: var(--xl);
   --spacing-xxl: var(--xxl);
-  --spacing-navh: var(--navh);
-
-  --spacing-gutter: var(--gutter);
 
   --aspect-5\/7: 5/7;
 }
