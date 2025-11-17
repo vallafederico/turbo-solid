@@ -39,7 +39,7 @@ prod      (live)
 
 
 ## Organization
-Optional groups of packges are bumped into `pacakges` or `apps` so they can be removed/added per project.
+Optional groups of common components/functions are bumped into `pacakges` or `apps` so they can be removed/added per project.
 
 ### Solid Start
 Solid Start is JSX without the opinions of Next. Things to be aware of:
@@ -47,7 +47,7 @@ Solid Start is JSX without the opinions of Next. Things to be aware of:
 - Conditional rendering is done with `<Show/>` not `&&` [Docs](https://docs.solidjs.com/reference/components/show)
 - No keys are used on arrays
 - State is created via `createSignal()`, Solid's version of `useState()` [Docs](https://docs.solidjs.com/concepts/signals)
-- State updated do _not_ rerender entire components, only single DOM nodes. [Docs](https://docs.solidjs.com/concepts/intro-to-reactivity)
+- State updates do _not_ rerender entire components, only single DOM nodes. [Docs](https://docs.solidjs.com/concepts/intro-to-reactivity)
 
 [Read full docs](https://docs.solidjs.com/)
 
@@ -60,8 +60,8 @@ Solid Start is JSX without the opinions of Next. Things to be aware of:
 ---
 
 ## Slices vs Components
-- **Components:** Smaller, composable, re-suable elements
-- **Slices:** Contentful-matched sections or modules. Lazily registered in (PATH)
+- **Components:** Smaller, composable elements like buttons or accordions
+- **Slices:** CMS-matched sections or modules
 
 ---
 
@@ -88,6 +88,8 @@ Classes like `px-grid-3` (3 columns), `mx-margin-2` (2 margins), and `size-gutte
 
 ## Filegen
 `sanity-yaml` generates type definitions, frontend files, and sanity schemas with yaml and handlebars. [Docs](https://github.com/nathannye/sanity-yaml)
+
+From the project root, run `cd packages/sanity`, then `pnpm generate` once the yaml and handlebars files are correctly set up.
 
 ---
 
