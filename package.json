@@ -1,6 +1,14 @@
 {
   "name": "turbo-solid",
   "private": true,
+  "contributors": [
+    {
+      "name": "Federico Valla"
+    },
+    {
+      "name": "Nathan Nye"
+    }
+  ],
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
