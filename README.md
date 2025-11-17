@@ -2,6 +2,7 @@
 Modular monorepo for building sites with Solid.js
 
 ## Table of Contents
+- [Git Structure](#git-structure)
 - [Organization](#organization)
   - [Solid Start](#solid-start)
   - [Optional packages](#optional-packages)
@@ -18,6 +19,24 @@ Modular monorepo for building sites with Solid.js
 - [Deployment](#deployment)
 
 ---
+
+## Git Structure
+
+```
+├─ feat/<feature-name>
+│
+├─ fix/<fix-name>
+|
+main      (staging)
+│
+>> PR
+│
+prod      (live)
+```
+- `main`: All development is merged here, used for staging environments.
+- `feat/`, `fix/`: Feature and fix branches are based off `main` and merged back when complete.
+- `prod`: Only released, live-ready code is merged here (usually via PR from `main`).
+
 
 ## Organization
 Optional groups of packges are bumped into `pacakges` or `apps` so they can be removed/added per project.
