@@ -68,6 +68,8 @@ Solid Start is JSX without the opinions of Next. Things to be aware of:
 ## Styles
 Spacing is base 10. `1rem = 10px` and can be used as `mt-10`, `px-33`, etc.
 
+> 🦆 Note: @source directives must be use if JSX elements using tailwind are exported from packages/*
+
 ### Fluid Type
 `apps/web/src/styles/fluid-type.css` controls the breakpoints for fluid type. 10px is 1:1 with Figma. To generate a new breakpoint set, ask Cursor: "Generate a new breakpoint set from X to Y, where (X or Y) is 10px", it will build a new point/slope formula for scaling between 2 points.
 
