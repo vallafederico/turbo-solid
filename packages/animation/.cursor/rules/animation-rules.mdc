@@ -1,0 +1,466 @@
+---
+alwaysApply: true
+---
+
+# Animation Package Rules (`@local/animation`)
+
+The `@local/animation` package provides a comprehensive animation system with GSAP integration, subscribers for common events (RAF, scroll, mouse, resize), and utility functions for smooth, performant animations.
+
+## Package Structure
+
+```
+packages/animation/
+├── subscribers/        # Event subscribers (RAF, scroll, mouse, resize)
+│   ├── raf.ts         # RequestAnimationFrame subscriber
+│   ├── scroll.ts      # Scroll event subscriber
+│   ├── mouse.ts       # Mouse tracking subscriber
+│   ├── resizer.ts     # Resize observer subscriber
+│   └── subscribable.ts # Base subscriber class
+├── stores/            # Animation-related stores
+│   └── viewportStore.ts
+├── utils/             # Animation utilities
+│   ├── math.ts        # Math utilities (lerp, damp, etc.)
+│   ├── intersect.ts   # Intersection observer utilities
+│   ├── scrolling.ts   # Scroll-based utilities
+│   └── page-transition.ts # Page transition management
+├── gsap.ts           # GSAP configuration and exports
+└── index.ts          # Package exports
+```
+
+## Import Patterns
+
+### ✅ Correct Imports
+
+```typescript
+// Import from package root
+import { Raf, Scroll, Mouse, Resizer } from "@local/animation";
+import { gsap, A, SplitText } from "@local/animation";
+import { damp, lerp, clamp } from "@local/animation";
+import { onIntersect, onPageLeave, onScroll, onTrack } from "@local/animation";
+import { viewport } from "@local/animation";
+
+// Import specific modules
+import { Mouse } from "@local/animation/subscribers";
+import { damp } from "@local/animation/utils/math";
+```
+
+### ❌ Avoid
+
+```typescript
+// Don't use relative paths from outside package
+import { Mouse } from "../../packages/animation/subscribers/mouse"; // ❌
+
+// Don't use old import paths
+import { Mouse } from "~/animation/subscribers/mouse"; // ❌
+```
+
+## Subscribers
+
+All subscribers extend `Subscribable` and provide a consistent API for subscribing to events.
+
+### `Raf` - RequestAnimationFrame
+
+```typescript
+import { Raf } from "@local/animation";
+
+// Subscribe to RAF updates
+const unsubscribe = Raf.add((time: number) => {
+  // time is in milliseconds
+  // Called every animation frame
+  updateAnimation(time);
+});
+
+// Unsubscribe
+unsubscribe();
+```
+
+### `Scroll` - Scroll Events
+
+```typescript
+import { Scroll } from "@local/animation";
+
+// Subscribe to scroll updates
+const unsubscribe = Scroll.add((data: ScrollEvent) => {
+  // data.velocity - scroll speed
+  // data.scroll - current scroll position
+  // data.direction - 1 (down) or -1 (up)
+  // data.progress - scroll progress (0-1)
+  // data.glScroll - GL pixel ratio adjusted scroll
+});
+
+// Scroll to position
+Scroll.to({ top: 1000, duration: 1 });
+
+// Get current scroll data
+const scrollData = Scroll.scrollEventData;
+
+// Handle resize for scroll calculations
+Scroll.handleResize(element);
+```
+
+### `Mouse` - Mouse Tracking
+
+```typescript
+import { Mouse } from "@local/animation";
+
+// Subscribe to mouse updates
+const unsubscribe = Mouse.add((data: MouseData) => {
+  // data.x, data.y - normalized values (-1 to 1)
+  // data.sx, data.sy - screen coordinates (clientX, clientY)
+  // data.ex, data.ey - damped/eased values
+});
+
+// Access current position directly
+const { x, y, sx, sy, ex, ey } = Mouse.position;
+
+// Or access individual values
+Mouse.x;  // Normalized X (-1 to 1)
+Mouse.y;  // Normalized Y (-1 to 1)
+Mouse.sx; // Screen X
+Mouse.sy; // Screen Y
+Mouse.ex; // Damped X
+Mouse.ey; // Damped Y
+```
+
+### `Resizer` - Window Resize
+
+```typescript
+import { Resizer } from "@local/animation";
+
+// Subscribe to resize events
+const unsubscribe = Resizer.add((data: ResizeData) => {
+  // data.width - window width
+  // data.height - window height
+  // data.top - top position
+  // data.left - left position
+});
+
+// Check if mobile
+Resizer.isMobile; // boolean
+```
+
+## Subscribable Pattern
+
+All subscribers follow this pattern:
+
+```typescript
+// Subscribe with callback
+const unsubscribe = Subscriber.add(callback);
+
+// Subscribe with priority and ID
+const unsubscribe = Subscriber.add(callback, priority, id);
+
+// Unsubscribe
+unsubscribe();
+// or
+Subscriber.remove(id);
+```
+
+## Math Utilities
+
+### `damp` - Frame-Independent Damping
+
+```typescript
+import { damp } from "@local/animation";
+
+// Damp a value towards a target
+const current = 0;
+const target = 100;
+const lambda = 10; // Damping factor (higher = faster)
+const deltaTime = 0.016; // Time in seconds
+
+const newValue = damp(current, target, lambda, deltaTime);
+```
+
+### `DampedValue` - Automatic Damping
+
+```typescript
+import { DampedValue } from "@local/animation";
+
+// Create a damped value that automatically tracks RAF
+const dampedX = new DampedValue(0, 10); // initialValue, lambda
+
+// Set target - it will automatically damp towards this
+dampedX.setTarget(100);
+
+// Get current value
+const current = dampedX.get();
+
+// Update target and get value
+const value = dampedX.updateTarget(50);
+
+// Clean up
+dampedX.dispose();
+```
+
+### Other Math Functions
+
+```typescript
+import { lerp, map, clamp, mod, radToDeg, degToRad } from "@local/animation";
+
+// Linear interpolation
+const value = lerp(0, 100, 0.5); // 50
+
+// Map value from one range to another
+const mapped = map(50, 0, 100, 0, 1); // 0.5
+
+// Clamp value
+const clamped = clamp(0, 100, 150); // 100
+
+// Modulo
+const modded = mod(5, 3); // 2
+
+// Angle conversions
+const degrees = radToDeg(Math.PI); // 180
+const radians = degToRad(180); // Math.PI
+```
+
+## GSAP Integration
+
+### GSAP Exports
+
+```typescript
+import { gsap, A, SplitText } from "@local/animation";
+
+// Use GSAP directly
+gsap.to(element, { opacity: 1, duration: 1 });
+
+// Use animation constants
+gsap.to(element, {
+  opacity: 1,
+  duration: A.page.in.duration, // 1.2
+  ease: A.page.in.ease, // "expo.out"
+});
+
+// Available constants:
+// A.page.in.duration = 1.2
+// A.page.in.ease = "expo.out"
+// A.page.out.duration = 0.6
+// A.page.out.ease = "expo.out"
+```
+
+### SplitText
+
+```typescript
+import { SplitText } from "@local/animation";
+
+const split = new SplitText(element, {
+  type: "words,chars",
+  wordsClass: "split-w",
+});
+
+// Animate split text
+gsap.to(split.chars, {
+  yPercent: 0,
+  stagger: 0.02,
+});
+
+// Revert
+split.revert();
+```
+
+## Utility Functions
+
+### `onIntersect` - Intersection Observer
+
+```typescript
+import { onIntersect } from "@local/animation";
+
+onIntersect(element, {
+  onEnter: () => {
+    // Element entered viewport
+    gsap.to(element, { opacity: 1 });
+  },
+  onLeave: () => {
+    // Element left viewport
+    gsap.set(element, { opacity: 0 });
+  },
+  once: true, // Only trigger once (default: true)
+  threshold: 0.1, // Intersection threshold (default: 0.1)
+});
+```
+
+### `onPageLeave` - Page Transition Cleanup
+
+```typescript
+import { onPageLeave } from "@local/animation";
+
+onPageLeave(element, async () => {
+  await gsap.to(element, {
+    opacity: 0,
+    duration: 0.6,
+    ease: "expo.out",
+  });
+});
+```
+
+### `onScroll` - Scroll Callback
+
+```typescript
+import { onScroll } from "@local/animation";
+
+onScroll(({ velocity, scroll, direction }) => {
+  // Handle scroll events
+  element.style.transform = `translateY(${scroll * 0.5}px)`;
+});
+```
+
+### `onTrack` - Scroll Progress Tracking
+
+```typescript
+import { onTrack } from "@local/animation";
+
+onTrack(
+  element,
+  (progress) => {
+    // progress: 0-1 based on element's viewport position
+    element.style.transform = `translateY(${-progress * 100}%)`;
+  },
+  {
+    top: "bottom", // When progress = 0
+    bottom: "top", // When progress = 1
+    lerp: 0.1, // Smoothing factor (optional)
+  }
+);
+```
+
+## Stores
+
+### `viewport` - Viewport Store
+
+```typescript
+import { viewport } from "@local/animation";
+
+// Access viewport data
+viewport.width;  // Window width
+viewport.height; // Window height
+viewport.aspect;  // Aspect ratio
+viewport.dpr;    // Device pixel ratio
+```
+
+## Best Practices
+
+### ✅ DO:
+
+```typescript
+// Use subscribers for reactive updates
+Mouse.add(({ ex, ey }) => {
+  // Update based on damped mouse position
+});
+
+// Use math utilities for smooth animations
+const smoothed = damp(current, target, 10, deltaTime);
+
+// Clean up subscriptions
+const unsubscribe = Raf.add(update);
+onCleanup(() => unsubscribe());
+
+// Use standardized GSAP timing
+gsap.to(element, {
+  duration: A.page.in.duration,
+  ease: A.page.in.ease,
+});
+```
+
+### ❌ DON'T:
+
+```typescript
+// Don't create your own RAF loops
+requestAnimationFrame(update); // ❌ Use Raf.add()
+
+// Don't manually track mouse
+window.addEventListener("mousemove", handler); // ❌ Use Mouse.add()
+
+// Don't hardcode animation values
+gsap.to(element, { duration: 1.2 }); // ❌ Use A.page.in.duration
+
+// Don't forget to unsubscribe
+Raf.add(update); // ❌ Store unsubscribe function
+```
+
+## Common Patterns
+
+### Smooth Mouse Following
+
+```typescript
+import { Mouse } from "@local/animation";
+import { Raf } from "@local/animation";
+
+const unsubscribe = Mouse.add(({ ex, ey }) => {
+  // ex, ey are already damped
+  element.style.transform = `translate(${ex * 100}px, ${ey * 100}px)`;
+});
+```
+
+### Scroll-Based Animation
+
+```typescript
+import { Scroll } from "@local/animation";
+
+Scroll.add(({ scroll, progress }) => {
+  // Update based on scroll
+  parallaxElement.style.transform = `translateY(${scroll * 0.5}px)`;
+});
+```
+
+### Intersection-Based Animation
+
+```typescript
+import { onIntersect, onPageLeave } from "@local/animation";
+import { gsap, A } from "@local/animation";
+
+const animate = (self: HTMLElement) => {
+  gsap.set(self, { opacity: 0 });
+
+  onIntersect(self, {
+    onEnter: () => {
+      gsap.to(self, {
+        opacity: 1,
+        duration: A.page.in.duration,
+        ease: A.page.in.ease,
+      });
+    },
+    onLeave: () => {
+      gsap.set(self, { opacity: 0 });
+    },
+  });
+
+  onPageLeave(self, async () => {
+    await gsap.to(self, {
+      opacity: 0,
+      duration: A.page.out.duration,
+      ease: A.page.out.ease,
+    });
+  });
+};
+```
+
+## Integration with Three.js
+
+The animation package integrates seamlessly with `@local/three`:
+
+```typescript
+import { Mouse, Scroll, Raf } from "@local/animation";
+
+// In WebGL element
+Raf.add((time) => {
+  this.material.uniforms.u_time.value = time / 1000;
+});
+
+Mouse.add(({ ex, ey }) => {
+  this.material.uniforms.u_mouse.value = [ex, ey];
+});
+
+Scroll.add(({ scroll }) => {
+  this.material.uniforms.u_scroll.value = scroll;
+});
+```
+
+## Performance Considerations
+
+1. **Always unsubscribe** from subscribers when done
+2. **Use damped values** for smooth animations (Mouse.ex/ey)
+3. **Batch updates** when possible
+4. **Use lerp** for smooth interpolation
+5. **Kill GSAP animations** on cleanup: `gsap.killTweensOf(element)`
+6. **Set initial states** before animating: `gsap.set(element, {...})`
