@@ -11,28 +11,28 @@ import GridOverlay from "~/components/GridOverlay";
 import { useViewport } from "~/lib/hooks/useViewport";
 
 export default function App() {
-	useViewport();
+  useViewport();
 
-	return (
-		<Router
-			root={(props) => (
-				<MetaProvider>
-					<meta charset="utf-8" />
-					<meta
-						name="viewport"
-						content="width=device-width, initial-scale=1.0"
-					/>
-					{import.meta.env.DEV && <GridOverlay />}
-					<Suspense>
-						<GlobalLayout>{props.children}</GlobalLayout>
-					</Suspense>
-					<Canvas />
-				</MetaProvider>
-			)}
-		>
-			<Suspense fallback={<div>loading things</div>}>
-				<FileRoutes />
-			</Suspense>
-		</Router>
-	);
+  return (
+    <Router
+      root={(props) => (
+        <MetaProvider>
+          <meta charset="utf-8" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
+          {import.meta.env.DEV && <GridOverlay />}
+          <Suspense>
+            <GlobalLayout>{props.children}</GlobalLayout>
+          </Suspense>
+          <Canvas />
+        </MetaProvider>
+      )}
+    >
+      <Suspense fallback={<div>loading things</div>}>
+        <FileRoutes />
+      </Suspense>
+    </Router>
+  );
 }
