@@ -32,7 +32,7 @@ const NAV_LINKS = [
 
 export const Nav = () => {
 	return (
-		<nav class="px-margin-1 pointer-events-none fixed top-0 left-0 z-100 flex w-screen items-center justify-between py-6">
+		<nav class="px-margin-1 text-[1.5rem] pointer-events-none fixed top-0 left-0 z-100 flex w-screen items-center justify-between py-6">
 			<A aria-label="homepage" class="pointer-events-auto z-20" href="/">
 				<p>LOGO</p>
 			</A>
