@@ -27,7 +27,7 @@ const GlobalLayout = ({ children, ...props }: { children: any }) => {
 	return (
 		<>
 			<Nav />
-			<main ref={el} use:scroll>
+			<main class="text-[1.5rem]" ref={el} use:scroll>
 				{children}
 			</main>
 		</>
