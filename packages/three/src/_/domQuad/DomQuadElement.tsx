@@ -11,10 +11,10 @@ export default function DomQuadElement({
 }) {
 	const { setRef, ref, node } = useWebglNode(DomQuad);
 
-	return (
-		// <div ref={setRef} class={cx("aspect-[5/7] w-[30vw] border", className)}>
-		<div ref={setRef} class="h-300 aspect-[5/7] border">
-			{children}
-		</div>
-	);
+  return (
+    // <div ref={setRef} class={cx("aspect-[5/7] w-[30vw] border", className)}>
+    <div ref={setRef} class="w-[30vw] h-[10svh] aspect-[5/7] border">
+      {children}
+    </div>
+  );
 }
