@@ -5,38 +5,38 @@ import { useKeypress } from "~/lib/hooks/useKeypress";
 import { useWindowResize } from "~/lib/hooks/useWindowResize";
 
 export default function GridOverlay() {
-	const [visible, setVisible] = createSignal(false);
-	const [columns, setColumns] = createSignal(1);
+  const [visible, setVisible] = createSignal(false);
+  const [columns, setColumns] = createSignal(1);
 
-	const handleResize = () => {
-		const computed = getComputedStyle(document.documentElement);
-		const columns = computed.getPropertyValue("--grid-columns");
+  const handleResize = () => {
+    const computed = getComputedStyle(document.documentElement);
+    const columns = computed.getPropertyValue("--grid-columns");
 
-		setColumns(+columns);
-	};
+    setColumns(+columns);
+  };
 
-	onMount(() => {
-		handleResize();
-	});
+  onMount(() => {
+    handleResize();
+  });
 
-	useWindowResize(handleResize);
+  useWindowResize(handleResize);
 
-	useKeypress("x", () => {
-		setVisible(!visible());
-	});
+  useKeypress("x", () => {
+    setVisible(!visible());
+  });
 
-	return (
-		<div
-			class={cx(
-				"pointer-events-none z-9999 fixed inset-0 w-[var(--screen-width)] h-screen ",
-				visible() ? "block" : "hidden",
-			)}
-		>
-			<div class="flex size-full px-margin-1 gap-gutter-1 grid-contain">
-				<For each={Array.from({ length: columns() }).fill(null)}>
-					{(item, index) => <div class="bg-[red]/10 size-full" />}
-				</For>
-			</div>
-		</div>
-	);
+  return (
+    <div
+      class={cx(
+        "pointer-events-none fixed inset-0 z-9999 h-screen w-[var(--screen-width)]",
+        visible() ? "block" : "hidden",
+      )}
+    >
+      <div class="px-margin-1 gap-gutter-1 grid-contain flex size-full">
+        <For each={Array.from({ length: columns() }).fill(null)}>
+          {(item, index) => <div class="size-full bg-[red]/10" />}
+        </For>
+      </div>
+    </div>
+  );
 }
