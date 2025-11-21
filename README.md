@@ -96,6 +96,8 @@ From the project root, run `cd packages/sanity`, then `pnpm generate` once the y
 ## CMS Integration
 
 ### Sanity.io
+> Not using sanity? Remove `apps/cms` and `packages/sanity`, making sure to uninstall the latter from any packages.
+
 Sanity is organized into 4 segments
 - **blocks**: Groups of fields that get used in schemas (ex: rich text with specific settings)
 - **slices**: Sections of a page
@@ -130,6 +132,16 @@ export default function Page() {
 
 ---
 
+## Storybook
+> Not using storybook? remove `apps/storybook` and any .stories.tsx files inside of `packages/ui`
+
+**Using effectively**
+- Storybook should contain Component and Slices folders.
+- Any string, and boolean fields should be avaialble as argument types and using mock data from `packges/mocks`
+- Media fields should be static
+- Storybook needs to help non-technically inclined users to find out what different verions of components look like. The end user is _not_ the developer.
+- Developers _will_ use this to test edge cases though and play with components in isolation without page influence.
+
 ## SEO
 
 **Metadata**
@@ -161,7 +173,7 @@ A single Resize Observer is created via class and subscribed to with `useWindowR
 Vercel is used for deploys, `vercel.json` controls the deployment of `apps/web`
 
 **Storybook**
-TBD (Chroamtic?)
+(Chroamtic TBD)
 
 **ISR**
 `apps/web/src/routes/api/revalidate.ts` contains ISR logic. Create a new deploy hook in Vercel and add the route prefixes.
