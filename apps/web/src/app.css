@@ -6,15 +6,17 @@
 @import "./styles/utils.css";
 
 @import "./styles/main.css";
+@import "./styles/grid.css";
 
 @import "tailwindcss";
 
-@import "./styles/grid.css";
+@source "../../../packages/ui";
+@source "../../../packages/three";
+
+
 
 @theme {
   --font-sans: soh, sans-serif;
-
-  --spacing: .1rem;
 
   --text-base-0: var(--text-base);
   --text-base-1: 1.2;
@@ -44,14 +46,23 @@
   --text-xxl-1: 0.9;
   --text-xxl-length: 2;
 
+  --spacing: .1rem;
+ 
   --spacing-sm: var(--sm);
   --spacing-md: var(--md);
   --spacing-lg: var(--lg);
   --spacing-xl: var(--xl);
   --spacing-xxl: var(--xxl);
 
-  --aspect-5\/7: 5/7;
 }
+
+
+@utility grid-contain {
+	max-width: calc(var(--max-scaling-width) * 1px);
+	margin: 0 auto;
+}
+
+
 
 @layer base {
   *,
