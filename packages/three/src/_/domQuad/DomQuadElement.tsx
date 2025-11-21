@@ -13,7 +13,7 @@ export default function DomQuadElement({
 
   return (
     // <div ref={setRef} class={cx("aspect-[5/7] w-[30vw] border", className)}>
-    <div ref={setRef} class="w-full aspect-[5/7] border">
+    <div ref={setRef} class="w-[30vw] h-[10svh] aspect-[5/7] border">
       {children}
     </div>
   );
