@@ -1,4 +1,5 @@
 import { SanityMeta } from "@local/seo";
+import { Button } from "@local/ui";
 import { Title } from "@solidjs/meta";
 import { A } from "@solidjs/router";
 
@@ -10,6 +11,7 @@ export default function Animation() {
 		<div class="min-h-[100vh] py-20">
 			<Title>About</Title>
 			<SanityMeta isHomepage={false} />
+			<Button />
 			<Section class="">
 				<div
 					use:animateAlpha
