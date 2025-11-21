@@ -1,0 +1,806 @@
+---
+alwaysApply: true
+---
+
+# Three.js WebGL Package Rules (`@local/three`)
+
+The `@local/three` package provides a WebGL rendering system built on Three.js with a structured approach to creating WebGL elements, scenes, and components.
+
+## Package Structure
+
+```
+packages/three/
+├── src/
+│   ├── gl.js              # Main GL class and renderer setup
+│   ├── scene.js           # Scene management
+│   ├── _/                 # WebGL elements (see structure below)
+│   ├── glsl/              # Shared GLSL utilities
+│   └── utils/             # WebGL-specific utilities
+├── hooks/
+│   └── useWebglNode.tsx   # React hook for WebGL nodes
+├── utils/                 # Public utilities
+└── index.ts              # Package exports
+```
+
+## WebGL Element Structure
+
+**CRITICAL**: Every WebGL element is a **completely self-contained folder**. Each element lives in its own folder with all its dependencies, shaders, utilities, and the main class file.
+
+### Folder Structure Rule
+
+**One element = One folder = Everything it needs**
+
+```
+src/_/[elementName]/          # Folder name in camelCase (e.g., domQuad, gpuInstance)
+├── index.js                  # Main export - class name matches folder (PascalCase)
+├── vertex.vert              # Vertex shader (if needed)
+├── fragment.frag            # Fragment shader (if needed)
+├── utils.[elementName].js   # Element-specific utilities (if needed)
+├── [ElementName]Element.tsx # Solid.js component wrapper (if needed)
+└── [additional files]       # Any other files specific to this element
+```
+
+### Naming Convention
+
+- **Folder name**: `camelCase` (e.g., `domQuad`, `gpuInstance`, `screenEffect`)
+- **Class name**: `PascalCase` matching folder name (e.g., `DomQuad`, `GpuInstance`, `ScreenEffect`)
+- **index.js**: Exports the class with the PascalCase name matching the folder
+
+### Example Structure
+
+```
+src/_/domQuad/
+├── index.js              # exports class DomQuad
+├── vertex.vert          # DomQuad vertex shader
+├── fragment.frag         # DomQuad fragment shader
+├── DomQuadElement.tsx    # Solid.js wrapper component
+└── utils.domQuad.js      # DomQuad-specific utilities (if needed)
+
+src/_/gpuInstance/
+├── index.js              # exports class GpuInstance
+├── vertex.vert          # GpuInstance vertex shader
+├── fragment.frag         # GpuInstance fragment shader
+├── sim1.frag            # Additional fragment shader
+└── utils.js             # GpuInstance-specific utilities
+
+src/_/post/base/
+├── index.js              # exports class PostBase
+├── vertex.vert          # PostBase vertex shader
+└── fragment.frag         # PostBase fragment shader
+```
+
+### Key Principles
+
+1. **Self-Contained**: Everything for an element is in its folder
+2. **No Cross-Folder Dependencies**: Elements don't import from other element folders
+3. **Clear Naming**: Folder name clearly indicates what the element is
+4. **Complete Isolation**: Each element can be understood and maintained independently
+
+## Naming Conventions
+
+### Folder Names
+- Use **camelCase**: `domGroup`, `gpuInstance`, `screenEffect`
+- Be descriptive and concise
+- Avoid abbreviations unless commonly understood
+- **Must match the class name** (folder: camelCase, class: PascalCase)
+
+### Class Names
+- Use **PascalCase**: `DomGroup`, `GpuInstance`, `Instance`
+- **Must match folder name** (folder: `domGroup` → class: `DomGroup`)
+- Exported from `index.js` in the same folder
+- The class name is the primary identifier for the element
+
+### File Names
+- **index.js**: Always the main export file in each element folder
+- **vertex.vert**: Vertex shader (if needed)
+- **fragment.frag**: Fragment shader (if needed)
+- **utils.[elementName].js**: Utilities specific to this element (e.g., `utils.domQuad.js`)
+- **utils.js**: Alternative naming if element name is clear from context
+
+### Component Names
+- Use **PascalCase** with `Element` suffix: `DomQuadElement`, `DomGroupElement`
+- Place in same folder as the WebGL element class
+- Component name = Class name + `Element` suffix
+
+## Import Patterns
+
+### ✅ Correct Imports
+
+```typescript
+// From @local/three package
+import { Gl, Scene, DomQuad, useWebglNode } from "@local/three";
+
+// Within package - use relative paths for .js files
+import { Post } from "./_/post/post";
+import { ScreenEffect } from "./_/screenEffect";
+import { Scene } from "./scene";
+
+// Import shaders directly
+import fragmentShader from "./fragment.frag";
+import vertexShader from "./vertex.vert";
+
+// Import Three.js modules
+import { PerspectiveCamera, WebGLRenderer, InstancedMesh } from "three";
+```
+
+### ❌ Avoid
+
+```typescript
+// Don't use path aliases in .js files
+import { Gl } from "~/gl/gl"; // ❌ Use relative paths in .js
+
+// Don't mix import styles
+import Gl from "./gl"; // ❌ Be consistent with named/default exports
+```
+
+## Core Classes
+
+### `Gl` - Main WebGL Renderer
+
+```javascript
+import { Gl, setGui } from "@local/three";
+
+// Set GUI (optional, from app)
+setGui(guiInstance);
+
+// Start WebGL with container element and assets
+Gl.start(containerElement, assets);
+
+// Access static properties
+Gl.time;        // Current time
+Gl.mouse;       // Mouse state { x, y, hx, hy, ex, ey, speed, espeed }
+Gl.vp;          // Viewport { container, w, h, aspect(), dpr() }
+Gl.renderer;    // WebGLRenderer instance
+Gl.camera;      // PerspectiveCamera instance
+Gl.scene;       // Scene instance
+
+// Destroy
+Gl.destroy();
+```
+
+### `Scene` - Scene Management
+
+```javascript
+import { Scene } from "@local/three";
+
+// Scene is managed internally by Gl
+// Access via Gl.scene
+```
+
+## Self-Contained Element Paradigm
+
+**CRITICAL**: All WebGL elements must be **completely self-contained**. Each element is responsible for its own lifecycle, dependencies, and resource management.
+
+### Core Principles
+
+1. **Self-Managed Lifecycle**: Each element handles its own adding to scene, removal, and unmounting
+2. **Independent Dependencies**: Each element imports its own RAF, subscribers, or other dependencies it needs
+3. **Complete Resource Management**: Each element manages its own resources (geometries, materials, textures, subscriptions)
+4. **No External Orchestration**: Elements should not rely on external code to manage their lifecycle
+
+### ✅ Self-Contained Pattern
+
+```javascript
+// src/_/[elementName]/index.js
+import { Raf, Resizer, Mouse } from "@local/animation";
+import { Gl } from "../gl";
+import { /* Three.js imports */ } from "three";
+import fragmentShader from "./fragment.frag";
+import vertexShader from "./vertex.vert";
+
+export class [ElementName] extends [ThreeJSClass] {
+  constructor(options = {}) {
+    super();
+    
+    // Initialize all resources internally
+    this.geometry = new PlaneGeometry();
+    this.material = new Material();
+    this.mesh = new Mesh(this.geometry, this.material);
+    
+    // Add to scene internally
+    this.addToScene();
+    
+    // Subscribe to RAF internally if needed
+    this.initRAF();
+    
+    // Subscribe to other events internally if needed
+    this.initSubscribers();
+  }
+
+  // Handle adding to scene internally
+  addToScene() {
+    Gl.scene.add(this.mesh);
+  }
+
+  // Subscribe to RAF internally
+  initRAF() {
+    this.rafUnsubscribe = Raf.add((time) => {
+      this.render(time);
+    });
+  }
+
+  // Subscribe to other events internally
+  initSubscribers() {
+    this.resizeUnsubscribe = Resizer.add(({ width, height }) => {
+      this.resize({ w: width, h: height });
+    });
+
+    this.mouseUnsubscribe = Mouse.add(({ ex, ey }) => {
+      this.updateMouse(ex, ey);
+    });
+  }
+
+  render(t) {
+    // Update uniforms, transform, etc.
+    this.material.uniforms.u_time.value = t / 1000;
+  }
+
+  resize(vp) {
+    // Handle viewport resize
+    this.material.uniforms.u_resolution.value = [vp.w, vp.h];
+  }
+
+  updateMouse(x, y) {
+    // Handle mouse updates
+    this.material.uniforms.u_mouse.value = [x, y];
+  }
+
+  // Handle removal and cleanup internally
+  remove() {
+    // Remove from scene
+    Gl.scene.remove(this.mesh);
+    
+    // Unsubscribe from all events
+    this.rafUnsubscribe?.();
+    this.resizeUnsubscribe?.();
+    this.mouseUnsubscribe?.();
+    
+    // Dispose resources
+    this.dispose();
+  }
+
+  dispose() {
+    // Clean up all resources
+    this.geometry.dispose();
+    this.material.dispose();
+    // Dispose any other resources
+  }
+}
+```
+
+### ❌ Anti-Patterns (What NOT to do)
+
+```javascript
+// ❌ DON'T: Rely on external code to add to scene
+export class BadElement extends Mesh {
+  constructor() {
+    super();
+    // Missing: this.addToScene()
+    // Expects external code to call Gl.scene.add(this)
+  }
+}
+
+// ❌ DON'T: Rely on external RAF subscription
+export class BadElement extends Mesh {
+  constructor() {
+    super();
+    // Missing: this.initRAF()
+    // Expects external code to subscribe to RAF and call this.render()
+  }
+}
+
+// ❌ DON'T: Rely on external cleanup
+export class BadElement extends Mesh {
+  constructor() {
+    super();
+    // Missing: this.remove() method
+    // Expects external code to handle removal and cleanup
+  }
+}
+
+// ❌ DON'T: Share subscriptions across elements
+// Each element should have its own subscriptions
+const sharedRAF = Raf.add(updateAllElements); // ❌
+```
+
+### Lifecycle Methods
+
+Every element should implement these lifecycle methods:
+
+```javascript
+export class [ElementName] extends [ThreeJSClass] {
+  constructor(options = {}) {
+    super();
+    // 1. Initialize resources
+    this.init();
+    
+    // 2. Add to scene
+    this.addToScene();
+    
+    // 3. Subscribe to events
+    this.initSubscribers();
+  }
+
+  init() {
+    // Initialize geometries, materials, etc.
+  }
+
+  addToScene() {
+    // Add self to Gl.scene
+    Gl.scene.add(this.mesh);
+  }
+
+  initSubscribers() {
+    // Subscribe to RAF, Resizer, Mouse, etc.
+    // Store unsubscribe functions
+  }
+
+  remove() {
+    // Remove from scene
+    // Unsubscribe from all events
+    // Call dispose()
+  }
+
+  dispose() {
+    // Dispose all Three.js resources
+    // Clear references
+  }
+}
+```
+
+### Subscriber Management
+
+Each element manages its own subscriptions:
+
+```javascript
+export class [ElementName] extends [ThreeJSClass] {
+  constructor() {
+    super();
+    this.subscriptions = [];
+    this.initSubscribers();
+  }
+
+  initSubscribers() {
+    // RAF subscription
+    const rafUnsub = Raf.add((time) => this.render(time));
+    this.subscriptions.push(rafUnsub);
+
+    // Resize subscription
+    const resizeUnsub = Resizer.add((data) => this.resize(data));
+    this.subscriptions.push(resizeUnsub);
+
+    // Mouse subscription
+    const mouseUnsub = Mouse.add((data) => this.updateMouse(data));
+    this.subscriptions.push(mouseUnsub);
+  }
+
+  remove() {
+    // Unsubscribe from all
+    this.subscriptions.forEach(unsub => unsub());
+    this.subscriptions = [];
+    
+    // Remove from scene
+    Gl.scene.remove(this.mesh);
+    
+    // Dispose resources
+    this.dispose();
+  }
+}
+```
+
+## Creating WebGL Elements
+
+### Basic Element Pattern (Self-Contained)
+
+**Folder Structure:**
+```
+src/_/[elementName]/          # Folder: camelCase (e.g., domQuad)
+├── index.js                  # Exports class: PascalCase (e.g., DomQuad)
+├── vertex.vert               # Vertex shader
+└── fragment.frag             # Fragment shader
+```
+
+**Class Implementation:**
+```javascript
+// src/_/[elementName]/index.js
+// Folder: domQuad → Class: DomQuad
+// Folder: gpuInstance → Class: GpuInstance
+
+import { Raf, Resizer } from "@local/animation";
+import { Gl } from "../gl";
+import { /* Three.js imports */ } from "three";
+import fragmentShader from "./fragment.frag";  // Import from same folder
+import vertexShader from "./vertex.vert";      // Import from same folder
+
+// Class name matches folder name (camelCase → PascalCase)
+export class [ElementName] extends [ThreeJSClass] {
+  constructor(options = {}) {
+    super();
+    
+    // 1. Initialize resources
+    this.geometry = new PlaneGeometry();
+    this.material = new Material();
+    this.mesh = new Mesh(this.geometry, this.material);
+    
+    // 2. Add to scene (self-contained)
+    Gl.scene.add(this.mesh);
+    
+    // 3. Subscribe to RAF (self-contained)
+    this.rafUnsubscribe = Raf.add((time) => {
+      this.render(time);
+    });
+    
+    // 4. Subscribe to resize (self-contained)
+    this.resizeUnsubscribe = Resizer.add(({ width, height }) => {
+      this.resize({ w: width, h: height });
+    });
+  }
+
+  render(t) {
+    // Update uniforms, transform, etc.
+    // t is time from RAF in milliseconds
+    this.material.uniforms.u_time.value = t / 1000;
+  }
+
+  resize(vp) {
+    // Handle viewport resize
+    // vp = { w, h, aspect(), dpr() }
+    this.material.uniforms.u_resolution.value = [vp.w, vp.h];
+  }
+
+  // Self-contained removal
+  remove() {
+    Gl.scene.remove(this.mesh);
+    this.rafUnsubscribe?.();
+    this.resizeUnsubscribe?.();
+    this.dispose();
+  }
+
+  dispose() {
+    this.geometry.dispose();
+    this.material.dispose();
+  }
+}
+```
+
+**Example: `domQuad` element**
+```javascript
+// src/_/domQuad/index.js
+import { Raf, Resizer } from "@local/animation";
+import { Gl } from "../gl";
+import { Mesh, PlaneGeometry } from "three";
+import fragmentShader from "./fragment.frag";  // From same folder
+import vertexShader from "./vertex.vert";      // From same folder
+
+// Folder: domQuad → Class: DomQuad
+export class DomQuad extends Mesh {
+  constructor(options = {}) {
+    super();
+    // Implementation...
+  }
+}
+```
+
+// Material class (if needed)
+class Material extends RawShaderMaterial {
+  constructor() {
+    super({
+      vertexShader,
+      fragmentShader,
+      uniforms: {
+        u_time: { value: 0 },
+        u_resolution: { value: [0, 0] },
+        // other uniforms
+      },
+    });
+  }
+
+  set time(t) {
+    this.uniforms.u_time.value = t;
+  }
+}
+```
+
+### Element with Component Wrapper
+
+```tsx
+// src/_/[elementName]/[ElementName]Element.tsx
+import { useWebglNode } from "../../../hooks/useWebglNode";
+import { [ElementName] } from ".";
+
+export default function [ElementName]Element({ children, className }) {
+  const { setRef, ref, node } = useWebglNode([ElementName]);
+
+  return (
+    <div ref={setRef} class={className}>
+      {children}
+    </div>
+  );
+}
+```
+
+## Hooks
+
+### `useWebglNode` - Connect DOM to WebGL
+
+```tsx
+import { useWebglNode } from "@local/three";
+import { DomQuad } from "@local/three";
+
+export default function MyComponent() {
+  const { setRef, ref, node } = useWebglNode(DomQuad);
+
+  // setRef: function to attach to DOM element
+  // ref: current DOM element reference
+  // node: WebGL node instance
+
+  return <div ref={setRef}>Content</div>;
+}
+```
+
+## Shared GLSL Utilities
+
+GLSL utilities are stored in `src/glsl/` and can be imported in shaders:
+
+```
+src/glsl/
+├── colors.glsl      # Color utilities
+├── constants.glsl   # Constants
+├── fbm.glsl         # Fractional Brownian Motion
+├── fresnel.glsl     # Fresnel calculations
+├── imageuv.glsl     # Image UV utilities
+├── lookup.glsl      # Lookup functions
+├── perlin3d.glsl    # 3D Perlin noise
+├── rand.glsl        # Random functions
+├── rotate.glsl      # Rotation utilities
+└── simplex.glsl     # Simplex noise
+```
+
+Use in shaders:
+
+```glsl
+// fragment.frag
+#include "./glsl/constants.glsl"
+#include "./glsl/colors.glsl"
+
+void main() {
+  // Use included utilities
+}
+```
+
+## Integration with Animation Package
+
+The three package integrates with `@local/animation`:
+
+```javascript
+// In gl.js or element files
+import { gsap, lerp, Resizer, Scroll, Mouse } from "@local/animation";
+
+// Use animation subscribers
+Resizer.add(({ width, height }) => {
+  // Handle resize
+});
+
+Scroll.add(({ scroll, velocity }) => {
+  // Handle scroll
+});
+
+Mouse.add(({ x, y, ex, ey }) => {
+  // Handle mouse updates
+});
+```
+
+## Best Practices
+
+### ✅ DO:
+
+```javascript
+// Follow folder structure conventions
+// src/_/myElement/index.js
+
+// Export classes clearly
+export class MyElement extends Mesh {
+  constructor() {
+    super();
+    // Initialize everything internally
+    this.init();
+    this.addToScene();
+    this.initSubscribers();
+  }
+  
+  // Self-contained lifecycle
+  addToScene() {
+    Gl.scene.add(this.mesh);
+  }
+  
+  initSubscribers() {
+    // Each element manages its own subscriptions
+    this.rafUnsubscribe = Raf.add((time) => this.render(time));
+  }
+  
+  remove() {
+    // Self-contained cleanup
+    Gl.scene.remove(this.mesh);
+    this.rafUnsubscribe?.();
+    this.dispose();
+  }
+}
+
+// Use consistent naming
+// Folder: myElement
+// Class: MyElement
+// Component: MyElementElement
+
+// Handle resize properly
+resize(vp) {
+  this.material.uniforms.u_resolution.value = [vp.w, vp.h];
+}
+
+// Clean up resources
+dispose() {
+  this.geometry.dispose();
+  this.material.dispose();
+}
+```
+
+### ❌ DON'T:
+
+```javascript
+// Don't create elements outside src/_/
+// src/elements/myElement.js // ❌
+
+// Don't use inconsistent naming
+// Folder: my-element, Class: MyElement // ❌
+
+// Don't forget to handle resize
+// Missing resize() method // ❌
+
+// Don't leak resources
+// Missing dispose() // ❌
+
+// ❌ DON'T: Rely on external code for lifecycle
+export class BadElement extends Mesh {
+  constructor() {
+    super();
+    // Missing: this.addToScene()
+    // Missing: this.initSubscribers()
+    // Expects external code to manage lifecycle
+  }
+}
+
+// ❌ DON'T: Share subscriptions
+const sharedRAF = Raf.add(updateMultipleElements); // ❌
+// Each element should have its own subscription
+
+// ❌ DON'T: External cleanup management
+// External code should not need to know about element internals
+// Element should handle its own remove() and dispose()
+```
+
+## Common Patterns
+
+### Element with Post-Processing
+
+```javascript
+// src/_/post/base/index.js
+export class PostBase extends Pass {
+  constructor() {
+    // Post-processing setup
+  }
+}
+```
+
+### Element with GPU Simulation
+
+```javascript
+// src/_/gpuInstance/index.js
+export class GpuInstance extends InstancedMesh {
+  constructor() {
+    // GPU instancing setup
+  }
+
+  render(t) {
+    // Update GPU simulation
+  }
+}
+```
+
+### DOM-Integrated Element
+
+```javascript
+// src/_/domQuad/index.js
+export class DomQuad extends Mesh {
+  constructor() {
+    // DOM-to-WebGL mapping
+  }
+
+  updateDOM() {
+    // Sync DOM element to WebGL quad
+  }
+}
+```
+
+## Utilities
+
+### Loaders
+
+```javascript
+import { loadAssets } from "./utils/loader";
+import { loadModel } from "./utils/model-loader";
+import { loadTexture } from "./utils/texture-loader";
+
+// Load assets
+const assets = await loadAssets(assetConfig);
+
+// Load specific resources
+const model = await loadModel(url, options);
+const texture = await loadTexture(url, options);
+```
+
+### Client Rect Utilities
+
+```typescript
+import { getClientRectBounds } from "@local/three";
+
+// Get element bounds for WebGL positioning
+const bounds = getClientRectBounds(element);
+```
+
+## Export Pattern
+
+All public APIs should be exported from `index.ts`:
+
+```typescript
+// packages/three/index.ts
+export { Gl, setGui } from "./src/gl.js";
+export { Scene } from "./src/scene.js";
+export { useWebglNode, createWebGlNode } from "./hooks/useWebglNode";
+export * from "./utils";
+export { default as DomQuadElement } from "./src/_/domQuad/DomQuadElement";
+export { DomQuad } from "./src/_/domQuad/index.js";
+```
+
+## File Type Guidelines
+
+- **`.js` files**: Use for WebGL classes, utilities, and core logic
+- **`.ts` files**: Use for TypeScript utilities and type definitions
+- **`.tsx` files**: Use for Solid.js component wrappers
+- **`.vert` files**: Vertex shaders
+- **`.frag` files**: Fragment shaders
+- **`.glsl` files**: Shared GLSL utilities
+
+## Performance Considerations
+
+1. **Reuse geometries and materials** when possible
+2. **Dispose resources** properly in cleanup
+3. **Use instancing** for many similar objects
+4. **Optimize shaders** - avoid unnecessary calculations
+5. **Handle resize efficiently** - update only what's needed
+6. **Use RAF from animation package** - each element subscribes independently
+7. **Self-contained subscriptions** - each element manages its own, no shared subscriptions
+
+## Self-Contained Checklist
+
+When creating a new WebGL element, ensure:
+
+### Folder Structure
+- [ ] Element has its own folder: `src/_/[elementName]/`
+- [ ] Folder name is camelCase (e.g., `domQuad`, `gpuInstance`)
+- [ ] Class name matches folder name in PascalCase (e.g., `DomQuad`, `GpuInstance`)
+- [ ] `index.js` exports the class with matching name
+- [ ] All shaders are in the same folder (`vertex.vert`, `fragment.frag`)
+- [ ] All utilities are in the same folder (`utils.[elementName].js` or `utils.js`)
+- [ ] Component wrapper (if any) is in the same folder (`[ElementName]Element.tsx`)
+
+### Self-Containment
+- [ ] Element adds itself to scene in constructor or `addToScene()` method
+- [ ] Element subscribes to RAF internally if it needs animation frames
+- [ ] Element subscribes to Resizer internally if it needs resize events
+- [ ] Element subscribes to Mouse/Scroll internally if it needs those events
+- [ ] Element implements `remove()` method that handles cleanup
+- [ ] Element implements `dispose()` method that disposes all resources
+- [ ] Element stores all unsubscribe functions for cleanup
+- [ ] Element does not rely on external code for lifecycle management
+- [ ] Element does not share subscriptions with other elements
+- [ ] Element does not import from other element folders
+- [ ] All imports are either from `@local/animation`, `@local/three` core, or relative paths within the same folder
