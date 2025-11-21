@@ -1,5 +1,5 @@
 import { Scroll, viewport } from "@local/animation";
-import { Gl } from "@local/three";
+import { Gl } from "../src/gl";
 
 export interface ClientRectBounds {
 	top: number;
@@ -44,9 +44,12 @@ export const clientRectGl = (element: HTMLElement): ClientRectGlBounds => {
 	bounds.centerx = -Gl.vp.w / 2 + bounds.left + bounds.width / 2;
 	bounds.centery = Gl.vp.h / 2 - bounds.top - bounds.height / 2;
 
+	// Only multiply by pixel ratio if it's initialized and valid
+	const pixelRatio = Gl.vp?.px || 1;
 	for (const [key, value] of Object.entries(bounds)) {
-		bounds[key as keyof ClientRectGlBounds] = value * Gl.vp.px;
+		bounds[key as keyof ClientRectGlBounds] = value * pixelRatio;
 	}
 
 	return bounds as ClientRectGlBounds;
 };
+

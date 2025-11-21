@@ -1,11 +1,16 @@
 import { gsap, lerp, Resizer, Scroll } from "@local/animation";
 import { isServer } from "solid-js/web";
 import { PerspectiveCamera, WebGLRenderer } from "three";
-import { Gui } from "../lib/utils/gui";
 import { Post } from "./_/post/post";
 import { ScreenEffect } from "./_/screenEffect";
 import { Scene } from "./scene";
 import { useMouseSpeed } from "./utils/mouseSpeed";
+
+// Gui should be passed in from the app
+let Gui = null;
+export function setGui(gui) {
+	Gui = gui;
+}
 
 export const params = {
 	clearColor: [1, 0, 0, 1],
@@ -27,7 +32,7 @@ export class Gl {
 		espeed: 0,
 	};
 
-	static start(el) {
+	static start(el, assets = null) {
 		Gl.renderer = new WebGLRenderer({
 			alpha: true,
 			antialias: true,
@@ -43,6 +48,7 @@ export class Gl {
 			dpr: () => {
 				return Math.min(window.devicePixelRatio, 2);
 			},
+			px: 0, // Initialize to 0, will be set in resize()
 		};
 
 		Gl.renderer.setPixelRatio(Gl.vp.dpr());
@@ -67,7 +73,7 @@ export class Gl {
 			);
 		}
 
-		Gl.init();
+		Gl.init(assets);
 		Gl.resize();
 
 		// Register GL pixel ratio with Scroll utility after camera is initialized
@@ -85,8 +91,8 @@ export class Gl {
 		];
 	}
 
-	static async init() {
-		Gl.scene = new Scene();
+	static async init(assets) {
+		Gl.scene = new Scene(assets);
 
 		Gl.screen = new ScreenEffect();
 		Gl.post = new Post();
@@ -209,7 +215,7 @@ function manager(ctrl) {
 		} else if (e.key === "o") {
 			ctrl.controls.enabled = !ctrl.controls.enabled;
 		} else if (e.key === "g") {
-			Gui.show();
+			Gui?.show();
 		} else if (e.key === "p") {
 			Gl.paused = !Gl.paused;
 		}

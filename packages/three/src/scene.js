@@ -1,6 +1,7 @@
 import { Scene as S } from "three";
 import { loadAssets } from "./utils/loader";
-import { setWebgl } from "~/lib/stores/webglStore";
+// setWebgl should be passed in or made optional
+// import { setWebgl } from "~/lib/stores/webglStore";
 // import { Gl } from "./gl";
 
 // import { Quad } from "./_/quad";
@@ -9,19 +10,19 @@ import { setWebgl } from "~/lib/stores/webglStore";
 // import { Gpuinstance } from "./_/gpuInstance";
 
 export class Scene extends S {
-  constructor() {
+  constructor(assets) {
     super();
 
-    this.load();
+    this.load(assets);
   }
 
-  async load() {
+  async load(assets) {
     console.time("webgl:load");
-    this.assets = await loadAssets();
+    this.assets = await loadAssets(assets);
     console.log("::", this.assets);
     console.timeEnd("webgl:load");
 
-    setWebgl({ loaded: true });
+    // setWebgl({ loaded: true });
 
     this.create();
   }

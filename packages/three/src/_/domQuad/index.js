@@ -1,6 +1,6 @@
 import { Resizer, Scroll } from "@local/animation";
 import { DoubleSide, Mesh, PlaneGeometry, RawShaderMaterial } from "three";
-import { clientRectGl } from "~/lib/utils/clientRect";
+import { clientRectGl } from "../../../utils/clientRect";
 import fragmentShader from "./fragment.frag";
 import vertexShader from "./vertex.vert";
 

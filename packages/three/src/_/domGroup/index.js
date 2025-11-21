@@ -1,6 +1,6 @@
-import { clientRectGl } from "@lib/utils/clientRect";
+import { clientRectGl } from "../../../utils/clientRect";
 import { Resizer, Scroll } from "@local/animation";
-import { Group, Group } from "three";
+import { Group } from "three";
 
 export class DomGroup extends Group {
 	// inView = true;

@@ -1,10 +1,15 @@
 import { onCleanup, onMount } from "solid-js";
-import { Gl } from "~/gl/gl";
+import { Gl, setGui } from "@local/three";
+import { Gui } from "~/lib/utils/gui";
+import { assets } from "~/assets";
 
 export default function Canvas() {
 	const webgl = (self: HTMLElement) => {
 		onMount(() => {
-			Gl.start(self);
+			// Set up Gui for webgl package
+			setGui(Gui);
+			// Start Gl with assets
+			Gl.start(self, assets);
 		});
 
 		onCleanup(() => {

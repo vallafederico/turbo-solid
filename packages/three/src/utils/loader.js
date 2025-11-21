@@ -1,10 +1,13 @@
 import loadModel from "./model-loader";
 import loadTexture from "./texture-loader";
-import { assets as file } from "../../assets/index.js";
+// Assets should be passed in as parameter
+// import { assets as file } from "../../assets/index.js";
 
-export async function loadAssets(opt = null) {
+export async function loadAssets(assets) {
+  if (!assets) {
+    throw new Error("loadAssets requires assets parameter");
+  }
   console.time("assets::");
-  const assets = opt || file;
   const promises = [];
   const names = [];
 

@@ -1,0 +1,17 @@
+{
+  "name": "@local/three",
+  "version": "0.1.0",
+  "main": "index.ts",
+  "sideEffects": false,
+  "private": true,
+  "scripts": {},
+  "dependencies": {
+    "@local/animation": "workspace:*",
+    "@solid-primitives/intersection-observer": "^2.2.2",
+    "classix": "^2.2.5",
+    "solid-js": "^1.9.10",
+    "three": "^0.180.0",
+    "lil-gui": "^0.21.0"
+  }
+}
+

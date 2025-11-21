@@ -1,5 +1,5 @@
 import cx from "classix";
-import { useWebglNode } from "~/lib/hooks/useWebglNode";
+import { useWebglNode } from "../../../hooks/useWebglNode";
 import { DomQuad } from ".";
 
 export default function DomQuadElement({

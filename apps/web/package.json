@@ -13,6 +13,7 @@
     "@crawl-me-maybe/sitemap": "^0.0.8",
     "@local/config": "workspace:*",
     "@local/animation": "workspace:*",
+    "@local/three": "workspace:*",
     "@solid-primitives/resize-observer": "^2.1.3",
     "@solid-primitives/intersection-observer": "^2.2.2",
     "@local/sanity": "workspace:*",

@@ -1,5 +1,5 @@
 import cx from "classix";
-import { useWebglNode } from "~/lib/hooks/useWebglNode";
+import { useWebglNode } from "../../../hooks/useWebglNode";
 import { DomGroup } from ".";
 
 export default function DomGroupElement({
@@ -12,7 +12,7 @@ export default function DomGroupElement({
   const { setRef, ref, node } = useWebglNode(DomGroup);
 
   return (
-    <div ref={setRef} class={cx("aspect-5/7 w-[10vw] border", className)}>
+    <div ref={setRef} class={cx("aspect-5/7 w-[100vw] border", className)}>
       {children}
     </div>
   );

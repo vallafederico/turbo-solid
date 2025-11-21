@@ -153,6 +153,9 @@ importers:
       '@local/seo':
         specifier: workspace:*
         version: link:../../packages/seo
+      '@local/three':
+        specifier: workspace:*
+        version: link:../../packages/three
       '@solid-primitives/intersection-observer':
         specifier: ^2.2.2
         version: 2.2.2(solid-js@1.9.10)
@@ -262,7 +265,7 @@ importers:
         version: 1.2.0
       '@sanity/visual-editing':
         specifier: ^2.15.4
-        version: 2.15.4(@emotion/is-prop-valid@1.2.2)(@sanity/client@6.29.1)(@sanity/types@4.15.0(@types/react@19.2.5))(next@16.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1)(sanity@4.15.0(@emotion/is-prop-valid@1.2.2)(@portabletext/sanity-bridge@1.2.2(@sanity/schema@4.15.0(@types/react@19.2.5))(@sanity/types@4.15.0(@types/react@19.2.5)))(@types/node@24.10.1)(@types/react@19.2.5)(immer@10.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1))(styled-components@6.1.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)
+        version: 2.15.4(@emotion/is-prop-valid@1.2.2)(@sanity/client@6.29.1)(@sanity/types@4.15.0(@types/react@19.2.5))(next@16.0.1(@babel/core@7.28.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1)(sanity@4.15.0(@emotion/is-prop-valid@1.2.2)(@portabletext/sanity-bridge@1.2.2(@sanity/schema@4.15.0(@types/react@19.2.5))(@sanity/types@4.15.0(@types/react@19.2.5)))(@types/node@24.10.1)(@types/react@19.2.5)(immer@10.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1))(styled-components@6.1.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)
       '@solidjs/meta':
         specifier: ^0.29.4
         version: 0.29.4(solid-js@1.9.10)
@@ -312,6 +315,27 @@ importers:
       solid-js:
         specifier: ^1.9.10
         version: 1.9.10
+
+  packages/three:
+    dependencies:
+      '@local/animation':
+        specifier: workspace:*
+        version: link:../animation
+      '@solid-primitives/intersection-observer':
+        specifier: ^2.2.2
+        version: 2.2.2(solid-js@1.9.10)
+      classix:
+        specifier: ^2.2.5
+        version: 2.2.5
+      lil-gui:
+        specifier: ^0.21.0
+        version: 0.21.0
+      solid-js:
+        specifier: ^1.9.10
+        version: 1.9.10
+      three:
+        specifier: ^0.180.0
+        version: 0.180.0
 
   packages/types:
     devDependencies:
@@ -1067,6 +1091,9 @@ packages:
   '@codemirror/autocomplete@6.19.1':
     resolution: {integrity: sha512-q6NenYkEy2fn9+JyjIxMWcNjzTL/IhwqfzOut1/G3PrIFkrbl4AL7Wkse5tLrQUUyqGoAKU5+Pi5jnnXxH5HGw==}
 
+  '@codemirror/autocomplete@6.20.0':
+    resolution: {integrity: sha512-bOwvTOIJcG5FVo5gUUupiwYh8MioPLQ4UcqbcRf7UQ98X90tCa9E1kZ3Z7tqwpZxYyOvh1YTYbmZE9RTfTp5hg==}
+
   '@codemirror/commands@6.10.0':
     resolution: {integrity: sha512-2xUIc5mHXQzT16JnyOFkh8PvfeXuIut3pslWGfsGOhxP/lpgRm9HOl/mpzLErgt5mXDovqA0d11P21gofRLb9w==}
 
@@ -1090,6 +1117,9 @@ packages:
 
   '@codemirror/view@6.38.7':
     resolution: {integrity: sha512-+b0imJTgzehmMToqT9DWPBdeRj7/qDsJj7MzQ+1+do2KK2UkxKuLaHlUVeZk855wO6my6cfbF1c+Qozs8B3YqA==}
+
+  '@codemirror/view@6.38.8':
+    resolution: {integrity: sha512-XcE9fcnkHCbWkjeKyi0lllwXmBLtyYb5dt89dJyx23I9+LSh5vZDIuk7OLG4VM1lgrXZQcY6cxyZyk5WVPRv/A==}
 
   '@contentful/rich-text-types@17.2.5':
     resolution: {integrity: sha512-EA5vTfROZePoPmSlqLVd+luL/ev8CjnI20y6vWFVPlLRxQbv4XytXRzatydPE63CqfsPylF7NCn2z8rTLhnWfg==}
@@ -9987,6 +10017,13 @@ snapshots:
       '@codemirror/view': 6.38.7
       '@lezer/common': 1.3.0
 
+  '@codemirror/autocomplete@6.20.0':
+    dependencies:
+      '@codemirror/language': 6.11.3
+      '@codemirror/state': 6.5.2
+      '@codemirror/view': 6.38.8
+      '@lezer/common': 1.3.0
+
   '@codemirror/commands@6.10.0':
     dependencies:
       '@codemirror/language': 6.11.3
@@ -10033,10 +10070,17 @@ snapshots:
     dependencies:
       '@codemirror/language': 6.11.3
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.38.7
+      '@codemirror/view': 6.38.8
       '@lezer/highlight': 1.2.3
 
   '@codemirror/view@6.38.7':
+    dependencies:
+      '@codemirror/state': 6.5.2
+      crelt: 1.0.6
+      style-mod: 4.1.3
+      w3c-keyname: 2.2.8
+
+  '@codemirror/view@6.38.8':
     dependencies:
       '@codemirror/state': 6.5.2
       crelt: 1.0.6
@@ -12358,7 +12402,7 @@ snapshots:
       '@sanity/types': 4.15.0(@types/react@19.2.5)(debug@4.4.3)
     optional: true
 
-  '@sanity/visual-editing@2.15.4(@emotion/is-prop-valid@1.2.2)(@sanity/client@6.29.1)(@sanity/types@4.15.0(@types/react@19.2.5))(next@16.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1)(sanity@4.15.0(@emotion/is-prop-valid@1.2.2)(@portabletext/sanity-bridge@1.2.2(@sanity/schema@4.15.0(@types/react@19.2.5))(@sanity/types@4.15.0(@types/react@19.2.5)))(@types/node@24.10.1)(@types/react@19.2.5)(immer@10.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1))(styled-components@6.1.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)':
+  '@sanity/visual-editing@2.15.4(@emotion/is-prop-valid@1.2.2)(@sanity/client@6.29.1)(@sanity/types@4.15.0(@types/react@19.2.5))(next@16.0.1(@babel/core@7.28.5)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react-is@19.2.0)(react@18.3.1)(sanity@4.15.0(@emotion/is-prop-valid@1.2.2)(@portabletext/sanity-bridge@1.2.2(@sanity/schema@4.15.0(@types/react@19.2.5))(@sanity/types@4.15.0(@types/react@19.2.5)))(@types/node@24.10.1)(@types/react@19.2.5)(immer@10.2.0)(jiti@2.6.1)(lightningcss@1.30.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(styled-components@6.1.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(terser@5.44.1)(typescript@5.9.3)(yaml@2.8.1))(styled-components@6.1.19(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(typescript@5.9.3)':
     dependencies:
       '@sanity/comlink': 3.1.1
       '@sanity/icons': 3.7.4(react@18.3.1)
@@ -13989,13 +14033,13 @@ snapshots:
 
   codemirror@6.0.2:
     dependencies:
-      '@codemirror/autocomplete': 6.19.1
+      '@codemirror/autocomplete': 6.20.0
       '@codemirror/commands': 6.10.0
       '@codemirror/language': 6.11.3
       '@codemirror/lint': 6.9.2
       '@codemirror/search': 6.5.11
       '@codemirror/state': 6.5.2
-      '@codemirror/view': 6.38.7
+      '@codemirror/view': 6.38.8
 
   color-convert@1.9.3:
     dependencies:
