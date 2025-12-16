@@ -1,7 +1,4 @@
-import addonA11y from "@storybook/addon-a11y";
-import addonDocs from "@storybook/addon-docs";
-import { definePreview } from "storybook-solidjs-vite";
-
+import { createJSXDecorator, definePreview } from "storybook-solidjs-vite";
 import "../../web/src/app.css";
 
 const customViewports = {
@@ -47,10 +44,29 @@ const customViewports = {
 	},
 };
 
+const storyDecorator = createJSXDecorator((Story, context) => {
+	console.log("story decorator rendered");
+	return (
+		<div
+			style={{
+				display: "flex",
+				"min-height": "100vh",
+				width: "100%",
+				"justify-content": "center",
+				"align-items": "center",
+				"background-color": "#F4F4F4",
+			}}
+			data-wrapper
+		>
+			<Story />
+		</div>
+	);
+});
+
 export default definePreview({
-	addons: [addonDocs(), addonA11y()],
+	addons: [],
+
 	parameters: {
-		// automatically create action args for all props that start with 'on'
 		actions: {
 			argTypesRegex: "^on.*",
 		},
@@ -61,48 +77,17 @@ export default definePreview({
 			},
 		},
 		layout: "fullscreen",
-		docs: {
-			source: { type: "code" },
-		},
-		a11y: {
-			// 'todo' - show a11y violations in the test UI only
-			// 'error' - fail CI on a11y violations
-			// 'off' - skip a11y checks entirely
-			test: "todo",
-		},
 		options: {
 			storySort: (a, b) =>
 				a.id === b.id
 					? 0
 					: a.id.localeCompare(b.id, undefined, { numeric: true }),
 		},
-		// viewport: {
-		// 	// options: {
-		// 	// 	...customViewports,
-		// 	// },
-		// },
-		decorators: [
-			(Story) => {
-				// useScrollbarWidth();
-
-				return (
-					<div
-						style={{
-							display: "flex",
-							"min-height": "100vh",
-							width: "100%",
-							"justify-content": "center",
-							"align-items": "center",
-						}}
-						class="bg-[#F4F4F4]"
-						data-wrapper
-					>
-						<Story />
-					</div>
-				);
+		viewport: {
+			options: {
+				...customViewports,
 			},
-		],
+		},
 	},
-	// All components will have an automatically generated Autodocs entry: https://storybook.js.org/docs/writing-docs/autodocs
-	// tags: ['autodocs'],
+	decorators: [storyDecorator],
 });

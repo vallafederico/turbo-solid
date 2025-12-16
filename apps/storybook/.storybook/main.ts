@@ -1,4 +1,5 @@
-import path from "node:path";
+import path, { dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineMain } from "storybook-solidjs-vite";
 
 export default defineMain({
@@ -6,7 +7,7 @@ export default defineMain({
 	staticDirs: ["../../web/public"],
 
 	framework: {
-		name: "storybook-solidjs-vite",
+		name: getAbsolutePath("storybook-solidjs-vite"),
 		options: {
 			// docgen: {
 			// Enabled by default, but you can configure or disable it:
@@ -14,11 +15,8 @@ export default defineMain({
 			// },
 		},
 	},
-	addons: [
-		"@storybook/addon-onboarding",
-		"@storybook/addon-docs",
-		"@storybook/addon-a11y",
-		"@storybook/addon-links",
-		"@storybook/addon-vitest",
-	],
 });
+
+function getAbsolutePath(value: string): any {
+	return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
+}

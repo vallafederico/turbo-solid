@@ -1,0 +1,398 @@
+[15:53:19.747] [INFO] Storybook upgrade - v10.1.9
+[15:53:19.749] [INFO] detect-projects-spinner-start: Detecting projects...
+[15:53:19.750] [DEBUG] Finding Storybook projects...
+[15:53:19.775] [DEBUG] Found 1 Storybook projects
+[15:53:19.775] [INFO] detect-projects-spinner: Detecting projects: 1 projects
+[15:53:19.775] [DEBUG] Getting Storybook data...
+[15:53:19.775] [DEBUG] Getting Storybook info...
+[15:53:19.911] [DEBUG] Loading main config...
+[15:53:19.911] [DEBUG] Getting stories paths...
+[15:53:19.931] [DEBUG] Getting package manager...
+[15:53:20.509] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:20.509] [DEBUG] Getting Storybook version...
+[15:53:20.509] [DEBUG] /apps/storybook/.storybook - Validating before version... 10.0.7
+[15:53:20.509] [DEBUG] /apps/storybook/.storybook - Validating upgrade compatibility...
+[15:53:20.509] [DEBUG] /apps/storybook/.storybook - Fetching NPM version information...
+[15:53:20.509] [DEBUG] Getting CLI versions from NPM for storybook...
+[15:53:20.509] [DEBUG] Executing command: pnpm info storybook version
+[15:53:20.511] [DEBUG] Getting CLI versions from NPM for storybook@next...
+[15:53:20.511] [DEBUG] Executing command: pnpm info storybook@next version
+[15:53:21.012] [DEBUG] /apps/storybook/.storybook - Evaluating blockers...
+[15:53:21.018] [DEBUG] Getting installed version for @storybook/experimental-addon-test...
+[15:53:21.018] [DEBUG] Executing command: pnpm list "@storybook/experimental-addon-test" --json --depth=99
+[15:53:21.214] [INFO] detect-projects-spinner-stop: 1 project detected
+[15:53:21.215] [DEBUG] Found 1 valid projects and 0 error projects
+[15:53:21.215] [INFO] Upgrading from [1m10.0.7[22m to [1m10.1.9[22m
+[15:53:21.215] [INFO] upgrade-dependencies-task-start: Fetching versions to update package.json files..
+[15:53:21.215] [DEBUG] Updating dependencies in /apps/storybook/.storybook...
+[15:53:21.215] [INFO] upgrade-dependencies-task: /apps/storybook/package.json
+/package.json
+/packages/ui/package.json
+[15:53:21.216] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:21.216] [DEBUG] Getting CLI versions from NPM for @chromatic-com/storybook...
+[15:53:21.216] [DEBUG] Executing command: pnpm info @chromatic-com/storybook version
+[15:53:21.656] [DEBUG] {
+  "upgradedDependencies": []
+}
+[15:53:21.656] [DEBUG] {
+  "upgradedDevDependencies": [
+    "@storybook/addon-a11y@^10.1.9",
+    "@storybook/addon-docs@^10.1.9",
+    "@storybook/addon-links@^10.1.9",
+    "@storybook/addon-vitest@^10.1.9",
+    "@storybook/builder-vite@^10.1.9",
+    "storybook@^10.1.9",
+    "@chromatic-com/storybook@^4.1.3"
+  ]
+}
+[15:53:21.656] [DEBUG] {
+  "upgradedPeerDependencies": []
+}
+[15:53:21.656] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:21.657] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:21.657] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:21.657] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:21.657] [DEBUG] Getting CLI versions from NPM for @storybook/addon-a11y...
+[15:53:21.657] [DEBUG] Executing command: pnpm info @storybook/addon-a11y version
+[15:53:22.453] [DEBUG] Getting CLI versions from NPM for @storybook/addon-docs...
+[15:53:22.453] [DEBUG] Executing command: pnpm info @storybook/addon-docs version
+[15:53:23.142] [DEBUG] Getting CLI versions from NPM for @storybook/addon-links...
+[15:53:23.142] [DEBUG] Executing command: pnpm info @storybook/addon-links version
+[15:53:23.798] [DEBUG] Getting CLI versions from NPM for @storybook/addon-vitest...
+[15:53:23.798] [DEBUG] Executing command: pnpm info @storybook/addon-vitest version
+[15:53:24.309] [DEBUG] Getting CLI versions from NPM for @storybook/builder-vite...
+[15:53:24.309] [DEBUG] Executing command: pnpm info @storybook/builder-vite version
+[15:53:24.943] [DEBUG] Using cached version for storybook...
+[15:53:24.943] [DEBUG] Using cached version for @chromatic-com/storybook...
+[15:53:24.944] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.944] [DEBUG] {
+  "upgradedDependencies": []
+}
+[15:53:24.944] [DEBUG] {
+  "upgradedDevDependencies": []
+}
+[15:53:24.944] [DEBUG] {
+  "upgradedPeerDependencies": []
+}
+[15:53:24.944] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.944] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.944] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.944] [DEBUG] {
+  "upgradedDependencies": []
+}
+[15:53:24.944] [DEBUG] {
+  "upgradedDevDependencies": []
+}
+[15:53:24.944] [DEBUG] {
+  "upgradedPeerDependencies": []
+}
+[15:53:24.944] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.944] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.944] [DEBUG] Getting package.json info for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.944] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.945] [INFO] upgrade-dependencies-task-success: Updated package versions in package.json files
+[15:53:24.945] [INFO] detect-automigrations-task-start: Detecting automigrations...
+[15:53:24.945] [DEBUG] Starting automigration collection across 1 projects and 19 fixes...
+[15:53:24.945] [INFO] detect-automigrations-task: Checking automigrations for /apps/storybook/.storybook...
+[15:53:24.945] [DEBUG] Processing project: /apps/storybook/.storybook
+[15:53:24.945] [DEBUG] Checking fix eslintPlugin for project /apps/storybook/.storybook...
+[15:53:24.945] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:24.945] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.945] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.945] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:24.946] [DEBUG] Checking fix addon-mdx-gfm-remove for project /apps/storybook/.storybook...
+[15:53:24.946] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:24.946] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.946] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.946] [DEBUG] Checking fix addon-storysource-code-panel for project /apps/storybook/.storybook...
+[15:53:24.946] [DEBUG] Checking fix upgrade-storybook-related-dependencies for project /apps/storybook/.storybook...
+[15:53:24.946] [DEBUG] Checking for incompatible storybook packages...
+[15:53:24.946] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:24.946] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.946] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.947] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:24.947] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:24.947] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:24.947] [DEBUG] Getting installed version for storybook-solidjs-vite...
+[15:53:24.947] [DEBUG] Executing command: pnpm list "storybook-solidjs-vite" --json --depth=99
+[15:53:25.167] [DEBUG] Getting CLI versions from NPM for storybook-solidjs-vite...
+[15:53:25.167] [DEBUG] Executing command: pnpm info storybook-solidjs-vite version
+[15:53:25.638] [DEBUG] Checking fix initial-globals for project /apps/storybook/.storybook...
+[15:53:25.657] [DEBUG] Checking fix addon-globals-api for project /apps/storybook/.storybook...
+[15:53:25.663] [DEBUG] Checking fix addon-a11y-addon-test for project /apps/storybook/.storybook...
+[15:53:25.697] [DEBUG] Checking fix consolidated-imports for project /apps/storybook/.storybook...
+[15:53:25.697] [DEBUG] Checking fix addon-experimental-test for project /apps/storybook/.storybook...
+[15:53:25.697] [DEBUG] Using cached installed version for @storybook/experimental-addon-test...
+[15:53:25.697] [DEBUG] Checking fix rnstorybook-config for project /apps/storybook/.storybook...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:25.697] [DEBUG] Checking fix migrate-addon-console for project /apps/storybook/.storybook...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:25.697] [DEBUG] Checking fix nextjs-to-nextjs-vite for project /apps/storybook/.storybook...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:25.697] [DEBUG] Checking fix remove-addon-interactions for project /apps/storybook/.storybook...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:25.697] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:25.697] [DEBUG] Checking fix renderer-to-framework for project /apps/storybook/.storybook...
+[15:53:25.698] [DEBUG] Checking fix remove-essential-addons for project /apps/storybook/.storybook...
+[15:53:25.698] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:25.698] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:25.698] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:25.698] [DEBUG] Checking fix addon-a11y-parameters for project /apps/storybook/.storybook...
+[15:53:25.698] [DEBUG] Checking fix remove-docs-autodocs for project /apps/storybook/.storybook...
+[15:53:25.699] [DEBUG] Checking fix wrap-getAbsolutePath for project /apps/storybook/.storybook...
+[15:53:25.700] [DEBUG] Checking fix fix-faux-esm-require for project /apps/storybook/.storybook...
+[15:53:25.701] [INFO] detect-automigrations-task: 
+Automigrations detected:
+[15:53:25.702] [INFO] detect-automigrations-task: [32m[32m✔[32m addon-a11y-addon-test[39m
+[15:53:25.702] [INFO] detect-automigrations-task: [32m[32m✔[32m wrap-getAbsolutePath[39m
+[15:53:25.702] [INFO] detect-automigrations-task-success: 2 automigration(s) detected
+[15:53:27.143] [PROMPT] Select automigrations to run {"choice":["addon-a11y-addon-test","wrap-getAbsolutePath"]}
+[15:53:27.144] [INFO] automigrate-/apps/storybook/.storybook-task-start: Running automigrations for /apps/storybook/.storybook
+[15:53:27.147] [INFO] automigrate-/apps/storybook/.storybook-task: [31m[31m✕[31m addon-a11y-addon-test[39m
+[15:53:27.147] [DEBUG] Error: The addon-a11y-addon-test automigration couldn't make the changes but here are instructions for doing them yourself:
+1) We couldn't find or automatically update [36m.storybook/vitest.setup.<ts|js>[39m in your project to smoothly set up project annotations from [35m@storybook/addon-a11y[39m. 
+Please manually update your [36mvitest.setup.ts[39m file to include the following:
+
+[90m...[39m   
+[32m+ import * as a11yAddonAnnotations from "@storybook/addon-a11y/preview";[39m
+
+[90msetProjectAnnotations([[39m
+[90m  ...[39m
+[32m+ a11yAddonAnnotations,[39m
+[90m]);[39m
+    at Object.run (file:///Users/nathan/.npm/_npx/f74b1ef8ee82e8e8/node_modules/@storybook/cli/dist/_node-chunks/run-JMPCWACJ.js:6188:13)
+    at runAutomigrationsForProjects (file:///Users/nathan/.npm/_npx/f74b1ef8ee82e8e8/node_modules/@storybook/cli/dist/_node-chunks/run-JMPCWACJ.js:9174:21)
+    at runAutomigrations (file:///Users/nathan/.npm/_npx/f74b1ef8ee82e8e8/node_modules/@storybook/cli/dist/_node-chunks/run-JMPCWACJ.js:9221:36)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async upgrade (file:///Users/nathan/.npm/_npx/f74b1ef8ee82e8e8/node_modules/@storybook/cli/dist/_node-chunks/run-JMPCWACJ.js:9419:83)
+    at async file:///Users/nathan/.npm/_npx/f74b1ef8ee82e8e8/node_modules/@storybook/cli/dist/_node-chunks/run-JMPCWACJ.js:9558:70
+    at async withTelemetry (file:///Users/nathan/.npm/_npx/f74b1ef8ee82e8e8/node_modules/storybook/dist/_node-chunks/chunk-3Q5I3QYJ.js:209:12)
+    at async Command.<anonymous> (file:///Users/nathan/.npm/_npx/f74b1ef8ee82e8e8/node_modules/@storybook/cli/dist/_node-chunks/run-JMPCWACJ.js:9554:3)
+[15:53:27.161] [INFO] automigrate-/apps/storybook/.storybook-task: [32m[32m✔[32m wrap-getAbsolutePath[39m
+[15:53:27.161] [ERROR] automigrate-/apps/storybook/.storybook-task-error: 1 automigrations failed for /apps/storybook/.storybook
+[15:53:27.162] [INFO] Installing dependencies...
+[15:53:27.162] [INFO] install-dependencies-spinner-start: Installing dependencies...
+[15:53:27.162] [DEBUG] Executing command: pnpm install
+[15:53:27.350] [INFO] Installing dependencies...: Scope: all 14 workspace projects
+
+[15:53:27.350] [INFO] install-dependencies-spinner: Installing dependencies...: Scope: all 14 workspace p
+[15:53:27.485] [INFO] Installing dependencies...: ../..                                    | Progress: resolved 0, reused 1, downloaded 0, added 0
+
+[15:53:27.485] [INFO] install-dependencies-spinner: Installing dependencies...: ../..                    
+[15:53:27.529] [INFO] Installing dependencies...: ../../packages/sanity                    |  WARN  deprecated @sanity/groq-store@4.1.3
+
+[15:53:27.529] [INFO] install-dependencies-spinner: Installing dependencies...: ../../packages/sanity    
+[15:53:28.497] [INFO] Installing dependencies...: ../..                                    | Progress: resolved 402, reused 382, downloaded 4, added 0
+
+[15:53:28.497] [INFO] install-dependencies-spinner: Installing dependencies...: ../..                    
+[15:53:29.498] [INFO] Installing dependencies...: ../..                                    | Progress: resolved 1881, reused 1761, downloaded 9, added 0
+
+[15:53:29.498] [INFO] install-dependencies-spinner: Installing dependencies...: ../..                    
+[15:53:29.922] [INFO] Installing dependencies...: ../cms                                   |  WARN  deprecated next@16.0.1
+
+[15:53:29.922] [INFO] install-dependencies-spinner: Installing dependencies...: ../cms                   
+[15:53:30.620] [INFO] Installing dependencies...:  WARN  1 deprecated subdependencies found: get-random-values-esm@1.0.2
+
+[15:53:30.620] [INFO] install-dependencies-spinner: Installing dependencies...: WARN  1 deprecated subdep
+[15:53:30.632] [INFO] Installing dependencies...: ../..                                    | Progress: resolved 1958, reused 1809, downloaded 9, added 0
+
+[15:53:30.632] [INFO] install-dependencies-spinner: Installing dependencies...: ../..                    
+[15:53:30.677] [INFO] Installing dependencies...: ../..                                    |  +81  -39 ++++++++----
+
+[15:53:30.677] [INFO] install-dependencies-spinner: Installing dependencies...: ../..                    
+[15:53:31.116] [INFO] Installing dependencies...: ../..                                    | Progress: resolved 1958, reused 1809, downloaded 9, added 45, done
+
+[15:53:31.116] [INFO] install-dependencies-spinner: Installing dependencies...: ../..                    
+[15:53:31.467] [INFO] Installing dependencies...:  WARN  Issues with peer dependencies found
+apps/cms
+├─┬ @q42/sanity-plugin-user-guide 1.0.1
+│ └── ✕ unmet peer sanity@^3: found 4.15.0
+├─┬ sanity-plugin-media 2.4.2
+│ └── ✕ unmet peer sanity@^3: found 4.15.0
+├─┬ sanity-plugin-note-field 2.0.2
+│ ├── ✕ unmet peer sanity@^3: found 4.15.0
+│ └─┬ @sanity/ui 1.9.3
+│   └── ✕ unmet peer react-is@^18: found 19.2.0
+└─┬ sanity-plugin-prefixed-slug 2.0.0
+  └── ✕ unmet peer sanity@^3.0.0: found 4.15.0
+
+apps/storybook
+└─┬ react-dom 18.3.1
+  └── ✕ unmet peer react@^18.3.1: found 19.1.0
+
+packages/sanity
+└─┬ @sanity/visual-editing 2.15.4
+  ├── ✕ unmet peer @sanity/client@^7.8.0: found 6.29.1
+  ├─┬ @sanity/visual-editing-csm 2.0.26
+  │ ├── ✕ unmet peer @sanity/client@^7.11.2: found 6.29.1
+  │ └─┬ @sanity/visual-editing-types 1.1.8
+  │   └── ✕ unmet peer @sanity/client@^7.11.2: found 6.29.1
+  └─┬ @sanity/preview-url-secret 2.1.15
+    └── ✕ unmet peer @sanity/client@^7.8.2: found 6.29.1
+
+packages/seo
+└─┬ @crawl-me-maybe/web 0.0.2
+  ├── ✕ unmet peer @sanity/client@^6.0.0: found 7.12.1
+  └─┬ @crawl-me-maybe/web 0.0.1
+    └── ✕ unmet peer @sanity/client@^6.0.0: found 7.12.1
+
+[15:53:31.467] [INFO] install-dependencies-spinner: Installing dependencies...: WARN  Issues with peer de
+[15:53:31.467] [INFO] Installing dependencies...: 
+devDependencies:
+- @chromatic-com/storybook 4.1.2
++ @chromatic-com/storybook 4.1.3
+- @storybook/addon-a11y 10.0.7
++ @storybook/addon-a11y 10.1.9
+- @storybook/addon-docs 10.0.7
++ @storybook/addon-docs 10.1.9
+- @storybook/addon-links 10.0.7
++ @storybook/addon-links 10.1.9
+- @storybook/addon-onboarding 10.0.7
+- @storybook/addon-vitest 10.0.7
++ @storybook/addon-vitest 10.1.9
+- @storybook/builder-vite 10.0.7
++ @storybook/builder-vite 10.1.9
+- storybook 10.0.7
++ storybook 10.1.9
+
+
+[15:53:31.467] [INFO] install-dependencies-spinner: Installing dependencies...: devDependencies:
+- @chrom
+[15:53:31.477] [INFO] Installing dependencies...: Done in 4.2s using pnpm v10.26.0
+
+[15:53:31.477] [INFO] install-dependencies-spinner: Installing dependencies...: Done in 4.2s using pnpm v
+[15:53:31.494] [INFO] Dependencies installed
+[15:53:31.494] [INFO] install-dependencies-spinner-stop: Dependencies installed
+[15:53:31.494] [WARN] Since you are in a monorepo, we advise you to deduplicate your dependencies. We can do this for you but it might take some time.
+[15:53:33.030] [PROMPT] Execute pnpm run dedupe? {"choice":true}
+[15:53:33.030] [INFO] Deduplicating dependencies...
+[15:53:33.030] [INFO] Deduplicating dependencies...
+[15:53:33.030] [DEBUG] Executing command: pnpm dedupe
+[15:53:33.372] [INFO] ../..                                    | Progress: resolved 1, reused 0, downloaded 0, added 0
+[15:53:33.372] [INFO] ../..                                    | Progress: resolved 1, reused 0, downloaded 0, added 0
+[15:53:34.373] [INFO] ../..                                    | Progress: resolved 35, reused 35, downloaded 0, added 0
+[15:53:34.373] [INFO] ../..                                    | Progress: resolved 35, reused 35, downloaded 0, added 0
+[15:53:34.762] [INFO] ../../packages/sanity                    |  WARN  deprecated @sanity/groq-store@4.1.3
+[15:53:34.762] [INFO] ../../packages/sanity                    |  WARN  deprecated @sanity/groq-store@4.1.3
+[15:53:35.373] [INFO] ../..                                    | Progress: resolved 67, reused 67, downloaded 0, added 0
+[15:53:35.373] [INFO] ../..                                    | Progress: resolved 67, reused 67, downloaded 0, added 0
+[15:53:36.373] [INFO] ../..                                    | Progress: resolved 239, reused 233, downloaded 0, added 0
+[15:53:36.373] [INFO] ../..                                    | Progress: resolved 239, reused 233, downloaded 0, added 0
+[15:53:37.375] [INFO] ../..                                    | Progress: resolved 466, reused 433, downloaded 0, added 0
+[15:53:37.375] [INFO] ../..                                    | Progress: resolved 466, reused 433, downloaded 0, added 0
+[15:53:38.375] [INFO] ../..                                    | Progress: resolved 882, reused 814, downloaded 0, added 0
+[15:53:38.375] [INFO] ../..                                    | Progress: resolved 882, reused 814, downloaded 0, added 0
+[15:53:39.376] [INFO] ../..                                    | Progress: resolved 1242, reused 1153, downloaded 0, added 0
+[15:53:39.376] [INFO] ../..                                    | Progress: resolved 1242, reused 1153, downloaded 0, added 0
+[15:53:40.376] [INFO] ../..                                    | Progress: resolved 1601, reused 1490, downloaded 0, added 0
+[15:53:40.376] [INFO] ../..                                    | Progress: resolved 1601, reused 1490, downloaded 0, added 0
+[15:53:41.376] [INFO] ../..                                    | Progress: resolved 1875, reused 1764, downloaded 0, added 0
+[15:53:41.376] [INFO] ../..                                    | Progress: resolved 1875, reused 1764, downloaded 0, added 0
+[15:53:41.577] [INFO] ../cms                                   |  WARN  deprecated next@16.0.1
+[15:53:41.577] [INFO] ../cms                                   |  WARN  deprecated next@16.0.1
+[15:53:42.003] [INFO] WARN  1 deprecated subdependencies found: get-random-values-esm@1.0.2
+[15:53:42.003] [INFO] WARN  1 deprecated subdependencies found: get-random-values-esm@1.0.2
+[15:53:42.064] [INFO] ../..                                    |  +17  -11 ++-
+[15:53:42.064] [INFO] ../..                                    |  +17  -11 ++-
+[15:53:42.319] [INFO] ../..                                    | Progress: resolved 1956, reused 1816, downloaded 0, added 17, done
+[15:53:42.319] [INFO] ../..                                    | Progress: resolved 1956, reused 1816, downloaded 0, added 17, done
+[15:53:42.648] [INFO] WARN  Issues with peer dependencies found
+apps/cms
+├─┬ @q42/sanity-plugin-user-guide 1.0.1
+│ └── ✕ unmet peer sanity@^3: found 4.15.0
+├─┬ sanity-plugin-media 2.4.2
+│ └── ✕ unmet peer sanity@^3: found 4.15.0
+├─┬ sanity-plugin-note-field 2.0.2
+│ ├── ✕ unmet peer sanity@^3: found 4.15.0
+│ └─┬ @sanity/ui 1.9.3
+│   └── ✕ unmet peer react-is@^18: found 19.2.0
+└─┬ sanity-plugin-prefixed-slug 2.0.0
+  └── ✕ unmet peer sanity@^3.0.0: found 4.15.0
+
+apps/storybook
+└─┬ react-dom 18.3.1
+  └── ✕ unmet peer react@^18.3.1: found 19.1.0
+
+packages/sanity
+└─┬ @sanity/visual-editing 2.15.4
+  ├── ✕ unmet peer @sanity/client@^7.8.0: found 6.29.1
+  ├─┬ @sanity/presentation-comlink 1.0.33
+  │ └─┬ @sanity/visual-editing-types 1.1.8
+  │   └── ✕ unmet peer @sanity/client@^7.11.2: found 6.29.1
+  ├─┬ @sanity/visual-editing-csm 2.0.26
+  │ └── ✕ unmet peer @sanity/client@^7.11.2: found 6.29.1
+  └─┬ @sanity/preview-url-secret 2.1.15
+    └── ✕ unmet peer @sanity/client@^7.8.2: found 6.29.1
+
+packages/seo
+└─┬ @crawl-me-maybe/web 0.0.2
+  ├── ✕ unmet peer @sanity/client@^6.0.0: found 7.12.1
+  └─┬ @crawl-me-maybe/web 0.0.1
+    └── ✕ unmet peer @sanity/client@^6.0.0: found 7.12.1
+[15:53:42.648] [INFO] WARN  Issues with peer dependencies found
+apps/cms
+├─┬ @q42/sanity-plugin-user-guide 1.0.1
+│ └── ✕ unmet peer sanity@^3: found 4.15.0
+├─┬ sanity-plugin-media 2.4.2
+│ └── ✕ unmet peer sanity@^3: found 4.15.0
+├─┬ sanity-plugin-note-field 2.0.2
+│ ├── ✕ unmet peer sanity@^3: found 4.15.0
+│ └─┬ @sanity/ui 1.9.3
+│   └── ✕ unmet peer react-is@^18: found 19.2.0
+└─┬ sanity-plugin-prefixed-slug 2.0.0
+  └── ✕ unmet peer sanity@^3.0.0: found 4.15.0
+
+apps/storybook
+└─┬ react-dom 18.3.1
+  └── ✕ unmet peer react@^18.3.1: found 19.1.0
+
+packages/sanity
+└─┬ @sanity/visual-editing 2.15.4
+  ├── ✕ unmet peer @sanity/client@^7.8.0: found 6.29.1
+  ├─┬ @sanity/presentation-comlink 1.0.33
+  │ └─┬ @sanity/visual-editing-types 1.1.8
+  │   └── ✕ unmet peer @sanity/client@^7.11.2: found 6.29.1
+  ├─┬ @sanity/visual-editing-csm 2.0.26
+  │ └── ✕ unmet peer @sanity/client@^7.11.2: found 6.29.1
+  └─┬ @sanity/preview-url-secret 2.1.15
+    └── ✕ unmet peer @sanity/client@^7.8.2: found 6.29.1
+
+packages/seo
+└─┬ @crawl-me-maybe/web 0.0.2
+  ├── ✕ unmet peer @sanity/client@^6.0.0: found 7.12.1
+  └─┬ @crawl-me-maybe/web 0.0.1
+    └── ✕ unmet peer @sanity/client@^6.0.0: found 7.12.1
+[15:53:42.649] [INFO] 
+[15:53:42.649] [INFO] 
+[15:53:42.692] [INFO] Dependencies deduplicated
+[15:53:42.692] [INFO] [32mDependencies deduplicated[39m
+[15:53:42.693] [INFO] Checking the health of your project(s)..
+[15:53:42.693] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/apps/storybook/package.json...
+[15:53:42.693] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/package.json...
+[15:53:42.693] [DEBUG] Using cached package.json for /Users/nathan/sites/turbo-solid/packages/ui/package.json...
+[15:53:42.694] [DEBUG] Executing command: pnpm list "@storybook/*" "storybook" --json --depth=99
+[15:53:42.893] [INFO] Your Storybook project looks good!
+[15:53:42.893] [INFO] The upgrade is complete, but some projects failed to upgrade or migrate completely. Please see the debug logs for more details.
+[15:53:42.893] [INFO] [31mFailed to upgrade:[39m
+Some automigrations failed, please check the logs in the log file for more details.
+  • /apps/storybook/.storybook
+[15:53:42.893] [INFO] If you want to learn more about the automigrations that executed in your project(s), please check the following links:
+• ]8;;https://storybook.js.org/docs/writing-tests/accessibility-testing#with-the-vitest-addonaddon-a11y-addon-test]8;;
+• ]8;;https://storybook.js.org/docs/faq#how-do-i-fix-module-resolution-in-special-environmentswrap-getAbsolutePath]8;;
+[15:53:42.894] [INFO] For a full list of changes, please check our migration guide: [36mhttps://storybook.js.org/docs/releases/migration-guide?ref=upgrade[39m
+[15:53:44.272] [INFO] Storybook upgrade completed!

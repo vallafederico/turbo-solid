@@ -1,11 +1,4 @@
-import {
-	mockCta,
-	mockImage,
-	mockLayout,
-	mockSentence,
-	mockWords,
-} from "@local/mocks";
-import { disableArgTypes } from "@local/utils";
+import { mockSentence, mockWords } from "@local/mocks";
 import type { Meta, StoryObj } from "storybook-solidjs-vite";
 import UniversalHero from "./UniversalHero";
 
@@ -21,13 +14,6 @@ export const Default: Story = {
 	args: {
 		paragraph: mockSentence(),
 		heading: mockWords(),
-		buttons: [mockCta(), mockCta({ variant: "secondary" })],
-		media: {
-			type: "image",
-			image: mockImage(),
-		},
+		eyebrow: mockWords(),
 	},
-	// argTypes: {
-	// 	...disableArgTypes("buttons", "media", "styles", "layout"),
-	// },
 };
