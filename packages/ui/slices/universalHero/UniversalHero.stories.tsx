@@ -26,7 +26,6 @@ export const Default: Story = {
 			type: "image",
 			image: mockImage(),
 		},
-		...layoutArgs,
 	},
 	// argTypes: {
 	// 	...disableArgTypes("buttons", "media", "styles", "layout"),
