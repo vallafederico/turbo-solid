@@ -8,12 +8,7 @@ export default defineMain({
 
 	framework: {
 		name: getAbsolutePath("storybook-solidjs-vite"),
-		options: {
-			// docgen: {
-			// Enabled by default, but you can configure or disable it:
-			//  see https://github.com/styleguidist/react-docgen-typescript#options
-			// },
-		},
+		options: {},
 	},
 });
 

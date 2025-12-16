@@ -1,4 +1,8 @@
-import { createJSXDecorator, definePreview } from "storybook-solidjs-vite";
+import {
+	createDecorator,
+	createJSXDecorator,
+	definePreview,
+} from "storybook-solidjs-vite";
 import "../../web/src/app.css";
 
 const customViewports = {
@@ -44,28 +48,8 @@ const customViewports = {
 	},
 };
 
-const storyDecorator = createJSXDecorator((Story, context) => {
-	console.log("story decorator rendered");
-	return (
-		<div
-			style={{
-				display: "flex",
-				"min-height": "100vh",
-				width: "100%",
-				"justify-content": "center",
-				"align-items": "center",
-				"background-color": "#F4F4F4",
-			}}
-			data-wrapper
-		>
-			<Story />
-		</div>
-	);
-});
-
 export default definePreview({
 	addons: [],
-
 	parameters: {
 		actions: {
 			argTypesRegex: "^on.*",
