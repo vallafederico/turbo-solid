@@ -2,6 +2,7 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
 
 		"paths": {
 			"@local/ui/components": ["molecules/index.ts"],
