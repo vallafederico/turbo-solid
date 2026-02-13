@@ -2,6 +2,7 @@ import { A } from "@solidjs/router";
 import { For } from "solid-js";
 import { RollingText } from "./animation/RollingText";
 import MobileMenu from "./MobileMenu";
+import Icon from "./icons/Icon";
 
 const NAV_LINKS = [
   {
@@ -32,18 +33,28 @@ const NAV_LINKS = [
 
 export const Nav = () => {
   return (
-    <nav class="flex fixed top-0 left-0 justify-between items-center py-6 w-screen pointer-events-none px-gx z-100">
-      <A aria-label="homepage" class="z-20 pointer-events-auto" href="/">
+    <nav
+      class="flex fixed top-0 left-0 justify-between items-center py-6 w-screen pointer-events-none px-gx z-100"
+    >
+      <A
+        aria-label="homepage"
+        class="z-20 pointer-events-auto"
+        href="/"
+      >
         <p>LOGO</p>
       </A>
 
       {/* desktop menu */}
-      <ul class="hidden justify-between pointer-events-auto md:flex">
+      <ul
+        class="hidden justify-between pointer-events-auto md:flex"
+      >
         <For each={NAV_LINKS}>
           {({ to, text }) => (
             <li>
               <A href={to}>
-                <RollingText class="px-3">{text}</RollingText>
+                <RollingText class="px-3">
+                  {text}
+                </RollingText>
               </A>
             </li>
           )}
