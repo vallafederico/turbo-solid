@@ -1,5 +1,5 @@
 :root {
-	/* Grid configuration */
+	/* Grid configuration - expects --gx, --columns, --gutter from app */
 	--margin: var(--gx);
 	--grid-columns: var(--columns);
 	--grid-gutter: var(--gutter);

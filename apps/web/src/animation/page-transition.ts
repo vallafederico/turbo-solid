@@ -1,5 +1,5 @@
-import { Scroll } from "~/lib/utils/scroll";
 import { useBeforeLeave } from "@solidjs/router";
+import { Scroll } from "~/lib/utils/scroll";
 
 let outTransitions = [] as (() => any)[];
 
@@ -19,9 +19,31 @@ export async function animateOut() {
 
 export function usePageTransition() {
   useBeforeLeave(async (e: any) => {
+    if (typeof e.to === "number") {
+      return;
+    }
+
     e.preventDefault();
     await animateOut();
-    Scroll.lenis?.scrollTo(0, { immediate: true });
+    const toPathname = e.to.split("?")[0];
+    const currentPathname = location.pathname;
+
+    // 3. Check if we are staying on the same page (Query change only)
+    const isQueryOnlyChange = toPathname === currentPathname;
+
+    if (!isQueryOnlyChange) {
+      Scroll.lenis?.scrollTo(0, { immediate: true });
+    }
+
     e.retry(true);
   });
+
+  if (typeof window !== "undefined") {
+    const handlePopState = async (event: PopStateEvent) => {
+      await animateOut();
+      Scroll.lenis?.scrollTo(0, { immediate: true });
+    };
+
+    window.addEventListener("popstate", handlePopState);
+  }
 }

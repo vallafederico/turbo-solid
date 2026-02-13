@@ -1,0 +1,8 @@
+/**
+ * Basic fluid type scale.
+ * Override --fluid-width in your app to change the reference viewport (default 1920).
+ */
+html {
+	--fluid-width: 1920;
+	font-size: clamp(12px, calc(((22 / var(--fluid-width)) * 100) * 1vw), 16px);
+}

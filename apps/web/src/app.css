@@ -9,7 +9,6 @@
 
 @import "tailwindcss";
 @import "@local/tailwind";
-@import "./styles/grid.css";
 
 @source "../../../packages/*/src/**/*.{js,ts,jsx,tsx}";
 
@@ -109,12 +108,6 @@ img {
   -webkit-user-drag: none;
   -khtml-user-drag: none;
   -moz-user-drag: none;
-}
-
-/* basic fluid type */
-html {
-  --fluid-width: 1920;
-  font-size: clamp(12px, calc(((22 / var(--fluid-width)) * 100) * 1vw), 16px);
 }
 
 /* main styles */
