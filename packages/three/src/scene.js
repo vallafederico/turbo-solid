@@ -1,6 +1,7 @@
 import { Scene as S } from "three";
 import { assets, setWebgl } from "@local/gl-context";
 import { loadAssets } from "./utils/loader";
+import { Model } from "./_/model";
 
 export class Scene extends S {
   constructor() {
@@ -20,7 +21,9 @@ export class Scene extends S {
     this.create();
   }
 
-  create() {}
+  create() {
+    this.suzanne = new Model(this.assets.suzanne);
+  }
 
   render() {}
 

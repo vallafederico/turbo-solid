@@ -17,6 +17,8 @@ export class Model extends Group {
     this.mesh = findMesh(model, this.material);
     this.scale.set(scale, scale, scale);
     this.add(this.mesh);
+
+    Gl.scene.add(this);
   }
 
   render(t) {
