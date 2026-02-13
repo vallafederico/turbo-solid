@@ -11,8 +11,7 @@
 @import "@local/tailwind";
 @import "./styles/grid.css";
 
-/* Scan three package so Tailwind generates classes used by Canvas, DomQuadElement, DomGroupElement */
-@source "../../../packages/three/src/**/*.{js,ts,jsx,tsx}";
+@source "../../../packages/*/src/**/*.{js,ts,jsx,tsx}";
 
 @theme {
   --font-*: initial;
