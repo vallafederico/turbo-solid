@@ -1,4 +1,4 @@
-import { Gl } from "~/gl/gl";
+import { Gl } from "@local/three/gl";
 import { Scroll } from "./scroll";
 import { viewport } from "../stores/viewportStore";
 

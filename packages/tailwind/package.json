@@ -1,0 +1,10 @@
+{
+  "name": "@local/tailwind",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./theme.css",
+    "./theme.css": "./theme.css"
+  }
+}

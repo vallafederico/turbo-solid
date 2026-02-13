@@ -1,8 +1,6 @@
 import { onMount, onCleanup, createSignal, createEffect } from "solid-js";
-import { Gl } from "~/gl/gl";
+import { Gl } from "../gl";
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
-
-// (*) prevent recreation if one with same id already exists
 
 export function createWebGlNode(
   self: HTMLElement,

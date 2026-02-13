@@ -1,0 +1,10 @@
+/**
+ * Shared Tailwind theme for the monorepo.
+ * Import this in your app's main CSS after @import "tailwindcss".
+ *
+ * Consuming apps must add @source paths for any packages that use
+ * Tailwind classes (see app.css for an example glob for the three package).
+ */
+@theme {
+  /* Shared design tokens; extend in app CSS as needed */
+}

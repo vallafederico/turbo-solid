@@ -1,26 +1,21 @@
 import { WebGLRenderer, PerspectiveCamera } from "three";
-import gsap from "../lib/gsap";
-
-import { Gui } from "../lib/utils/gui";
-import { lerp } from "../lib/utils/math";
 import { useMouseSpeed } from "./utils/mouseSpeed";
 import { isServer } from "solid-js/web";
+import { Scroll, Resizer, gsap, lerp, Gui } from "@local/gl-context";
 
 import { Scene } from "./scene";
 import { Post } from "./_/post/post";
 import { ScreenEffect } from "./_/screenEffect";
-import { Scroll } from "../lib/utils/scroll";
-import { Resizer } from "../lib/utils/resizer";
 
 export const params = {
   clearColor: [1, 0, 0, 1],
 };
 
-export class Gl {
-  static subscribers = [];
-  static paused = false;
-  static time = 0;
-  static mouse = {
+class _Gl {
+  subscribers = [];
+  paused = false;
+  time = 0;
+  mouse = {
     x: 1,
     y: 1,
     hx: 1,
@@ -31,7 +26,8 @@ export class Gl {
     espeed: 0,
   };
 
-  static start(el) {
+  start(el) {
+
     this.renderer = new WebGLRenderer({
       alpha: true,
       antialias: true,
@@ -74,32 +70,32 @@ export class Gl {
     this.init();
     this.resize();
 
-    // Register GL pixel ratio with Scroll utility after camera is initialized
-    Scroll.setGlPixelRatio(this.vp.px);
+    if (Scroll) Scroll.setGlPixelRatio(this.vp.px);
 
     this.evt = this._evt();
   }
 
-  static _evt() {
+  _evt() {
     return [
       handleMouseMove(document.body, this.onMouseMove.bind(this)),
-      Scroll.add(this.onScroll.bind(this)),
+      Scroll ? Scroll.add(this.onScroll.bind(this)) : () => {},
       manager(this),
-      Resizer.add(this.resize.bind(this)),
+      Resizer ? Resizer.add(this.resize.bind(this)) : () => {},
     ];
   }
 
-  static async init() {
+  async init() {
     this.scene = new Scene();
 
     this.screen = new ScreenEffect();
     this.post = new Post();
 
-    gsap.ticker.add(this.render.bind(this));
+    if (gsap) gsap.ticker.add(this.render.bind(this));
   }
 
-  static render() {
+  render() {
     if (this.paused) return;
+    if (!lerp) return;
 
     this.time += 0.05;
 
@@ -120,7 +116,7 @@ export class Gl {
     }
   }
 
-  static resize(
+  resize(
     { width, height } = {
       width: window.innerWidth,
       height: window.innerHeight,
@@ -135,14 +131,13 @@ export class Gl {
     this.camera.aspect = this.vp.aspect();
     this.camera.updateProjectionMatrix();
 
-    // Update Scroll utility with new pixel ratio
-    Scroll.setGlPixelRatio(this.vp.px);
+    if (Scroll) Scroll.setGlPixelRatio(this.vp.px);
 
     this.scene?.resize();
   }
 
-  static onMouseMove({ clientX, clientY }, speed) {
-    if (Resizer.isMobile) return;
+  onMouseMove({ clientX, clientY }, speed) {
+    if (Resizer?.isMobile) return;
     this.mouse.x = (clientX / this.vp.w) * 2 - 1;
     this.mouse.y = -(clientY / this.vp.h) * 2 + 1;
     this.mouse.hx = clientX - this.vp.w / 2;
@@ -150,26 +145,19 @@ export class Gl {
     this.mouse.speed = speed * 0.75;
   }
 
-  static onScroll({ velocity, scroll, direction, progress }) {
+  onScroll({ velocity, scroll, direction, progress }) {
     this.scene?.onScroll({ velocity, scroll, direction, progress });
   }
 
-  static destroy() {
+  destroy() {
     console.log("-------------- gl:destroy");
-    gsap.ticker.remove(this.render.bind(this));
+    if (gsap) gsap.ticker.remove(this.render.bind(this));
 
     this.vp.container.removeChild(this.renderer.domElement);
     this.renderer.domElement.remove();
 
     this.scene.dispose();
     this.renderer.dispose();
-
-    // if (this.post) {
-    //   this.post.kill();
-    //   this.post.dispose();
-    //   this.post = null;
-    //   delete this.post;
-    // }
 
     try {
       this.renderer.forceContextLoss();
@@ -181,7 +169,7 @@ export class Gl {
     this.evt.forEach((e) => e());
   }
 
-  static get viewSize() {
+  get viewSize() {
     const fovInRad = (this.camera.fov * Math.PI) / 180;
     const height = Math.abs(
       this.camera.position.z * Math.tan(fovInRad / 2) * 2,
@@ -189,15 +177,14 @@ export class Gl {
     return { w: height * (this.vp.w / this.vp.h), h: height };
   }
 
-  static get pixel() {
+  get pixel() {
     const px = this.viewSize.w / this.vp.w;
     const py = this.viewSize.h / this.vp.h;
 
     return (px + py) / 2;
   }
 
-  // -- lifecycle
-  static subscribe(cb, priority = 0) {
+  subscribe(cb, priority = 0) {
     const id = Symbol();
     this.subscribers.push({ cb, id });
     this.subscribers.sort((a, b) => a.priority - b.priority);
@@ -205,7 +192,7 @@ export class Gl {
     return () => this.unsubscribe(id);
   }
 
-  static unsubscribe(id) {
+  unsubscribe(id) {
     this.subscribers = this.subscribers.filter((sub) => sub.id !== id);
   }
 }
@@ -217,8 +204,8 @@ function manager(ctrl) {
     if (e.key === " ") {
       ctrl.paused = !ctrl.paused;
     } else if (e.key === "o") {
-      ctrl.controls.enabled = !ctrl.controls.enabled;
-    } else if (e.key === "g") {
+      if (ctrl.controls) ctrl.controls.enabled = !ctrl.controls.enabled;
+    } else if (e.key === "g" && Gui) {
       Gui.show();
     } else if (e.key === "p") {
       Gl.paused = !Gl.paused;
@@ -243,3 +230,5 @@ export function handleMouseMove(e, cb) {
     document.removeEventListener("mousemove", cb);
   };
 }
+
+export const Gl = new _Gl();

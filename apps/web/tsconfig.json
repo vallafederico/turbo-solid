@@ -18,7 +18,6 @@
 		"isolatedModules": true,
 		"baseUrl": "./",
 		"paths": {
-			"@gl/*": ["./src/gl/*"],
 			"@components/*": ["./src/components/*"],
 			"@lib/*": ["./src/lib/*"],
 			"@hooks/*": ["./src/lib/hooks/*"],

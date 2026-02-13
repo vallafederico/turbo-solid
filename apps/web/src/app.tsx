@@ -10,7 +10,15 @@ import { useViewport } from "~/lib/hooks/useViewport";
 import { Nav } from "~/components/Nav";
 import Grid from "~/components/Grid";
 
-import Canvas from "~/components/Canvas";
+import { Canvas } from "@local/three/solid";
+import gsap from "~/lib/gsap";
+import { Gui } from "~/lib/utils/gui";
+import { lerp } from "~/lib/utils/math";
+import { Scroll } from "~/lib/utils/scroll";
+import { Resizer } from "~/lib/utils/resizer";
+import { setWebgl } from "~/lib/stores/webglStore";
+import { clientRectGl } from "~/lib/utils/clientRect";
+import { assets } from "~/assets";
 import { scroll } from "~/lib/utils/scroll";
 
 import { usePageTransition } from "./animation";
@@ -32,7 +40,18 @@ export default function App() {
 						<GlobalLayout>{props.children}</GlobalLayout>
 					</Suspense>
 
-					<Canvas />
+					<Canvas
+						deps={{
+							gsap,
+							Gui,
+							lerp,
+							Scroll,
+							Resizer,
+							setWebgl,
+							assets,
+							clientRectGl,
+						}}
+					/>
 					{/* </PageTransition> */}
 				</MetaProvider>
 			)}

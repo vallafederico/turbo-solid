@@ -1,13 +1,9 @@
 import { Group } from "three";
-import { Resizer } from "../../../lib/utils/resizer";
-import { Scroll } from "../../../lib/utils/scroll";
-import { clientRectGl } from "../../../lib/utils/clientRect";
-import { Gl } from "../../gl";
+import { Scroll, Resizer, clientRectGl } from "@local/gl-context";
 
 export class DomGroup extends Group {
-  // inView = true;
-  #resizeUnsub = Resizer.add(this.#resize.bind(this));
-  #scrollUnsub = Scroll.subscribe(this.#scroll.bind(this), Symbol("node"));
+  #resizeUnsub = () => {};
+  #scrollUnsub = () => {};
 
   #ctrl = {
     x: 0,
@@ -17,28 +13,29 @@ export class DomGroup extends Group {
   constructor(item) {
     super();
     this.item = item;
+    if (Resizer) this.#resizeUnsub = Resizer.add(this.#resize.bind(this));
+    if (Scroll) this.#scrollUnsub = Scroll.add(this.#scroll.bind(this), 0, Symbol("node"));
 
     this.#resize();
 
-    // (*) [BETTER] find a better solution to account for page transition
     setTimeout(() => {
       this.#resize();
     }, 50);
   }
 
   #resize() {
+    if (!clientRectGl || !this.item) return;
     const rect = clientRectGl(this.item);
     this.#ctrl.x = this.position.x = rect.centerx;
     this.#ctrl.y = rect.centery;
-    this.position.y = this.#ctrl.y + Scroll.gl;
+    this.position.y = this.#ctrl.y + (Scroll?.gl ?? 0);
 
     if (this.resize) this.resize(rect);
   }
 
   #scroll({ velocity, scroll, direction, progress, glScroll }) {
     if (!this.inView) return;
-    // Use the same calculation as in resize for consistency
-    this.position.y = this.#ctrl.y + glScroll;
+    this.position.y = this.#ctrl.y + (glScroll ?? Scroll?.gl ?? 0);
 
     if (this.scroll) this.scroll({ velocity, scroll, direction, progress });
   }

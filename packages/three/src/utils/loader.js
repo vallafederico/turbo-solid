@@ -1,10 +1,8 @@
 import loadModel from "./model-loader";
 import loadTexture from "./texture-loader";
-import { assets as file } from "../../assets/index.js";
 
-export async function loadAssets(opt = null) {
+export async function loadAssets(assets = {}) {
   console.time("assets::");
-  const assets = opt || file;
   const promises = [];
   const names = [];
 
