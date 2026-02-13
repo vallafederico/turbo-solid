@@ -15,7 +15,7 @@ export default function GridExample() {
         use:animateAlpha
         class="flex flex-col gap-2 [&_div]:border [&_div]:border-gray-800"
       >
-        <div class="md:w-grids-1 w-grids-1 md:ml-grid-1">
+        <div class="w-grids-2 ml-grid-2">
           <h2>One</h2>
         </div>
         <div class="md:w-grids-2 w-grids-2 md:ml-grid-2">
