@@ -5,7 +5,7 @@ import fragmentShader from "./fragment.frag";
 
 import { Gl } from "../../gl";
 
-const scale = 0.5;
+const SCALE = 0.5;
 
 export class Model extends Group {
   material = new Material();
@@ -15,16 +15,13 @@ export class Model extends Group {
     super();
 
     this.mesh = findMesh(model, this.material);
-    this.scale.set(scale, scale, scale);
+    this.scale.set(SCALE, SCALE, SCALE);
     this.add(this.mesh);
 
     Gl.scene.add(this);
   }
 
-  render(t) {
-    // console.log(t);
-    // this.rotation.y = t;
-  }
+  render() {}
 
   dispose() {
     this.#raf();
