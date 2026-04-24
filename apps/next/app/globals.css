@@ -189,6 +189,11 @@ main {
   transform: translateY(0%) rotate(-45deg);
 }
 
+[data-split] > * > div {
+  line-height: 1;
+  padding-bottom: 0.1em;
+}
+
 @layer utilities {
   .flex-center {
     display: flex;

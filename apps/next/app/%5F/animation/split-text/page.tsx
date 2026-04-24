@@ -1,3 +1,4 @@
+import SplitText from "@/components/animation/SplitText";
 import Section from "@/components/Section";
 import TransitionLink from "@/components/TransitionLink";
 
@@ -9,7 +10,7 @@ const lines = ["Split me Gg yl", "Cool text here", "Split me PLEASE"];
 
 export default function SplitTextPage() {
   return (
-    <div className="min-h-[100vh] py-20 pt-navh">
+    <div className="min-h-screen py-20 pt-navh">
       <Section className="px-gx">
         <TransitionLink animate-hover="underline" href="/_/animation">
           Back
@@ -18,11 +19,13 @@ export default function SplitTextPage() {
       {lines.map((line, index) => (
         <div
           className={`flex-center max-w-screen py-20 ${
-            index === 1 ? "min-h-[100vh]" : ""
+            index === 1 ? "min-h-screen" : ""
           }`}
           key={line}
         >
-          <p className="split-w text-[2rem]">{line}</p>
+          <SplitText className="text-[2rem]">
+            <p>{line}</p>
+          </SplitText>
         </div>
       ))}
     </div>
