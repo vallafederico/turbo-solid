@@ -45,7 +45,7 @@ class _Scroll extends Subscribable<ScrollEvent> {
 
   init(): void {
     this.y = window.scrollY || 0;
-    const wrapper = document.querySelector("#app");
+    const wrapper = document.querySelector("#app") as HTMLElement | null;
     this.lenis = new Lenis({
       wrapper: wrapper || window,
       autoResize: false,
@@ -53,14 +53,29 @@ class _Scroll extends Subscribable<ScrollEvent> {
 
     this.lenis.on("scroll", this.onScroll.bind(this));
     gsap.ticker.add((time: number) => this.lenis!.raf(time * 1000));
+
+    if (wrapper) {
+      this.updateScrollbarWidth(wrapper);
+      window.addEventListener("resize", () =>
+        this.updateScrollbarWidth(wrapper),
+      );
+    }
+  }
+
+  updateScrollbarWidth(wrapper: HTMLElement): void {
+    const sbw = wrapper.offsetWidth - wrapper.clientWidth;
+    document.documentElement.style.setProperty("--scrollbar-w", `${sbw}px`);
   }
 
   handleResize(item: HTMLElement): void {
+    const wrapper = document.querySelector("#app") as HTMLElement | null;
+
     new ResizeObserver(([entry]: ResizeObserverEntry[]) => {
       if (entry.contentRect.height !== this.previousHeight) {
         this.lenis?.resize();
         this.previousHeight = entry.contentRect.height;
       }
+      if (wrapper) this.updateScrollbarWidth(wrapper);
     }).observe(item);
   }
 

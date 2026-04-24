@@ -31,13 +31,27 @@ export function useLenisRoot(
     Raf.init();
     const offRaf = Raf.add((timeMs) => lenis.raf(timeMs), LENIS_RAF_PRIORITY);
 
-    const observer = new ResizeObserver(() => Scroll.resize());
+    const root = document.documentElement;
+    const updateScrollbarWidth = () => {
+      const sbw = wrapper.offsetWidth - wrapper.clientWidth;
+      root.style.setProperty("--scrollbar-w", `${sbw}px`);
+    };
+
+    const observer = new ResizeObserver(() => {
+      Scroll.resize();
+      updateScrollbarWidth();
+    });
     observer.observe(content);
+
+    window.addEventListener("resize", updateScrollbarWidth);
+    updateScrollbarWidth();
 
     return () => {
       offRaf();
       offScroll();
       observer.disconnect();
+      window.removeEventListener("resize", updateScrollbarWidth);
+      root.style.removeProperty("--scrollbar-w");
       Scroll.setLenis(undefined);
       lenis.destroy();
     };

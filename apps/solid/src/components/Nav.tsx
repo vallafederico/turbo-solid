@@ -34,7 +34,8 @@ const NAV_LINKS = [
 export const Nav = () => {
   return (
     <nav
-      class="flex fixed top-0 left-0 justify-between items-center py-6 w-screen pointer-events-none px-gx z-100"
+      class="flex fixed top-0 left-0 justify-between items-center py-6 pointer-events-none px-gx z-100"
+      style="width: calc(100vw - var(--scrollbar-w, 0px))"
     >
       <A
         aria-label="homepage"

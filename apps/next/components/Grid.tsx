@@ -64,7 +64,10 @@ export default function Grid() {
   if (!visible) return null;
 
   return (
-    <div className="pointer-events-none fixed top-0 left-0 z-10 flex h-screen w-screen justify-between gap-(--gutter) px-gx">
+    <div
+      className="pointer-events-none fixed top-0 left-0 z-10 flex h-screen justify-between gap-(--gutter) px-gx"
+      style={{ width: "calc(100vw - var(--scrollbar-w, 0px))" }}
+    >
       {Array.from({ length: columns }, (_, index) => (
         <div className="grow bg-red-500 opacity-10" key={index} />
       ))}

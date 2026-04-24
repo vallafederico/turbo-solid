@@ -31,7 +31,10 @@ const NAV_LINKS = [
 
 export default function Nav() {
   return (
-    <nav className="pointer-events-none fixed top-0 left-0 z-[100] flex w-screen items-center justify-between px-gx py-6">
+    <nav
+      className="pointer-events-none fixed top-0 left-0 z-100 flex items-center justify-between px-gx py-6"
+      style={{ width: "calc(100vw - var(--scrollbar-w, 0px))" }}
+    >
       <TransitionLink
         aria-label="homepage"
         className="pointer-events-auto z-20"

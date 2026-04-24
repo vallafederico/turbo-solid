@@ -47,10 +47,13 @@ export default function Grid({}) {
   });
 
   const styles =
-    "gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] w-screen justify-between px-gx ";
+    "gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] justify-between px-gx ";
 
   return (
-    <div class={visible() ? styles : "invisible"}>
+    <div
+      class={visible() ? styles : "invisible"}
+      style="width: calc(100vw - var(--scrollbar-w, 0px))"
+    >
       {num().map((item) => {
         return <div class="grow bg-red-500 opacity-10"></div>;
       })}
