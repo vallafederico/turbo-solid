@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import Section from "@/components/Section";
+import TransitionLink from "@/components/TransitionLink";
 
 export const metadata = {
   title: "Split Text",
@@ -12,9 +11,9 @@ export default function SplitTextPage() {
   return (
     <div className="min-h-[100vh] py-20 pt-navh">
       <Section className="px-gx">
-        <Link animate-hover="underline" href="/_/animation">
+        <TransitionLink animate-hover="underline" href="/_/animation">
           Back
-        </Link>
+        </TransitionLink>
       </Section>
       {lines.map((line, index) => (
         <div

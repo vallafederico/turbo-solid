@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import MobileMenu from "@/components/MobileMenu";
 import RollingText from "@/components/RollingText";
+import TransitionLink from "@/components/TransitionLink";
 
 const NAV_LINKS = [
   {
@@ -33,20 +32,20 @@ const NAV_LINKS = [
 export default function Nav() {
   return (
     <nav className="pointer-events-none fixed top-0 left-0 z-[100] flex w-screen items-center justify-between px-gx py-6">
-      <Link
+      <TransitionLink
         aria-label="homepage"
         className="pointer-events-auto z-20"
         href="/"
       >
         <p>LOGO</p>
-      </Link>
+      </TransitionLink>
 
       <ul className="pointer-events-auto hidden justify-between md:flex">
         {NAV_LINKS.map(({ href, text }) => (
           <li key={href}>
-            <Link href={href}>
+            <TransitionLink href={href}>
               <RollingText className="px-3">{text}</RollingText>
-            </Link>
+            </TransitionLink>
           </li>
         ))}
       </ul>
@@ -55,7 +54,7 @@ export default function Nav() {
         <ul className="flex flex-col gap-4">
           {NAV_LINKS.map(({ href, text }) => (
             <li key={href}>
-              <Link href={href}>{text}</Link>
+              <TransitionLink href={href}>{text}</TransitionLink>
             </li>
           ))}
         </ul>

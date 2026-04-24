@@ -1,6 +1,5 @@
-import Link from "next/link";
-
 import Section from "@/components/Section";
+import TransitionLink from "@/components/TransitionLink";
 
 import { getProtectedData } from "../data";
 
@@ -15,13 +14,13 @@ export default async function Test2() {
     <div className="min-h-[100vh] pt-navh">
       <Section className="px-gx">
         <div>baseline test1 route</div>
-        <Link animate-hover="underline" href="/_/protected/test">
+        <TransitionLink animate-hover="underline" href="/_/protected/test">
           to 1
-        </Link>
+        </TransitionLink>
         <div className="py-2">
-          <Link animate-hover="underline" href="/_/protected">
+          <TransitionLink animate-hover="underline" href="/_/protected">
             back
-          </Link>
+          </TransitionLink>
         </div>
       </Section>
       <Section className="mt-8 px-gx">

@@ -12,7 +12,7 @@ const links = [
 
 export default function Home() {
   return (
-    <main className="px-gx py-xxl">
+    <div className="px-gx py-xxl">
       <Section className="contain flex min-h-svh flex-col justify-between gap-xl">
         <p className="text-sm uppercase opacity-60">Next parity shell</p>
 
@@ -43,6 +43,6 @@ export default function Home() {
           same shape needed by future DOM tracking and canvas integrations.
         </p>
       </Section>
-    </main>
+    </div>
   );
 }

@@ -1,7 +1,6 @@
-import Link from "next/link";
-
 import ProtectedActions from "@/components/ProtectedActions";
 import Section from "@/components/Section";
+import TransitionLink from "@/components/TransitionLink";
 
 export const metadata = {
   title: "Protected",
@@ -13,9 +12,9 @@ export default function Protected() {
       <Section className="px-gx">
         <div>Protected</div>
         <ProtectedActions />
-        <Link animate-hover="underline" href="/_/protected/test2">
+        <TransitionLink animate-hover="underline" href="/_/protected/test2">
           To protected Page
-        </Link>
+        </TransitionLink>
       </Section>
     </div>
   );
