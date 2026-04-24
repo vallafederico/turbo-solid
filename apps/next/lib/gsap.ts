@@ -16,9 +16,14 @@ const def: AnimationDefaults = {
   ease: "expo.out",
 };
 
-if (typeof window !== "undefined") {
+const globalGsap = globalThis as typeof globalThis & {
+  __nextGsapInitialized?: boolean;
+};
+
+if (typeof window !== "undefined" && !globalGsap.__nextGsapInitialized) {
   gsap.defaults(def);
   gsap.registerPlugin(SplitText);
+  globalGsap.__nextGsapInitialized = true;
 }
 
 export default gsap;

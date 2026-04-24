@@ -40,8 +40,7 @@ class ScrollState extends Subscribable<ScrollEvent> {
     };
   }
 
-  handleScroll(lenis: Lenis): void {
-    this.setLenis(lenis);
+  notifyScroll(): void {
     this.notify(this.scrollEventData);
   }
 

@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { ComponentPropsWithoutRef, MouseEvent } from "react";
 
 import { isModifiedNavigationEvent } from "@/animation/page-transition";
-import { usePageTransition } from "@/components/PageTransitionProvider";
+import { useNavigate } from "@/animation/useNavigate";
 
 type TransitionLinkProps = ComponentPropsWithoutRef<typeof Link>;
 
@@ -17,7 +17,7 @@ export default function TransitionLink({
   onClick,
   ...props
 }: TransitionLinkProps) {
-  const { navigate } = usePageTransition();
+  const navigate = useNavigate();
 
   const handleClick = (event: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(event);

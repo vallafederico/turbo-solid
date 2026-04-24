@@ -1,6 +1,6 @@
 "use client";
 
-import type { PropsWithChildren, RefCallback } from "react";
+import type { PropsWithChildren } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import { useOnPageLeave, useOnView } from "@/animation";
@@ -14,12 +14,6 @@ interface SplitTextProps extends PropsWithChildren {
 }
 
 type SplitTextInstance = InstanceType<typeof GsapSplitText>;
-
-function mergeRefs<T>(...refs: RefCallback<T>[]): RefCallback<T> {
-  return (node) => {
-    refs.forEach((ref) => ref(node));
-  };
-}
 
 export default function SplitText({
   children,
@@ -96,7 +90,8 @@ export default function SplitText({
   const ref = useCallback(
     (node: HTMLDivElement | null) => {
       setElement(node);
-      mergeRefs(viewRef, pageLeaveRef)(node);
+      viewRef(node);
+      pageLeaveRef(node);
     },
     [pageLeaveRef, viewRef],
   );

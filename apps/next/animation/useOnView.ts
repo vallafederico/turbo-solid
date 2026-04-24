@@ -1,14 +1,18 @@
 "use client";
 
 import type { RefCallback } from "react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { setOutTransition } from "@/animation/page-transition";
 import { useLatest } from "@/animation/useLatest";
 
-type ViewCallback<T extends Element> = (entry: IntersectionObserverEntry, element: T) => void;
+type ViewCallback<T extends Element> = (
+  entry: IntersectionObserverEntry,
+  element: T,
+) => void;
 
-export interface OnViewOptions<T extends Element> extends IntersectionObserverInit {
+export interface OnViewOptions<T extends Element>
+  extends IntersectionObserverInit {
   once?: boolean;
   onEnter?: ViewCallback<T>;
   onLeave?: ViewCallback<T>;
@@ -27,36 +31,30 @@ export function useOnView<T extends Element>({
   const onEnterRef = useLatest(onEnter);
   const onLeaveRef = useLatest(onLeave);
 
-  const observerOptions = useMemo(
-    () => ({
-      root,
-      rootMargin,
-      threshold,
-    }),
-    [root, rootMargin, threshold],
-  );
-
   useEffect(() => {
     if (!element) return;
 
-    const observer = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) {
-        if (!once || !enteredRef.current) {
-          enteredRef.current = true;
-          onEnterRef.current?.(entry, element);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (!once || !enteredRef.current) {
+            enteredRef.current = true;
+            onEnterRef.current?.(entry, element);
+          }
+          if (once) observer.unobserve(element);
+          return;
         }
 
-        if (once) observer.unobserve(element);
-        return;
-      }
-
-      onLeaveRef.current?.(entry, element);
-    }, observerOptions);
+        onLeaveRef.current?.(entry, element);
+      },
+      { root, rootMargin, threshold },
+    );
 
     observer.observe(element);
-
     return () => observer.disconnect();
-  }, [element, observerOptions, once, onEnterRef, onLeaveRef]);
+    // onEnterRef/onLeaveRef are stable refs from useLatest; threshold is a primitive.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [element, once, root, rootMargin, threshold]);
 
   return useCallback((node: T | null) => {
     if (node) enteredRef.current = false;
@@ -86,7 +84,9 @@ export function useOnPageLeave<T extends Element>(
       if (!visibleRef.current) return;
       return callbackRef.current?.();
     });
-  }, [callbackRef]);
+    // callbackRef is a stable ref from useLatest.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return ref;
 }

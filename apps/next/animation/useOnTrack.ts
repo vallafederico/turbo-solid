@@ -30,7 +30,8 @@ function edgeOffset(edge: TrackEdge, viewportHeight: number): number {
 
 function computeBounds(
   element: HTMLElement,
-  { top = "bottom", bottom = "top" }: OnTrackOptions,
+  top: TrackEdge,
+  bottom: TrackEdge,
 ): Bounds {
   const rect = element.getBoundingClientRect();
   const scroll = Scroll.scrollEventData.scroll;
@@ -44,7 +45,12 @@ function computeBounds(
 
 export function useOnTrack<T extends HTMLElement>(
   callback: (progress: number, scroll: ScrollEvent, element: T) => void,
-  { top = "bottom", bottom = "top", lerp = false, priority = 0 }: OnTrackOptions = {},
+  {
+    top = "bottom",
+    bottom = "top",
+    lerp = false,
+    priority = 0,
+  }: OnTrackOptions = {},
 ): RefCallback<T> {
   const [element, setElement] = useState<T | null>(null);
   const boundsRef = useRef<Bounds | null>(null);
@@ -70,7 +76,7 @@ export function useOnTrack<T extends HTMLElement>(
     if (!element) return;
 
     const updateBounds = () => {
-      boundsRef.current = computeBounds(element, { top, bottom });
+      boundsRef.current = computeBounds(element, top, bottom);
     };
 
     updateBounds();
@@ -107,13 +113,13 @@ export function useOnTrack<T extends HTMLElement>(
       callbackRef.current(progress, scroll, element);
     };
 
-    if (lerp === false) {
-      return Scroll.add(execute, priority);
-    }
+    if (lerp === false) return Scroll.add(execute, priority);
 
     Raf.init();
     return Raf.add(execute, priority);
-  }, [callbackRef, element, lerp, priority]);
+    // callbackRef is a stable ref from useLatest.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [element, lerp, priority]);
 
   return useCallback((node: T | null) => {
     visibleRef.current = false;
