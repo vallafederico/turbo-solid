@@ -5,10 +5,10 @@
  * Consuming apps must add @source paths for any packages that use
  * Tailwind classes (see app.css for an example glob for the three package).
  *
- * Includes grid system and fluid type. The grid expects :root variables
- * --gx, --columns, --gutter (e.g. from your variables.css). Fluid type
+ * Includes shared :root tokens, grid system, and fluid type. Fluid type
  * uses --fluid-width (default 1920) on html.
  */
+@import "./variables.css";
 @import "./grid.css";
 @import "./fluid.css";
 

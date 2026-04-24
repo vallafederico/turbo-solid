@@ -4,13 +4,17 @@
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
-    "dev:web": "turbo dev --filter=web",
-    "build:web": "turbo build --filter=web",
+    "build:web": "turbo build --filter=solid",
+    "dev:next": "turbo dev --filter=next",
+    "dev:solid": "turbo dev --filter=solid",
     "web": "turbo dev --filter=web",
     "optimise": "turbo run optimise"
   },
   "devDependencies": {
+    "@local/tailwind": "workspace:*",
+    "@tailwindcss/postcss": "^4.1.15",
     "prettier-plugin-classnames": "^0.9.0",
+    "tailwindcss": "^4.1.15",
     "turbo": "^2.9.6",
     "typescript": "5.7.3"
   },
