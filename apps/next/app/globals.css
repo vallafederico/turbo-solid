@@ -1,30 +1,144 @@
 @import "tailwindcss" source(none);
 @import "@local/tailwind";
+@import "@local/tailwind/animation.css";
+@import "@local/tailwind/accessibility.css";
+@import "@local/tailwind/utils.css";
 
 @source "../app/**/*.{js,ts,jsx,tsx}";
+@source "../components/**/*.{js,ts,jsx,tsx}";
+@source "../animation/**/*.{js,ts,jsx,tsx}";
+@source "../lib/**/*.{js,ts,jsx,tsx}";
 @source "../../../packages/*/src/**/*.{js,ts,jsx,tsx}";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-*: initial;
+  --font-sans: soh, sans-serif;
+
+  --text-base-0: var(--text-base);
+  --text-base-1: 1.2;
+  --text-base-length: 2;
+
+  --text-xs-0: var(--text-xs);
+  --text-xs-1: 1.2;
+  --text-xs-length: 2;
+
+  --text-sm-0: var(--text-sm);
+  --text-sm-1: 1.2;
+  --text-sm-length: 2;
+
+  --text-md-0: var(--text-md);
+  --text-md-1: 1.2;
+  --text-md-length: 2;
+
+  --text-lg-0: var(--text-lg);
+  --text-lg-1: 1;
+  --text-lg-length: 2;
+
+  --text-xl-0: var(--text-xl);
+  --text-xl-1: 1;
+  --text-xl-length: 2;
+
+  --text-xxl-0: var(--text-xxl);
+  --text-xxl-1: 0.9;
+  --text-xxl-length: 2;
+
+  --spacing-gx: var(--gx);
+  --spacing-gy: var(--gy);
+  --spacing-sm: var(--sm);
+  --spacing-md: var(--md);
+  --spacing-lg: var(--lg);
+  --spacing-xl: var(--xl);
+  --spacing-xxl: var(--xxl);
+  --spacing-navh: var(--navh);
+  --spacing-gutter: var(--gutter);
+
+  --aspect-5\/7: 5/7;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
   }
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: never;
+}
+
+body {
+  @apply bg-black font-sans text-base text-white;
+}
+
+html,
+body,
+p,
+h1,
+h2,
+h3,
+h4 {
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+[data-selectable] {
+  user-select: text;
+  -webkit-user-select: text;
+  -khtml-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+}
+
+img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+}
+
+main {
+  min-height: 100svh;
+}
+
+#app {
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: none;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+@layer utilities {
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contain {
+    @apply mx-auto;
+    max-width: var(--max-w);
+  }
 }

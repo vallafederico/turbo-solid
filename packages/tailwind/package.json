@@ -1,1 +1,1 @@
-{"name":"@local/tailwind","version":"0.0.0","private":true,"type":"module","exports":{".":"./theme.css","./theme.css":"./theme.css","./variables.css":"./variables.css","./grid.css":"./grid.css","./fluid.css":"./fluid.css"}}
+{"name":"@local/tailwind","version":"0.0.0","private":true,"type":"module","exports":{".":"./theme.css","./theme.css":"./theme.css","./variables.css":"./variables.css","./grid.css":"./grid.css","./fluid.css":"./fluid.css","./animation.css":"./animation.css","./accessibility.css":"./accessibility.css","./utils.css":"./utils.css"}}

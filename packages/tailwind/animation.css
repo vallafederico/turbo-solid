@@ -26,34 +26,6 @@
 /* HOVER-UNDERLINE */
 [animate-hover="underline"] {
   --underline-color: #fff;
-  --spacing: 0.1rem;
-  --height: 1px;
-
-  position: relative;
-  cursor: pointer;
-}
-
-[animate-hover="underline"]::before {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: var(--height);
-  background-color: var(--underline-color);
-  transform: scaleX(0) translateY(var(--spacing));
-
-  transform-origin: left;
-  transition: transform var(--duration-back) var(--ease-out);
-}
-
-[animate-hover="underline"]:hover::before {
-  transform: scaleX(1) translateY(var(--spacing));
-  transition: transform var(--duration-short) var(--ease-out);
-}
-
-[animate-hover="underline"] {
-  --underline-color: #fff;
   --spacing: 0.2rem;
   --height: 1px;
 
