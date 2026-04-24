@@ -1,3 +1,4 @@
+import ViewReveal from "@/components/animation/ViewReveal";
 import GridExample from "@/components/GridExample";
 import Section from "@/components/Section";
 
@@ -13,10 +14,14 @@ export default function About() {
       </Section>
       <GridExample />
       <Section className="flex-center h-[80svh] w-full px-gx">
-        <h1>Two</h1>
+        <ViewReveal>
+          <h1>Two</h1>
+        </ViewReveal>
       </Section>
       <Section className="flex-center h-[80svh] w-full px-gx">
-        <h1>Last</h1>
+        <ViewReveal>
+          <h1>Last</h1>
+        </ViewReveal>
       </Section>
     </div>
   );

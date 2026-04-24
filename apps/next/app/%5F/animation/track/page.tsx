@@ -1,3 +1,4 @@
+import TrackProgress from "@/components/animation/TrackProgress";
 import Section from "@/components/Section";
 import TransitionLink from "@/components/TransitionLink";
 
@@ -15,9 +16,7 @@ export default function TrackPage() {
       </Section>
       <div className="flex-center max-w-screen overflow-clip py-20">
         <Section className="w-full py-[100vh]">
-          <div className="mx-auto w-fit rounded-md border border-gray-800 p-6">
-            hello
-          </div>
+          <TrackProgress />
         </Section>
       </div>
     </div>

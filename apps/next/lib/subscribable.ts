@@ -30,4 +30,8 @@ export class Subscribable<T> {
   notify(data: T): void {
     this.subscribers.forEach((sub) => sub.callback(data));
   }
+
+  clear(): void {
+    this.subscribers = [];
+  }
 }
