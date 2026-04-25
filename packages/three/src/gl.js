@@ -167,6 +167,11 @@ class _Gl {
       this.renderer.domElement.remove();
     }
 
+    // Order matters: dispose passes that hold render targets / shaders before
+    // the scenes whose materials they reference, then the renderer last.
+    this.controls?.dispose?.();
+    this.post?.dispose?.();
+    this.screen?.dispose?.();
     this.scene?.dispose?.();
     this.renderer?.dispose?.();
 
@@ -176,6 +181,12 @@ class _Gl {
       console.warn("renderer.forceContextLoss failed", e);
     }
 
+    this.subscribers = [];
+
+    this.controls = null;
+    this.post = null;
+    this.screen = null;
+    this.scene = null;
     this.renderer = null;
     this._renderBound = null;
     this._mouseBound = null;

@@ -33,4 +33,12 @@ export class Post extends EffectComposer {
       Gl.renderer.render(Gl.scene, Gl.camera);
     }
   }
+
+  dispose() {
+    // EffectComposer.dispose() releases its read/write/copy render targets and
+    // calls dispose() on each pass that exposes one.
+    super.dispose?.();
+    this.renderPass = null;
+    this.main = null;
+  }
 }

@@ -4,6 +4,7 @@ import vertexShader from "./vertex.vert";
 import fragmentShader from "./fragment.frag";
 
 import { Gl } from "../../gl";
+import { disposeObject3D } from "../../utils/dispose";
 
 const SCALE = 0.5;
 
@@ -24,7 +25,8 @@ export class Model extends Group {
   render() {}
 
   dispose() {
-    this.#raf();
+    this.#raf?.();
+    disposeObject3D(this);
   }
 }
 

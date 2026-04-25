@@ -13,6 +13,8 @@ import {
 } from "three";
 import { GPUComputationRenderer } from "three/examples/jsm/Addons.js";
 
+import { disposeObject3D } from "../../utils/dispose";
+
 import fragmentShader from "./fragment.frag";
 import vertexShader from "./vertex.vert";
 
@@ -91,6 +93,21 @@ export class ScreenEffect extends Scene {
       Gl.renderer.setRenderTarget(null);
     }
     // console.timeEnd("render");
+  }
+
+  dispose() {
+    // GPUComputationRenderer in newer three exposes dispose(); fall back gracefully.
+    this.gpu?.dispose?.();
+    this.target?.dispose?.();
+
+    // The plane mesh's geometry/material are also caught by `disposeObject3D` below,
+    // but we null the explicit refs to help GC.
+    disposeObject3D(this);
+
+    this.gpu = null;
+    this.target = null;
+    this.plane = null;
+    this.camera = null;
   }
 }
 
