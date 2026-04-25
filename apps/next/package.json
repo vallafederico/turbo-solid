@@ -9,6 +9,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@crawl-me-maybe/web": "^0.0.2",
+    "@local/config": "workspace:*",
+    "@local/sanity": "workspace:*",
     "gsap": "^3.13.0",
     "lenis": "^1.3.11",
     "next": "16.2.4",

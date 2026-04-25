@@ -15,7 +15,7 @@ const resolveLinks = async (inputData: any, maxDepth = 5) => {
 		if (["link"].includes(node.key) || ["page"].includes(node.key)) {
 			const isExternal = node.parent?.val?.linkType === "external";
 			const isHomepage = doc._type === "home" || doc._type === "homepage";
-			const values = {
+			const values: Record<string, unknown> = {
 				// ...node.val,
 				label: node.parent?.val?.label,
 				linkType: node.parent?.val?.linkType,
@@ -79,7 +79,7 @@ const resolveLinks = async (inputData: any, maxDepth = 5) => {
 			const documents = await sanityClient.fetch(
 				`*[_id in [${[...ids.keys()].map((id) => `'${id}'`).join(",")}]]{...}`,
 			);
-			documents.forEach((element) => {
+			(documents as { _id: string }[]).forEach((element) => {
 				store.set(element._id, element);
 			});
 

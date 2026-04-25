@@ -1,8 +1,6 @@
-import { createResource } from "solid-js";
 import type { SanityDocumentGetterOptions } from "../types";
 import sanityClient from "../client";
 import resolveLinks from "./resolver";
-import { createAsync, query } from "@solidjs/router";
 
 export const getDocByType = async <T = unknown>(
 	documentType: string,
