@@ -24,49 +24,58 @@ import { scroll } from "~/lib/utils/scroll";
 import { usePageTransition } from "./animation";
 
 export default function App() {
-	useViewport();
+  useViewport();
 
-	return (
-		<Router
-			root={(props) => (
-				<MetaProvider>
-					{/* <PageTransition> */}
-					<Link rel="robots" type="text/plain" href="/api/robots.txt" />
+  return (
+    <Router
+      root={(props) => (
+        <MetaProvider>
+          {/* <PageTransition> */}
+          <Link
+            rel="robots"
+            type="text/plain"
+            href="/api/robots.txt"
+          />
 
-					<Nav />
-					<Grid />
+          <Nav />
+          <Grid />
 
-					<Suspense>
-						<GlobalLayout>{props.children}</GlobalLayout>
-					</Suspense>
+          <Suspense>
+            <GlobalLayout>{props.children}</GlobalLayout>
+          </Suspense>
 
-					<Canvas
-						deps={{
-							gsap,
-							Gui,
-							lerp,
-							Scroll,
-							Resizer,
-							setWebgl,
-							assets,
-							clientRectGl,
-						}}
-					/>
-					{/* </PageTransition> */}
-				</MetaProvider>
-			)}
-		>
-			<Suspense fallback={<div>loading things</div>}>
-				<FileRoutes />
-			</Suspense>
-		</Router>
-	);
+          <Canvas
+            deps={{
+              gsap,
+              Gui,
+              lerp,
+              Scroll,
+              Resizer,
+              setWebgl,
+              assets,
+              clientRectGl,
+            }}
+          />
+          {/* </PageTransition> */}
+        </MetaProvider>
+      )}
+    >
+      <Suspense fallback={<div>loading things</div>}>
+        <FileRoutes />
+      </Suspense>
+    </Router>
+  );
 }
 
 // ////////////////
 
-const GlobalLayout = ({ children, ...props }: { children: any }) => {
-	usePageTransition();
+const GlobalLayout = ({
+  children,
+  ...props
+}: {
+  children: any;
+}) => {
+  usePageTransition();
 
-	return <main use:scroll>{children}</main>;
+  return <main use:scroll>{children}</main>;
 };
