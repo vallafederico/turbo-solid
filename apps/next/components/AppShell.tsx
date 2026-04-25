@@ -1,6 +1,7 @@
 "use client";
 
 import type { PropsWithChildren } from "react";
+import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
@@ -8,6 +9,11 @@ import { pageTransition } from "@/animation/page-transition";
 import { useLenisRoot } from "@/animation/useLenisRoot";
 import Grid from "@/components/Grid";
 import Nav from "@/components/Nav";
+
+const WebglCanvas = dynamic(
+  () => import("@/components/WebglCanvas"),
+  { ssr: false },
+);
 
 export default function AppShell({ children }: PropsWithChildren) {
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -27,12 +33,15 @@ export default function AppShell({ children }: PropsWithChildren) {
   }, []);
 
   return (
-    <div className="h-full overflow-y-auto" id="app" ref={wrapperRef}>
-      <div ref={contentRef}>
-        <Nav />
-        <main data-page-transition="route">{children}</main>
-        <Grid />
+    <>
+      <div className="h-full overflow-y-auto" id="app" ref={wrapperRef}>
+        <div ref={contentRef}>
+          <Nav />
+          <main data-page-transition="route">{children}</main>
+          <Grid />
+        </div>
       </div>
-    </div>
+      <WebglCanvas />
+    </>
   );
 }

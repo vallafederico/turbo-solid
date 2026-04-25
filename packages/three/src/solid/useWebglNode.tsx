@@ -1,47 +1,44 @@
 import { onMount, onCleanup, createSignal, createEffect } from "solid-js";
-import { Gl } from "../gl";
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
 
-export function createWebGlNode(
-  self: HTMLElement,
-  webglNode: any,
-  attachTo: any = null,
-) {
-  if (!webglNode) return;
-  if (!attachTo) attachTo = Gl.scene;
-
-  const it = new webglNode(self);
-  attachTo.add(it);
-  return it;
-}
+import { createWebGlNode } from "../core/createWebGlNode";
+import { runWhenAttachTargetReady } from "../core/runWhenAttachTargetReady";
 
 export const useWebglNode = (
-  classToInstantiate: any,
-  sceneToAttachTo: any = null,
+	classToInstantiate: any,
+	sceneToAttachTo: any = null,
 ) => {
-  const vo = createVisibilityObserver({ threshold: 0 });
+	const vo = createVisibilityObserver({ threshold: 0 });
 
-  const [ref, setRef] = createSignal<HTMLElement | null>(null);
-  const [node, setNode] = createSignal<any>(null);
+	const [ref, setRef] = createSignal<HTMLElement | null>(null);
+	const [node, setNode] = createSignal<any>(null);
 
-  onMount(() => {
-    if (!ref()) return;
-    const visible = vo(ref());
+	let cancelWait: (() => void) | undefined;
 
-    setNode(createWebGlNode(ref(), classToInstantiate, sceneToAttachTo));
+	onMount(() => {
+		if (!ref()) return;
+		const r = ref()!;
+		const visible = vo(r);
 
-    createEffect(() => {
-      if (visible()) {
-        node().inView = true;
-      } else if (!visible()) {
-        node().inView = false;
-      }
-    });
-  });
+		cancelWait = runWhenAttachTargetReady(
+			sceneToAttachTo,
+			() => {
+				const n = createWebGlNode(r, classToInstantiate, sceneToAttachTo);
+				if (n) setNode(n);
+			},
+		);
 
-  onCleanup(() => {
-    if (node() && node().dispose) node().dispose();
-  });
+		createEffect(() => {
+			const n = node();
+			if (!n) return;
+			n.inView = !!visible();
+		});
+	});
 
-  return { setRef, ref, node };
+	onCleanup(() => {
+		cancelWait?.();
+		if (node() && node().dispose) node().dispose();
+	});
+
+	return { setRef, ref, node };
 };

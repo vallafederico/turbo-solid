@@ -1,22 +1,9 @@
 import { onCleanup, onMount } from "solid-js";
 import { setGlContext } from "@local/gl-context";
 import { Gl } from "../gl";
+import type { SolidCanvasProps as CanvasProps } from "../canvasTypes";
 
-export interface CanvasDeps {
-  gsap: any;
-  Gui: any;
-  lerp: (a: number, b: number, t: number) => number;
-  Scroll: any;
-  Resizer: any;
-  setWebgl: (v: any) => void;
-  assets: any;
-  clientRectGl: (el: HTMLElement) => any;
-}
-
-export interface CanvasProps {
-  deps: CanvasDeps;
-  class?: string;
-}
+export type { CanvasDeps, SolidCanvasProps } from "../canvasTypes";
 
 export default function Canvas(props: CanvasProps) {
   const webgl = (el: HTMLDivElement) => {

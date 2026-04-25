@@ -1,11 +1,11 @@
 import { WebGLRenderer, PerspectiveCamera } from "three";
 import { useMouseSpeed } from "./utils/mouseSpeed";
-import { isServer } from "solid-js/web";
 import { Scroll, Resizer, gsap, lerp, Gui } from "@local/gl-context";
-
 import { Scene } from "./scene";
 import { Post } from "./_/post/post";
 import { ScreenEffect } from "./_/screenEffect";
+
+const isBrowser = () => typeof window !== "undefined" && typeof document !== "undefined";
 
 export const params = {
   clearColor: [1, 0, 0, 1],
@@ -58,7 +58,7 @@ class _Gl {
     );
 
     this.camera.position.set(0, 0, 2);
-    if (!isServer) {
+    if (isBrowser()) {
       import("three/examples/jsm/controls/OrbitControls").then(
         ({ OrbitControls }) => {
           this.controls = new OrbitControls(this.camera, document.body);
@@ -66,6 +66,13 @@ class _Gl {
         },
       );
     }
+
+    // Persist bound handlers so add/remove pair to the same function
+    // (gsap.ticker.remove was a no-op before because each `.bind(this)` returns a new fn).
+    this._renderBound = this.render.bind(this);
+    this._mouseBound = this.onMouseMove.bind(this);
+    this._scrollBound = this.onScroll.bind(this);
+    this._resizeBound = this.resize.bind(this);
 
     this.init();
     this.resize();
@@ -77,10 +84,10 @@ class _Gl {
 
   _evt() {
     return [
-      handleMouseMove(document.body, this.onMouseMove.bind(this)),
-      Scroll ? Scroll.add(this.onScroll.bind(this)) : () => {},
+      handleMouseMove(document.body, this._mouseBound),
+      Scroll ? Scroll.add(this._scrollBound) : () => {},
       manager(this),
-      Resizer ? Resizer.add(this.resize.bind(this)) : () => {},
+      Resizer ? Resizer.add(this._resizeBound) : () => {},
     ];
   }
 
@@ -90,7 +97,7 @@ class _Gl {
     this.screen = new ScreenEffect();
     this.post = new Post();
 
-    if (gsap) gsap.ticker.add(this.render.bind(this));
+    if (gsap) gsap.ticker.add(this._renderBound);
   }
 
   render() {
@@ -150,23 +157,30 @@ class _Gl {
   }
 
   destroy() {
-    console.log("-------------- gl:destroy");
-    if (gsap) gsap.ticker.remove(this.render.bind(this));
+    if (gsap && this._renderBound) gsap.ticker.remove(this._renderBound);
 
-    this.vp.container.removeChild(this.renderer.domElement);
-    this.renderer.domElement.remove();
+    this.evt?.forEach((e) => e());
+    this.evt = undefined;
 
-    this.scene.dispose();
-    this.renderer.dispose();
-
-    try {
-      this.renderer.forceContextLoss();
-      this.renderer = null;
-    } catch (e) {
-      console.log("renderer.forceContextLoss failed", e);
+    if (this.vp?.container && this.renderer?.domElement) {
+      this.vp.container.removeChild(this.renderer.domElement);
+      this.renderer.domElement.remove();
     }
 
-    this.evt.forEach((e) => e());
+    this.scene?.dispose?.();
+    this.renderer?.dispose?.();
+
+    try {
+      this.renderer?.forceContextLoss?.();
+    } catch (e) {
+      console.warn("renderer.forceContextLoss failed", e);
+    }
+
+    this.renderer = null;
+    this._renderBound = null;
+    this._mouseBound = null;
+    this._scrollBound = null;
+    this._resizeBound = null;
   }
 
   get viewSize() {
@@ -220,14 +234,13 @@ function manager(ctrl) {
 }
 
 const { calculateMouseSpeed } = useMouseSpeed();
-export function handleMouseMove(e, cb) {
-  document.addEventListener("mousemove", (e) => {
-    const speed = calculateMouseSpeed(e);
-    cb(e, speed);
-  });
+export function handleMouseMove(_target, cb) {
+  // The wrapped `handler` is what we add and what we must remove (using `cb` was a no-op).
+  const handler = (e) => cb(e, calculateMouseSpeed(e));
+  document.addEventListener("mousemove", handler);
 
   return () => {
-    document.removeEventListener("mousemove", cb);
+    document.removeEventListener("mousemove", handler);
   };
 }
 

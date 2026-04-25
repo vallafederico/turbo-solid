@@ -8,6 +8,7 @@
     ".": "./src/index.js",
     "./gl": "./src/gl.js",
     "./solid": "./src/solid/index.tsx",
+    "./react": "./src/react/index.ts",
     "./*": "./src/*"
   },
   "dependencies": {
@@ -20,6 +21,16 @@
     "three": "^0.180.0"
   },
   "peerDependencies": {
+    "react": ">=18.0.0",
     "solid-js": ">=1.9.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "react": "^19.2.0"
   }
 }

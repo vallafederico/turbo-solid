@@ -1,4 +1,4 @@
-import { createEffect, createSignal, onCleanup, onMount } from "solid-js";
+import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
 import { isServer } from "solid-js/web";
 
 function getGridValues() {
@@ -10,53 +10,61 @@ function getGridValues() {
   return { gx, gutter, columns };
 }
 
-export default function Grid({}) {
-  const [num, setNum] = createSignal(Array.from({ length: 12 }));
+export default function Grid() {
+  // We never render the grid on the server: it depends on `--columns`
+  // (computed from `getComputedStyle`) and on `localStorage`, both of which
+  // are client-only. Rendering 12 placeholder divs SSR-side and then
+  // replacing them on mount caused hydration mismatches.
+  const [mounted, setMounted] = createSignal(false);
+  const [columns, setColumns] = createSignal(0);
+  const [visible, setVisible] = createSignal(false);
 
   const handleResize = () => {
-    const { columns } = getGridValues(); // gx, gutter,
-    setNum(Array.from({ length: +columns }));
+    const { columns: c } = getGridValues();
+    setColumns(+c || 0);
+  };
+
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (!e.shiftKey) return;
+    if (e.key === "G") {
+      const next = !visible();
+      setVisible(next);
+      localStorage.setItem("grid", next.toString());
+    }
   };
 
   onMount(() => {
     handleResize();
-    if (!isServer) window.addEventListener("resize", handleResize);
 
-    // get from localstorage
-    const grid = localStorage.getItem("grid");
-    if (grid) setVisible(grid === "true");
+    const stored = localStorage.getItem("grid");
+    if (stored !== null) setVisible(stored === "true");
+
+    window.addEventListener("resize", handleResize);
+    document.addEventListener("keydown", handleKeyDown);
+
+    setMounted(true);
   });
 
   onCleanup(() => {
-    if (!isServer) window.removeEventListener("resize", handleResize);
-  });
-
-  const [visible, setVisible] = createSignal(false);
-
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (!e.shiftKey) return;
-
-    if (e.key === "G") {
-      setVisible(!visible());
-      localStorage.setItem("grid", visible().toString());
-    }
-  };
-
-  createEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
+    // `onCleanup` also runs during SSR teardown — guard the browser globals.
+    if (isServer) return;
+    window.removeEventListener("resize", handleResize);
+    document.removeEventListener("keydown", handleKeyDown);
   });
 
   const styles =
-    "gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] justify-between px-gx ";
+    "gap-[var(--gutter)] fixed pointer-events-none left-0 top-0 z-10 flex h-[100vh] justify-between px-gx";
 
   return (
-    <div
-      class={visible() ? styles : "invisible"}
-      style="width: calc(100vw - var(--scrollbar-w, 0px))"
-    >
-      {num().map((item) => {
-        return <div class="grow bg-red-500 opacity-10"></div>;
-      })}
-    </div>
+    <Show when={mounted()}>
+      <div
+        class={visible() ? styles : "invisible"}
+        style="width: calc(100vw - var(--scrollbar-w, 0px))"
+      >
+        <For each={Array.from({ length: columns() })}>
+          {() => <div class="grow bg-red-500 opacity-10" />}
+        </For>
+      </div>
+    </Show>
   );
 }
