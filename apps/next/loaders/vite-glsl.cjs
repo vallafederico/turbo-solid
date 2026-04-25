@@ -10,6 +10,7 @@ const path = require("node:path");
 const { pathToFileURL } = require("node:url");
 
 const VITE_GLSL_SHARD = path.join("vite-plugin-glsl", "src", "loadShader.js");
+let loadShaderPromise;
 
 /**
  * @param {string} loaderDir `__dirname` of this file (`…/apps/next/loaders`)
@@ -38,15 +39,28 @@ function findLoadShaderPath(loaderDir) {
   );
 }
 
+/**
+ * @param {string} loaderDir
+ * @returns {Promise<import("vite-plugin-glsl/src/loadShader.js").default>}
+ */
+function getLoadShader(loaderDir) {
+  loadShaderPromise ??= (async () => {
+    const loadShaderPath = findLoadShaderPath(loaderDir);
+    const { default: loadShader } = await import(
+      pathToFileURL(loadShaderPath).href
+    );
+    return loadShader;
+  })();
+
+  return loadShaderPromise;
+}
+
 module.exports = function viteGlslLoader(source) {
   const done = this.async();
   const resource = this.resourcePath;
 
   (async () => {
-    const loadShaderPath = findLoadShaderPath(__dirname);
-    const { default: loadShader } = await import(
-      pathToFileURL(loadShaderPath).href
-    );
+    const loadShader = await getLoadShader(__dirname);
     const { outputShader } = await loadShader(
       typeof source === "string" ? source : source.toString("utf8"),
       resource,
