@@ -2,23 +2,21 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { createWebGlNode } from "../core/createWebGlNode";
-import { runWhenAttachTargetReady } from "../core/runWhenAttachTargetReady";
+import { mountWebglNode } from "../core/mountWebglNode";
+import type {
+  WebglNodeConstructor,
+  WebglNodeInstance,
+} from "../core/mountWebglNode";
 
 /**
  * React port of `@local/three/solid` `useWebglNode`: ref + visibility + dispose.
  */
 export function useWebglNode(
-  classToInstantiate: new (el: HTMLElement) => {
-    dispose?: () => void;
-    inView?: boolean;
-  },
+  classToInstantiate: WebglNodeConstructor,
   sceneToAttachTo: object | null = null,
 ) {
   const ref = useRef<HTMLDivElement | null>(null);
-  const nodeRef = useRef<
-    { dispose?: () => void; inView?: boolean } | undefined
-  >(undefined);
+  const nodeRef = useRef<WebglNodeInstance | undefined>(undefined);
   const [visible, setVisible] = useState(false);
   const visibleRef = useRef(visible);
   visibleRef.current = visible;
@@ -35,22 +33,19 @@ export function useWebglNode(
     );
     io.observe(el);
 
-    const stopWait = runWhenAttachTargetReady(
-      sceneToAttachTo,
-      () => {
-        const it = createWebGlNode(el, classToInstantiate, sceneToAttachTo);
-        if (it) {
-          it.inView = visibleRef.current;
-        }
-        nodeRef.current = it;
+    const mounted = mountWebglNode({
+      el,
+      classToInstantiate,
+      attachTo: sceneToAttachTo,
+      getInView: () => visibleRef.current,
+      onNode: (node) => {
+        nodeRef.current = node;
       },
-    );
+    });
 
     return () => {
-      stopWait();
       io.disconnect();
-      nodeRef.current?.dispose?.();
-      nodeRef.current = undefined;
+      mounted.dispose();
     };
   }, [classToInstantiate, sceneToAttachTo]);
 

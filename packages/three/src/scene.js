@@ -5,16 +5,25 @@ import { Model } from "./_/model";
 import { disposeAssets, disposeObject3D } from "./utils/dispose";
 
 export class Scene extends S {
-  constructor() {
+  constructor({ isActive = () => true } = {}) {
     super();
 
+    this.isActive = isActive;
+    this.disposed = false;
     this.load();
   }
 
   async load() {
     console.time("webgl:load");
-    this.assets = await loadAssets(assets);
+    const loadedAssets = await loadAssets(assets);
     console.timeEnd("webgl:load");
+
+    if (this.disposed || !this.isActive()) {
+      disposeAssets(loadedAssets);
+      return;
+    }
+
+    this.assets = loadedAssets;
 
     if (setWebgl) setWebgl({ loaded: true });
 
@@ -22,6 +31,7 @@ export class Scene extends S {
   }
 
   create() {
+    if (this.disposed || !this.assets?.suzanne) return;
     this.suzanne = new Model(this.assets.suzanne);
   }
 
@@ -32,6 +42,8 @@ export class Scene extends S {
   onScroll(scroll) {}
 
   dispose() {
+    this.disposed = true;
+
     this.suzanne?.dispose?.();
     this.suzanne = null;
 

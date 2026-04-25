@@ -5,7 +5,19 @@ import { Scene } from "./scene";
 import { Post } from "./_/post/post";
 import { ScreenEffect } from "./_/screenEffect";
 
-const isBrowser = () => typeof window !== "undefined" && typeof document !== "undefined";
+const isBrowser = () =>
+  typeof window !== "undefined" && typeof document !== "undefined";
+
+const createMouseState = () => ({
+  x: 1,
+  y: 1,
+  hx: 1,
+  hy: 1,
+  ex: 0,
+  ey: 0,
+  speed: 0,
+  espeed: 0,
+});
 
 export const params = {
   clearColor: [1, 0, 0, 1],
@@ -15,18 +27,15 @@ class _Gl {
   subscribers = [];
   paused = false;
   time = 0;
-  mouse = {
-    x: 1,
-    y: 1,
-    hx: 1,
-    hy: 1,
-    ex: 0,
-    ey: 0,
-    speed: 0,
-    espeed: 0,
-  };
+  mouse = createMouseState();
+  _runId = 0;
 
   start(el) {
+    if (!isBrowser() || !el) return;
+    if (this.renderer) this.destroy();
+
+    const runId = ++this._runId;
+    this.resetRunState();
 
     this.renderer = new WebGLRenderer({
       alpha: true,
@@ -58,14 +67,13 @@ class _Gl {
     );
 
     this.camera.position.set(0, 0, 2);
-    if (isBrowser()) {
-      import("three/examples/jsm/controls/OrbitControls").then(
-        ({ OrbitControls }) => {
-          this.controls = new OrbitControls(this.camera, document.body);
-          this.controls.enabled = false;
-        },
-      );
-    }
+    import("three/examples/jsm/controls/OrbitControls").then(
+      ({ OrbitControls }) => {
+        if (this._runId !== runId || !this.camera || !this.renderer) return;
+        this.controls = new OrbitControls(this.camera, document.body);
+        this.controls.enabled = false;
+      },
+    );
 
     // Persist bound handlers so add/remove pair to the same function
     // (gsap.ticker.remove was a no-op before because each `.bind(this)` returns a new fn).
@@ -74,7 +82,7 @@ class _Gl {
     this._scrollBound = this.onScroll.bind(this);
     this._resizeBound = this.resize.bind(this);
 
-    this.init();
+    this.init(runId);
     this.resize();
 
     if (Scroll) Scroll.setGlPixelRatio(this.vp.px);
@@ -91,8 +99,22 @@ class _Gl {
     ];
   }
 
-  async init() {
-    this.scene = new Scene();
+  resetRunState() {
+    this.subscribers = [];
+    this.paused = false;
+    this.time = 0;
+    this.mouse = createMouseState();
+    this.controls = null;
+    this.post = null;
+    this.screen = null;
+    this.scene = null;
+    this.evt = undefined;
+  }
+
+  async init(runId) {
+    this.scene = new Scene({
+      isActive: () => this._runId === runId && !!this.renderer,
+    });
 
     this.screen = new ScreenEffect();
     this.post = new Post();
@@ -103,6 +125,7 @@ class _Gl {
   render() {
     if (this.paused) return;
     if (!lerp) return;
+    if (!this.renderer || !this.scene || !this.post) return;
 
     this.time += 0.05;
 
@@ -129,6 +152,8 @@ class _Gl {
       height: window.innerHeight,
     },
   ) {
+    if (!this.vp || !this.renderer || !this.camera) return;
+
     this.vp.w = width;
     this.vp.h = height;
     this.vp.viewSize = this.viewSize;
@@ -144,6 +169,7 @@ class _Gl {
   }
 
   onMouseMove({ clientX, clientY }, speed) {
+    if (!this.vp) return;
     if (Resizer?.isMobile) return;
     this.mouse.x = (clientX / this.vp.w) * 2 - 1;
     this.mouse.y = -(clientY / this.vp.h) * 2 + 1;
@@ -157,14 +183,18 @@ class _Gl {
   }
 
   destroy() {
+    this._runId += 1;
     if (gsap && this._renderBound) gsap.ticker.remove(this._renderBound);
 
     this.evt?.forEach((e) => e());
     this.evt = undefined;
 
-    if (this.vp?.container && this.renderer?.domElement) {
-      this.vp.container.removeChild(this.renderer.domElement);
-      this.renderer.domElement.remove();
+    const canvas = this.renderer?.domElement;
+    if (this.vp?.container && canvas) {
+      if (canvas.parentNode === this.vp.container) {
+        this.vp.container.removeChild(canvas);
+      }
+      canvas.remove();
     }
 
     // Order matters: dispose passes that hold render targets / shaders before
@@ -188,6 +218,8 @@ class _Gl {
     this.screen = null;
     this.scene = null;
     this.renderer = null;
+    this.camera = null;
+    this.vp = null;
     this._renderBound = null;
     this._mouseBound = null;
     this._scrollBound = null;
@@ -211,7 +243,7 @@ class _Gl {
 
   subscribe(cb, priority = 0) {
     const id = Symbol();
-    this.subscribers.push({ cb, id });
+    this.subscribers.push({ cb, id, priority });
     this.subscribers.sort((a, b) => a.priority - b.priority);
 
     return () => this.unsubscribe(id);

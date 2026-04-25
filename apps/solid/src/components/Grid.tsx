@@ -1,8 +1,16 @@
-import { createSignal, For, onCleanup, onMount, Show } from "solid-js";
+import {
+  createSignal,
+  For,
+  onCleanup,
+  onMount,
+  Show,
+} from "solid-js";
 import { isServer } from "solid-js/web";
 
 function getGridValues() {
-  const computed = getComputedStyle(document.documentElement);
+  const computed = getComputedStyle(
+    document.documentElement,
+  );
   const gx = computed.getPropertyValue("--gx");
   const gutter = computed.getPropertyValue("--gutter");
   const columns = computed.getPropertyValue("--columns");
@@ -62,7 +70,7 @@ export default function Grid() {
         style="width: calc(100vw - var(--scrollbar-w, 0px))"
       >
         <For each={Array.from({ length: columns() })}>
-          {() => <div class="grow bg-red-500 opacity-10" />}
+          {() => <div class="bg-red-500 opacity-10 grow" />}
         </For>
       </div>
     </Show>

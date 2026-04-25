@@ -3,9 +3,10 @@
 	--margin: var(--gx);
 	--grid-columns: var(--columns);
 	--grid-gutter: var(--gutter);
+	--grid-viewport-width: calc(100vw - var(--scrollbar-w, 0px));
 	--grid-column-width: calc(
 		(
-			100vw -
+			var(--grid-viewport-width) -
 			2 *
 			var(--margin) -
 			(var(--grid-gutter) * (var(--grid-columns) - 1))
@@ -68,5 +69,11 @@
 		11 +
 		var(--grid-gutter) *
 		10
+	);
+	--spacing-grids-12: calc(
+		var(--grid-column-width) *
+		12 +
+		var(--grid-gutter) *
+		11
 	);
 }
