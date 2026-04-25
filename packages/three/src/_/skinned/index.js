@@ -44,7 +44,6 @@ class Material extends ShaderMaterial {
   }
 
   set time(t) {
-    console.log("hi");
     this.uniforms.u_time.value = t;
   }
 }

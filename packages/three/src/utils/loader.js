@@ -2,7 +2,6 @@ import loadModel from "./model-loader";
 import loadTexture from "./texture-loader";
 
 export async function loadAssets(assets = {}) {
-  console.time("assets::");
   const promises = [];
   const names = [];
 
@@ -41,6 +40,5 @@ export async function loadAssets(assets = {}) {
     return acc;
   }, {});
 
-  console.timeEnd("assets::");
   return result;
 }

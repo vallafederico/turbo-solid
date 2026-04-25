@@ -7,13 +7,17 @@ export type { CanvasDeps, SolidCanvasProps } from "../canvasTypes";
 
 export default function Canvas(props: CanvasProps) {
   const webgl = (el: HTMLDivElement) => {
+    let clearGlContext: (() => void) | undefined;
+
     onMount(() => {
-      setGlContext(props.deps);
+      clearGlContext = setGlContext(props.deps);
       Gl.start(el);
     });
 
     onCleanup(() => {
       Gl.destroy();
+      props.deps.setWebgl?.({ loaded: false });
+      clearGlContext?.();
     });
   };
 

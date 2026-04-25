@@ -24,11 +24,14 @@ export default function Canvas({ deps, className }: ReactCanvasProps) {
     const el = ref.current;
     if (!el) return;
 
-    setGlContext(depsRef.current);
+    const deps = depsRef.current;
+    const clearGlContext = setGlContext(deps);
     Gl.start(el);
 
     return () => {
       Gl.destroy();
+      deps.setWebgl?.({ loaded: false });
+      clearGlContext();
     };
   }, []);
 

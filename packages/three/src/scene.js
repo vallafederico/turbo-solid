@@ -14,9 +14,7 @@ export class Scene extends S {
   }
 
   async load() {
-    console.time("webgl:load");
     const loadedAssets = await loadAssets(assets);
-    console.timeEnd("webgl:load");
 
     if (this.disposed || !this.isActive()) {
       disposeAssets(loadedAssets);
