@@ -1,9 +1,11 @@
 # Stuffs
 
+the fuck did I do
+
 CHECK ROBOTS TXT
 
-
 ## Web
+
 - [ ] Add examples to frontend
   - [ ] CMS Dynamic pages /article/(slug)
   - [ ] CMS SEO on all pages
@@ -12,11 +14,12 @@ CHECK ROBOTS TXT
   - [ ] /content needs tabs like animation and components
 - [ ] Accordions with summary and details
 
-
 ### Lenis/Scroll
+
 - [ ] Add resize subscriber for lenis so we can tie it to webgl
 
 ### Components
+
 - [x] rework slider with smooothy
 
 ---
@@ -58,6 +61,5 @@ CHECK ROBOTS TXT
 - [ ] sanity/web sync
 
 ---
-
 
 -
