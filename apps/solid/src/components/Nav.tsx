@@ -14,6 +14,10 @@ const NAV_LINKS = [
     text: "Animation",
   },
   {
+    to: "/_/pages",
+    text: "Pages",
+  },
+  {
     to: "/_/components",
     text: "Components",
   },

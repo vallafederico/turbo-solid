@@ -1,5 +1,5 @@
 import { onCleanup, onMount, createMemo } from "solid-js";
-import { useController, useBranch } from "./context";
+import { useController, useBranch, useBranchRegistration } from "./context";
 import type {
   TransitionContextValue,
   TransitionDirection,
@@ -58,9 +58,9 @@ export function onLeave(fn: TransitionRunner): void {
  * (e.g. page-scoped item tweens). Auto-cleaned on unmount.
  */
 export function beforeLeave(fn: () => void | Promise<void>): void {
-  const controller = useController();
-  const unregister = controller.registerBeforeLeave(fn);
-  onCleanup(unregister);
+  const reg = useBranchRegistration();
+  if (!reg) return;
+  onCleanup(reg.registerBeforeLeave(fn));
 }
 
 /** Reactive navigation direction — drive directional/slide transitions. */

@@ -27,6 +27,9 @@ import { scroll } from "~/lib/utils/scroll";
 const SCROLL_OFFSET = -48;
 const FADE_DURATION = 0.4;
 
+/** Pages demo uses overlap cross-fade — skip global sequential fade there. */
+const isPagesDemo = (path: string) => /\/pages(\/|$)/.test(path);
+
 const resetScroll = (ctx: TransitionContextValue) => {
   const hash = ctx.path.includes("#") ? `#${ctx.path.split("#")[1]}` : null;
   if (hash) {
@@ -41,7 +44,7 @@ export default function App() {
 
   return (
     <Router
-      transition={{ timeoutMs: 1200 }}
+      transition={{ timeoutMs: 8000 }}
       root={(props) => (
         <MetaProvider>
           <Link
@@ -82,18 +85,26 @@ export default function App() {
 const GlobalLayout = ({ children }: { children: unknown }) => {
   useLayoutTransition({
     onEnter: (ctx) => resetScroll(ctx),
-    leave: (_ctx, el) =>
-      new Promise((resolve) => {
+    leave: (ctx, el) => {
+      if (isPagesDemo(ctx.path)) return;
+      return new Promise((resolve) => {
         gsap.to(el, { opacity: 0, duration: FADE_DURATION, onComplete: resolve });
-      }),
-    enter: (_ctx, el) =>
-      new Promise((resolve) => {
+      });
+    },
+    enter: (ctx, el) => {
+      if (isPagesDemo(ctx.path)) {
+        gsap.set(el, { opacity: 1 });
+        return;
+      }
+      gsap.set(el, { opacity: 0 });
+      return new Promise((resolve) => {
         gsap.fromTo(
           el,
           { opacity: 0 },
           { opacity: 1, duration: FADE_DURATION, onComplete: resolve },
         );
-      }),
+      });
+    },
   });
 
   return <main use:scroll>{children}</main>;

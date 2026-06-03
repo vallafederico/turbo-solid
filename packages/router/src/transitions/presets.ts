@@ -1,4 +1,6 @@
+import { onCleanup, onMount } from "solid-js";
 import { onEnter, onLeave, useTransitionDirection } from "./hooks";
+import { useController } from "./context";
 import type { TransitionRunner } from "../types";
 
 /**
@@ -17,6 +19,11 @@ const animate = (el: HTMLElement, keyframes: Keyframe[], ms: number) =>
  * than being a fade-out-then-fade-in like the current hacky approach.
  */
 export function useCrossFade(ms = 400): void {
+  const controller = useController();
+
+  onMount(() => controller.setOverlap(true));
+  onCleanup(() => controller.setOverlap(false));
+
   const leave: TransitionRunner = (_ctx, el) =>
     animate(el, [{ opacity: 1 }, { opacity: 0 }], ms);
   const enter: TransitionRunner = (_ctx, el) =>
@@ -31,7 +38,11 @@ export function useCrossFade(ms = 400): void {
  * controller so back/forward feel native.
  */
 export function useDirectionalSlide(distance = 48, ms = 450): void {
+  const controller = useController();
   const direction = useTransitionDirection();
+
+  onMount(() => controller.setOverlap(true));
+  onCleanup(() => controller.setOverlap(false));
 
   const leave: TransitionRunner = (_ctx, el) => {
     const dir = direction();

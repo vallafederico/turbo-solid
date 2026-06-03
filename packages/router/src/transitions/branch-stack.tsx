@@ -3,7 +3,6 @@ import {
   createEffect,
   createRoot,
   onCleanup,
-  onMount,
   untrack,
   getOwner,
   For,
@@ -12,22 +11,12 @@ import {
   type Owner,
 } from "solid-js";
 import { isServer } from "solid-js/web";
-import { BranchContext } from "./context";
+import {
+  BranchProviders,
+  createBeforeLeaveRegistration,
+} from "./branch-providers";
 import type { TransitionController } from "./controller";
-import type { TransitionContextValue } from "../types";
-
-interface MountedBranch {
-  key: string;
-  ctx: Accessor<TransitionContextValue>;
-  setCtx: (c: TransitionContextValue) => void;
-  attach: (el: HTMLElement) => void;
-  setAttach: (fn: (el: HTMLElement) => void) => void;
-  element: HTMLElement | null;
-  nodes: JSX.Element;
-  dispose: () => void;
-  retiring: Accessor<boolean>;
-  setRetiring: (v: boolean) => void;
-}
+import type { TransitionContextValue, OutgoingLayer } from "../types";
 
 export interface BranchStackProps {
   controller: TransitionController;
@@ -37,91 +26,107 @@ export interface BranchStackProps {
   hideIncomingUntilEnter: boolean;
 }
 
-function triggerAttach(branch: MountedBranch) {
-  if (branch.element) {
-    queueMicrotask(() => branch.attach(branch.element!));
+function triggerAttach(layer: {
+  element: HTMLElement | null;
+  attach: (el: HTMLElement) => void;
+}) {
+  if (layer.element) {
+    queueMicrotask(() => layer.attach(layer.element!));
   }
 }
 
+function mountIncoming(
+  props: BranchStackProps,
+  branchKey: string,
+  live: ReturnType<typeof createBeforeLeaveRegistration>,
+  setLiveCtx: (ctx: TransitionContextValue) => void,
+  setLiveAttach: (fn: (el: HTMLElement) => void) => void,
+  liveElement: HTMLElement | null,
+) {
+  const { ctx, attachElement } = props.controller.createContext(
+    "incoming",
+    branchKey,
+    live.hooks,
+  );
+  setLiveCtx(ctx);
+  setLiveAttach(() => attachElement);
+  triggerAttach({ element: liveElement, attach: attachElement });
+}
+
 /**
- * SSR/hydration: passthrough live route output.
- * After mount: bootstrap a branch so the first navigation can leave the current page.
- * Navigations: dual-mount outgoing + incoming with sequential out → in runners.
+ * Live route under branch providers (hooks always work). Sequential navigations
+ * leave via NavigationGate on this DOM, then swap content in place. Overlap
+ * presets snapshot the outgoing page before navigate and stack it underneath.
  */
 export function BranchStack(props: BranchStackProps): JSX.Element {
-  const [branches, setBranches] = createSignal<MountedBranch[]>([]);
   const parentOwner = getOwner();
 
-  const makeBranch = (
-    key: string,
-    role: "outgoing" | "incoming",
-  ): MountedBranch => {
-    const { ctx: initialCtx, attachElement } = props.controller.createContext(
-      role,
-      key,
-    );
+  const live = createBeforeLeaveRegistration();
+  const [outgoing, setOutgoing] = createSignal<OutgoingLayer[]>([]);
 
-    const [ctx, setCtx] = createSignal(initialCtx);
-    const [attach, setAttach] = createSignal(attachElement);
-    const [retiring, setRetiring] = createSignal(role === "outgoing");
+  const { ctx: initialCtx, attachElement: initialAttach } =
+    props.controller.createContext("incoming", props.branchKey(), live.hooks);
 
-    let dispose!: () => void;
-    let nodes!: JSX.Element;
-    createRoot((d) => {
-      dispose = d;
-      nodes = untrack(() => props.children()) as JSX.Element;
-    }, parentOwner as Owner);
+  const [liveCtx, setLiveCtx] = createSignal(initialCtx);
+  const [liveAttach, setLiveAttach] = createSignal(initialAttach);
+  let liveElement: HTMLElement | null = null;
 
-    const branch: MountedBranch = {
-      key,
-      ctx,
-      setCtx,
-      attach: (el) => attach()(el),
-      setAttach: (fn) => setAttach(() => fn),
-      element: null,
-      nodes,
-      dispose,
-      retiring,
-      setRetiring,
-    };
-
-    return branch;
-  };
-
-  const reclassifyAsOutgoing = (b: MountedBranch) => {
-    const { ctx, attachElement } = props.controller.createContext(
-      "outgoing",
-      b.key,
-    );
-    b.setCtx(ctx);
-    b.setAttach(attachElement);
-    b.setRetiring(true);
-    triggerAttach(b);
-    ctx.done.then(() => {
-      b.dispose();
-      setBranches((list) => {
-        const next = list.filter((x) => x !== b);
-        if (next.every((x) => x.retiring())) props.controller.end();
-        return next;
-      });
+  const syncLiveBranch = () => {
+    if (!liveElement) {
+      props.controller.setLiveBranch(null);
+      return;
+    }
+    props.controller.setLiveBranch({
+      element: liveElement,
+      ctx: liveCtx(),
+      pageBeforeLeave: live.hooks,
     });
   };
 
-  const swapInPlace = (key: string) => {
-    const live = branches().find((b) => !b.retiring());
-    if (live) live.dispose();
-    const incoming = makeBranch(key, "incoming");
-    setBranches([incoming]);
-    triggerAttach(incoming);
+  const snapshotOutgoing = (key: string): OutgoingLayer => {
+    const snap = createBeforeLeaveRegistration();
+    for (const fn of live.hooks) snap.hooks.add(fn);
+
+    const { ctx, attachElement } = props.controller.createContext(
+      "outgoing",
+      key,
+      snap.hooks,
+    );
+
+    let dispose!: () => void;
+    let nodes!: JSX.Element;
+
+    createRoot((d) => {
+      dispose = d;
+      nodes = (
+        <BranchProviders ctx={() => ctx} registration={snap.registration}>
+          {untrack(props.children) as JSX.Element}
+        </BranchProviders>
+      );
+    }, parentOwner as Owner);
+
+    const layer: OutgoingLayer = {
+      key,
+      nodes,
+      pageBeforeLeave: snap.hooks,
+      ctx,
+      attach: attachElement,
+      element: null,
+      dispose,
+    };
+
+    ctx.done.then(() => {
+      layer.dispose();
+      setOutgoing((list) => list.filter((x) => x !== layer));
+    });
+
+    return layer;
   };
 
-  // After hydration, capture the current page in a branch (no transition).
-  onMount(() => {
-    if (branches().length === 0) {
-      const boot = makeBranch(props.branchKey(), "incoming");
-      setBranches([boot]);
-    }
-  });
+  props.controller.setSnapshotOutgoing((key) =>
+    snapshotOutgoing(key as string),
+  );
+  onCleanup(() => props.controller.setSnapshotOutgoing(null));
 
   createEffect((prev: { branchKey: string; locationKey: string } | undefined) => {
     if (isServer) return prev;
@@ -135,70 +140,118 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
 
     if (locationKey === prev.locationKey) return prev;
 
+    // Same leaf, new query — refresh enter on live content.
     if (branchKey === prev.branchKey) {
-      if (branches().length > 0) {
-        untrack(() => swapInPlace(branchKey));
-      }
+      untrack(() =>
+        mountIncoming(
+          props,
+          branchKey,
+          live,
+          setLiveCtx,
+          setLiveAttach,
+          liveElement,
+        ),
+      );
       return { branchKey, locationKey };
     }
 
-    const cause = props.controller.consumeCause();
-    props.controller.begin(cause, false);
+    // Sequential push: gate already animated the live page out.
+    if (props.controller.consumeLeaveGateCompleted()) {
+      untrack(() =>
+        mountIncoming(
+          props,
+          branchKey,
+          live,
+          setLiveCtx,
+          setLiveAttach,
+          liveElement,
+        ),
+      );
+      return { branchKey, locationKey };
+    }
 
-    untrack(() => {
-      const live = branches().filter((b) => !b.retiring());
+    // Overlap push: gate snapshotted the outgoing page before navigate.
+    const pending = props.controller.consumePendingOutgoing() as
+      | OutgoingLayer
+      | null;
+    if (pending) {
+      untrack(() => {
+        setOutgoing((list) => [...list, pending]);
+        triggerAttach(pending);
+        mountIncoming(
+          props,
+          branchKey,
+          live,
+          setLiveCtx,
+          setLiveAttach,
+          liveElement,
+        );
+      });
+      return { branchKey, locationKey };
+    }
 
-      for (const b of live) {
-        reclassifyAsOutgoing(b);
-      }
-
-      const incoming = makeBranch(branchKey, "incoming");
-      setBranches([...branches(), incoming]);
-      triggerAttach(incoming);
-    });
+    // Back/forward — update live route; leave animations are best-effort.
+    untrack(() =>
+      mountIncoming(
+        props,
+        branchKey,
+        live,
+        setLiveCtx,
+        setLiveAttach,
+        liveElement,
+      ),
+    );
 
     return { branchKey, locationKey };
   });
 
   onCleanup(() => {
-    for (const b of branches()) b.dispose();
+    for (const layer of outgoing()) layer.dispose();
+    props.controller.setLiveBranch(null);
   });
-
-  const stackActive = () => !isServer && branches().length > 0;
-
-  if (!stackActive()) {
-    return props.children();
-  }
 
   return (
     <div data-router-stack style={{ display: "grid" }}>
-      <For each={branches()}>
-        {(branch) => (
-          <BranchContext.Provider value={branch.ctx()}>
-            <div
-              data-router-branch={branch.ctx().role}
-              aria-hidden={branch.retiring() ? "true" : undefined}
-              style={{
-                "grid-area": "1 / 1",
-                "pointer-events": branch.retiring() ? "none" : undefined,
-                visibility:
-                  props.hideIncomingUntilEnter &&
-                  !branch.retiring() &&
-                  props.controller.isActive() &&
-                  branch.ctx().phase() === "entering"
-                    ? "hidden"
-                    : undefined,
-              }}
-              ref={(el: HTMLElement) => {
-                branch.element = el;
-                triggerAttach(branch);
-              }}
-            >
-              {branch.nodes}
-            </div>
-          </BranchContext.Provider>
+      <For each={outgoing()}>
+        {(layer) => (
+          <div
+            data-router-branch="outgoing"
+            aria-hidden="true"
+            style={{
+              "grid-area": "1 / 1",
+              "pointer-events": "none",
+            }}
+            ref={(el: HTMLElement) => {
+              layer.element = el;
+              triggerAttach(layer);
+            }}
+          >
+            {layer.nodes}
+          </div>
         )}
       </For>
+
+      <BranchProviders ctx={liveCtx} registration={live.registration}>
+        <div
+          data-router-branch="live"
+          style={{
+            "grid-area": "1 / 1",
+            visibility:
+              props.hideIncomingUntilEnter &&
+              props.controller.isActive() &&
+              liveCtx().phase() === "entering"
+                ? "hidden"
+                : undefined,
+          }}
+          ref={(el: HTMLElement) => {
+            liveElement = el;
+            syncLiveBranch();
+            triggerAttach({ element: el, attach: liveAttach() });
+          }}
+        >
+          {props.children()}
+        </div>
+      </BranchProviders>
     </div>
   );
 }

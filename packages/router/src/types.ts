@@ -60,3 +60,14 @@ export interface RouteBranch {
   /** Per-branch transition context. */
   ctx: TransitionContextValue;
 }
+
+/** Frozen outgoing page layer used for overlap cross-fades. */
+export interface OutgoingLayer {
+  key: string;
+  nodes: JSX.Element;
+  pageBeforeLeave: Set<() => void | Promise<void>>;
+  ctx: TransitionContextValue;
+  attach: (el: HTMLElement) => void;
+  element: HTMLElement | null;
+  dispose: () => void;
+}

@@ -14,7 +14,7 @@ export default function About() {
     <div class="pt-navh min-h-[100vh]">
       <Title>About</Title>
 
-      <Section class="px-gx py-20">
+      <Section class="py-20 px-gx">
         <h1>About</h1>
       </Section>
 

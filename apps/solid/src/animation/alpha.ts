@@ -12,6 +12,7 @@ declare module "solid-js" {
 
 export const animateAlpha = (self: HTMLElement) => {
   let viewAnimation: GSAPAnimation;
+  let pageLeaving = false;
 
   gsap.set(self, {
     autoAlpha: 0,
@@ -19,6 +20,7 @@ export const animateAlpha = (self: HTMLElement) => {
 
   onIntersect(self, {
     onEnter: () => {
+      if (pageLeaving) return;
       viewAnimation = gsap.to(self, {
         autoAlpha: 1,
         duration: A.page.in.duration * 0.6,
@@ -27,16 +29,22 @@ export const animateAlpha = (self: HTMLElement) => {
       });
     },
     onLeave: () => {
+      if (pageLeaving) return;
       if (viewAnimation) viewAnimation.kill();
       gsap.set(self, { autoAlpha: 0 });
     },
   });
 
-  onPageLeave(self, async () => {
-    await gsap.to(self, {
-      autoAlpha: 0,
-      duration: A.page.out.duration,
-      ease: A.page.out.ease,
-    });
-  });
+  onPageLeave(self, () =>
+    new Promise<void>((resolve) => {
+      pageLeaving = true;
+      if (viewAnimation) viewAnimation.kill();
+      gsap.to(self, {
+        autoAlpha: 0,
+        duration: A.page.out.duration,
+        ease: A.page.out.ease,
+        onComplete: resolve,
+      });
+    }),
+  );
 };

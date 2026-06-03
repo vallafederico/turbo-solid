@@ -4,15 +4,13 @@ import { createEffect } from "solid-js";
 
 type Callback =
   | ((duration?: number) => void)
-  | (() => Promise<gsap.core.Omit<gsap.core.Tween, "then">>);
+  | (() => void | Promise<void>);
 
 export function onPageLeave(element?: HTMLElement, fn?: Callback) {
   if (!element || !fn) return;
 
-  const vo = createVisibilityObserver({ threshold: 0 });
-  const visible = vo(element);
-
-  beforeLeave(() => (visible() ? fn() : Promise.resolve()));
+  // Always run on route leave — visibility is only for scroll-driven onIntersect.
+  beforeLeave(() => Promise.resolve(fn()));
 }
 
 export function onIntersect(

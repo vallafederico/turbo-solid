@@ -13,6 +13,7 @@ import {
 import { TransitionController } from "./transitions/controller";
 import { ControllerContext } from "./transitions/context";
 import { BranchStack } from "./transitions/branch-stack";
+import { NavigationGate } from "./transitions/navigation-gate";
 import type { TransitionConfig } from "./types";
 
 export interface RouterProps {
@@ -75,6 +76,7 @@ export function Router(props: RouterProps): JSX.Element {
 
     return (
       <ControllerContext.Provider value={controller}>
+        <NavigationGate />
         <UserRoot>
           <BranchStack
             controller={controller}

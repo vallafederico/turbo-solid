@@ -25,3 +25,14 @@ export const BranchContext = createContext<TransitionContextValue>();
 export function useBranch(): TransitionContextValue | undefined {
   return useContext(BranchContext);
 }
+
+/** Per-branch page leave hooks (`beforeLeave` / `onPageLeave`). */
+export const BranchRegistrationContext = createContext<{
+  registerBeforeLeave: (fn: () => void | Promise<void>) => () => void;
+}>();
+
+export function useBranchRegistration():
+  | { registerBeforeLeave: (fn: () => void | Promise<void>) => () => void }
+  | undefined {
+  return useContext(BranchRegistrationContext);
+}
