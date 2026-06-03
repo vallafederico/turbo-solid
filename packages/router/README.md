@@ -141,7 +141,11 @@ function Project() {
 
 ### Skipping a transition
 
-Navigate to a URL that resolves to the **same matched leaf** (filter/sort/variant query changes). Same-leaf navigations swap in place with no transition and **without resetting scroll** or re-running mount hooks.
+Any navigation that keeps the **same matched route leaf** and only changes **query params** (filters, sort, variant options, pagination) swaps content in place — no leave/enter animation, no scroll reset, no mount hooks.
+
+`NavigationGate` detects these via pathname comparison against the current branch key; `BranchStack` refreshes the live route; the controller skips all runners (including custom overlap presets) because no transition was started.
+
+Pathname changes (e.g. a different product handle) still run the full transition.
 
 ### Known limitations (read before adopting)
 

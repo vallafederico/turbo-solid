@@ -273,6 +273,17 @@ export class TransitionController {
     let leaveStarted = false;
 
     const runTasks = async (el: HTMLElement) => {
+      // Query-only / same-leaf swaps never call begin() — skip all runners.
+      if (!this._active[0]) {
+        if (role === "incoming") {
+          this.resetBranchElement(el);
+          el.style.opacity = "1";
+        }
+        phase[1]("idle");
+        resolveDone();
+        return;
+      }
+
       const custom = this.hasCustomTransition();
 
       if (role === "outgoing" && pageBeforeLeave?.size && !custom) {

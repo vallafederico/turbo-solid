@@ -14,6 +14,7 @@ import { TransitionController } from "./transitions/controller";
 import { ControllerContext } from "./transitions/context";
 import { BranchStack } from "./transitions/branch-stack";
 import { NavigationGate } from "./transitions/navigation-gate";
+import { getBranchKey } from "./transitions/same-leaf";
 import type { TransitionConfig } from "./types";
 
 export interface RouterProps {
@@ -60,11 +61,9 @@ export function Router(props: RouterProps): JSX.Element {
 
     onCleanup(() => controller.dispose());
 
-    const branchKey = createMemo(() => {
-      const m = matches();
-      const leaf = m[m.length - 1];
-      return leaf ? leaf.path : location.pathname;
-    });
+    const branchKey = createMemo(() =>
+      getBranchKey(matches(), location.pathname),
+    );
 
     const locationKey = createMemo(
       () => branchKey() + (location.search || ""),

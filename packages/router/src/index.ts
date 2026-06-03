@@ -43,6 +43,12 @@ export {
   useCoverSlideUp,
 } from "./transitions/presets";
 
+export {
+  getBranchKey,
+  destinationPathname,
+  isSameLeafNavigation,
+} from "./transitions/same-leaf";
+
 export type {
   TransitionConfig,
   TransitionContextValue,
