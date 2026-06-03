@@ -5,6 +5,7 @@ import {
   useLayoutTransition,
   type TransitionContextValue,
 } from "@acme/router";
+import { clientOnly } from "@solidjs/start";
 import { FileRoutes } from "@solidjs/start/router";
 
 import { Suspense, type JSX } from "solid-js";
@@ -13,7 +14,6 @@ import { useViewport } from "~/lib/hooks/useViewport";
 import { Nav } from "~/components/Nav";
 import Grid from "~/components/Grid";
 
-import { Canvas } from "@local/three/solid";
 import gsap from "~/lib/gsap";
 import { Gui } from "~/lib/utils/gui";
 import { lerp } from "~/lib/utils/math";
@@ -23,6 +23,10 @@ import { setWebgl } from "~/lib/stores/webglStore";
 import { clientRectGl } from "~/lib/utils/clientRect";
 import { assets } from "~/assets";
 import { scroll } from "~/lib/utils/scroll";
+
+const ClientCanvas = clientOnly(() =>
+  import("@local/three/solid").then((m) => ({ default: m.Canvas })),
+);
 
 const FADE_DURATION = 0.4;
 
@@ -50,7 +54,7 @@ export default function App() {
             <GlobalLayout>{props.children}</GlobalLayout>
           </Suspense>
 
-          <Canvas
+          <ClientCanvas
             deps={{
               gsap,
               Gui,

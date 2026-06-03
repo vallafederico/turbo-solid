@@ -35,16 +35,18 @@ export const animateAlpha = (self: HTMLElement) => {
     },
   });
 
-  onPageLeave(self, () =>
-    new Promise<void>((resolve) => {
-      pageLeaving = true;
-      if (viewAnimation) viewAnimation.kill();
-      gsap.to(self, {
-        autoAlpha: 0,
-        duration: A.page.out.duration,
-        ease: A.page.out.ease,
-        onComplete: resolve,
-      });
-    }),
+  onPageLeave(
+    self,
+    () =>
+      new Promise<void>((resolve) => {
+        pageLeaving = true;
+        if (viewAnimation) viewAnimation.kill();
+        gsap.to(self, {
+          autoAlpha: 0,
+          duration: A.page.out.duration,
+          ease: A.page.out.ease,
+          onComplete: resolve,
+        });
+      }),
   );
 };
