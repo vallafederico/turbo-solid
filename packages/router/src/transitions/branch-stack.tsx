@@ -3,6 +3,7 @@ import {
   createEffect,
   createRoot,
   onCleanup,
+  onMount,
   untrack,
   getOwner,
   For,
@@ -21,6 +22,7 @@ interface MountedBranch {
   setCtx: (c: TransitionContextValue) => void;
   attach: (el: HTMLElement) => void;
   setAttach: (fn: (el: HTMLElement) => void) => void;
+  element: HTMLElement | null;
   nodes: JSX.Element;
   dispose: () => void;
   retiring: Accessor<boolean>;
@@ -35,9 +37,16 @@ export interface BranchStackProps {
   hideIncomingUntilEnter: boolean;
 }
 
+function triggerAttach(branch: MountedBranch) {
+  if (branch.element) {
+    queueMicrotask(() => branch.attach(branch.element!));
+  }
+}
+
 /**
- * Passthrough renders live route output (SSR, hydration, and idle client).
- * Dual-mount activates only once a navigation occurs and branches exist.
+ * SSR/hydration: passthrough live route output.
+ * After mount: bootstrap a branch so the first navigation can leave the current page.
+ * Navigations: dual-mount outgoing + incoming with sequential out → in runners.
  */
 export function BranchStack(props: BranchStackProps): JSX.Element {
   const [branches, setBranches] = createSignal<MountedBranch[]>([]);
@@ -63,24 +72,56 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
       nodes = untrack(() => props.children()) as JSX.Element;
     }, parentOwner as Owner);
 
-    return {
+    const branch: MountedBranch = {
       key,
       ctx,
       setCtx,
       attach: (el) => attach()(el),
       setAttach: (fn) => setAttach(() => fn),
+      element: null,
       nodes,
       dispose,
       retiring,
       setRetiring,
     };
+
+    return branch;
+  };
+
+  const reclassifyAsOutgoing = (b: MountedBranch) => {
+    const { ctx, attachElement } = props.controller.createContext(
+      "outgoing",
+      b.key,
+    );
+    b.setCtx(ctx);
+    b.setAttach(attachElement);
+    b.setRetiring(true);
+    triggerAttach(b);
+    ctx.done.then(() => {
+      b.dispose();
+      setBranches((list) => {
+        const next = list.filter((x) => x !== b);
+        if (next.every((x) => x.retiring())) props.controller.end();
+        return next;
+      });
+    });
   };
 
   const swapInPlace = (key: string) => {
     const live = branches().find((b) => !b.retiring());
     if (live) live.dispose();
-    setBranches([makeBranch(key, "incoming")]);
+    const incoming = makeBranch(key, "incoming");
+    setBranches([incoming]);
+    triggerAttach(incoming);
   };
+
+  // After hydration, capture the current page in a branch (no transition).
+  onMount(() => {
+    if (branches().length === 0) {
+      const boot = makeBranch(props.branchKey(), "incoming");
+      setBranches([boot]);
+    }
+  });
 
   createEffect((prev: { branchKey: string; locationKey: string } | undefined) => {
     if (isServer) return prev;
@@ -102,38 +143,18 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
     }
 
     const cause = props.controller.consumeCause();
-    props.controller.begin(cause, /* replace */ false);
+    props.controller.begin(cause, false);
 
     untrack(() => {
-      const live = branches();
-
-      // First SPA navigation after passthrough — no outgoing capture yet.
-      if (live.length === 0) {
-        setBranches([makeBranch(branchKey, "incoming")]);
-        return;
-      }
+      const live = branches().filter((b) => !b.retiring());
 
       for (const b of live) {
-        if (b.retiring()) continue;
-        const { ctx, attachElement } = props.controller.createContext(
-          "outgoing",
-          b.key,
-        );
-        b.setCtx(ctx);
-        b.setAttach(attachElement);
-        b.setRetiring(true);
-        ctx.done.then(() => {
-          b.dispose();
-          setBranches((list) => {
-            const next = list.filter((x) => x !== b);
-            if (next.every((x) => !x.retiring())) props.controller.end();
-            return next;
-          });
-        });
+        reclassifyAsOutgoing(b);
       }
 
       const incoming = makeBranch(branchKey, "incoming");
       setBranches([...branches(), incoming]);
+      triggerAttach(incoming);
     });
 
     return { branchKey, locationKey };
@@ -152,31 +173,32 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
   return (
     <div data-router-stack style={{ display: "grid" }}>
       <For each={branches()}>
-          {(branch) => (
-            <BranchContext.Provider value={branch.ctx()}>
-              <div
-                data-router-branch={branch.ctx().role}
-                aria-hidden={branch.retiring() ? "true" : undefined}
-                style={{
-                  "grid-area": "1 / 1",
-                  "pointer-events": branch.retiring() ? "none" : undefined,
-                  visibility:
-                    props.hideIncomingUntilEnter &&
-                    !branch.retiring() &&
-                    props.controller.isActive() &&
-                    branch.ctx().phase() === "entering"
-                      ? "hidden"
-                      : undefined,
-                }}
-                ref={(el: HTMLElement) => {
-                  queueMicrotask(() => branch.attach(el));
-                }}
-              >
-                {branch.nodes}
-              </div>
-            </BranchContext.Provider>
-          )}
-        </For>
+        {(branch) => (
+          <BranchContext.Provider value={branch.ctx()}>
+            <div
+              data-router-branch={branch.ctx().role}
+              aria-hidden={branch.retiring() ? "true" : undefined}
+              style={{
+                "grid-area": "1 / 1",
+                "pointer-events": branch.retiring() ? "none" : undefined,
+                visibility:
+                  props.hideIncomingUntilEnter &&
+                  !branch.retiring() &&
+                  props.controller.isActive() &&
+                  branch.ctx().phase() === "entering"
+                    ? "hidden"
+                    : undefined,
+              }}
+              ref={(el: HTMLElement) => {
+                branch.element = el;
+                triggerAttach(branch);
+              }}
+            >
+              {branch.nodes}
+            </div>
+          </BranchContext.Provider>
+        )}
+      </For>
     </div>
   );
 }

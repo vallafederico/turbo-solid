@@ -1,8 +1,11 @@
 import "./app.css";
 import { Link, MetaProvider, Title } from "@solidjs/meta";
-import { Router } from "@acme/router";
+import {
+  Router,
+  useLayoutTransition,
+  type TransitionContextValue,
+} from "@acme/router";
 import { FileRoutes } from "@solidjs/start/router";
-// import { VisualEditing } from "@local/sanity";
 
 import { Suspense } from "solid-js";
 import { useViewport } from "~/lib/hooks/useViewport";
@@ -21,7 +24,17 @@ import { clientRectGl } from "~/lib/utils/clientRect";
 import { assets } from "~/assets";
 import { scroll } from "~/lib/utils/scroll";
 
-import { usePageTransition } from "./animation";
+const SCROLL_OFFSET = -48;
+const FADE_DURATION = 0.4;
+
+const resetScroll = (ctx: TransitionContextValue) => {
+  const hash = ctx.path.includes("#") ? `#${ctx.path.split("#")[1]}` : null;
+  if (hash) {
+    Scroll.lenis?.scrollTo(hash, { offset: SCROLL_OFFSET });
+    return;
+  }
+  Scroll.lenis?.scrollTo(0, { immediate: true });
+};
 
 export default function App() {
   useViewport();
@@ -31,7 +44,6 @@ export default function App() {
       transition={{ timeoutMs: 1200 }}
       root={(props) => (
         <MetaProvider>
-          {/* <PageTransition> */}
           <Link
             rel="robots"
             type="text/plain"
@@ -57,7 +69,6 @@ export default function App() {
               clientRectGl,
             }}
           />
-          {/* </PageTransition> */}
         </MetaProvider>
       )}
     >
@@ -68,15 +79,22 @@ export default function App() {
   );
 }
 
-// ////////////////
-
-const GlobalLayout = ({
-  children,
-  ...props
-}: {
-  children: any;
-}) => {
-  usePageTransition();
+const GlobalLayout = ({ children }: { children: unknown }) => {
+  useLayoutTransition({
+    onEnter: (ctx) => resetScroll(ctx),
+    leave: (_ctx, el) =>
+      new Promise((resolve) => {
+        gsap.to(el, { opacity: 0, duration: FADE_DURATION, onComplete: resolve });
+      }),
+    enter: (_ctx, el) =>
+      new Promise((resolve) => {
+        gsap.fromTo(
+          el,
+          { opacity: 0 },
+          { opacity: 1, duration: FADE_DURATION, onComplete: resolve },
+        );
+      }),
+  });
 
   return <main use:scroll>{children}</main>;
 };

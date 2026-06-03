@@ -1,6 +1,6 @@
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
-import { createEffect, onCleanup } from "solid-js";
-import { registerPageLeave } from "./page-transition";
+import { beforeLeave } from "@acme/router";
+import { createEffect } from "solid-js";
 
 type Callback =
   | ((duration?: number) => void)
@@ -12,10 +12,7 @@ export function onPageLeave(element?: HTMLElement, fn?: Callback) {
   const vo = createVisibilityObserver({ threshold: 0 });
   const visible = vo(element);
 
-  const wrappedFn = () => (visible() ? fn() : Promise.resolve());
-
-  const unregister = registerPageLeave(wrappedFn);
-  onCleanup(unregister);
+  beforeLeave(() => (visible() ? fn() : Promise.resolve()));
 }
 
 export function onIntersect(

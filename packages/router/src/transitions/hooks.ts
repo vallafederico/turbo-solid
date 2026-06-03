@@ -53,6 +53,16 @@ export function onLeave(fn: TransitionRunner): void {
   onCleanup(unregister);
 }
 
+/**
+ * Register a callback that runs before branch leave animations on navigation
+ * (e.g. page-scoped item tweens). Auto-cleaned on unmount.
+ */
+export function beforeLeave(fn: () => void | Promise<void>): void {
+  const controller = useController();
+  const unregister = controller.registerBeforeLeave(fn);
+  onCleanup(unregister);
+}
+
 /** Reactive navigation direction — drive directional/slide transitions. */
 export function useTransitionDirection(): () => TransitionDirection {
   return useController().direction;

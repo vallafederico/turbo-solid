@@ -27,9 +27,13 @@ export {
   useRouteTransition,
   onEnter,
   onLeave,
+  beforeLeave,
   useTransitionDirection,
   useSharedElement,
 } from "./transitions/hooks";
+
+export { useLayoutTransition } from "./transitions/layout-transition";
+export type { LayoutTransitionOptions } from "./transitions/layout-transition";
 
 export { useController } from "./transitions/context";
 

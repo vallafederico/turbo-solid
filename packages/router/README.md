@@ -139,8 +139,9 @@ For filter/sort/variant changes where you want an instant in-place swap, navigat
 
 | Old | New |
 | --- | --- |
-| `setOutTransition(fn)` + manual `onCleanup` | `onLeave(fn)` (auto-scoped) |
-| `gsap.to(["main","footer"], …)` by hand | `onEnter` / `onLeave` runner per page, or a preset |
+| `setOutTransition(fn)` + manual `onCleanup` | `beforeLeave(fn)` (auto-scoped, runs before branch leave) |
+| `usePageTransition()` in layout | `useLayoutTransition({ leave, enter, onEnter })` |
+| `gsap.to(["main","footer"], …)` by hand | `leave` / `enter` runners in `useLayoutTransition`, or per-page `onEnter` / `onLeave` |
 | `useIsRouting()` rAF polling (`whenRoutingSettled`) | the router awaits your returned promise |
 | `skipNextTransition` / `skipTransitionClick` | navigate to the same matched leaf |
 | `popstate` listener for scroll reset | `useTransitionDirection()` + your scroll lib |

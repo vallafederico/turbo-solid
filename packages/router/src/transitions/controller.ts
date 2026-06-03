@@ -6,22 +6,8 @@ import type {
   TransitionRunner,
 } from "../types";
 
-/**
- * Tracks browser history position so we can label a navigation
- * forward / backward. `history.state` is owned by @solidjs/router, so we keep
- * our own monotonic counter in a parallel field that survives reloads via
- * sessionStorage (best-effort; falls back to in-memory).
- */
 const IDX_KEY = "__acme_idx";
 
-/**
- * Direction is derived by stamping a monotonic index into `history.state`
- * under our own key (alongside whatever @solidjs/router stores). For
- * router-driven (push) navigations we increment and stamp the new entry. For
- * native back/forward (popstate) the browser restores the entry we previously
- * stamped, so reading its index and comparing to our last-seen value tells us
- * the direction reliably — no guessing.
- */
 class HistoryTracker {
   private current = 0;
 
@@ -32,17 +18,10 @@ class HistoryTracker {
     if (typeof existing === "number") {
       this.current = existing;
     } else {
-      // Stamp the initial entry without creating a new one.
-      this.stamp(0, /* replace */ true);
+      this.stamp(0, true);
     }
   }
 
-  /**
-   * Classify a router-initiated navigation. `replace` means same stack depth.
-   * We stamp the *next* entry's index right after the router pushes it; since
-   * we can't see the new state synchronously here, we increment our counter
-   * and let the router's push carry it via a microtask stamp.
-   */
   classifyPush(replace: boolean): TransitionDirection {
     if (replace) {
       this.stampNext(this.current, true);
@@ -53,7 +32,6 @@ class HistoryTracker {
     return "forward";
   }
 
-  /** Classify a native popstate by reading the restored entry's index. */
   classifyPop(): TransitionDirection {
     if (typeof window === "undefined") return "none";
     const state = history.state as Record<string, unknown> | null;
@@ -72,14 +50,10 @@ class HistoryTracker {
       if (replace) history.replaceState(state, "");
       else history.pushState(state, "");
     } catch {
-      /* cross-origin or disabled history — direction falls back to forward */
+      /* ignore */
     }
   }
 
-  /**
-   * The router performs the actual pushState; we only need to annotate the
-   * resulting entry. Defer to a microtask so it runs after the router's push.
-   */
   private stampNext(idx: number, replace: boolean) {
     if (typeof window === "undefined") return;
     queueMicrotask(() => {
@@ -99,11 +73,6 @@ interface RunnerSet {
   leave: Set<TransitionRunner>;
 }
 
-/**
- * One controller per Router instance. Holds the global progress signal,
- * direction, the registry of animation runners, and builds per-branch
- * transition contexts whose `done` promise the renderer awaits.
- */
 export class TransitionController {
   private readonly history = new HistoryTracker();
 
@@ -111,15 +80,20 @@ export class TransitionController {
   private readonly _progress = createSignal(0);
   private readonly _active = createSignal(false);
 
-  /** Runners are keyed by branch role so an outgoing page's onLeave and an
-   * incoming page's onEnter stay isolated even though both are mounted. */
   private runners: Record<"outgoing" | "incoming", RunnerSet> = {
     outgoing: { enter: new Set(), leave: new Set() },
     incoming: { enter: new Set(), leave: new Set() },
   };
 
-  /** FLIP shared-element rects captured at leave-time, keyed by shared id. */
   readonly sharedRects = new Map<string, DOMRect>();
+
+  /** Component-scoped callbacks drained before branch leave runners (page item anims). */
+  private readonly beforeLeave = new Set<() => void | Promise<void>>();
+
+  /** Incoming enter runners wait on this (out → in, not cross-fade). */
+  private leaveDone: Promise<void> = Promise.resolve();
+  private resolveLeaveDone: (() => void) | null = null;
+  private leaveAttached = false;
 
   constructor(private readonly timeoutMs: number) {
     if (typeof window !== "undefined") {
@@ -127,13 +101,11 @@ export class TransitionController {
     }
   }
 
-  /** True for one navigation tick when the change originated from back/forward. */
   private popPending = false;
   private readonly onPopState = () => {
     this.popPending = true;
   };
 
-  /** Consume the popstate flag; returns the cause for the imminent navigation. */
   consumeCause(): "push" | "pop" {
     if (this.popPending) {
       this.popPending = false;
@@ -142,7 +114,6 @@ export class TransitionController {
     return "push";
   }
 
-  /** Detach listeners (call from the Router's onCleanup). */
   dispose() {
     if (typeof window !== "undefined") {
       window.removeEventListener("popstate", this.onPopState);
@@ -168,11 +139,19 @@ export class TransitionController {
     return () => this.runners[role][kind].delete(fn);
   }
 
-  /**
-   * Called by the renderer when a navigation is detected.
-   * `cause` lets us pick the right classifier: a popstate reads the restored
-   * history index, a push increments and stamps a new one.
-   */
+  /** Runs before outgoing branch leave runners on each navigation. */
+  registerBeforeLeave(fn: () => void | Promise<void>): () => void {
+    this.beforeLeave.add(fn);
+    return () => this.beforeLeave.delete(fn);
+  }
+
+  private async runBeforeLeave() {
+    if (this.beforeLeave.size === 0) return;
+    await Promise.all(
+      [...this.beforeLeave].map((fn) => Promise.resolve(fn())),
+    );
+  }
+
   begin(cause: "push" | "pop", replace: boolean) {
     const dir =
       cause === "pop"
@@ -181,25 +160,34 @@ export class TransitionController {
     this._direction[1](dir);
     this._progress[1](0);
     this._active[1](true);
+
+    this.leaveAttached = false;
+    this.leaveDone = new Promise<void>((res) => {
+      this.resolveLeaveDone = res;
+    });
+
+    // No outgoing branch (e.g. in-place query swap) — don't block enter.
+    queueMicrotask(() => {
+      if (!this.leaveAttached) this.finishLeavePhase();
+    });
+  }
+
+  private finishLeavePhase() {
+    this.resolveLeaveDone?.();
+    this.resolveLeaveDone = null;
   }
 
   end() {
     this._active[1](false);
     this._progress[1](1);
     this.sharedRects.clear();
+    this.finishLeavePhase();
   }
 
-  /** Drive overall progress (renderer ticks this from a rAF loop or GSAP). */
   setProgress(p: number) {
     this._progress[1](Math.max(0, Math.min(1, p)));
   }
 
-  /**
-   * Build a branch context and a `done` promise that resolves when every
-   * registered runner for the relevant side settles — or the safety timeout
-   * fires, whichever comes first. The renderer attaches the real element via
-   * `attachElement` before runners fire.
-   */
   createContext(
     role: "outgoing" | "incoming",
     path: string,
@@ -223,14 +211,17 @@ export class TransitionController {
       done,
     };
 
-    const attachElement = (el: HTMLElement) => {
+    const runTasks = async (el: HTMLElement) => {
+      if (role === "outgoing") {
+        await this.runBeforeLeave();
+      }
+
       const kind = role === "outgoing" ? "leave" : "enter";
       const set = this.runners[role][kind];
       const tasks = [...set].map((fn) => {
         try {
           return Promise.resolve(fn(ctx, el));
         } catch (err) {
-          // A throwing runner must never wedge navigation.
           console.error("[router] transition runner failed:", err);
           return Promise.resolve();
         }
@@ -240,25 +231,41 @@ export class TransitionController {
         setTimeout(res, this.timeoutMs),
       );
 
-      Promise.race([Promise.all(tasks).then(() => undefined), safety]).then(
-        () => {
-          phase[1]("idle");
-          resolveDone();
-        },
-      );
+      const settle = () => {
+        phase[1]("idle");
+        resolveDone();
+      };
 
-      // If nothing registered a runner, resolve on the next frame so a swap
-      // with no animation is still instant rather than waiting the timeout.
       if (tasks.length === 0) {
+        if (role === "outgoing") this.finishLeavePhase();
         if (typeof requestAnimationFrame !== "undefined") {
-          requestAnimationFrame(() => {
-            phase[1]("idle");
-            resolveDone();
-          });
+          requestAnimationFrame(settle);
         } else {
-          phase[1]("idle");
-          resolveDone();
+          settle();
         }
+        return;
+      }
+
+      await Promise.race([
+        Promise.all(tasks).then(() => undefined),
+        safety,
+      ]);
+      if (role === "outgoing") this.finishLeavePhase();
+      settle();
+    };
+
+    const attachElement = (el: HTMLElement) => {
+      if (role === "outgoing") {
+        this.leaveAttached = true;
+        void runTasks(el);
+        return;
+      }
+
+      // Incoming: wait for outgoing leave phase before enter (sequential).
+      if (this._active[0]) {
+        this.leaveDone.then(() => runTasks(el));
+      } else {
+        runTasks(el);
       }
     };
 
