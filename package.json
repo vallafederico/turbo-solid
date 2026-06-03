@@ -2,6 +2,7 @@
   "name": "turbo-solid",
   "private": true,
   "scripts": {
+    "scaffold": "node scripts/setup/index.mjs",
     "build": "turbo build",
     "dev": "turbo dev",
     "build:web": "turbo build --filter=solid",
