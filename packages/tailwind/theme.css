@@ -12,6 +12,12 @@
 @import "./grid.css";
 @import "./fluid.css";
 
+* {
+  box-sizing: border-box;
+  scrollbar-width: none;
+  scrollbar-color: var(--color-gray) transparent;
+}
+
 @theme {
   /* Shared design tokens; extend in app CSS as needed */
 }

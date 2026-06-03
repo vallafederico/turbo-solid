@@ -1,0 +1,21 @@
+{
+	"name": "@local/shopify",
+	"type": "module",
+	"main": "./index.ts",
+	"exports": {
+		".": "./index.ts",
+		"./solid": "./solid/index.ts"
+	},
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"solid-js": "^1.9.9"
+	},
+	"devDependencies": {
+		"typescript": "5.7.3",
+		"vitest": "^3.2.4"
+	}
+}

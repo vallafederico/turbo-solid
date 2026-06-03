@@ -1,5 +1,11 @@
 import "./Dropdown.css";
-import { For, createSignal, Accessor, createEffect } from "solid-js";
+import {
+  For,
+  createSignal,
+  type Accessor,
+  type Setter,
+  createEffect,
+} from "solid-js";
 
 const content = [
   {
@@ -28,9 +34,8 @@ const content = [
   },
 ];
 
-const [open, setOpen] = createSignal<false | number>(false);
-
 export default function Dropdown() {
+  const [open, setOpen] = createSignal<false | number>(false);
   let previousOpen: number | false = false;
   const checkboxRefs: HTMLInputElement[] = [];
 
@@ -51,6 +56,8 @@ export default function Dropdown() {
         {(item, index) => (
           <DropdownItem
             index={index}
+            open={open}
+            setOpen={setOpen}
             {...item}
             ref={(el) => (checkboxRefs[index()] = el)}
           />
@@ -60,22 +67,19 @@ export default function Dropdown() {
   );
 }
 
-function DropdownItem({
-  title,
-  content,
-  index,
-  ref,
-}: {
+function DropdownItem(props: {
   title: string;
   content: () => any;
   index: Accessor<number>;
+  open: Accessor<false | number>;
+  setOpen: Setter<false | number>;
   ref: (el: HTMLInputElement) => void;
 }) {
   return (
     <div data-dropdown="wrapper" class="rounded-md border border-gray-800">
       {/* head */}
       <div class="relative flex items-center justify-between p-3">
-        <p>{title}</p>
+        <p>{props.title}</p>
         <div
           data-dropdown="icon"
           class="flex aspect-square size-6 items-center justify-center"
@@ -86,12 +90,12 @@ function DropdownItem({
         <input
           type="checkbox"
           class=""
-          ref={ref}
-          onInput={(e) => {
-            if (open() === index()) {
-              setOpen(false);
+          ref={props.ref}
+          onInput={() => {
+            if (props.open() === props.index()) {
+              props.setOpen(false);
             } else {
-              setOpen(index());
+              props.setOpen(props.index());
             }
           }}
         />
@@ -100,7 +104,7 @@ function DropdownItem({
       {/* content */}
       <div data-dropdown="content">
         <div>
-          <div class="p-3">{content()}</div>
+          <div class="p-3">{props.content()}</div>
         </div>
       </div>
     </div>

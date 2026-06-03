@@ -1,5 +1,5 @@
 import { createVisibilityObserver } from "@solid-primitives/intersection-observer";
-import { createEffect } from "solid-js";
+import { createEffect, onCleanup } from "solid-js";
 import { setOutTransition } from "./page-transition";
 
 type Callback =
@@ -7,12 +7,15 @@ type Callback =
   | (() => Promise<gsap.core.Omit<gsap.core.Tween, "then">>);
 
 export function onPageLeave(element?: HTMLElement, fn?: Callback) {
+  if (!element || !fn) return;
+
   const vo = createVisibilityObserver({ threshold: 0 });
   const visible = vo(element);
 
   const wrappedFn = () => (visible() ? fn() : Promise.resolve());
 
-  setOutTransition(wrappedFn);
+  const unregister = setOutTransition(wrappedFn);
+  onCleanup(unregister);
 }
 
 export function onIntersect(

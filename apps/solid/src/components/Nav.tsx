@@ -29,6 +29,10 @@ const NAV_LINKS = [
     to: "/_/content",
     text: "CMS Content",
   },
+  {
+    to: "/_/shop",
+    text: "Shop",
+  },
 ];
 
 export const Nav = () => {

@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"noEmit": true,
+		"jsx": "preserve",
+		"jsxImportSource": "solid-js",
+		"skipLibCheck": true,
+		"isolatedModules": true
+	},
+	"include": ["**/*.ts", "**/*.tsx"],
+	"exclude": ["**/*.test.ts"]
+}

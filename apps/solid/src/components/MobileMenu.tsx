@@ -1,14 +1,14 @@
-import { For, Ref } from "solid-js";
+import { For } from "solid-js";
 import "./MobileMenu.css";
 import { useBeforeLeave } from "@solidjs/router";
 
-const closeOnLeave = (self: HTMLInputElement) => {
-  useBeforeLeave(() => {
-    if (self && self.checked) self.checked = false;
-  });
-};
-
 export default function MobileMenu({ children }: { children: any }) {
+  let menuToggle: HTMLInputElement | undefined;
+
+  useBeforeLeave(() => {
+    if (menuToggle?.checked) menuToggle.checked = false;
+  });
+
   return (
     <div data-dropdown="wrapper" class="pointer-events-auto md:hidden">
       {/* icon */}
@@ -22,7 +22,7 @@ export default function MobileMenu({ children }: { children: any }) {
           </For>
         </div>
         <input
-          use:closeOnLeave
+          ref={menuToggle}
           type="checkbox"
           class="absolute inset-0 size-full scale-150"
         />

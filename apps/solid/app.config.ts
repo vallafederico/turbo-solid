@@ -32,36 +32,35 @@ const plugins = [
 	}),
 	solidSvg({
 		defaultAsComponent: true,
-		// svgo: {
-		//   enabled: false,
-		//   svgoConfig: {
-		//     plugins: [
-		//       {
-		//         name: "preset-default",
-		//         params: {
-		//           overrides: {
-		//             removeUselessDefs: false,
-		//           },
-		//         },
-		//       },
-		//     ],
-		//   },
-		// },
 	}),
 	glReloadPlugin(),
 ];
 
 export default defineConfig({
 	server: {
+		preset: "vercel",
 		prerender: {
-			// routes: ["/"],
-			crawlLinks: true /* prerenders all */,
+			crawlLinks: true,
+			ignore: ["/_/shop", "/_/shop/**"],
+		},
+		vercel: {
+			config: {
+				bypassToken: process.env.VERCEL_BYPASS_TOKEN,
+			},
+		},
+		routeRules: {
+			"/_/shop": {
+				isr: { expiration: 60, allowQuery: ["collection", "sort", "after"] },
+				headers: { "cache-control": "public, max-age=0, must-revalidate" },
+			},
+			"/_/shop/**": {
+				isr: { expiration: 60 },
+				headers: { "cache-control": "public, max-age=0, must-revalidate" },
+			},
+			"/api/shopify/revalidate": { isr: false },
 		},
 	},
 	vite: {
 		plugins,
 	},
-	// solid: {
-	//   hot: false,
-	// },
 });

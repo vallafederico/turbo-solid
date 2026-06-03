@@ -5,7 +5,7 @@ import {
   useNavigate,
   usePreloadRoute,
 } from "@solidjs/router";
-import { onCleanup } from "solid-js";
+import { onCleanup, untrack } from "solid-js";
 import gsap from "~/lib/gsap";
 import { Scroll } from "~/lib/utils/scroll";
 
@@ -17,17 +17,63 @@ const MAIN_IN_DELAY = 0.0;
 
 const MAIN_FOOTER = ["main", "footer"] as const;
 
-let outTransitions = [] as (() => void | Promise<void>)[];
+type OutTransition = {
+  run: () => void | Promise<void>;
+};
 
+let outTransitions: OutTransition[] = [];
+
+/** Register a leave animation. Returns unregister — call from `onCleanup`. */
 export const setOutTransition = (
   fn: () => void | Promise<void>,
-) => {
-  outTransitions.push(fn);
+): (() => void) => {
+  const entry: OutTransition = { run: fn };
+  outTransitions.push(entry);
+  return () => {
+    const i = outTransitions.indexOf(entry);
+    if (i >= 0) outTransitions.splice(i, 1);
+  };
 };
 
 export function reset() {
   outTransitions.length = 0;
 }
+
+/**
+ * One-shot flag: when set, the next SPA navigation swaps content in place
+ * (no fade out/in, no scroll reset). Trigger it right before navigations that
+ * should feel instant — e.g. filtering, sorting, or selecting a variant.
+ */
+let skipNextTransition = false;
+
+export const skipPageTransition = () => {
+  skipNextTransition = true;
+};
+
+/**
+ * `onClick` helper for `<A>` links: skips the transition for the resulting
+ * navigation, but ignores modified/middle clicks (which open a new tab and
+ * never navigate, so the flag must not leak to the next navigation).
+ */
+export const skipTransitionClick = (e: MouseEvent) => {
+  if (
+    e.defaultPrevented ||
+    e.button !== 0 ||
+    e.metaKey ||
+    e.ctrlKey ||
+    e.shiftKey ||
+    e.altKey
+  ) {
+    return;
+  }
+  skipNextTransition = true;
+};
+
+const consumeSkipTransition = () => {
+  if (!skipNextTransition) return false;
+  skipNextTransition = false;
+  return true;
+};
 
 const getHash = (pathname: string) => {
   const hasHash = pathname.includes("#");
@@ -41,10 +87,10 @@ const cleanPathname = (pathname: string) => {
 
 export async function animateOut() {
   if (outTransitions.length === 0) return;
+  const pending = outTransitions.splice(0);
   await Promise.all(
-    outTransitions.map((fn) => Promise.resolve(fn())),
+    pending.map((entry) => Promise.resolve(entry.run())),
   );
-  reset();
 }
 
 /** Router transition compnfoletes after a frame; rAF avoids starving Solid’s update. */
@@ -52,7 +98,7 @@ async function whenRoutingSettled(
   isRouting: () => boolean,
 ) {
   await Promise.resolve();
-  while (isRouting()) {
+  while (untrack(isRouting)) {
     await new Promise<void>((resolve) => {
       requestAnimationFrame(() => resolve());
     });
@@ -75,13 +121,22 @@ export function usePageTransition() {
       return;
     }
 
+    // Skip the fade and swap content in place (filter/sort/variant changes).
+    if (consumeSkipTransition()) {
+      e.preventDefault();
+      skipNextLeave.v = true;
+      navigate(e.to, {
+        ...e.options,
+        resolve: false,
+        scroll: false,
+      });
+      return;
+    }
+
     e.preventDefault();
 
     if (typeof window !== "undefined") {
       preload(e.to, { preloadData: true });
-      await new Promise<void>((resolve) =>
-        queueMicrotask(resolve),
-      );
     }
 
     await animateOut();

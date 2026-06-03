@@ -14,6 +14,7 @@
     "@local/config": "workspace:*",
     "@local/gl-context": "workspace:*",
     "@local/sanity": "workspace:*",
+    "@local/shopify": "workspace:*",
     "@local/seo": "workspace:*",
     "@local/tailwind": "workspace:*",
     "@local/three": "workspace:*",

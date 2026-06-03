@@ -69,6 +69,8 @@
 
 * {
   box-sizing: border-box;
+  scrollbar-width: none;
+  scrollbar-color: var(--color-gray) transparent;
 }
 
 html,
