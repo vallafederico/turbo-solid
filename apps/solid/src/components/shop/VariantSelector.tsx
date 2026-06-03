@@ -1,7 +1,6 @@
 import type { MappedProductOptions, ProductVariant } from "@local/shopify";
 import { A, useLocation } from "@solidjs/router";
 import { For, Show } from "solid-js";
-import { skipTransitionClick } from "~/animation";
 
 export type VariantSelectorProps = {
 	productOptions: MappedProductOptions[];
@@ -33,13 +32,6 @@ export default function VariantSelector(props: VariantSelectorProps) {
 												<A
 													href={href}
 													replace={!value.isDifferentProduct}
-													onClick={(e) => {
-														// Same product → swap variant in place; different
-														// product → keep the normal page transition.
-														if (!value.isDifferentProduct) {
-															skipTransitionClick(e);
-														}
-													}}
 													aria-disabled={!value.exists}
 													title={
 														value.available ? value.name : `${value.name} (sold out)`

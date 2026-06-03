@@ -1,0 +1,32 @@
+{
+  "name": "@acme/router",
+  "version": "0.1.0",
+  "description": "Custom router for SolidStart with contextual page transitions (dual-mount). Wraps @solidjs/router primitives, forks only the render layer.",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "src"
+  ],
+  "exports": {
+    ".": {
+      "solid": "./src/index.ts",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
+  "peerDependencies": {
+    "@solidjs/router": "^0.15.0",
+    "solid-js": "^1.9.0"
+  },
+  "devDependencies": {
+    "@solidjs/router": "0.15.3",
+    "solid-js": "1.9.9",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}

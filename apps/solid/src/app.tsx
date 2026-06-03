@@ -1,6 +1,6 @@
 import "./app.css";
 import { Link, MetaProvider, Title } from "@solidjs/meta";
-import { Router } from "@solidjs/router";
+import { Router } from "@acme/router";
 import { FileRoutes } from "@solidjs/start/router";
 // import { VisualEditing } from "@local/sanity";
 
@@ -28,6 +28,7 @@ export default function App() {
 
   return (
     <Router
+      transition={{ timeoutMs: 1200 }}
       root={(props) => (
         <MetaProvider>
           {/* <PageTransition> */}

@@ -62,5 +62,8 @@ export default defineConfig({
 	},
 	vite: {
 		plugins,
+		resolve: {
+			dedupe: ["@solidjs/router", "solid-js"],
+		},
 	},
 });

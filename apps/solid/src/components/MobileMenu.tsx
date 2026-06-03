@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 import "./MobileMenu.css";
-import { useBeforeLeave } from "@solidjs/router";
+import { useBeforeLeave } from "@acme/router";
 
 export default function MobileMenu({ children }: { children: any }) {
   let menuToggle: HTMLInputElement | undefined;

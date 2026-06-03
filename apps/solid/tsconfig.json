@@ -18,6 +18,7 @@
 		"isolatedModules": true,
 		"baseUrl": "./",
 		"paths": {
+			"@acme/router": ["../../packages/router/src/index.ts"],
 			"@components/*": ["./src/components/*"],
 			"@lib/*": ["./src/lib/*"],
 			"@hooks/*": ["./src/lib/hooks/*"],

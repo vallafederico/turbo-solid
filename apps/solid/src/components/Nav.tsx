@@ -1,4 +1,4 @@
-import { A } from "@solidjs/router";
+import { A } from "@acme/router";
 import { For } from "solid-js";
 import { RollingText } from "./animation/RollingText";
 import MobileMenu from "./MobileMenu";

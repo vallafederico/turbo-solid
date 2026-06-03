@@ -13,7 +13,6 @@ import {
 	useSearchParams,
 } from "@solidjs/router";
 import { For, Show } from "solid-js";
-import { skipPageTransition, skipTransitionClick } from "~/animation";
 import ProductCardLink from "~/components/shop/ProductCardLink";
 
 type ShopGridParams = {
@@ -156,7 +155,6 @@ export default function ShopPage() {
 							class="rounded border px-3 py-2"
 							value={grid().sort ?? "best-selling"}
 							onChange={(event) => {
-								skipPageTransition();
 								setSearchParams({
 									sort: event.currentTarget.value,
 									after: undefined,
@@ -173,7 +171,6 @@ export default function ShopPage() {
 				<div class="flex flex-wrap gap-2">
 					<A
 						href={buildHref({ collection: undefined, after: undefined })}
-						onClick={skipTransitionClick}
 						class="rounded-full border px-4 py-2 text-sm"
 						classList={{ "bg-black text-white": !searchParams.collection }}
 					>
@@ -186,7 +183,6 @@ export default function ShopPage() {
 									collection: collection.handle,
 									after: undefined,
 								})}
-								onClick={skipTransitionClick}
 								class="rounded-full border px-4 py-2 text-sm"
 								classList={{
 									"bg-black text-white":
@@ -218,7 +214,6 @@ export default function ShopPage() {
 							href={buildHref({
 								after: grid().products.pageInfo.endCursor ?? undefined,
 							})}
-							onClick={skipTransitionClick}
 							class="rounded border px-4 py-2"
 						>
 							Load more
