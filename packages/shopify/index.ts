@@ -16,5 +16,6 @@ export * from "./utils/graphql";
 export * from "./utils/money";
 export * from "./utils/image";
 export * from "./utils/productOptions";
+export * from "./utils/sort";
 export * from "./utils/errors";
 export * from "./solid-start";

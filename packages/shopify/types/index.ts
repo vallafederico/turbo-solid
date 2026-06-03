@@ -106,6 +106,17 @@ export type ProductSortKey =
 	| "RELEVANCE"
 	| "UPDATED_AT";
 
+/** Sort keys for `collection.products` — differs from `ProductSortKeys` (e.g. `CREATED` not `CREATED_AT`). */
+export type ProductCollectionSortKey =
+	| "TITLE"
+	| "PRICE"
+	| "BEST_SELLING"
+	| "CREATED"
+	| "ID"
+	| "RELEVANCE"
+	| "MANUAL"
+	| "COLLECTION_DEFAULT";
+
 export type GetProductsOptions = {
 	first?: number;
 	after?: string | null;
@@ -113,8 +124,13 @@ export type GetProductsOptions = {
 	reverse?: boolean;
 };
 
-export type GetCollectionProductsOptions = GetProductsOptions & {
+export type GetCollectionProductsOptions = {
 	handle: string;
+	first?: number;
+	after?: string | null;
+	/** Accepts catalog sort keys; mapped to `ProductCollectionSortKeys` before the API call. */
+	sortKey?: ProductSortKey;
+	reverse?: boolean;
 };
 
 export type CartLineCost = {

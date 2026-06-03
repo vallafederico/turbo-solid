@@ -13,6 +13,7 @@ import type {
 	RawConnection,
 } from "../types";
 import { reshapeConnection, reshapeProduct } from "../utils/reshape";
+import { toCollectionSortKey } from "../utils/sort";
 
 export async function getCollections(
 	first = 20,
@@ -58,7 +59,13 @@ export async function getCollectionProducts({
 			| null;
 	}>({
 		query: GET_COLLECTION_PRODUCTS,
-		variables: { handle, first, after, sortKey, reverse },
+		variables: {
+			handle,
+			first,
+			after,
+			sortKey: toCollectionSortKey(sortKey),
+			reverse,
+		},
 		cache: cacheShort,
 		operationName: "GetCollectionProducts",
 	});
