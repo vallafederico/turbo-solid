@@ -109,6 +109,16 @@ class _Scroll extends Subscribable<ScrollEvent> {
     this.lenis?.scrollTo(params);
   }
 
+  /** Recalculate scroll limits after DOM/layout changes (e.g. route transitions). */
+  refresh(): void {
+    const main = document.querySelector("main");
+    if (main) {
+      this.previousHeight = main.getBoundingClientRect().height;
+    }
+    this.lenis?.resize();
+    this.notify(this.scrollEventData);
+  }
+
   destroy(): void {
     this.lenis?.destroy();
   }

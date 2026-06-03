@@ -32,6 +32,7 @@ const FADE_DURATION = 0.4;
 
 const resetScroll = (_ctx: TransitionContextValue) => {
   Scroll.lenis?.scrollTo(0, { immediate: true });
+  Scroll.refresh();
 };
 
 export default function App() {

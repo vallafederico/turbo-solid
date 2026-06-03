@@ -41,10 +41,11 @@ export default function PagesDemoIndex() {
           class="mb-10 max-w-xl text-lg leading-relaxed text-white/70"
         >
           Each screen is a full branch in the router stack.
-          Navigate between colors — the next page mounts
-          half a screen lower, slides up over 3 seconds,
-          then the previous page unmounts. Watch the badge
-          for branch role and phase.
+          Navigate between colors — the incoming page
+          fades in over 0.2s, slides up over 1.2s,
+          while the previous page fades out slowly
+          and clears just before the slide finishes.
+          Watch the badge for branch role and phase.
         </p>
 
         <ul class="grid gap-4 sm:grid-cols-3">
