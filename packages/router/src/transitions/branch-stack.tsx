@@ -1,14 +1,11 @@
 import {
   createSignal,
   createEffect,
-  createRoot,
   onCleanup,
   untrack,
-  getOwner,
   For,
   type JSX,
   type Accessor,
-  type Owner,
 } from "solid-js";
 import { isServer } from "solid-js/web";
 import {
@@ -42,7 +39,7 @@ function mountIncoming(
   setLiveCtx: (ctx: TransitionContextValue) => void,
   setLiveAttach: (fn: (el: HTMLElement) => void) => void,
   liveElement: HTMLElement | null,
-) {
+): TransitionContextValue {
   const { ctx, attachElement } = props.controller.createContext(
     "incoming",
     branchKey,
@@ -51,6 +48,14 @@ function mountIncoming(
   setLiveCtx(ctx);
   setLiveAttach(() => attachElement);
   triggerAttach({ element: liveElement, attach: attachElement });
+  return ctx;
+}
+
+function finishTransition(
+  controller: TransitionController,
+  ...done: Promise<void>[]
+) {
+  void Promise.all(done).then(() => controller.end());
 }
 
 /**
@@ -59,8 +64,6 @@ function mountIncoming(
  * presets snapshot the outgoing page before navigate and stack it underneath.
  */
 export function BranchStack(props: BranchStackProps): JSX.Element {
-  const parentOwner = getOwner();
-
   const live = createBeforeLeaveRegistration();
   const [outgoing, setOutgoing] = createSignal<OutgoingLayer[]>([]);
 
@@ -83,49 +86,35 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
     });
   };
 
-  const snapshotOutgoing = (key: string): OutgoingLayer => {
-    const snap = createBeforeLeaveRegistration();
-    for (const fn of live.hooks) snap.hooks.add(fn);
+  const snapshotOutgoing = (key: string): OutgoingLayer | null => {
+    if (!liveElement) return null;
 
     const { ctx, attachElement } = props.controller.createContext(
       "outgoing",
       key,
-      snap.hooks,
     );
 
-    let dispose!: () => void;
-    let nodes!: JSX.Element;
-
-    createRoot((d) => {
-      dispose = d;
-      nodes = (
-        <BranchProviders ctx={() => ctx} registration={snap.registration}>
-          {untrack(props.children) as JSX.Element}
-        </BranchProviders>
-      );
-    }, parentOwner as Owner);
+    // Freeze the current live branch visually without re-running route hooks.
+    const content = liveElement.cloneNode(true) as HTMLElement;
+    content.setAttribute("aria-hidden", "true");
+    content.removeAttribute("data-router-branch");
 
     const layer: OutgoingLayer = {
       key,
-      nodes,
-      pageBeforeLeave: snap.hooks,
+      content,
       ctx,
       attach: attachElement,
       element: null,
-      dispose,
     };
 
     ctx.done.then(() => {
-      layer.dispose();
       setOutgoing((list) => list.filter((x) => x !== layer));
     });
 
     return layer;
   };
 
-  props.controller.setSnapshotOutgoing((key) =>
-    snapshotOutgoing(key as string),
-  );
+  props.controller.setSnapshotOutgoing((key) => snapshotOutgoing(key as string));
   onCleanup(() => props.controller.setSnapshotOutgoing(null));
 
   createEffect((prev: { branchKey: string; locationKey: string } | undefined) => {
@@ -157,28 +146,8 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
 
     // Sequential push: gate already animated the live page out.
     if (props.controller.consumeLeaveGateCompleted()) {
-      untrack(() =>
-        mountIncoming(
-          props,
-          branchKey,
-          live,
-          setLiveCtx,
-          setLiveAttach,
-          liveElement,
-        ),
-      );
-      return { branchKey, locationKey };
-    }
-
-    // Overlap push: gate snapshotted the outgoing page before navigate.
-    const pending = props.controller.consumePendingOutgoing() as
-      | OutgoingLayer
-      | null;
-    if (pending) {
       untrack(() => {
-        setOutgoing((list) => [...list, pending]);
-        triggerAttach(pending);
-        mountIncoming(
+        const ctx = mountIncoming(
           props,
           branchKey,
           live,
@@ -186,6 +155,26 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
           setLiveAttach,
           liveElement,
         );
+        finishTransition(props.controller, ctx.done);
+      });
+      return { branchKey, locationKey };
+    }
+
+    // Overlap push: gate snapshotted the outgoing page before navigate.
+    const pending = props.controller.consumePendingOutgoing();
+    if (pending) {
+      untrack(() => {
+        // Drop stale layers (e.g. fast re-navigation) and keep the latest one.
+        setOutgoing([pending]);
+        const incomingCtx = mountIncoming(
+          props,
+          branchKey,
+          live,
+          setLiveCtx,
+          setLiveAttach,
+          liveElement,
+        );
+        finishTransition(props.controller, pending.ctx.done, incomingCtx.done);
       });
       return { branchKey, locationKey };
     }
@@ -206,7 +195,6 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
   });
 
   onCleanup(() => {
-    for (const layer of outgoing()) layer.dispose();
     props.controller.setLiveBranch(null);
   });
 
@@ -220,22 +208,29 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
             style={{
               "grid-area": "1 / 1",
               "pointer-events": "none",
+              "z-index": 0,
+              "min-height": "100svh",
             }}
             ref={(el: HTMLElement) => {
               layer.element = el;
+              if (layer.content.parentElement !== el) {
+                el.replaceChildren(layer.content);
+              }
               triggerAttach(layer);
             }}
           >
-            {layer.nodes}
+            {/* frozen content is injected in ref */}
           </div>
         )}
       </For>
 
       <BranchProviders ctx={liveCtx} registration={live.registration}>
         <div
-          data-router-branch="live"
+          data-router-branch={liveCtx().role}
           style={{
             "grid-area": "1 / 1",
+            "z-index": props.controller.isActive() ? 1 : undefined,
+            "min-height": "100svh",
             visibility:
               props.hideIncomingUntilEnter &&
               props.controller.isActive() &&

@@ -23,8 +23,8 @@ export default function PagesBlue() {
             Blue
           </h1>
           <p class="mt-6 max-w-md text-lg text-blue-50/90">
-            The previous page is still painted on top while opacity eases down.
-            This one fades up at the same time — true overlap, not out-then-in.
+            This branch slides up from half a screen below. The previous page
+            stays underneath until the cover animation completes.
           </p>
         </div>
 

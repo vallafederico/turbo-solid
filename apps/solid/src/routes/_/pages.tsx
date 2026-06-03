@@ -1,12 +1,11 @@
-import { Title } from "@solidjs/meta";
-import { useCrossFade } from "@acme/router";
+import { useCoverSlideUp } from "@acme/router";
 import type { RouteSectionProps } from "@solidjs/router";
 
-/** Slow cross-fade so outgoing and incoming pages overlap in the stack. */
-const CROSSFADE_MS = 900;
+/** Incoming page slides up from half a screen below over 3s, then outgoing unmounts. */
+const SLIDE_MS = 3000;
 
 export default function PagesLayout(props: RouteSectionProps) {
-  useCrossFade(CROSSFADE_MS);
+  useCoverSlideUp(SLIDE_MS);
 
   return <>{props.children}</>;
 }

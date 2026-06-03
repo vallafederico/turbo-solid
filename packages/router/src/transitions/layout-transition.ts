@@ -1,3 +1,4 @@
+import { onCleanup } from "solid-js";
 import { onEnter, onLeave } from "./hooks";
 import { useController } from "./context";
 import type { TransitionContextValue, TransitionRunner } from "../types";
@@ -45,14 +46,28 @@ export function useLayoutTransition(options: LayoutTransitionOptions = {}): void
   const leave = options.leave ?? defaultLeave(ms);
   const enter = options.enter ?? defaultEnter(ms);
 
-  onLeave((_ctx, el) => leave(_ctx, el));
+  if (options.onEnter) {
+    onCleanup(
+      controller.registerIncomingMount((ctx, el) => {
+        // Custom presets own the overlap phase; avoid side-effects (like
+        // scroll resets) until that transition fully completes.
+        if (controller.hasCustomTransition()) return;
+        options.onEnter!(ctx, el);
+      }),
+    );
+  }
+
+  onLeave((_ctx, el) => {
+    if (controller.hasCustomTransition()) return;
+    return leave(_ctx, el);
+  });
 
   onEnter(async (ctx, el) => {
-    options.onEnter?.(ctx, el);
     if (!controller.isActive()) {
       el.style.opacity = "1";
       return;
     }
+    if (controller.hasCustomTransition()) return;
     el.style.opacity = "0";
     await enter(ctx, el);
   });

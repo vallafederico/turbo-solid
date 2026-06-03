@@ -24,13 +24,18 @@ export function NavigationGate(): null {
 
     e.preventDefault();
 
-    const overlap = controller.isOverlap();
+    const overlap = controller.hasCustomTransition();
     const outgoingKey = live.ctx.path;
 
     if (overlap) {
       controller.begin("push", Boolean(e.options?.replace));
+      // Snapshot synchronously while children() still renders the outgoing page.
       const snapshot = controller.snapshotOutgoing?.(outgoingKey);
-      if (snapshot) controller.setPendingOutgoing(snapshot);
+      if (!snapshot) {
+        e.retry(true);
+        return;
+      }
+      controller.setPendingOutgoing(snapshot);
     } else {
       controller.begin("push", Boolean(e.options?.replace));
       await controller.runPageBeforeLeave(live.pageBeforeLeave);

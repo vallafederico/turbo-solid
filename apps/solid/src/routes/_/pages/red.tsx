@@ -23,8 +23,8 @@ export default function PagesRed() {
             Red
           </h1>
           <p class="mt-6 max-w-md text-lg text-red-50/90">
-            While this page leaves, the next one mounts underneath in the same
-            grid cell — both are visible during the cross-fade.
+            While the next page slides up from below, this branch stays mounted
+            underneath until the cover animation finishes.
           </p>
         </div>
 

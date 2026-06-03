@@ -40,6 +40,7 @@ export { useController } from "./transitions/context";
 export {
   useCrossFade,
   useDirectionalSlide,
+  useCoverSlideUp,
 } from "./transitions/presets";
 
 export type {

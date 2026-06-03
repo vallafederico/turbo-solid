@@ -31,12 +31,13 @@ export default function PagesDemoIndex() {
           @acme/router · dual-mount
         </p>
         <h1 class="mb-4 text-4xl font-semibold tracking-tight">
-          Pages overlap demo
+          Pages cover demo
         </h1>
         <p class="mb-10 max-w-xl text-lg leading-relaxed text-white/70">
           Each screen is a full branch in the router stack. Navigate between
-          colors — both the previous and next page stay mounted while they
-          cross-fade. Watch the badge in the corner for branch role and phase.
+          colors — the next page mounts half a screen lower, slides up over 3
+          seconds, then the previous page unmounts. Watch the badge for branch
+          role and phase.
         </p>
 
         <ul class="grid gap-4 sm:grid-cols-3">

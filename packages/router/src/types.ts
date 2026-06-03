@@ -64,10 +64,9 @@ export interface RouteBranch {
 /** Frozen outgoing page layer used for overlap cross-fades. */
 export interface OutgoingLayer {
   key: string;
-  nodes: JSX.Element;
-  pageBeforeLeave: Set<() => void | Promise<void>>;
+  /** Frozen DOM clone captured before navigation. */
+  content: HTMLElement;
   ctx: TransitionContextValue;
   attach: (el: HTMLElement) => void;
   element: HTMLElement | null;
-  dispose: () => void;
 }

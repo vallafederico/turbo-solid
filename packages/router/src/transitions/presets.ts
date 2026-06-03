@@ -1,5 +1,5 @@
 import { onCleanup, onMount } from "solid-js";
-import { onEnter, onLeave, useTransitionDirection } from "./hooks";
+import { useTransitionDirection } from "./hooks";
 import { useController } from "./context";
 import type { TransitionRunner } from "../types";
 
@@ -10,26 +10,29 @@ import type { TransitionRunner } from "../types";
  */
 
 const animate = (el: HTMLElement, keyframes: Keyframe[], ms: number) =>
-  el.animate(keyframes, { duration: ms, easing: "cubic-bezier(.4,0,.2,1)", fill: "both" })
+  el
+    .animate(keyframes, {
+      duration: ms,
+      easing: "cubic-bezier(.4,0,.2,1)",
+      fill: "both",
+    })
     .finished.then(() => void el.getAnimations().forEach((a) => a.commitStyles?.()));
 
 /**
- * Classic cross-fade: outgoing fades to 0 while incoming fades from 0. Because
- * both branches are mounted and overlaid, the fade actually overlaps rather
- * than being a fade-out-then-fade-in like the current hacky approach.
+ * Classic cross-fade: outgoing fades to 0 while incoming fades from 0. Both
+ * branch wrappers stay mounted and overlaid — the router snapshots the outgoing
+ * page and mounts the incoming page on top before running these in parallel.
  */
 export function useCrossFade(ms = 400): void {
   const controller = useController();
-
-  onMount(() => controller.setOverlap(true));
-  onCleanup(() => controller.setOverlap(false));
 
   const leave: TransitionRunner = (_ctx, el) =>
     animate(el, [{ opacity: 1 }, { opacity: 0 }], ms);
   const enter: TransitionRunner = (_ctx, el) =>
     animate(el, [{ opacity: 0 }, { opacity: 1 }], ms);
-  onLeave(leave);
-  onEnter(enter);
+
+  onMount(() => controller.setOverlapPreset(leave, enter));
+  onCleanup(() => void controller.clearOverlapPreset());
 }
 
 /**
@@ -40,9 +43,6 @@ export function useCrossFade(ms = 400): void {
 export function useDirectionalSlide(distance = 48, ms = 450): void {
   const controller = useController();
   const direction = useTransitionDirection();
-
-  onMount(() => controller.setOverlap(true));
-  onCleanup(() => controller.setOverlap(false));
 
   const leave: TransitionRunner = (_ctx, el) => {
     const dir = direction();
@@ -70,6 +70,35 @@ export function useDirectionalSlide(distance = 48, ms = 450): void {
     );
   };
 
-  onLeave(leave);
-  onEnter(enter);
+  onMount(() => controller.setOverlapPreset(leave, enter));
+  onCleanup(() => void controller.clearOverlapPreset());
+}
+
+const hold = (ms: number): TransitionRunner => () =>
+  new Promise<void>((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Incoming page mounts offset down (default half viewport), slides up over the
+ * outgoing page, then the outgoing branch unmounts once the enter finishes.
+ * Outgoing stays fully visible underneath until then.
+ */
+export function useCoverSlideUp(ms = 3000, offset = "50vh"): void {
+  const controller = useController();
+
+  const leave = hold(ms);
+  const enter: TransitionRunner = (_ctx, el) => {
+    el.style.opacity = "1";
+    el.style.transform = `translateY(${offset})`;
+    return animate(
+      el,
+      [
+        { transform: `translateY(${offset})` },
+        { transform: "translateY(0)" },
+      ],
+      ms,
+    );
+  };
+
+  onMount(() => controller.setOverlapPreset(leave, enter));
+  onCleanup(() => void controller.clearOverlapPreset());
 }

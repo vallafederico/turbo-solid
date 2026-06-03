@@ -27,9 +27,6 @@ import { scroll } from "~/lib/utils/scroll";
 const SCROLL_OFFSET = -48;
 const FADE_DURATION = 0.4;
 
-/** Pages demo uses overlap cross-fade — skip global sequential fade there. */
-const isPagesDemo = (path: string) => /\/pages(\/|$)/.test(path);
-
 const resetScroll = (ctx: TransitionContextValue) => {
   const hash = ctx.path.includes("#") ? `#${ctx.path.split("#")[1]}` : null;
   if (hash) {
@@ -85,17 +82,11 @@ export default function App() {
 const GlobalLayout = ({ children }: { children: unknown }) => {
   useLayoutTransition({
     onEnter: (ctx) => resetScroll(ctx),
-    leave: (ctx, el) => {
-      if (isPagesDemo(ctx.path)) return;
-      return new Promise((resolve) => {
+    leave: (_ctx, el) =>
+      new Promise((resolve) => {
         gsap.to(el, { opacity: 0, duration: FADE_DURATION, onComplete: resolve });
-      });
-    },
-    enter: (ctx, el) => {
-      if (isPagesDemo(ctx.path)) {
-        gsap.set(el, { opacity: 1 });
-        return;
-      }
+      }),
+    enter: (_ctx, el) => {
       gsap.set(el, { opacity: 0 });
       return new Promise((resolve) => {
         gsap.fromTo(
