@@ -22,7 +22,7 @@ const DEMOS = [
 
 export default function PagesDemoIndex() {
   return (
-    <div class="min-h-[100vh] bg-neutral-950 pt-24 text-white">
+    <div class="min-h-[100svh] bg-neutral-950 pt-24 text-white">
       <Title>Page transitions</Title>
       <TransitionBadge />
 

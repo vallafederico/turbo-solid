@@ -15,6 +15,14 @@ export const scroll = (el: HTMLElement) => {
   Scroll.handleResize(el);
 };
 
+declare module "solid-js" {
+  namespace JSX {
+    interface Directives {
+      scroll: boolean;
+    }
+  }
+}
+
 class _Scroll extends Subscribable<ScrollEvent> {
   previousHeight = 0;
   y = 0;

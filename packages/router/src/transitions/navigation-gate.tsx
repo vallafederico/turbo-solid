@@ -7,8 +7,12 @@ import {
 import { useController } from "./context";
 
 /**
- * Intercepts navigations so the current page can animate out on the live DOM
- * before the route changes — the same model as the old page-transition hook.
+ * Intercepts link / programmatic navigations so the current page can animate
+ * out (sequential) or be snapshotted (overlap) before the route changes — the
+ * same model as the old `useBeforeLeave` page-transition hook.
+ *
+ * Browser back/forward (popstate) cannot be blocked here, so those swap
+ * instantly and are handled by `BranchStack`.
  */
 export function NavigationGate(): null {
   const controller = useController();
@@ -17,45 +21,43 @@ export function NavigationGate(): null {
 
   useBeforeLeave(async (e: BeforeLeaveEventArgs) => {
     if (typeof e.to === "number") return;
-    if (controller.consumeSkipNavigationGate()) return;
+    // The gate re-issues navigation itself; let that one through untouched.
+    if (controller.consumeGateSkip(e.to)) return;
 
     const live = controller.getLiveBranch();
     if (!live?.element) return;
 
     e.preventDefault();
 
-    const overlap = controller.hasCustomTransition();
-    const outgoingKey = live.ctx.path;
+    const replace = Boolean(e.options?.replace);
+    controller.begin(replace ? "replace" : "forward");
 
-    if (overlap) {
-      controller.begin("push", Boolean(e.options?.replace));
-      // Snapshot synchronously while children() still renders the outgoing page.
-      const snapshot = controller.snapshotOutgoing?.(outgoingKey);
+    if (controller.hasCustomTransition()) {
+      // Snapshot synchronously while the live DOM still shows the outgoing page.
+      const snapshot = controller.snapshotOutgoing?.(live.ctx.path);
       if (!snapshot) {
         e.retry(true);
         return;
       }
       controller.setPendingOutgoing(snapshot);
     } else {
-      controller.begin("push", Boolean(e.options?.replace));
       await controller.runPageBeforeLeave(live.pageBeforeLeave);
       await controller.runBranchLeave(live.element, live.ctx);
       controller.finishLeavePhase();
       controller.markLeaveGateCompleted();
     }
 
-    if (typeof e.to === "string" && typeof window !== "undefined") {
+    if (typeof window !== "undefined") {
       preload(e.to, { preloadData: true });
       await new Promise<void>((resolve) => queueMicrotask(resolve));
     }
 
-    controller.setSkipNavigationGate(true);
+    controller.armGateSkip(e.to);
     navigate(e.to, {
       ...e.options,
       resolve: false,
       scroll: false,
     });
-    controller.setSkipNavigationGate(false);
   });
 
   return null;

@@ -7,7 +7,7 @@ import {
 } from "@acme/router";
 import { FileRoutes } from "@solidjs/start/router";
 
-import { Suspense } from "solid-js";
+import { Suspense, type JSX } from "solid-js";
 import { useViewport } from "~/lib/hooks/useViewport";
 
 import { Nav } from "~/components/Nav";
@@ -24,15 +24,9 @@ import { clientRectGl } from "~/lib/utils/clientRect";
 import { assets } from "~/assets";
 import { scroll } from "~/lib/utils/scroll";
 
-const SCROLL_OFFSET = -48;
 const FADE_DURATION = 0.4;
 
-const resetScroll = (ctx: TransitionContextValue) => {
-  const hash = ctx.path.includes("#") ? `#${ctx.path.split("#")[1]}` : null;
-  if (hash) {
-    Scroll.lenis?.scrollTo(hash, { offset: SCROLL_OFFSET });
-    return;
-  }
+const resetScroll = (_ctx: TransitionContextValue) => {
   Scroll.lenis?.scrollTo(0, { immediate: true });
 };
 
@@ -41,7 +35,6 @@ export default function App() {
 
   return (
     <Router
-      transition={{ timeoutMs: 8000 }}
       root={(props) => (
         <MetaProvider>
           <Link
@@ -79,7 +72,7 @@ export default function App() {
   );
 }
 
-const GlobalLayout = ({ children }: { children: unknown }) => {
+const GlobalLayout = ({ children }: { children: JSX.Element }) => {
   useLayoutTransition({
     onEnter: (ctx) => resetScroll(ctx),
     leave: (_ctx, el) =>

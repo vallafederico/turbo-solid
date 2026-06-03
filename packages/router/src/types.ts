@@ -1,5 +1,3 @@
-import type { JSX } from "solid-js";
-
 /** Direction inferred from history index deltas. */
 export type TransitionDirection = "forward" | "backward" | "replace" | "none";
 
@@ -52,20 +50,13 @@ export interface TransitionConfig {
   hideIncomingUntilEnter?: boolean;
 }
 
-export interface RouteBranch {
-  /** Stable key — the matched leaf path. Identity drives mount/unmount. */
-  key: string;
-  /** The rendered element tree for this branch. */
-  el: JSX.Element;
-  /** Per-branch transition context. */
-  ctx: TransitionContextValue;
-}
-
 /** Frozen outgoing page layer used for overlap cross-fades. */
 export interface OutgoingLayer {
   key: string;
   /** Frozen DOM clone captured before navigation. */
   content: HTMLElement;
+  /** Viewport scroll position at snapshot time. */
+  scrollY: number;
   ctx: TransitionContextValue;
   attach: (el: HTMLElement) => void;
   element: HTMLElement | null;

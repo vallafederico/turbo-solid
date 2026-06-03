@@ -10,7 +10,7 @@ const SIBLINGS = [
 
 export default function PagesBlue() {
   return (
-    <div class="relative flex min-h-[100vh] flex-col bg-blue-500 pt-24 text-white">
+    <div class="relative flex min-h-[100svh] flex-col bg-blue-500 pt-24 text-white">
       <Title>Blue · page transition</Title>
       <TransitionBadge />
 

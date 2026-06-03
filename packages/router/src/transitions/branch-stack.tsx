@@ -39,11 +39,13 @@ function mountIncoming(
   setLiveCtx: (ctx: TransitionContextValue) => void,
   setLiveAttach: (fn: (el: HTMLElement) => void) => void,
   liveElement: HTMLElement | null,
+  notifyMount = true,
 ): TransitionContextValue {
   const { ctx, attachElement } = props.controller.createContext(
     "incoming",
     branchKey,
     live.hooks,
+    { notifyMount },
   );
   setLiveCtx(ctx);
   setLiveAttach(() => attachElement);
@@ -95,13 +97,25 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
     );
 
     // Freeze the current live branch visually without re-running route hooks.
+    // The clone is inert: strip ids so the live page keeps unique ids, and
+    // hide it from a11y / pointer input.
     const content = liveElement.cloneNode(true) as HTMLElement;
+    content.removeAttribute("id");
+    content
+      .querySelectorAll("[id]")
+      .forEach((node) => node.removeAttribute("id"));
     content.setAttribute("aria-hidden", "true");
     content.removeAttribute("data-router-branch");
+
+    const scrollY =
+      typeof window !== "undefined"
+        ? window.scrollY || document.documentElement.scrollTop || 0
+        : 0;
 
     const layer: OutgoingLayer = {
       key,
       content,
+      scrollY,
       ctx,
       attach: attachElement,
       element: null,
@@ -129,7 +143,8 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
 
     if (locationKey === prev.locationKey) return prev;
 
-    // Same leaf, new query — refresh enter on live content.
+    // Same leaf, new query — refresh enter on live content without resetting
+    // scroll or re-running mount side-effects.
     if (branchKey === prev.branchKey) {
       untrack(() =>
         mountIncoming(
@@ -139,6 +154,7 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
           setLiveCtx,
           setLiveAttach,
           liveElement,
+          false,
         ),
       );
       return { branchKey, locationKey };
@@ -179,7 +195,7 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
       return { branchKey, locationKey };
     }
 
-    // Back/forward — update live route; leave animations are best-effort.
+    // Back/forward — update live route but preserve native scroll restoration.
     untrack(() =>
       mountIncoming(
         props,
@@ -188,6 +204,7 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
         setLiveCtx,
         setLiveAttach,
         liveElement,
+        false,
       ),
     );
 
@@ -210,6 +227,7 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
               "pointer-events": "none",
               "z-index": 0,
               "min-height": "100svh",
+              transform: `translateY(${-layer.scrollY}px)`,
             }}
             ref={(el: HTMLElement) => {
               layer.element = el;

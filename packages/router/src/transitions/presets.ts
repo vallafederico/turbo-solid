@@ -31,14 +31,15 @@ export function useCrossFade(ms = 400): void {
   const enter: TransitionRunner = (_ctx, el) =>
     animate(el, [{ opacity: 0 }, { opacity: 1 }], ms);
 
-  onMount(() => controller.setOverlapPreset(leave, enter));
+  onMount(() => controller.setOverlapPreset(leave, enter, ms));
   onCleanup(() => void controller.clearOverlapPreset());
 }
 
 /**
- * Directional slide: forward pushes incoming from the right, backward from the
+ * Directional slide: forward pushes incoming from the right, replace from the
  * left. Outgoing slides the opposite way. Reads live direction from the
- * controller so back/forward feel native.
+ * controller. (Browser back/forward swaps instantly, so `backward` only applies
+ * if you drive it via your own navigation logic.)
  */
 export function useDirectionalSlide(distance = 48, ms = 450): void {
   const controller = useController();
@@ -70,7 +71,7 @@ export function useDirectionalSlide(distance = 48, ms = 450): void {
     );
   };
 
-  onMount(() => controller.setOverlapPreset(leave, enter));
+  onMount(() => controller.setOverlapPreset(leave, enter, ms));
   onCleanup(() => void controller.clearOverlapPreset());
 }
 
@@ -99,6 +100,6 @@ export function useCoverSlideUp(ms = 3000, offset = "50vh"): void {
     );
   };
 
-  onMount(() => controller.setOverlapPreset(leave, enter));
+  onMount(() => controller.setOverlapPreset(leave, enter, ms));
   onCleanup(() => void controller.clearOverlapPreset());
 }

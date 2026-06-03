@@ -48,12 +48,7 @@ export function useLayoutTransition(options: LayoutTransitionOptions = {}): void
 
   if (options.onEnter) {
     onCleanup(
-      controller.registerIncomingMount((ctx, el) => {
-        // Custom presets own the overlap phase; avoid side-effects (like
-        // scroll resets) until that transition fully completes.
-        if (controller.hasCustomTransition()) return;
-        options.onEnter!(ctx, el);
-      }),
+      controller.registerIncomingMount((ctx, el) => options.onEnter!(ctx, el)),
     );
   }
 

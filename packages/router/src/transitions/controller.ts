@@ -7,68 +7,6 @@ import type {
   OutgoingLayer,
 } from "../types";
 
-const IDX_KEY = "__acme_idx";
-
-class HistoryTracker {
-  private current = 0;
-
-  constructor() {
-    if (typeof window === "undefined") return;
-    const state = history.state as Record<string, unknown> | null;
-    const existing = state?.[IDX_KEY];
-    if (typeof existing === "number") {
-      this.current = existing;
-    } else {
-      this.stamp(0, true);
-    }
-  }
-
-  classifyPush(replace: boolean): TransitionDirection {
-    if (replace) {
-      this.stampNext(this.current, true);
-      return "replace";
-    }
-    this.current += 1;
-    this.stampNext(this.current, false);
-    return "forward";
-  }
-
-  classifyPop(): TransitionDirection {
-    if (typeof window === "undefined") return "none";
-    const state = history.state as Record<string, unknown> | null;
-    const restored = state?.[IDX_KEY];
-    const to = typeof restored === "number" ? restored : this.current - 1;
-    const dir =
-      to > this.current ? "forward" : to < this.current ? "backward" : "none";
-    this.current = to;
-    return dir;
-  }
-
-  private stamp(idx: number, replace: boolean) {
-    if (typeof window === "undefined") return;
-    const state = { ...(history.state ?? {}), [IDX_KEY]: idx };
-    try {
-      if (replace) history.replaceState(state, "");
-      else history.pushState(state, "");
-    } catch {
-      /* ignore */
-    }
-  }
-
-  private stampNext(idx: number, replace: boolean) {
-    if (typeof window === "undefined") return;
-    queueMicrotask(() => {
-      const state = { ...(history.state ?? {}), [IDX_KEY]: idx };
-      try {
-        history.replaceState(state, "");
-      } catch {
-        /* ignore */
-      }
-      void replace;
-    });
-  }
-}
-
 interface RunnerSet {
   enter: Set<TransitionRunner>;
   leave: Set<TransitionRunner>;
@@ -80,9 +18,10 @@ export interface LiveBranchRef {
   pageBeforeLeave: ReadonlySet<() => void | Promise<void>>;
 }
 
-export class TransitionController {
-  private readonly history = new HistoryTracker();
+/** Extra ms added to a preset's own duration before the safety timeout fires. */
+const SAFETY_BUFFER_MS = 500;
 
+export class TransitionController {
   private readonly _direction = createSignal<TransitionDirection>("none");
   private readonly _progress = createSignal(0);
   private readonly _active = createSignal(false);
@@ -94,52 +33,36 @@ export class TransitionController {
 
   readonly sharedRects = new Map<string, DOMRect>();
 
-  /** When true, incoming enter runs alongside outgoing leave (cross-fade). */
-  private overlap = false;
-
   /** Incoming enter runners wait on this (sequential out → in). */
   private leaveDone: Promise<void> = Promise.resolve();
   private resolveLeaveDone: (() => void) | null = null;
 
   private liveBranch: LiveBranchRef | null = null;
   private leaveGateCompleted = false;
-  private skipNavigationGate = false;
+  /** URL the gate is about to re-issue; that navigation bypasses the gate once. */
+  private skipTarget: string | null = null;
   private pendingOutgoing: OutgoingLayer | null = null;
   private snapshotOutgoingFn: ((key: string) => OutgoingLayer | null) | null =
     null;
 
-  /** Overlap branch runners (cross-fade / slide) — live on controller until transition ends. */
+  /** Custom branch runners (cross-fade / slide / cover) owning the transition. */
   private overlapPreset: {
     leave: TransitionRunner;
     enter: TransitionRunner;
+    durationMs: number;
   } | null = null;
 
   private idleResolve: (() => void) | null = null;
   private whenIdle: Promise<void> = Promise.resolve();
 
-  constructor(private readonly timeoutMs: number) {
-    if (typeof window !== "undefined") {
-      window.addEventListener("popstate", this.onPopState, { passive: true });
-    }
-  }
+  private readonly incomingMount = new Set<
+    (ctx: TransitionContextValue, el: HTMLElement) => void
+  >();
 
-  private popPending = false;
-  private readonly onPopState = () => {
-    this.popPending = true;
-  };
-
-  consumeCause(): "push" | "pop" {
-    if (this.popPending) {
-      this.popPending = false;
-      return "pop";
-    }
-    return "push";
-  }
+  constructor(private readonly timeoutMs: number) {}
 
   dispose() {
-    if (typeof window !== "undefined") {
-      window.removeEventListener("popstate", this.onPopState);
-    }
+    /* reserved for future listeners */
   }
 
   get direction(): Accessor<TransitionDirection> {
@@ -188,33 +111,35 @@ export class TransitionController {
     return this.snapshotOutgoingFn;
   }
 
-  setSkipNavigationGate(skip: boolean) {
-    this.skipNavigationGate = skip;
+  /** Arm a one-shot bypass for the gate's own re-issued navigation. */
+  armGateSkip(to: string) {
+    this.skipTarget = to;
   }
 
-  consumeSkipNavigationGate(): boolean {
-    if (!this.skipNavigationGate) return false;
-    this.skipNavigationGate = false;
-    return true;
+  /** True (and disarms) when `to` matches the armed gate-skip target. */
+  consumeGateSkip(to: string | number): boolean {
+    if (typeof to === "string" && this.skipTarget === to) {
+      this.skipTarget = null;
+      return true;
+    }
+    return false;
   }
 
-  /** Register overlap enter/leave on the controller (survives layout unmount mid-transition). */
-  setOverlapPreset(leave: TransitionRunner, enter: TransitionRunner): void {
-    this.overlapPreset = { leave, enter };
-    this.overlap = true;
+  /** Register custom branch enter/leave (survives layout unmount mid-transition). */
+  setOverlapPreset(
+    leave: TransitionRunner,
+    enter: TransitionRunner,
+    durationMs = 0,
+  ): void {
+    this.overlapPreset = { leave, enter, durationMs };
   }
 
   async clearOverlapPreset(): Promise<void> {
     if (this._active[0]) await this.whenIdle;
     this.overlapPreset = null;
-    this.overlap = false;
   }
 
-  private incomingMount = new Set<
-    (ctx: TransitionContextValue, el: HTMLElement) => void
-  >();
-
-  /** Runs when an incoming branch attaches (scroll restore, etc.) — always, including overlap. */
+  /** Runs when an incoming branch attaches for a real transition (scroll restore, etc.). */
   registerIncomingMount(
     fn: (ctx: TransitionContextValue, el: HTMLElement) => void,
   ): () => void {
@@ -231,7 +156,7 @@ export class TransitionController {
     return () => this.runners[role][kind].delete(fn);
   }
 
-  /** Page item tweens — called from NavigationGate or outgoing branch leave. */
+  /** Page item tweens (`beforeLeave` / `onPageLeave`) drained before branch leave. */
   async runPageBeforeLeave(
     hooks: ReadonlySet<() => void | Promise<void>>,
   ): Promise<void> {
@@ -239,39 +164,21 @@ export class TransitionController {
     await Promise.all([...hooks].map((fn) => Promise.resolve(fn())));
   }
 
-  /** Layout leave runners only (after page item tweens). Skipped when a custom preset is active. */
+  /** Layout leave runners (after page item tweens). Skipped when a custom preset owns the transition. */
   async runBranchLeave(
     el: HTMLElement,
     ctx: TransitionContextValue,
   ): Promise<void> {
     if (this.hasCustomTransition()) return;
-    const tasks = [...this.runners.outgoing.leave].map((fn) => {
-      try {
-        return Promise.resolve(fn(ctx, el));
-      } catch (err) {
-        console.error("[router] transition runner failed:", err);
-        return Promise.resolve();
-      }
-    });
-
-    if (tasks.length === 0) return;
-
-    const safety = new Promise<void>((res) =>
-      setTimeout(res, this.timeoutMs),
+    const tasks = [...this.runners.outgoing.leave].map((fn) =>
+      this.safeRun(fn, ctx, el),
     );
-
-    await Promise.race([
-      Promise.all(tasks).then(() => undefined),
-      safety,
-    ]);
+    if (tasks.length === 0) return;
+    await this.raceSafety(tasks);
   }
 
-  begin(cause: "push" | "pop", replace: boolean) {
-    const dir =
-      cause === "pop"
-        ? this.history.classifyPop()
-        : this.history.classifyPush(replace);
-    this._direction[1](dir);
+  begin(direction: TransitionDirection) {
+    this._direction[1](direction);
     this._progress[1](0);
     this._active[1](true);
 
@@ -283,24 +190,9 @@ export class TransitionController {
     });
   }
 
-  /** True when enter should run alongside leave (cross-fade presets). */
-  isOverlap(): boolean {
-    return this.overlap;
-  }
-
   /** True when a layout-level custom preset (`useCoverSlideUp`, etc.) owns the transition. */
   hasCustomTransition(): boolean {
     return this.overlapPreset !== null;
-  }
-
-  /** Resolves when outgoing leave finishes — used to mount the incoming branch. */
-  whenLeaveReady(): Promise<void> {
-    return this.leaveDone;
-  }
-
-  /** Call when this navigation has no outgoing branch to animate. */
-  releaseLeaveGate(): void {
-    this.finishLeavePhase();
   }
 
   finishLeavePhase() {
@@ -326,23 +218,42 @@ export class TransitionController {
     el.style.transform = "";
   }
 
-  setProgress(p: number) {
-    this._progress[1](Math.max(0, Math.min(1, p)));
+  private safeRun(
+    fn: TransitionRunner,
+    ctx: TransitionContextValue,
+    el: HTMLElement,
+  ): Promise<void> {
+    try {
+      return Promise.resolve(fn(ctx, el));
+    } catch (err) {
+      console.error("[router] transition runner failed:", err);
+      return Promise.resolve();
+    }
   }
 
-  /** Enable overlapping enter/leave (used by `useCrossFade` and similar presets). */
-  setOverlap(enabled: boolean) {
-    this.overlap = enabled;
+  /** Race the real work against a safety timeout sized to the active transition. */
+  private raceSafety(tasks: Promise<unknown>[]): Promise<void> {
+    const presetMs = this.overlapPreset?.durationMs ?? 0;
+    const safetyMs = Math.max(this.timeoutMs, presetMs + SAFETY_BUFFER_MS);
+    const safety = new Promise<void>((res) => setTimeout(res, safetyMs));
+    return Promise.race([
+      Promise.all(tasks).then(() => undefined),
+      safety,
+    ]);
   }
 
   createContext(
     role: "outgoing" | "incoming",
     path: string,
     pageBeforeLeave?: ReadonlySet<() => void | Promise<void>>,
+    options?: { notifyMount?: boolean },
   ): {
     ctx: TransitionContextValue;
     attachElement: (el: HTMLElement) => void;
   } {
+    // Mount side-effects (scroll restore, etc.) only fire for genuine route
+    // transitions — not query-only swaps or browser back/forward.
+    const notifyMount = options?.notifyMount ?? true;
     const phase = createSignal<TransitionPhase>(
       role === "outgoing" ? "leaving" : "entering",
     );
@@ -362,36 +273,28 @@ export class TransitionController {
     let leaveStarted = false;
 
     const runTasks = async (el: HTMLElement) => {
-      if (role === "outgoing" && pageBeforeLeave?.size && !this.hasCustomTransition()) {
+      const custom = this.hasCustomTransition();
+
+      if (role === "outgoing" && pageBeforeLeave?.size && !custom) {
         await this.runPageBeforeLeave(pageBeforeLeave);
       }
 
-      const kind = role === "outgoing" ? "leave" : "enter";
-
-      if (role === "incoming") {
+      if (role === "incoming" && notifyMount) {
         for (const fn of this.incomingMount) fn(ctx, el);
       }
 
-      const tasks = this.hasCustomTransition()
+      const kind = role === "outgoing" ? "leave" : "enter";
+      const tasks = custom
         ? [
-            Promise.resolve(
-              (role === "outgoing"
+            this.safeRun(
+              role === "outgoing"
                 ? this.overlapPreset!.leave
-                : this.overlapPreset!.enter)(ctx, el),
+                : this.overlapPreset!.enter,
+              ctx,
+              el,
             ),
           ]
-        : [...this.runners[role][kind]].map((fn) => {
-              try {
-                return Promise.resolve(fn(ctx, el));
-              } catch (err) {
-                console.error("[router] transition runner failed:", err);
-                return Promise.resolve();
-              }
-            });
-
-      const safety = new Promise<void>((res) =>
-        setTimeout(res, this.timeoutMs),
-      );
+        : [...this.runners[role][kind]].map((fn) => this.safeRun(fn, ctx, el));
 
       const settle = () => {
         phase[1]("idle");
@@ -408,10 +311,7 @@ export class TransitionController {
         return;
       }
 
-      await Promise.race([
-        Promise.all(tasks).then(() => undefined),
-        safety,
-      ]);
+      await this.raceSafety(tasks);
       if (role === "outgoing") this.finishLeavePhase();
       settle();
     };
@@ -424,9 +324,11 @@ export class TransitionController {
         return;
       }
 
-      // Incoming: wait for outgoing leave unless overlap mode is on.
-      if (this._active[0] && !this.overlap) {
-        this.leaveDone.then(() => runTasks(el));
+      // Incoming: in sequential mode the gate has already resolved leaveDone,
+      // so this ordering guard runs enter on the next microtask. Overlap mode
+      // runs enter immediately, parallel with the outgoing layer.
+      if (this._active[0] && !this.hasCustomTransition()) {
+        void this.leaveDone.then(() => runTasks(el));
       } else {
         void runTasks(el);
       }
