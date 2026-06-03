@@ -72,12 +72,20 @@ export default function App() {
   );
 }
 
-const GlobalLayout = ({ children }: { children: JSX.Element }) => {
+const GlobalLayout = ({
+  children,
+}: {
+  children: JSX.Element;
+}) => {
   useLayoutTransition({
     onEnter: (ctx) => resetScroll(ctx),
     leave: (_ctx, el) =>
       new Promise((resolve) => {
-        gsap.to(el, { opacity: 0, duration: FADE_DURATION, onComplete: resolve });
+        gsap.to(el, {
+          opacity: 0,
+          duration: FADE_DURATION,
+          onComplete: resolve,
+        });
       }),
     enter: (_ctx, el) => {
       gsap.set(el, { opacity: 0 });
@@ -85,7 +93,11 @@ const GlobalLayout = ({ children }: { children: JSX.Element }) => {
         gsap.fromTo(
           el,
           { opacity: 0 },
-          { opacity: 1, duration: FADE_DURATION, onComplete: resolve },
+          {
+            opacity: 1,
+            duration: FADE_DURATION,
+            onComplete: resolve,
+          },
         );
       });
     },

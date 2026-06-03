@@ -55,8 +55,12 @@ export interface OutgoingLayer {
   key: string;
   /** Frozen DOM clone captured before navigation. */
   content: HTMLElement;
-  /** Viewport scroll position at snapshot time. */
-  scrollY: number;
+  /**
+   * Viewport rect of the live branch at snapshot time. The clone is pinned with
+   * `position: fixed` to this rect so it stays visually put regardless of the
+   * scroll mechanism (window, overflow wrapper, or Lenis transform).
+   */
+  rect: { top: number; left: number; width: number };
   ctx: TransitionContextValue;
   attach: (el: HTMLElement) => void;
   element: HTMLElement | null;

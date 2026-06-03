@@ -22,22 +22,29 @@ const DEMOS = [
 
 export default function PagesDemoIndex() {
   return (
-    <div class="min-h-[100svh] bg-neutral-950 pt-24 text-white">
+    <div class="pt-24 text-white min-h-svh bg-neutral-950">
       <Title>Page transitions</Title>
       <TransitionBadge />
 
-      <div class="px-gx mx-auto max-w-3xl py-12">
-        <p class="mb-2 font-mono text-xs uppercase tracking-widest text-white/40">
+      <div class="py-12 mx-auto max-w-3xl px-gx">
+        <p
+          class="mb-2 font-mono text-xs tracking-widest uppercase text-white/40"
+        >
           @acme/router · dual-mount
         </p>
-        <h1 class="mb-4 text-4xl font-semibold tracking-tight">
+        <h1
+          class="mb-4 text-4xl font-semibold tracking-tight"
+        >
           Pages cover demo
         </h1>
-        <p class="mb-10 max-w-xl text-lg leading-relaxed text-white/70">
-          Each screen is a full branch in the router stack. Navigate between
-          colors — the next page mounts half a screen lower, slides up over 3
-          seconds, then the previous page unmounts. Watch the badge for branch
-          role and phase.
+        <p
+          class="mb-10 max-w-xl text-lg leading-relaxed text-white/70"
+        >
+          Each screen is a full branch in the router stack.
+          Navigate between colors — the next page mounts
+          half a screen lower, slides up over 3 seconds,
+          then the previous page unmounts. Watch the badge
+          for branch role and phase.
         </p>
 
         <ul class="grid gap-4 sm:grid-cols-3">
@@ -45,7 +52,9 @@ export default function PagesDemoIndex() {
             <li>
               <A
                 href={demo.href}
-                class={`flex min-h-40 items-end rounded-2xl p-6 text-2xl font-bold text-white shadow-lg transition ${demo.class}`}
+                class={`flex min-h-40 items-end rounded-2xl
+                p-6 text-2xl font-bold text-white shadow-lg
+                transition ${demo.class}`}
               >
                 {demo.name}
               </A>
@@ -54,8 +63,9 @@ export default function PagesDemoIndex() {
         </ul>
 
         <p class="mt-12 text-sm text-white/45">
-          Tip: use browser back after visiting a color page — direction-aware
-          transitions use the same overlap stack.
+          Tip: use browser back after visiting a color page
+          — direction-aware transitions use the same overlap
+          stack.
         </p>
       </div>
     </div>

@@ -107,15 +107,14 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
     content.setAttribute("aria-hidden", "true");
     content.removeAttribute("data-router-branch");
 
-    const scrollY =
-      typeof window !== "undefined"
-        ? window.scrollY || document.documentElement.scrollTop || 0
-        : 0;
+    // Pin the clone to the viewport at its current position so it stays put
+    // while the incoming page resets scroll and animates over it.
+    const box = liveElement.getBoundingClientRect();
 
     const layer: OutgoingLayer = {
       key,
       content,
-      scrollY,
+      rect: { top: box.top, left: box.left, width: box.width },
       ctx,
       attach: attachElement,
       element: null,
@@ -223,11 +222,12 @@ export function BranchStack(props: BranchStackProps): JSX.Element {
             data-router-branch="outgoing"
             aria-hidden="true"
             style={{
-              "grid-area": "1 / 1",
+              position: "fixed",
+              top: `${layer.rect.top}px`,
+              left: `${layer.rect.left}px`,
+              width: `${layer.rect.width}px`,
               "pointer-events": "none",
               "z-index": 0,
-              "min-height": "100svh",
-              transform: `translateY(${-layer.scrollY}px)`,
             }}
             ref={(el: HTMLElement) => {
               layer.element = el;
