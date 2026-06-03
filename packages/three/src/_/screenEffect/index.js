@@ -11,7 +11,7 @@ import {
   RepeatWrapping,
   Mesh,
 } from "three";
-import { GPUComputationRenderer } from "three/examples/jsm/Addons.js";
+import { GPUComputationRenderer } from "three/addons/misc/GPUComputationRenderer.js";
 
 import { disposeObject3D } from "../../utils/dispose";
 

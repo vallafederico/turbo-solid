@@ -37,6 +37,15 @@ const plugins = [
 ];
 
 export default defineConfig({
+	// `three` is a large, plain-JS library with no Solid JSX. solid-start adds
+	// `.js`/`.ts` to vite-plugin-solid's extensions, so babel-preset-solid would
+	// otherwise run over three's 1MB+ build files — that's what triggers the
+	// "[BABEL] ... has deoptimised the styling ... exceeds the max of 500KB" note
+	// and slows dev startup. Skip three (kept un-prebundled below so it resolves
+	// to its real path) from the Solid Babel transform entirely.
+	solid: {
+		exclude: [/[\\/]three@/, /[\\/]node_modules[\\/]three[\\/]/],
+	},
 	server: {
 		preset: "vercel",
 		prerender: {
@@ -64,6 +73,9 @@ export default defineConfig({
 		plugins,
 		resolve: {
 			dedupe: ["@solidjs/router", "solid-js"],
+		},
+		optimizeDeps: {
+			exclude: ["three"],
 		},
 	},
 });
