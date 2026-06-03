@@ -8,6 +8,23 @@ import { ScreenEffect } from "./_/screenEffect";
 const isBrowser = () =>
   typeof window !== "undefined" && typeof document !== "undefined";
 
+let orbitControlsPromise = null;
+const loadOrbitControls = () => {
+  if (!isBrowser()) return Promise.resolve(null);
+
+  if (!orbitControlsPromise) {
+    orbitControlsPromise = import("three/examples/jsm/controls/OrbitControls")
+      .then(({ OrbitControls }) => OrbitControls)
+      .catch((error) => {
+        orbitControlsPromise = null;
+        console.warn("OrbitControls import failed", error);
+        return null;
+      });
+  }
+
+  return orbitControlsPromise;
+};
+
 const createMouseState = () => ({
   x: 1,
   y: 1,
@@ -67,13 +84,7 @@ class _Gl {
     );
 
     this.camera.position.set(0, 0, 2);
-    import("three/examples/jsm/controls/OrbitControls").then(
-      ({ OrbitControls }) => {
-        if (this._runId !== runId || !this.camera || !this.renderer) return;
-        this.controls = new OrbitControls(this.camera, document.body);
-        this.controls.enabled = false;
-      },
-    );
+    this.deferOrbitControlsSetup(runId);
 
     // Persist bound handlers so add/remove pair to the same function
     // (gsap.ticker.remove was a no-op before because each `.bind(this)` returns a new fn).
@@ -109,6 +120,48 @@ class _Gl {
     this.screen = null;
     this.scene = null;
     this.evt = undefined;
+    this._orbitControlsLoadHandler = null;
+    this._orbitControlsIdleId = null;
+    this._orbitControlsTimerId = null;
+  }
+
+  deferOrbitControlsSetup(runId) {
+    if (!isBrowser()) return;
+
+    const bootControls = () => {
+      const mountControls = () => {
+        if (this._runId !== runId || !this.camera || !this.renderer) return;
+
+        loadOrbitControls().then((OrbitControls) => {
+          if (!OrbitControls) return;
+          if (this._runId !== runId || !this.camera || !this.renderer) return;
+          this.controls = new OrbitControls(this.camera, document.body);
+          this.controls.enabled = false;
+        });
+      };
+
+      if (window.requestIdleCallback) {
+        this._orbitControlsIdleId = window.requestIdleCallback(mountControls, {
+          timeout: 1500,
+        });
+      } else {
+        this._orbitControlsTimerId = window.setTimeout(mountControls, 0);
+      }
+    };
+
+    if (document.readyState === "complete") {
+      bootControls();
+      return;
+    }
+
+    this._orbitControlsLoadHandler = () => {
+      this._orbitControlsLoadHandler = null;
+      bootControls();
+    };
+
+    window.addEventListener("load", this._orbitControlsLoadHandler, {
+      once: true,
+    });
   }
 
   async init(runId) {
@@ -189,6 +242,25 @@ class _Gl {
     this.evt?.forEach((e) => e());
     this.evt = undefined;
 
+    if (isBrowser() && this._orbitControlsLoadHandler) {
+      window.removeEventListener("load", this._orbitControlsLoadHandler);
+      this._orbitControlsLoadHandler = null;
+    }
+
+    if (
+      isBrowser() &&
+      this._orbitControlsIdleId != null &&
+      window.cancelIdleCallback
+    ) {
+      window.cancelIdleCallback(this._orbitControlsIdleId);
+      this._orbitControlsIdleId = null;
+    }
+
+    if (isBrowser() && this._orbitControlsTimerId != null) {
+      window.clearTimeout(this._orbitControlsTimerId);
+      this._orbitControlsTimerId = null;
+    }
+
     const canvas = this.renderer?.domElement;
     if (this.vp?.container && canvas) {
       if (canvas.parentNode === this.vp.container) {
@@ -224,6 +296,9 @@ class _Gl {
     this._mouseBound = null;
     this._scrollBound = null;
     this._resizeBound = null;
+    this._orbitControlsLoadHandler = null;
+    this._orbitControlsIdleId = null;
+    this._orbitControlsTimerId = null;
   }
 
   get viewSize() {
