@@ -17,7 +17,7 @@ export const getHomeSeoPayload = cache(async () => {
 
   const { meta, schemas } = buildSeoPayload({
     globalDefaults,
-    seoFieldName: "ssss",
+    seoFieldName: "seo",
     schemaDefaults,
     pageSeo: pageData,
     pageSchemaType: pageData?.schemaMarkup?.type,

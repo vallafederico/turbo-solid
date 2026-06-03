@@ -32,11 +32,13 @@ export default function SanityMeta({
 	return (
 		<Show when={seoDefaults()}>
 			{(defaults) => {
+				// Empty object when no CMS page: mergeSeoData warns on falsy `page` even though
+				// defaults-only mode is valid (e.g. static routes using global SEO).
 				const { meta, schemas } = buildSeoPayload({
 					globalDefaults: defaults(),
-					seoFieldName: "ssss",
+					seoFieldName: "seo",
 					schemaDefaults: schemaDefaults(),
-					pageSeo: pageData,
+					pageSeo: pageData ?? {},
 					pageSchemaType: pageData?.schemaMarkup?.type,
 					extraSchemaData: {
 						_createdAt: pageData?._createdAt,

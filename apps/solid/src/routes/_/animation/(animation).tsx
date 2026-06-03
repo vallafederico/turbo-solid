@@ -1,4 +1,3 @@
-import { Title } from "@solidjs/meta";
 import Section from "~/components/Section";
 import { A } from "@solidjs/router";
 
@@ -8,8 +7,7 @@ import { SanityMeta } from "@local/seo";
 export default function Animation() {
 	return (
 		<div class="min-h-[100vh] py-20">
-			<Title>About</Title>
-			<SanityMeta isHomepage={false} />
+			<SanityMeta isHomepage={false} pageData={{ title: "Animation" }} />
 			<Section class="">
 				<div use:animateAlpha class="px-gx flex flex-col items-start gap-4">
 					<h2>Animation </h2>
