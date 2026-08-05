@@ -1,4 +1,5 @@
 import { createSignal } from "solid-js";
+import { isServer } from "solid-js/web";
 import { createAsync } from "@solidjs/router";
 import { Link } from "@solidjs/meta";
 import CartDrawer from "~/components/shop/CartDrawer";
@@ -6,13 +7,15 @@ import { getCart } from "~/lib/shopify/cart";
 import { useOptimisticCart } from "~/lib/shopify/useOptimisticCart";
 import type { RouteSectionProps } from "@solidjs/router";
 
-export const route = {
-	preload: () => getCart(),
-};
-
 export default function ShopLayout(props: RouteSectionProps) {
 	const [drawerOpen, setDrawerOpen] = createSignal(false);
-	const confirmedCart = createAsync(() => getCart(), { deferStream: true });
+	// Deliberately client-only. This layout wraps the ISR-cached shop routes,
+	// and their cache key has no notion of the cart cookie — resolving the cart
+	// during SSR would bake one visitor's cart into HTML served to everyone.
+	// `/_/shop/cart` renders it server-side itself and is excluded from ISR.
+	const confirmedCart = createAsync(() =>
+		isServer ? Promise.resolve(null) : getCart(),
+	);
 	const optimistic = useOptimisticCart(confirmedCart);
 
 	return (

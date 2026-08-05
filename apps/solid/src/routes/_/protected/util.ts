@@ -1,5 +1,5 @@
 import { query, redirect } from "@solidjs/router";
-import { parseCookies } from "vinxi/http";
+import { parseCookies } from "@solidjs/start/http";
 
 async function wait(time = 1): Promise<void> {
   return new Promise((resolve) => {

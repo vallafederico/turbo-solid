@@ -21,14 +21,14 @@
   },
   "devDependencies": {
     "@local/tailwind": "workspace:*",
-    "@tailwindcss/postcss": "^4.1.15",
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.4",
     "vite-plugin-glsl": "^1.5.4",
-    "tailwindcss": "^4.1.15",
+    "tailwindcss": "^4.3.3",
     "typescript": "^5"
   }
 }

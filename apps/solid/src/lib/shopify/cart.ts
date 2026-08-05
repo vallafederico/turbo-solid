@@ -11,7 +11,7 @@ import {
 	type ShopifyImage,
 } from "@local/shopify";
 import { action, query, revalidate } from "@solidjs/router";
-import { deleteCookie, getCookie, setCookie } from "vinxi/http";
+import { deleteCookie, getCookie, setCookie } from "@solidjs/start/http";
 
 export const CART_COOKIE = "cart";
 const CART_MAX_AGE = 60 * 60 * 24 * 365;

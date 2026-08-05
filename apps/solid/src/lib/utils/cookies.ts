@@ -1,7 +1,3 @@
-import { deleteCookie, parseCookies, setCookie } from "vinxi/http";
-
-const server = typeof window === "undefined";
-
 // (*) TO BE TESTED
 
 /** -- Client */

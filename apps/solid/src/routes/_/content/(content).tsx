@@ -11,11 +11,18 @@ import {
 	getDocByType,
 } from "@local/sanity";
 
-import { createAsync } from "@solidjs/router";
+import { createAsync, query } from "@solidjs/router";
 import { animateAlpha } from "~/animation/alpha";
 
+// Server-side: the Sanity client is configured with a server-only token, so a
+// browser-side call would fetch unauthenticated and miss the drafts perspective.
+const getHomeDoc = query(async () => {
+	"use server";
+	return getDocByType("home");
+}, "content-home-doc");
+
 export default function Content() {
-	const ssr = createAsync(() => getDocByType("home")); // { data, query, params }
+	const ssr = createAsync(() => getHomeDoc()); // { data, query, params }
 
 	// // Start overlays when in preview (needs react@18 + react-dom@18 installed)
 	// onMount(() => {

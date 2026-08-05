@@ -11,7 +11,7 @@
 		"strict": true,
 		"noEmit": true,
 		"types": [
-			"vinxi/types/client",
+			"@solidjs/start/env",
 			"vite-plugin-glsl/ext",
 			"vite-plugin-solid-svg/types-component-solid"
 		],

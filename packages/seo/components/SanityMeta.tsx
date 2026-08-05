@@ -2,10 +2,22 @@ import { Link, Meta, Title } from "@solidjs/meta";
 // import type { PageMetadata, SeoDefaults } from "@crawl-me-maybe/web";
 import { buildSeoPayload } from "@crawl-me-maybe/web";
 import { getDocumentByType } from "@local/sanity";
-import { createAsync } from "@solidjs/router";
+import { createAsync, query } from "@solidjs/router";
 import { For, Show } from "solid-js";
 import SchemaMarkup from "./SchemaMarkup";
 import { SANITY_CONFIG } from "../../config";
+
+// Kept behind `"use server"` so the Sanity client — and the API token it is
+// configured with — stays out of the browser bundle.
+const getSeoDefaults = query(async () => {
+	"use server";
+	return getDocumentByType("seoDefaults");
+}, "seo-defaults");
+
+const getSchemaDefaults = query(async () => {
+	"use server";
+	return getDocumentByType("schemaMarkupDefaults");
+}, "seo-schema-defaults");
 
 type SanityMetaProps = {
 	pageData?: any;
@@ -18,16 +30,13 @@ export default function SanityMeta({
 	pageData,
 	isHomepage = false,
 }: SanityMetaProps) {
-	const seoDefaults = createAsync(() => getDocumentByType("seoDefaults"), {
+	const seoDefaults = createAsync(() => getSeoDefaults(), {
 		deferStream: true,
 	});
 
-	const schemaDefaults = createAsync(
-		() => getDocumentByType("schemaMarkupDefaults"),
-		{
-			deferStream: true,
-		},
-	);
+	const schemaDefaults = createAsync(() => getSchemaDefaults(), {
+		deferStream: true,
+	});
 
 	return (
 		<Show when={seoDefaults()}>

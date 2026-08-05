@@ -10,8 +10,11 @@ const sanityClient = createClient({
 		enabled: true, // only in preview
 		studioUrl: "https://internetthings-starter.sanity.studio",
 	},
+	// Server-only: `process` is undefined in the browser, so no credential is
+	// ever inlined into the client bundle. Reads that need the `drafts`
+	// perspective must therefore run behind a `"use server"` boundary.
 	token:
-		"skt5KY1LA2BbW1KNvuFZuSfIpJdertZhUTMGjnIBomnNFsxxl9NuIKXE090jUHcRH6ergamfx89RxXEUPN6T3samP8f4tLc7tntSGwgxejciCu2S8pTm2oSSKUWu3xKGPscCSAcc5sLqy5KZcJZpUXp6qUN5OcSTqAW20R1fXJlp47dyBIQM",
+		typeof process !== "undefined" ? process.env.SANITY_API_TOKEN : undefined,
 });
 
 export default sanityClient;

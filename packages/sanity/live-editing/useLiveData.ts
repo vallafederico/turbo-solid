@@ -25,8 +25,14 @@ let _store: GroqStore | null = null;
 function getStore() {
 	if (_store) return _store;
 
+	// This store is browser-side by design, so its credential cannot come from
+	// the environment. The preview entrypoint injects a short-lived token onto
+	// `window`; without one there is nothing to subscribe with.
 	const token =
-		"skt5KY1LA2BbW1KNvuFZuSfIpJdertZhUTMGjnIBomnNFsxxl9NuIKXE090jUHcRH6ergamfx89RxXEUPN6T3samP8f4tLc7tntSGwgxejciCu2S8pTm2oSSKUWu3xKGPscCSAcc5sLqy5KZcJZpUXp6qUN5OcSTqAW20R1fXJlp47dyBIQM";
+		typeof window !== "undefined"
+			? window.__SANITY_PREVIEW_TOKEN__
+			: undefined;
+	if (!token) return null;
 
 	// We use a minimal ES class just to inject the Authorization header
 	class ESWithToken extends (SanityEventSource as {
@@ -78,6 +84,10 @@ export function useLiveQuery<T = unknown>(
 		setLoading(true);
 
 		const store = getStore();
+		if (!store) {
+			setLoading(false);
+			return;
+		}
 		const tx = async (v: T) => (opts.transform ? await opts.transform(v) : v);
 
 		let unsub: (() => void) | undefined;
