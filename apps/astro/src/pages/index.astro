@@ -1,0 +1,26 @@
+---
+import { getDocumentByType } from "@local/sanity/query";
+import Nav from "~/components/Nav.astro";
+import PageLayout from "~/layouts/PageLayout.astro";
+
+const home = await getDocumentByType("home").catch(() => null);
+const title = home?.seo?.title ?? home?.title ?? "Home";
+const description = home?.seo?.description;
+---
+
+<PageLayout title={title} description={description}>
+  <Nav slot="chrome" />
+  <div class="min-h-[100vh] px-gx pt-20">
+    <p class="mb-2 font-mono text-xs tracking-widest uppercase text-white/40">
+      Astro · Taxi · data-modules
+    </p>
+    <h1 class="max-w-3xl text-4xl font-semibold tracking-tight">
+      Same local Sanity setup, on Astro.
+    </h1>
+    <p class="mt-6 max-w-xl text-lg text-white/70" data-selectable>
+      Smooth scroll (Lenis), Tailwind column grid, <code>data-module</code> islands,
+      and Taxi page transitions — the Study Hall / starters stack, wired to
+      this monorepo's CMS and theme.
+    </p>
+  </div>
+</PageLayout>

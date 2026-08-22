@@ -1,0 +1,16 @@
+{
+  "name": "@local/modules",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./modules": "./src/modules.ts",
+    "./taxi": "./src/taxi.ts",
+    "./scroll": "./src/scroll.ts"
+  },
+  "dependencies": {
+    "@unseenco/taxi": "^1.9.1",
+    "lenis": "^1.3.11"
+  }
+}

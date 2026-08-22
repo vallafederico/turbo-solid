@@ -19,6 +19,9 @@ coverage
 # Turbo
 .turbo
 
+# Starter wizard
+.starter.json
+
 # Vercel
 .vercel
 

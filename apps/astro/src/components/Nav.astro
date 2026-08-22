@@ -1,0 +1,31 @@
+---
+const links = [
+  { href: "/_/about", text: "About Us" },
+  { href: "/_/animation", text: "Animation" },
+  { href: "/_/pages", text: "Pages" },
+  { href: "/_/grid", text: "Grid" },
+  { href: "/_/content", text: "CMS Content" },
+];
+---
+
+<nav
+  data-module="current-page"
+  class="pointer-events-none fixed top-0 left-0 z-100 flex items-center justify-between px-gx py-6"
+  style="width: calc(100vw - var(--scrollbar-w, 0px))"
+>
+  <a aria-label="homepage" class="pointer-events-auto z-20" href="/">
+    <p>LOGO</p>
+  </a>
+
+  <ul class="pointer-events-auto hidden justify-between md:flex">
+    {
+      links.map(({ href, text }) => (
+        <li>
+          <a class="px-3" href={href}>
+            {text}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</nav>

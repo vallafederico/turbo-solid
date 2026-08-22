@@ -1,0 +1,13 @@
+---
+import Nav from "~/components/Nav.astro";
+import PageLayout from "~/layouts/PageLayout.astro";
+---
+
+<PageLayout title="Not found">
+  <Nav slot="chrome" />
+  <div class="flex min-h-svh flex-col items-start justify-center px-gx">
+    <p class="font-mono text-xs uppercase text-white/40">404</p>
+    <h1 class="mt-2 text-4xl">Page not found</h1>
+    <a class="mt-8 underline" href="/">Back home</a>
+  </div>
+</PageLayout>

@@ -1,0 +1,21 @@
+---
+import Nav from "~/components/Nav.astro";
+import PageLayout from "~/layouts/PageLayout.astro";
+import Section from "~/components/Section.astro";
+---
+
+<PageLayout title="About">
+  <Nav slot="chrome" />
+  <div class="min-h-[100vh] py-20 pt-navh">
+    <Section class="grid min-h-[80svh] content-center gap-md px-gx">
+      <p class="text-sm uppercase opacity-60">About</p>
+      <h1 class="max-w-4xl text-xl leading-none tracking-[-0.04em]">
+        Astro MPA with the same chrome as Solid and Next.
+      </h1>
+      <p class="max-w-2xl text-md opacity-70" data-selectable>
+        Persistent nav lives outside <code>data-taxi-view</code>. Page modules
+        mount and destroy on each Taxi navigation.
+      </p>
+    </Section>
+  </div>
+</PageLayout>

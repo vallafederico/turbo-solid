@@ -1,0 +1,44 @@
+---
+import "~/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Astro", description } = Astro.props;
+const pageTitle = title.includes("|") ? title : `${title} | Starter`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      history.scrollRestoration = "manual";
+      document.documentElement.classList.add("js");
+    </script>
+  </head>
+  <body>
+    <slot name="chrome" />
+
+    <div data-taxi>
+      <main data-taxi-view>
+        <slot />
+      </main>
+    </div>
+
+    <div
+      data-module="grid"
+      class="pointer-events-none invisible fixed top-0 left-0 z-10 flex h-screen justify-between gap-(--gutter) px-gx"
+      style="width: calc(100vw - var(--scrollbar-w, 0px))"
+    >
+    </div>
+
+    <script src="~/js/app.ts"></script>
+  </body>
+</html>

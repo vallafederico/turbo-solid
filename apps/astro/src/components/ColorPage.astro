@@ -1,0 +1,37 @@
+---
+import Nav from "~/components/Nav.astro";
+import PageLayout from "~/layouts/PageLayout.astro";
+
+interface Props {
+  name: string;
+  class: string;
+}
+
+const { name, class: bg } = Astro.props;
+const others = [
+  { href: "/_/pages/red", name: "Red" },
+  { href: "/_/pages/blue", name: "Blue" },
+  { href: "/_/pages/green", name: "Green" },
+].filter((item) => item.name !== name);
+---
+
+<PageLayout title={`${name} page`}>
+  <Nav slot="chrome" />
+  <div class:list={["flex min-h-svh flex-col justify-end px-gx pb-16 pt-navh", bg]}>
+    <a class="mb-8 text-sm uppercase tracking-widest text-white/70" href="/_/pages">
+      All pages
+    </a>
+    <h1 class="text-6xl font-semibold">{name}</h1>
+    <ul class="mt-8 flex gap-4">
+      {
+        others.map((item) => (
+          <li>
+            <a class="underline" href={item.href}>
+              {item.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</PageLayout>

@@ -1,0 +1,32 @@
+---
+import { getDocumentByType } from "@local/sanity/query";
+import Nav from "~/components/Nav.astro";
+import PageLayout from "~/layouts/PageLayout.astro";
+import Section from "~/components/Section.astro";
+import Slices from "~/components/slices/Slices.astro";
+
+const home = await getDocumentByType("home").catch(() => null);
+const slices = home?.slices ?? [];
+---
+
+<PageLayout title="CMS Content">
+  <Nav slot="chrome" />
+  <div class="min-h-[100vh] pt-navh">
+    {
+      slices.length > 0 ? (
+        <Slices slices={slices} />
+      ) : (
+        <Section class="grid min-h-[80svh] content-center gap-md px-gx">
+          <p class="text-sm uppercase opacity-60">CMS Content</p>
+          <h1 class="max-w-4xl text-xl leading-none tracking-[-0.04em]">
+            Sanity home document.
+          </h1>
+          <p class="max-w-2xl text-md opacity-70" data-selectable>
+            Slices from the home document render here. If the CMS is empty or
+            unreachable, this fallback stays up.
+          </p>
+        </Section>
+      )
+    }
+  </div>
+</PageLayout>

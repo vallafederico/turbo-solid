@@ -1,6 +1,11 @@
-import type { SanityDocumentGetterOptions } from "../types";
 import sanityClient from "../client";
 import resolveLinks from "./resolver";
+
+type SanityDocumentGetterOptions = {
+	filter?: string | null;
+	extraQuery?: string | null;
+	params?: Record<string, unknown>;
+};
 
 export const getDocByType = async <T = unknown>(
 	documentType: string,

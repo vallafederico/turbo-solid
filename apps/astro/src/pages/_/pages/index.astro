@@ -1,0 +1,45 @@
+---
+import Nav from "~/components/Nav.astro";
+import PageLayout from "~/layouts/PageLayout.astro";
+
+const demos = [
+  { href: "/_/pages/red", name: "Red", class: "bg-red-500 hover:bg-red-600" },
+  { href: "/_/pages/blue", name: "Blue", class: "bg-blue-500 hover:bg-blue-600" },
+  {
+    href: "/_/pages/green",
+    name: "Green",
+    class: "bg-emerald-500 hover:bg-emerald-600",
+  },
+] as const;
+---
+
+<PageLayout title="Page transitions">
+  <Nav slot="chrome" />
+  <div class="min-h-svh bg-neutral-950 pt-24 text-white">
+    <div class="mx-auto max-w-3xl px-gx py-12">
+      <p class="mb-2 font-mono text-xs tracking-widest uppercase text-white/40">
+        Taxi · data-taxi-view
+      </p>
+      <h1 class="mb-4 text-4xl font-semibold tracking-tight">Pages cover demo</h1>
+      <p class="mb-10 max-w-xl text-lg leading-relaxed text-white/70">
+        Taxi swaps <code>data-taxi-view</code> without a full reload. Leave fades
+        the outgoing page, enter fades the incoming one and remounts
+        <code>data-module</code> instances — same contract as Study Hall.
+      </p>
+      <ul class="grid gap-4 sm:grid-cols-3">
+        {
+          demos.map((demo) => (
+            <li>
+              <a
+                href={demo.href}
+                class={`flex min-h-40 items-end rounded-2xl p-6 text-2xl font-bold text-white shadow-lg transition ${demo.class}`}
+              >
+                {demo.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</PageLayout>

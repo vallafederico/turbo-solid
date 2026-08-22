@@ -1,0 +1,28 @@
+---
+import Header from "./Header.astro";
+
+interface Slice {
+  _type?: string;
+  text?: string;
+  [key: string]: unknown;
+}
+
+interface Props {
+  slices?: Slice[] | null;
+}
+
+const { slices = [] } = Astro.props;
+---
+
+{
+  (slices ?? []).map((slice) => {
+    if (slice._type === "header") {
+      return <Header text={slice.text} />;
+    }
+    return (
+      <section class="px-gx py-16 opacity-60" data-selectable>
+        <p class="font-mono text-xs uppercase">unmapped slice: {slice._type}</p>
+      </section>
+    );
+  })
+}

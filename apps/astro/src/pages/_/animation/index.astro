@@ -1,0 +1,19 @@
+---
+import Nav from "~/components/Nav.astro";
+import PageLayout from "~/layouts/PageLayout.astro";
+import Section from "~/components/Section.astro";
+---
+
+<PageLayout title="Animation">
+  <Nav slot="chrome" />
+  <div class="min-h-[100vh] py-20 pt-navh">
+    <Section class="px-gx">
+      <h2>Animation</h2>
+      <ul class="mt-6 flex flex-col items-start gap-3">
+        <li>
+          <a animate-hover="underline" href="/_/animation/slider">Slider</a>
+        </li>
+      </ul>
+    </Section>
+  </div>
+</PageLayout>

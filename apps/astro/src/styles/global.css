@@ -1,0 +1,124 @@
+@import "tailwindcss";
+@import "@local/tailwind";
+@import "@local/tailwind/animation.css";
+@import "@local/tailwind/accessibility.css";
+@import "@local/tailwind/utils.css";
+
+@source "../**/*.{astro,js,ts}";
+@source "../../../../packages/*/src/**/*.{js,ts}";
+
+@theme {
+  --font-*: initial;
+  --font-sans: soh, sans-serif;
+
+  --text-base-0: var(--text-base);
+  --text-base-1: 1.2;
+  --text-base-length: 2;
+
+  --text-xs-0: var(--text-xs);
+  --text-xs-1: 1.2;
+  --text-xs-length: 2;
+
+  --text-sm-0: var(--text-sm);
+  --text-sm-1: 1.2;
+  --text-sm-length: 2;
+
+  --text-md-0: var(--text-md);
+  --text-md-1: 1.2;
+  --text-md-length: 2;
+
+  --text-lg-0: var(--text-lg);
+  --text-lg-1: 1;
+  --text-lg-length: 2;
+
+  --text-xl-0: var(--text-xl);
+  --text-xl-1: 1;
+  --text-xl-length: 2;
+
+  --text-xxl-0: var(--text-xxl);
+  --text-xxl-1: 0.9;
+  --text-xxl-length: 2;
+
+  --spacing-gx: var(--gx);
+  --spacing-gy: var(--gy);
+  --spacing-sm: var(--sm);
+  --spacing-md: var(--md);
+  --spacing-lg: var(--lg);
+  --spacing-xl: var(--xl);
+  --spacing-xxl: var(--xxl);
+  --spacing-navh: var(--navh);
+  --spacing-gutter: var(--gutter);
+
+  --aspect-5\/7: 5/7;
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  scrollbar-width: none;
+}
+
+html,
+body {
+  overscroll-behavior: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body,
+p,
+h1,
+h2,
+h3,
+h4 {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+[data-selectable] {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+img {
+  -webkit-user-drag: none;
+}
+
+body {
+  @apply bg-black font-sans text-base text-white;
+}
+
+[data-taxi-view] {
+  min-height: 100svh;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+@layer utilities {
+  .flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .contain {
+    @apply mx-auto;
+    max-width: var(--max-w);
+  }
+}

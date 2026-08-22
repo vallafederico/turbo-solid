@@ -1,0 +1,29 @@
+---
+import Nav from "~/components/Nav.astro";
+import PageLayout from "~/layouts/PageLayout.astro";
+import Section from "~/components/Section.astro";
+---
+
+<PageLayout title="Slider">
+  <Nav slot="chrome" />
+  <div class="min-h-[100vh] py-20 pt-navh">
+    <Section class="px-gx">
+      <a animate-hover="underline" href="/_/animation">Back</a>
+    </Section>
+    <div class="flex-center max-w-screen overflow-clip py-20">
+      <div
+        data-module="slider"
+        class="flex h-[70vh] w-full overflow-x-auto pl-[calc(50vw-calc(var(--slide)/2))]"
+        style="--slide: 35vw"
+      >
+        {
+          Array.from({ length: 10 }, (_, item) => (
+            <div class="w-[var(--slide)] shrink-0 p-2">
+              <div class="flex-center size-full outline outline-gray-700">{item}</div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</PageLayout>
