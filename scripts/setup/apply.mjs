@@ -202,11 +202,43 @@ function identUsed(src, name) {
 }
 
 export function removeNavLink(src, href) {
-	const re = new RegExp(
-		`\\{\\s*(?:to|href):\\s*["']${escapeRe(href)}["']\\s*,\\s*text:\\s*["'][^"']*["']\\s*\\},?\\s*`,
-		"g",
-	);
-	return src.replace(re, "").replace(/,(\s*\])/g, "$1");
+	const needle = new RegExp(`(?:to|href):\\s*["']${escapeRe(href)}["']`);
+	let out = src;
+	while (true) {
+		const m = needle.exec(out);
+		if (!m) break;
+		let start = m.index;
+		while (start > 0 && out[start] !== "{") start -= 1;
+		if (out[start] !== "{") break;
+		let from = start;
+		while (from > 0 && /[ \t]/.test(out[from - 1])) from -= 1;
+		if (out[from - 1] === "\n") from -= 1;
+
+		let i = start;
+		let depth = 0;
+		while (i < out.length) {
+			const ch = out[i];
+			if (ch === '"' || ch === "'" || ch === "`") {
+				i = skipString(out, i);
+				continue;
+			}
+			if (ch === "{") {
+				depth += 1;
+				i += 1;
+				continue;
+			}
+			if (ch === "}") {
+				depth -= 1;
+				i += 1;
+				if (depth === 0) break;
+				continue;
+			}
+			i += 1;
+		}
+		if (out[i] === ",") i += 1;
+		out = out.slice(0, from) + out.slice(i);
+	}
+	return out;
 }
 
 export function emptyTranspilePackages(src) {
@@ -217,6 +249,17 @@ export function removeLineIncludes(src, needles) {
 	const lines = src.split("\n");
 	const kept = lines.filter((line) => !needles.some((needle) => line.includes(needle)));
 	return kept.join("\n").replace(/\n{3,}/g, "\n\n");
+}
+
+export function removeObjectKey(src, key) {
+	return removeObjectProp(src, key);
+}
+
+export function stripThreeConfig(src) {
+	let out = src.replace(/\n\t\/\/ `three`[\s\S]*?(?=\n\tsolid:)/, "");
+	out = removeObjectProp(out, "solid");
+	out = removeObjectProp(out, "optimizeDeps");
+	return out;
 }
 
 export function stripShopifyConfig(src) {
@@ -231,6 +274,7 @@ export function stripShopifyConfig(src) {
 
 function removeObjectProp(src, key) {
 	const patterns = [`"${key}":`, `'${key}':`];
+	if (/^[A-Za-z_$][\w$]*$/.test(key)) patterns.push(`${key}:`);
 	let out = src;
 	for (const token of patterns) {
 		let idx = out.indexOf(token);
@@ -282,8 +326,30 @@ function applyPatches(src, patches) {
 		else if (patch.type === "sweep-imports") out = sweepUnusedImports(out);
 		else if (patch.type === "empty-transpile-packages") out = emptyTranspilePackages(out);
 		else if (patch.type === "remove-line-includes") out = removeLineIncludes(out, patch.needles);
+		else if (patch.type === "strip-three-config") out = stripThreeConfig(out);
+		else if (patch.type === "remove-object-key") out = removeObjectKey(out, patch.key);
 		else if (patch.type === "strip-shopify-config") out = stripShopifyConfig(out);
 		else warn(`Unknown patch type: ${patch.type}`);
+	}
+	return out.replace(/\n{3,}/g, "\n\n");
+}
+
+function mergePatchOps(ops) {
+	const patchesByPath = new Map();
+	const out = [];
+	for (const op of ops) {
+		if (op.type !== "patch-file") {
+			out.push(op);
+			continue;
+		}
+		const existing = patchesByPath.get(op.path);
+		if (existing) {
+			existing.patches.push(...op.patches);
+		} else {
+			const merged = { ...op, patches: [...op.patches] };
+			patchesByPath.set(op.path, merged);
+			out.push(merged);
+		}
 	}
 	return out;
 }
@@ -448,15 +514,16 @@ export function scanDanglingImports(root, keepDirs, removedNames) {
  */
 export function applyPlan(root, plan, opts = {}) {
 	const dryRun = Boolean(opts.dryRun);
+	const ops = mergePatchOps(plan.ops);
 	const dirToName = scanWorkspace(root);
 	const removedNames = new Set();
-	for (const op of plan.ops) {
+	for (const op of ops) {
 		if (op.type === "delete" && dirToName.has(op.path)) {
 			removedNames.add(dirToName.get(op.path));
 		}
 	}
 
-	for (const op of plan.ops) {
+	for (const op of ops) {
 		if (op.type === "delete") {
 			if (!existsSync(join(root, op.path))) continue;
 			if (!dryRun) rmSync(join(root, op.path), { recursive: true, force: true });

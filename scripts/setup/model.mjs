@@ -5,7 +5,7 @@
  * for writes (buildPlan may stat paths so the preview stays honest).
  */
 
-import { existsSync } from "node:fs";
+import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { confirm, multiSelect, select } from "./prompts.mjs";
 
@@ -317,6 +317,17 @@ export function buildPlan(root, answers) {
 		}
 	}
 
+	if (answers.framework === "solid") {
+		const solidApp = join(root, "apps/solid");
+		if (existsSync(solidApp)) {
+			for (const name of readdirSync(solidApp)) {
+				if (name.startsWith("app.config.timestamp_")) {
+					ops.push({ type: "delete", path: `apps/solid/${name}` });
+				}
+			}
+		}
+	}
+
 	if (answers.webgl === "none") {
 		if (answers.framework === "solid") {
 			ops.push(...deletePaths([
@@ -331,7 +342,7 @@ export function buildPlan(root, answers) {
 			]));
 			ops.push(replaceFile("apps/solid/src/lib/utils/clientRect.ts", CLIENT_RECT_NO_GL));
 			ops.push(patchFile("apps/solid/app.config.ts", [
-				{ type: "remove-line-includes", needles: ["three"] },
+				{ type: "strip-three-config" },
 			]));
 			ops.push({
 				type: "remove-package-deps",
@@ -397,11 +408,15 @@ export function buildPlan(root, answers) {
 			ops.push(navLink("apps/astro/src/components/Nav.astro", "/_/content"));
 			ops.push(replaceFile("apps/astro/src/pages/index.astro", STATIC_HOME_ASTRO));
 		}
-	} else if (answers.framework === "solid" && !hasExtra(answers, "seo")) {
-		ops.push(patchFile("apps/solid/src/routes/(home).tsx", [
-			{ type: "remove-jsx", tag: "SanityMeta" },
-			{ type: "sweep-imports" },
-		]));
+	}
+
+	if (answers.framework === "solid" && !wantsSeo(answers)) {
+		if (answers.cms !== "none") {
+			ops.push(patchFile("apps/solid/src/routes/(home).tsx", [
+				{ type: "remove-jsx", tag: "SanityMeta" },
+				{ type: "sweep-imports" },
+			]));
+		}
 		ops.push(patchFile("apps/solid/src/routes/_/animation/(animation).tsx", [
 			{ type: "remove-jsx", tag: "SanityMeta" },
 			{ type: "sweep-imports" },

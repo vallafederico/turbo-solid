@@ -11,6 +11,7 @@ import {
 	removeNavLink,
 	removeRobotsLink,
 	stripShopifyConfig,
+	stripThreeConfig,
 	sweepUnusedImports,
 } from "./apply.mjs";
 
@@ -106,6 +107,30 @@ describe("buildPlan", () => {
 		assert.ok(deletes.includes("packages/three"));
 		assert.ok(!deletes.includes("apps/astro/src/pages/_/content.astro"));
 	});
+
+	it("Solid without CMS still strips leftover SEO tags", () => {
+		const plan = buildPlan(ROOT, {
+			framework: "solid",
+			cms: "none",
+			webgl: "none",
+			extras: ["optimise"],
+			runInstall: false,
+		});
+		assert.ok(
+			plan.ops.some(
+				(op) =>
+					op.type === "patch-file" &&
+					op.path === "apps/solid/src/routes/_/animation/(animation).tsx",
+			),
+		);
+		assert.ok(
+			plan.ops.some(
+				(op) =>
+					op.type === "delete" &&
+					String(op.path).includes("app.config.timestamp_"),
+			),
+		);
+	});
 });
 
 describe("source patches", () => {
@@ -152,16 +177,36 @@ export default function Home() {
 	});
 
 	it("removes nav link objects", () => {
-		const src = `const NAV_LINKS = [
+		const compact = `const NAV_LINKS = [
   { to: "/_/about", text: "About Us" },
   { to: "/_/webgl", text: "WebGl" },
   { to: "/_/shop", text: "Shop" },
 ];
 `;
-		const next = removeNavLink(src, "/_/webgl");
-		assert.equal(next.includes("/_/webgl"), false);
-		assert.equal(next.includes("/_/about"), true);
-		assert.equal(next.includes("/_/shop"), true);
+		const compactNext = removeNavLink(compact, "/_/webgl");
+		assert.equal(compactNext.includes("/_/webgl"), false);
+		assert.equal(compactNext.includes("/_/about"), true);
+		assert.equal(compactNext.includes("/_/shop"), true);
+
+		const multiline = `const NAV_LINKS = [
+  {
+    href: "/_/about",
+    text: "About Us",
+  },
+  {
+    href: "/_/webgl",
+    text: "WebGl",
+  },
+  {
+    href: "/_/content",
+    text: "CMS Content",
+  },
+];
+`;
+		const multiNext = removeNavLink(removeNavLink(multiline, "/_/webgl"), "/_/content");
+		assert.equal(multiNext.includes("/_/webgl"), false);
+		assert.equal(multiNext.includes("/_/content"), false);
+		assert.equal(multiNext.includes("/_/about"), true);
 	});
 
 	it("clears transpilePackages and shopify route rules", () => {
@@ -194,6 +239,25 @@ export default function Home() {
 		assert.equal(next.includes("/_/shop"), false);
 		assert.equal(next.includes("shopify"), false);
 		assert.equal(next.includes("crawlLinks: true"), true);
+	});
+
+	it("strips unquoted solid/optimizeDeps three config", () => {
+		const src = `export default defineConfig({
+	// \`three\` is a large, plain-JS library
+	solid: {
+		exclude: [/[\\\\/]three@/],
+	},
+	vite: {
+		optimizeDeps: {
+			exclude: ["three"],
+		},
+	},
+});
+`;
+		const next = stripThreeConfig(src);
+		assert.equal(next.includes("solid:"), false);
+		assert.equal(next.includes("optimizeDeps"), false);
+		assert.equal(next.includes("vite:"), true);
 	});
 
 	it("removes the robots Link", () => {
