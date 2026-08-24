@@ -1,27 +1,27 @@
 # Starter setup wizard
 
-Interactive script to strip this multi-stack starter down to just the pieces you
+Interactive script to strip this multi-stack starter down to the pieces you
 want. Run it once, right after cloning.
 
 ```bash
-node scripts/setup/index.mjs        # or: pnpm scaffold
-node scripts/setup/index.mjs --dry-run   # preview only, change nothing
-node scripts/setup/index.mjs --yes       # take all defaults, no prompts
+pnpm setup                      # or: pnpm scaffold
+pnpm setup --dry-run            # preview only, change nothing
+pnpm setup --yes                # take all defaults, no prompts
 ```
+
+On a TTY it uses **arrow keys** to move, **space** to toggle extras, and
+**enter** to confirm. Piped input falls back to numbered choices and y/n.
 
 It runs with **zero dependencies** so it works before `pnpm install`.
 
 ## What it asks
 
-| Question  | Choices                                  | Removes if not chosen                                        |
-| --------- | ---------------------------------------- | ----------------------------------------------------------- |
-| Framework | SolidStart / Next.js / Astro             | the other apps (`apps/solid`, `apps/next`, `apps/astro`; `packages/router` is Solid-only) |
-| WebGL     | three.js / OGL / none                    | `packages/three`, `packages/ogl`, `packages/gl-context`     |
-| Sanity    | yes / no                                 | `apps/cms`, `packages/sanity`, `scripts/sanity-yaml`, `scripts/sync-sanity` |
-| SEO       | yes / no (Solid + Sanity only)           | `packages/seo`                                              |
-| Shopify   | yes / no (Solid only)                    | `packages/shopify`                                         |
-| Optimise  | yes / no                                 | `scripts/optimise`                                         |
-| Placeholders | yes / no                              | empty stub dirs (`packages/animation`, `packages/types`, `packages/ui`) |
+| Question | Choices | Removes if not chosen |
+| --- | --- | --- |
+| Framework | SolidStart / Next.js / Astro | the other apps (`packages/router` is Solid-only) |
+| CMS | Sanity / None | `apps/cms`, `packages/sanity`, sync scripts, content routes, slices, preview/robots APIs; home pages become static |
+| WebGL | three.js / none (OGL if `packages/ogl` exists) | `packages/three`, `packages/gl-context`, webgl routes, canvas wiring, `clientRectGl` |
+| Extras | SEO (Solid + Sanity), Shopify (Solid), image/font optimise | matching packages, `/_/shop`, `@local/seo` usage, `scripts/optimise` |
 
 `packages/config`, `packages/tailwind`, and `packages/modules` are core and always kept.
 
@@ -43,15 +43,11 @@ work in framework code.
 
 ## What it does
 
-1. Deletes every directory you didn't select.
-2. Prunes `workspace:*` deps that point at removed packages from the remaining
-   `package.json` files.
-3. Removes framework-specific scripts from the root `package.json`.
-4. Writes your answers to `.starter.json`.
-5. Offers to run `pnpm install` to refresh the lockfile.
+1. Deletes unused apps, packages, and feature files (routes, slices, shop, canvas).
+2. Rewrites kept source so removed packages are not imported (nav links, home pages, canvas, SEO tags).
+3. Prunes `workspace:*` deps and leftover npm deps (`three`, …) from remaining manifests.
+4. Removes framework-specific scripts from the root `package.json`.
+5. Writes your answers to `.starter.json`.
+6. Offers to run `pnpm install` to refresh the lockfile.
 
-## What it does NOT do
-
-It does **not** rewrite your source code. If a file you keep still imports a
-package you removed, the wizard prints it as a warning so you can fix the import
-by hand. Always run inside a clean git tree so you can `git checkout` to undo.
+Always run inside a clean git tree so you can `git checkout` to undo.
