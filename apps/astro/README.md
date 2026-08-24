@@ -19,7 +19,7 @@ pnpm --filter astro dev
 | App boot | `src/js/app.ts` |
 | Shared runtime | `@local/modules` |
 | Sanity fetch | `@local/sanity/query` |
-| Grid tokens | `@local/tailwind` (`w-grids-*`, `px-gx`, Shift+G overlay) |
+| Grid overlay | `src/components/Grid.astro` — Shift+G, same as Solid/Next |
 
 Persistent chrome (nav, grid overlay) lives **outside** `data-taxi-view` so
 Taxi does not remount it. Page modules (slider, etc.) are created on enter

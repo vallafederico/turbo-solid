@@ -32,7 +32,7 @@ All three apps keep the same creative-dev baseline (Study Hall / local Astro+San
 | Feature | Solid | Next | Astro |
 | --- | --- | --- | --- |
 | Lenis smooth scroll | `src/lib/utils/scroll.ts` | `animation/useLenisRoot.ts` | `@local/modules` `createScroll` |
-| Tailwind column grid | `@local/tailwind` + Shift+G | same | same, via `data-module="grid"` |
+| Tailwind column grid | `@local/tailwind` + Shift+G | same | same (`Grid.astro` + Shift+G) |
 | Page transitions | `@acme/router` dual-mount | `animation/page-transition.ts` | Taxi (`data-taxi` / `data-taxi-view`) |
 | JS islands | Solid components | React components | `data-module` registry |
 | Sanity | `@local/sanity` | `@local/sanity` | `@local/sanity/query` |

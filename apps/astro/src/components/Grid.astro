@@ -1,0 +1,66 @@
+---
+/**
+ * Overlay grid — Shift+G, same contract as Solid/Next.
+ * Columns are painted on the client from --columns + localStorage.
+ */
+---
+
+<div
+  data-grid-overlay
+  hidden
+  class="pointer-events-none fixed top-0 left-0 z-10 flex h-[100vh] justify-between gap-[var(--gutter)] px-gx"
+  style="width: calc(100vw - var(--scrollbar-w, 0px))"
+>
+  <div class="grow bg-red-500 opacity-10" data-grid-col></div>
+</div>
+
+<script>
+  const STORAGE_KEY = "grid";
+
+  function readColumns() {
+    const value = Number(
+      getComputedStyle(document.documentElement).getPropertyValue("--columns"),
+    );
+    return Number.isFinite(value) && value > 0 ? value : 12;
+  }
+
+  function paint(root: HTMLElement) {
+    const count = readColumns();
+    if (root.childElementCount === count) return;
+    const template = root.querySelector("[data-grid-col]") ?? root.firstElementChild;
+    const className = template?.className || "grow bg-red-500 opacity-10";
+    root.replaceChildren(
+      ...Array.from({ length: count }, () => {
+        const col = document.createElement("div");
+        col.className = className;
+        return col;
+      }),
+    );
+  }
+
+  const root = document.querySelector<HTMLElement>("[data-grid-overlay]");
+  if (root && !root.dataset.bound) {
+    root.dataset.bound = "true";
+
+    const setVisible = (visible: boolean) => {
+      root.hidden = !visible;
+      if (visible) paint(root);
+    };
+
+    setVisible(localStorage.getItem(STORAGE_KEY) === "true");
+
+    document.addEventListener("keydown", (event) => {
+      if (!event.shiftKey) return;
+      // Solid listens for "G"; Next lowercases. Accept both so Shift+G always hits.
+      if (event.key !== "G" && event.key.toLowerCase() !== "g") return;
+      event.preventDefault();
+      const next = root.hidden;
+      localStorage.setItem(STORAGE_KEY, String(next));
+      setVisible(next);
+    });
+
+    window.addEventListener("resize", () => {
+      if (!root.hidden) paint(root);
+    });
+  }
+</script>
