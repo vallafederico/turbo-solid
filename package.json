@@ -8,6 +8,7 @@
     "dev:next": "turbo dev --filter=next",
     "dev:solid": "turbo dev --filter=solid",
     "dev:astro": "turbo dev --filter=astro",
+    "setup": "node scripts/setup/index.mjs",
     "scaffold": "node scripts/setup/index.mjs",
     "web": "turbo dev --filter=web",
     "test": "turbo run test",
